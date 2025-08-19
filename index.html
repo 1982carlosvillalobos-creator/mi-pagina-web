@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golden Charge Electrician Company | Fremont, CA</title>
+  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades. Free estimates. Bilingual support." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --gold: #FFD700;
+      --dark-blue: #0A2463;
+      --light-gray: #F8F9FA;
+      --text-dark: #1E1E1E;
+      --accent: #00BFFF;
+      --shadow: 0 5px 15px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light-gray);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--dark-blue), #000);
+      color: white;
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: var(--transition);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      transition: var(--transition);
+      border: 2px solid var(--gold);
+    }
+
+    .logo img:hover {
+      transform: rotate(5deg);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .nav-menu a:hover {
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('https://via.placeholder.com/1920x1080/000/FFD700?text=Golden+Charge') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: 80px;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      padding: 0 20px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 40px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: var(--gold);
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 35px;
+      background: var(--gold);
+      color: var(--dark-blue);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255,215,0,0.6);
+    }
+
+    /* Services */
+    .services {
+      padding: 100px 0;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--dark-blue);
+      font-size: 2.5rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--gold);
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background: var(--light-gray);
+      padding: 35px 30px;
+      border-radius: 15px;
+      text-align: center;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      border: 1px solid #eaeaea;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      border-color: var(--gold);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+      font-size: 1.4rem;
+    }
+
+    /* About */
+    .about {
+      padding: 100px 0;
+      background: var(--dark-blue);
+      color: white;
+    }
+
+    .about-content {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+    }
+
+    .about-text h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--gold);
+      line-height: 1.3;
+    }
+
+    .about-text p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .highlight {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .about-image {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      border: 3px solid var(--gold);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .about-image img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Contact */
+    .contact {
+      padding: 100px 0;
+      background: white;
+    }
+
+    .contact-form {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 40px;
+      background: var(--light-gray);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid #ddd;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark-blue);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      accent-color: var(--gold);
+    }
+
+    .form-submit {
+      background: var(--gold);
+      color: var(--dark-blue);
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .form-submit:hover {
+      background: #d4af37;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark-blue);
+      color: #ccc;
+      padding: 60px 0 30px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h3 {
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      position: relative;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+      margin-top: 5px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column a {
+      color: #ccc;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-column a:hover {
+      color: var(--gold);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .social-icons a:hover {
+      color: var(--gold);
+      background: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .contact-info {
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .contact-info a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      z-index: 1001;
+      transition: var(--transition);
+      border: 3px solid white;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Smooth Scroll for Anchor Links */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .about-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-image {
+        order: -1;
+        margin-bottom: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .nav-menu {
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-content {
+        padding: 30px;
+      }
+
+      .services-grid,
+      .contact-form {
+        padding: 0 20px;
+      }
+
+      .whatsapp-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+        bottom: 25px;
+        right: 25px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .nav-menu a {
+        font-size: 0.9rem;
+        padding: 4px 8px;
+      }
+
+      .contact-info {
+        font-size: 0.85rem;
+      }
+
+      .social-icons a {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <a href="#home" class="logo">
+        <img src="https://i.ibb.co/x86BDPCs/logo.png" alt="Golden Charge Logo" loading="lazy" />
+        <span>Golden Charge</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Golden Charge</h1>
+      <p>Professional electrical services in Fremont, CA. Emergency 24/7, smart homes, low voltage, and more.</p>
+      <a href="#contact" class="btn">Get Free Quote</a>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-home"></i></div>
+          <h3>Residential</h3>
+          <p>Complete electrical installations, repairs, and upgrades for homes.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-building"></i></div>
+          <h3>Commercial</h3>
+          <p>Electrical systems for offices, stores, and industrial buildings.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Emergency 24/7</h3>
+          <p>Fast response for power outages, faulty circuits, and safety issues.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-wifi"></i></div>
+          <h3>Low Voltage</h3>
+          <p>CCTV, security systems, intercoms, and network installations.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Smart Homes</h3>
+          <p>Automated lighting, thermostats, locks, and voice control integration.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-plug"></i></div>
+          <h3>Panel Upgrades</h3>
+          <p>Modernization of electrical panels for safety and efficiency.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container about-content">
+      <div class="about-text">
+        <h2>Why Choose Golden Charge?</h2>
+        <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
+        <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart home installations.</p>
+        <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
+        <p><strong>Licence: XXXXXX</strong></p>
+      </div>
+      <div class="about-image">
+        <img src="https://images.pexels.com/photos/787202/pexels-photo-787202.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Licensed Electrician at Work" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" class="form-control" required placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" required placeholder="your.email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" class="form-control" required placeholder="(510) 221-1258">
+          </div>
+          <div class="form-group">
+            <label for="service">Service Required</label>
+            <select id="service" class="form-control" required>
+              <option value="">Select a service</option>
+              <option value="residential">Residential</option>
+              <option value="commercial">Commercial</option>
+              <option value="emergency">Emergency</option>
+              <option value="low-voltage">Low Voltage</option>
+              <option value="smart-home">Smart Home</option>
+              <option value="panel-upgrade">Panel Upgrade</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Contact Channel</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
+              <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
+              <label><input type="checkbox" name="channel" value="email"> Email</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-column">
+        <h3>Golden Charge</h3>
+        <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-weixin"></i></a>
+          <a href="#"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <div class="contact-info">
+          <p>Fremont, CA</p>
+          <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
+          <p>✉️ <a href="mailto:1982.carlos.villalobos@gmail.com">1982.carlos.villalobos@gmail.com</a></p>
+          <p>🌐 <a href="#">www.goldencharge.com</a></p>
+          <p>🆔 Licence: XXXXXX</p>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Golden Charge Electrician Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value.trim();
+      alert(`Thank you, ${name}! Your message has been sent. We'll contact you soon via your preferred channel.`);
+      
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
