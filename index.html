@@ -1,9 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0">
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, industrial, emergency 24/7, smart homes & panel upgrades, High and low voltage. Free estimates. Bilingual support.">
   <meta name="keywords" content="electrician, fremont, california, electrical services, emergency electrician, smart home, panel upgrade">
@@ -109,6 +108,7 @@
     .letter:nth-child(10) { animation-delay: 1.0s; }
     .letter:nth-child(11) { animation-delay: 1.1s; }
     .letter:nth-child(12) { animation-delay: 1.2s; }
+    .letter:nth-child(13) { animation-delay: 1.3s; }
 
     @keyframes letterAppear {
       0% {
@@ -146,6 +146,27 @@
           0 0 25px var(--gold),
           0 0 30px var(--accent),
           0 0 35px var(--accent);
+      }
+    }
+
+    /* Nueva animación para apagar el título después de 2 segundos */
+    @keyframes letterFadeOut {
+      0% {
+        opacity: 1;
+        text-shadow: 
+          0 0 5px #fff,
+          0 0 10px #fff,
+          0 0 15px var(--gold),
+          0 0 20px var(--gold),
+          0 0 25px var(--gold),
+          0 0 30px var(--accent),
+          0 0 35px var(--accent);
+      }
+      100% {
+        opacity: 0.85; /* Más luminoso que antes */
+        text-shadow: 
+          0 0 3px #fff,
+          0 0 7px var(--gold);
       }
     }
 
@@ -868,6 +889,14 @@
           form.reset();
         });
       });
+      
+      // Aplicar animación de apagado después de 2 segundos
+      setTimeout(() => {
+        const letters = document.querySelectorAll('.letter');
+        letters.forEach(letter => {
+          letter.style.animation = 'letterFadeOut 1s forwards';
+        });
+      }, 2000);
     });
   </script>
 </body>
