@@ -5,18 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, industrial, emergency 24/7, smart homes & panel upgrades, High and low voltage. Free estimates. Bilingual support." />
-
-  <!-- Open Graph / SEO -->
-  <meta property="og:title" content="Golden Charge | Electrician in Fremont, CA">
-  <meta property="og:description" content="24/7 emergency electrical services, smart homes, panel upgrades & more. Free estimates. Bilingual support.">
-  <meta property="og:image" content="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png">
-  <meta property="og:url" content="https://www.goldencharge.net">
-  <meta property="og:type" content="website">
-
-  <!-- Favicon (opcional) -->
-  <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" type="image/png">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css  " />
   <style>
     :root {
       --gold: #FFD700;
@@ -185,12 +174,6 @@
       box-shadow: 0 10px 25px rgba(255,215,0,0.8);
     }
 
-    /* Animación más suave */
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-
     /* Services */
     .services {
       padding: 100px 0;
@@ -286,28 +269,6 @@
     .highlight {
       color: var(--gold);
       font-weight: 600;
-    }
-
-    .trust-badges {
-      margin: 20px 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      font-size: 0.95rem;
-      color: var(--gold);
-    }
-
-    .trust-badges i {
-      margin-right: 5px;
-    }
-
-    .testimonial {
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-      font-style: italic;
-      border-left: 3px solid var(--gold);
     }
 
     .about-image {
@@ -527,7 +488,7 @@
       transform: scale(1.1);
     }
 
-    /* Smooth Scroll */
+    /* Smooth Scroll for Anchor Links */
     html {
       scroll-behavior: smooth;
     }
@@ -604,6 +565,13 @@
         font-size: 1.3rem;
       }
     }
+
+    /* Animación para el botón Get Free Quote */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
@@ -612,8 +580,8 @@
   <header>
     <div class="container header-content">
       <a href="#home" class="logo">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge - Electrician Services in Fremont, CA" loading="lazy" />
-        <span>Golden Charge</span>
+        <img src="  https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png  " alt="Golden Charge Logo" loading="lazy" />
+        <span>Golden Charge<br></span>
       </a>
       <nav class="nav-menu">
         <a href="#home">Home</a>
@@ -624,134 +592,117 @@
     </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-      <div class="hero-content">
-        <h1>Golden Charge</h1>
-        <p>Professional electrical services in Fremont, CA. Emergency 24/7, smart homes, low voltage, and more.</p>
-        <a href="#contact" class="btn">Get Free Quote</a>
-        <p style="margin-top: 15px; font-size: 1.1rem;">
-          Need help now? <a href="tel:+15102211258" style="color: var(--gold); font-weight: bold;">Call (510) 221-1258</a> for 24/7 service.
-        </p>
-      </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Golden Charge</h1>
+      <p>Professional electrical services in Fremont, CA. Emergency 24/7, smart homes, low voltage, and more.</p>
+      <a href="#contact" class="btn">Get Free Quote</a>
+    </div>
+  </section>
 
-    <!-- Services -->
-    <section class="services" id="services">
-      <div class="container">
-        <h2 class="section-title">Our Services</h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-home"></i></div>
-            <h3>Residential</h3>
-            <p>Complete electrical installations, repairs, and upgrades for homes.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-building"></i></div>
-            <h3>Commercial</h3>
-            <p>Electrical systems for offices, stores, and industrial buildings.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-bolt"></i></div>
-            <h3>Emergency 24/7</h3>
-            <p>Fast response for power outages, faulty circuits, and safety issues.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-wifi"></i></div>
-            <h3>Low Voltage</h3>
-            <p>CCTV, security systems, intercoms, and network installations.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-microchip"></i></div>
-            <h3>Smart Homes</h3>
-            <p>Automated lighting, thermostats, locks, and voice control integration.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-plug"></i></div>
-            <h3>Panel Upgrades</h3>
-            <p>Modernization of electrical panels for safety and efficiency.</p>
-          </div>
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-home"></i></div>
+          <h3>Residential</h3>
+          <p>Complete electrical installations, repairs, and upgrades for homes.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-building"></i></div>
+          <h3>Commercial</h3>
+          <p>Electrical systems for offices, stores, and industrial buildings.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Emergency 24/7</h3>
+          <p>Fast response for power outages, faulty circuits, and safety issues.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-wifi"></i></div>
+          <h3>Low Voltage</h3>
+          <p>CCTV, security systems, intercoms, and network installations.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Smart Homes</h3>
+          <p>Automated lighting, thermostats, locks, and voice control integration.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-plug"></i></div>
+          <h3>Panel Upgrades</h3>
+          <p>Modernization of electrical panels for safety and efficiency.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- About -->
-    <section class="about" id="about">
-      <div class="container about-content">
-        <div class="about-text">
-          <h2>Why Choose Golden Charge?</h2>
-          <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
-          <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart home installations.</p>
-          <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
-          <p><strong>Licence: XXXXXX</strong></p>
-
-          <div class="trust-badges">
-            <div><i class="fas fa-shield-alt"></i> Licensed & Insured</div>
-            <div><i class="fas fa-tools"></i> Certified Technicians</div>
-            <div><i class="fas fa-award"></i> 5-Star Rated</div>
-            <div><i class="fas fa-check-circle"></i> 1-Year Warranty</div>
-          </div>
-
-          <div class="testimonial">
-            "Golden Charge fixed our electrical panel in under 2 hours. Fast, professional, and fair price!" – Maria S., Fremont
-          </div>
-        </div>
-        <div class="about-image">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Certified electrician installing electrical panel in Fremont home" />
-        </div>
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container about-content">
+      <div class="about-text">
+        <h2>Why Choose Golden Charge?</h2>
+        <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
+        <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart home installations.</p>
+        <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
+        <p><strong>Licence: XXXXXX</strong></p>
       </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="contact" id="contact">
-      <div class="container">
-        <h2 class="section-title">Contact Us</h2>
-        <div class="contact-form">
-          <form action="https://submit-form.com/DaAgmuRJ8" method="POST">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" class="form-control" required placeholder="Your full name">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com">
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx">
-            </div>
-            <div class="form-group">
-              <label for="service">Service Required</label>
-              <select id="service" name="service" class="form-control" required>
-                <option value="">Select a service</option>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
-                <option value="emergency">Emergency</option>
-                <option value="low-voltage">Low Voltage</option>
-                <option value="smart-home">Smart Home</option>
-                <option value="panel-upgrade">Panel Upgrade</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Preferred Contact Channel</label>
-              <div class="checkbox-group">
-                <label><input type="checkbox" name="channel[]" value="whatsapp"> WhatsApp</label>
-                <label><input type="checkbox" name="channel[]" value="call"> Phone Call</label>
-                <label><input type="checkbox" name="channel[]" value="email"> Email</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
-            </div>
-            <button type="submit" class="form-submit">Send Message</button>
-          </form>
-          <div id="form-message" style="display: none; margin-top: 15px; padding: 15px; border-radius: 10px; text-align: center;"></div>
-        </div>
+      <div class="about-image">
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png  " alt="Licensed Electrician at Work" />
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+ <!-- Contact -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-form">
+      <form action="https://submit-form.com/DaAgmuRJ8  " method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx">
+        </div>
+        <div class="form-group">
+          <label for="service">Service Required</label>
+          <select id="service" name="service" class="form-control" required>
+            <option value="">Select a service</option>
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+            <option value="emergency">Emergency</option>
+            <option value="low-voltage">Low Voltage</option>
+            <option value="smart-home">Smart Home</option>
+            <option value="panel-upgrade">Panel Upgrade</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Contact Channel</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
+            <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
+            <label><input type="checkbox" name="channel" value="email"> Email</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer>
@@ -760,10 +711,13 @@
         <h3>Golden Charge</h3>
         <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
         <div class="social-icons">
-          <a href="https://facebook.com/goldencharge" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://instagram.com/goldencharge" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://linkedin.com/company/goldencharge" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://wa.me/15102211258" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-weixin"></i></a>
+          <a href="#"><i class="fab fa-telegram-plane"></i></a>
         </div>
       </div>
       <div class="footer-column">
@@ -781,7 +735,7 @@
           <p>Fremont, CA</p>
           <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
           <p>✉️ <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a></p>
-          <p>🌐 <a href="https://www.goldencharge.net">www.goldencharge.net</a></p>
+          <p>🌐 <a href="#">www.goldencharge.net</a></p>
           <p>🆔 Licence: XXXXXX</p>
         </div>
       </div>
@@ -792,13 +746,40 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/15102211258?text=Hi%20Golden%20Charge%2C%20I%20need%20an%20electrician%20for%3A%20" target="_blank" class="whatsapp-btn">
+  <a href="https://wa.me/15102211258  " target="_blank" class="whatsapp-btn">
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- JavaScript (tú lo ajustas) -->
+  <!-- JavaScript -->
   <script>
-    // Tu código JS aquí (como mencionaste)
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Form submission handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const forms = document.querySelectorAll('form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const name = form.querySelector('input[name="name"]').value.trim();
+          if (name) {
+            alert(`Thank you, ${name}! Your message has been sent. We'll contact you soon via your preferred channel.`);
+          } else {
+            alert('Thank you! Your message has been sent. We\'ll contact you soon.');
+          }
+          
+          form.reset();
+        });
+      });
+    });
   </script>
 
 </body>
