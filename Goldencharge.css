@@ -165,6 +165,12 @@ header {
   box-shadow: 0 10px 25px rgba(255,215,0,0.8);
 }
 
+/* Animación más suave */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
 /* Services */
 .services {
   padding: 100px 0;
@@ -260,6 +266,28 @@ header {
 .highlight {
   color: var(--gold);
   font-weight: 600;
+}
+
+.trust-badges {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 0.95rem;
+  color: var(--gold);
+}
+
+.trust-badges i {
+  margin-right: 5px;
+}
+
+.testimonial {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-style: italic;
+  border-left: 3px solid var(--gold);
 }
 
 .about-image {
@@ -479,7 +507,7 @@ footer {
   transform: scale(1.1);
 }
 
-/* Smooth Scroll for Anchor Links */
+/* Smooth Scroll */
 html {
   scroll-behavior: smooth;
 }
@@ -555,11 +583,4 @@ html {
     height: 35px;
     font-size: 1.3rem;
   }
-}
-
-/* Animación para el botón Get Free Quote */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
 }
