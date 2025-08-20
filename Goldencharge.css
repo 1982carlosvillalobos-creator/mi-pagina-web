@@ -26,7 +26,7 @@ body {
 header {
   background: linear-gradient(135deg, var(--dark-blue), #000);
   color: white;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   position: fixed;
   width: 100%;
   top: 0;
@@ -52,7 +52,7 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   font-size: 1.8rem;
   font-weight: bold;
   color: var(--gold);
@@ -60,16 +60,16 @@ header {
 }
 
 .logo img {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  height: 70px;
+  width: auto;
+  border-radius: 0;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
   transition: var(--transition);
-  border: 2px solid var(--gold);
+  border: none;
 }
 
 .logo img:hover {
-  transform: rotate(5deg);
+  transform: scale(1.05);
 }
 
 .nav-menu {
@@ -146,22 +146,23 @@ header {
 
 .btn {
   display: inline-block;
-  padding: 14px 35px;
+  padding: 18px 45px;
   background: var(--gold);
   color: var(--dark-blue);
   text-decoration: none;
   border-radius: 50px;
   font-weight: bold;
-  transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255,215,0,0.8);
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  animation: pulse 2s infinite;
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255,215,0,0.6);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255,215,0,0.8);
 }
 
 /* Services */
@@ -280,44 +281,6 @@ header {
 
 .about-image img:hover {
   transform: scale(1.03);
-}
-
-/* Gallery */
-.gallery {
-  padding: 100px 0;
-  background: var(--light-gray);
-  text-align: center;
-}
-
-.gallery-title {
-  font-size: 2.5rem;
-  margin-bottom: 60px;
-  color: var(--dark-blue);
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.gallery-item {
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-
-.gallery-item:hover {
-  transform: translateY(-5px);
-}
-
-.gallery-item img,
-.gallery-item iframe {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
 }
 
 /* Contact */
@@ -592,32 +555,11 @@ html {
     height: 35px;
     font-size: 1.3rem;
   }
-  /* Animación para el botón Get Free Quote */
+}
+
+/* Animación para el botón Get Free Quote */
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
-}
-
-/* Estilo mejorado para el botón */
-.btn {
-  display: inline-block;
-  padding: 18px 45px !important;
-  background: var(--gold) !important;
-  color: var(--dark-blue) !important;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(255,215,0,0.8) !important;
-  border: none;
-  cursor: pointer;
-  font-size: 1.3rem !important;
-  animation: pulse 2s infinite;
-}
-
-.btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(255,215,0,0.8) !important;
-}
 }
