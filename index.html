@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +92,7 @@
       opacity: 0;
       transform: scale(0.8);
       animation: letterAppear 1.5s forwards;
-      text-shadow: 
+      text-shadow:
         0 0 2px #000,
         0 0 5px transparent;
     }
@@ -114,14 +115,14 @@
       0% {
         opacity: 0;
         transform: scale(0.8) translateY(-10px);
-        text-shadow: 
+        text-shadow:
           0 0 2px #000,
           0 0 5px transparent;
       }
       30% {
         opacity: 0.7;
         transform: scale(1.1) translateY(0);
-        text-shadow: 
+        text-shadow:
           0 0 5px #fff,
           0 0 10px var(--gold),
           0 0 15px var(--accent);
@@ -129,7 +130,7 @@
       70% {
         opacity: 0.9;
         transform: scale(0.95);
-        text-shadow: 
+        text-shadow:
           0 0 8px #fff,
           0 0 15px var(--gold),
           0 0 20px var(--accent),
@@ -138,7 +139,7 @@
       100% {
         opacity: 1;
         transform: scale(1);
-        text-shadow: 
+        text-shadow:
           0 0 5px #fff,
           0 0 10px #fff,
           0 0 15px var(--gold),
@@ -153,7 +154,7 @@
     @keyframes letterFadeOut {
       0% {
         opacity: 1;
-        text-shadow: 
+        text-shadow:
           0 0 5px #fff,
           0 0 10px #fff,
           0 0 15px var(--gold),
@@ -164,7 +165,7 @@
       }
       100% {
         opacity: 0.85; /* Más luminoso que antes */
-        text-shadow: 
+        text-shadow:
           0 0 3px #fff,
           0 0 7px var(--gold);
       }
@@ -401,69 +402,6 @@
       border: 1px solid #ddd;
     }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--dark-blue);
-      font-weight: 500;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-    }
-
-    .checkbox-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-      color: var(--text-dark);
-    }
-
-    .checkbox-group input[type="checkbox"] {
-      accent-color: var(--gold);
-    }
-
-    .form-submit {
-      background: var(--gold);
-      color: var(--dark-blue);
-      border: none;
-      padding: 14px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: var(--transition);
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .form-submit:hover {
-      background: #d4af37;
-      transform: translateY(-2px);
-    }
 
     /* Footer */
     footer {
@@ -754,7 +692,8 @@
       transform: translateY(-2px);
     }
 
-    .zcwf_lblLeft .zcwf_button[type="reset"] {
+    /* Estilo corregido para el botón Reset - MOVIDO AL CSS DEL FORMULARIO */
+    /* .zcwf_lblLeft .zcwf_button[type="reset"] {
       background: #e9ecef;
       color: #495057;
       border: 1px solid #ced4da;
@@ -771,7 +710,7 @@
     .zcwf_lblLeft .zcwf_button[type="reset"]:hover {
       background: #d1d5db;
       transform: translateY(-2px);
-    }
+    } */
 
     .zcwf_lblLeft .zcwf_col_fld_slt {
       width: 100%;
@@ -900,28 +839,28 @@
   </section>
 
   <!-- Contact -->
-  <section class="contact" id="contact" aria-labelledby="contact-title">
+  <section class="contact" id="contact">
     <div class="container">
-      <h2 class="section-title" id="contact-title">Contact Us</h2>
+      <!-- Se eliminó el <h2 class="section-title" id="contact-title">Contact Us</h2> -->
       <div class="contact-form">
         <!-- Note :
-           - You can modify the font style and form style to suit your website. 
-           - Code lines with comments Do not remove this code are required for the form to work properly, make sure that you do not remove these lines of code. 
-           - The Mandatory check script can modified as to suit your business needs. 
+           - You can modify the font style and form style to suit your website.
+           - Code lines with comments Do not remove this code are required for the form to work properly, make sure that you do not remove these lines of code.
+           - The Mandatory check script can modified as to suit your business needs.
            - It is important that you test the modified form before going live.-->
-        <div id='crmWebToEntityForm' class='zcwf_lblLeft crmWebToEntityForm' style='background-color: white;color: #000000;max-width: 600px;'>
+        <div id='crmWebToEntityForm' class='zcwf_lblLeft crmWebToEntityForm' style='background-color: white;color: #0A0A0A;max-width: 600px;'>
           <meta name='viewport' content='width=device-width, initial-scale=1.0'>
           <META HTTP-EQUIV='content-type' CONTENT='text/html;charset=UTF-8'>
-          <form id='webform6953702000000594620' action='https://crm.zoho.com/crm/WebToLeadForm' name='WebToLeads6953702000000594620' method='POST' onSubmit='javascript:document.charset="UTF-8"; return checkMandatory6953702000000594620()' accept-charset='UTF-8'>
-            <input type='text' style='display:none;' name='xnQsjsdp' value='ead9e12153e915a7298043708c6e3b2c4f8a51772470501271768f4634c93d7d'>
+          <form id='webform6953702000000594634' action='https://crm.zoho.com/crm/WebToLeadForm' name='WebToLeads6953702000000594634' method='POST' onSubmit='javascript:document.charset="UTF-8"; return checkMandatory6953702000000594634()' accept-charset='UTF-8'>
+            <input type='text' style='display:none;' name='xnQsjsdp' value='e7518926d83eb02f444af010b87e898e117629cddad9093e0ca6b906127e19ee'>
             </input>
             <input type='hidden' name='zc_gad' id='zc_gad' value=''>
             </input>
-            <input type='text' style='display:none;' name='xmIwtLD' value='13e12d693b8106ab557a82c483ffd3ea62f417d989cbdf7adf6ad6d0562c23fb1fd815543d6a2df1a02d28dcc7ef2c92'>
+            <input type='text' style='display:none;' name='xmIwtLD' value='bcc0575f116d5324f626ecfa93e28c4b6b82c8b0961fc0ef3e8cfab495aca98bcc82d7615a9775a8e8ec0d9838756b70'>
             </input>
             <input type='text' style='display:none;' name='actionType' value='TGVhZHM='>
             </input>
-            <input type='text' style='display:none;' name='returnURL' value='https&#x3a;&#x2f;&#x2f;www.goldencharge.net&#x2f;'>
+            <input type='text' style='display:none;' name='returnURL' value='https&#x3a;&#x2f;&#x2f;www.goldencharge.net'>
             </input>
             <!-- Do not remove this code. -->
             <style>
@@ -991,7 +930,7 @@
               border: 1px solid  #ccc;
               background:  #fff;
               border-radius: 4px;
-              font-size: 16px;
+              font-size: 13px;
               float: left;
               resize: vertical;
               padding: 2px 5px;
@@ -1004,7 +943,7 @@
               .zcwf_lblLeft .zcwf_col_help{
               float: left;
               margin-left: 7px;
-              font-size: 16px;
+              font-size: 13px;
               max-width: 35%;
               word-break: break-word;
               }
@@ -1028,13 +967,13 @@
               margin-right: 5px;
               cursor: pointer;
               color:  #313949;
-              font-size: 16px;
+              font-size: 13px;
               }
               .zcwf_lblLeft .zcwf_privacy_txt{
               width: 90%;
               color: rgb(0, 0, 0);
-              font-size: 16px;
-              font-family: Calibri;
+              font-size: 13px;
+              font-family: Verdana;
               display: inline-block;
               vertical-align: top;
               color:  #313949;
@@ -1042,7 +981,7 @@
               margin-left: 6px;
               }
               .zcwf_lblLeft .zcwf_button{
-              font-size: 16px;
+              font-size: 13px;
               color:  #313949;
               border: 1px solid  #c0c6cc;
               padding: 3px 9px;
@@ -1089,10 +1028,40 @@
               .zcwf_lblLeft .zcwf_col_help {width: 40%;
               }
               }
+
+              /* --- ESTILOS CORREGIDOS PARA EL BOTÓN RESET --- */
+              /* Sobrescribe las reglas específicas del botón .zcwf_button para el reset */
+              .zcwf_lblLeft input.zcwf_button[type="reset"] {
+                /* Elimina el max-width y el white-space que lo hacen pequeño */
+                max-width: none;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+
+                /* Aplica estilos consistentes con el botón Submit */
+                background: #e9ecef; /* Color de fondo para el botón reset */
+                color: #495057; /* Color de texto para el botón reset */
+                border: 1px solid #ced4da; /* Borde para el botón reset */
+                padding: 14px 40px; /* Mismo padding que el botón submit */
+                border-radius: 50px; /* Mismo border-radius que el botón submit */
+                font-size: 1.1rem; /* Mismo tamaño de fuente que el botón submit */
+                font-weight: bold; /* Mismo peso de fuente que el botón submit */
+                cursor: pointer;
+                transition: var(--transition); /* Misma transición que el botón submit */
+                width: 100%; /* Mismo ancho que el botón submit */
+                margin-top: 10px; /* Mismo margen superior que el botón submit */
+                margin-right: 0; /* Elimina el margin-right del estilo original */
+              }
+
+              .zcwf_lblLeft input.zcwf_button[type="reset"]:hover {
+                background: #d1d5db; /* Color de fondo al pasar el ratón */
+                transform: translateY(-2px); /* Misma transformación que el botón submit */
+              }
+              /* --- FIN ESTILOS CORREGIDOS PARA EL BOTÓN RESET --- */
             </style>
-            <div class='zcwf_title' style='max-width: 600px;color: #000000; font-family:Calibri;'>Formulario de contacto - Golden Charge</div>
+            <div class='zcwf_title' style='max-width: 600px;color: #0A0A0A; font-family:Verdana;'>Contact Us</div>
             <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
+              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
                 <label for='First_Name'>First Name
                   <span style='color:red;'>*</span>
                 </label>
@@ -1105,7 +1074,7 @@
               </div>
             </div>
             <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
+              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
                 <label for='Last_Name'>Last Name
                   <span style='color:red;'>*</span>
                 </label>
@@ -1118,7 +1087,7 @@
               </div>
             </div>
             <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
+              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
                 <label for='Email'>Email
                   <span style='color:red;'>*</span>
                 </label>
@@ -1131,7 +1100,7 @@
               </div>
             </div>
             <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
+              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
                 <label for='Phone'>Phone
                   <span style='color:red;'>*</span>
                 </label>
@@ -1144,24 +1113,7 @@
               </div>
             </div>
             <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
-                <label for='Designation'>Title
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='text' id='Designation' aria-required='true' aria-label='Designation' name='Designation' aria-valuemax='100' maxlength='100'>
-                </input>
-                <div class='zcwf_col_help'>
-                  <span title='What type of service do you require?' style='cursor: pointer; width: 16px; height: 16px; display: inline-block; background: #fff; border: 1px solid #c0c6cc; color: #c1c1c1; text-align: center; font-size: 11px; line-height: 16px; font-weight: bold; border-radius: 50%;' onclick='tooltipShow6953702000000594620(this)'>?</span>
-                  <div class='zcwf_tooltip_over' style='display: none;'>
-                    <span class='zcwf_tooltip_ctn'>What type of service do you require?</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:16px; font-family: Calibri;'>
+              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
                 <label for='Description'>Description
                   <span style='color:red;'>*</span>
                 </label>
@@ -1183,8 +1135,8 @@
               </div>
             </div>
             <script>
-              function validateEmail6953702000000594620 (){
-                var form = document.forms[ 'WebToLeads6953702000000594620' ];
+              function validateEmail6953702000000594634 (){
+                var form = document.forms[ 'WebToLeads6953702000000594634' ];
                 var emailFld = form.querySelectorAll ( '[ftype=email]' );
                 var i;
                 for( i = 0; i < emailFld.length; i++ ){
@@ -1201,11 +1153,11 @@
                 }
                 return true;
               }
-              function checkMandatory6953702000000594620 (){
-                var mndFileds = new Array ( 'First Name', 'Last Name', 'Designation', 'Email', 'Phone', 'Description' );
-                var fldLangVal = new Array ( 'First\x20Name', 'Last\x20Name', 'Title', 'Email', 'Phone', 'Description' );
+              function checkMandatory6953702000000594634 (){
+                var mndFileds = new Array ( 'First Name', 'Last Name', 'Email', 'Phone', 'Description' );
+                var fldLangVal = new Array ( 'First\x20Name', 'Last\x20Name', 'Email', 'Phone', 'Description' );
                 for( i = 0; i < mndFileds.length; i++ ){
-                  var fieldObj = document.forms[ 'WebToLeads6953702000000594620' ][ mndFileds[ i ]];
+                  var fieldObj = document.forms[ 'WebToLeads6953702000000594634' ][ mndFileds[ i ]];
                   if( fieldObj ){
                     if(((fieldObj.value ).replace( /^\s+|\s+$/g,'' )).length == 0 ){
                       if( fieldObj.type == 'file' ){
@@ -1239,12 +1191,12 @@
                     catch ( e ){}
                   }
                 }
-                if( !validateEmail6953702000000594620()){
+                if( !validateEmail6953702000000594634()){
                   return false;
                 }
                 var urlparams = new URLSearchParams ( window.location.search );
                 if( urlparams.has( 'service' ) && ( urlparams.get( 'service' ) === 'smarturl' )){
-                  var webform = document.getElementById ( 'webform6953702000000594620' );
+                  var webform = document.getElementById ( 'webform6953702000000594634' );
                   var service = urlparams.get ( 'service' );
                   var smarturlfield = document.createElement ( 'input' );
                   smarturlfield.setAttribute ( 'type', 'hidden' );
@@ -1254,7 +1206,7 @@
                 }
                 document.querySelector ( '.crmWebToEntityForm .formsubmit' ).setAttribute ( 'disabled', true );
               }
-              function tooltipShow6953702000000594620 ( el ){
+              function tooltipShow6953702000000594634 ( el ){
                 var tooltip = el.nextElementSibling;
                 var tooltipDisplay = tooltip.style.display;
                 if( tooltipDisplay == 'none' ){
@@ -1270,7 +1222,7 @@
               }
             </script>
             <!-- Do not remove this --- Analytics Tracking code starts -->
-            <script id='wf_anal' src='https://crm.zohopublic.com/crm/WebFormAnalyticsServeServlet?rid=5bb4118d53379ae32d4668f8e576443dca9e5c296a30852f4c6014a75d51d4d7ae61037aae7bd773960f8aa419d21758gidf6f52dc3b05937249d5ff93b76eb8c3f9c671ebcdcdf0a6ac6ebe02ccefecdb6gidfcdcb2dcc07ea10bc62eaf221852f201818d71a39d91a171737aae2fcbd4ab41gid2e2bd9553df98d0091cd0684b7218341fb533692eed7248f4e11a62de944fb7d&tw=c5f0c36d7dc188536d18f5724c04ea8b2f13730d8aaa19ebdf8681585b574327'>
+            <script id='wf_anal' src='https://crm.zohopublic.com/crm/WebFormAnalyticsServeServlet?rid=18db6fcaf2cde8cc99a78f08e189d643ff8a5ba0cdc60f884bb28839e82ce3de69839983efe12139f1a40e52bb8571f9gid623d6324f3e71ccc0347ffd6fc0ba8b5edf366c9d2cc3a1431ed2f453560ee14gid55fb4a93bfedaa2dc9061a8e509f4a5a714dcbbfd4465bfe2c5d349605fec4cbgid4db42b7fbaf5e6241771c869a6ff8846fb4e29e34290207fbf981ff395db0fb0&tw=60e32f1f30f5603a1024d4eb9e7c32c91d1d0596469b3a7bcc6157bbf926735c'>
             </script>
             <!-- Do not remove this --- Analytics Tracking code ends. -->
           </form>
@@ -1346,7 +1298,7 @@
           // Pero podemos agregar un mensaje de confirmación si es necesario
         });
       });
-      
+
       // Aplicar animación de apagado después de 2 segundos
       setTimeout(() => {
         const letters = document.querySelectorAll('.letter');
@@ -1358,3 +1310,4 @@
   </script>
 </body>
 </html>
+```
