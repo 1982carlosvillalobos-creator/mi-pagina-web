@@ -662,6 +662,7 @@
       <h2 class="section-title">Contact Us</h2>
       <div class="contact-form">
         <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" class="form-control" required placeholder="Your full name">
@@ -699,8 +700,7 @@
             <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
           </div>
           <button type="submit" class="form-submit">Send Message</button>
-        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
-      </form>
+        </form>
       </div>
     </div>
   </section>
@@ -753,7 +753,7 @@
 
   <!-- JavaScript -->
   <script>
-    // Smooth scrolling for anchor links (Home, Services, etc.)
+    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -763,7 +763,7 @@
       });
     });
 
-    // Form submission feedback (without blocking the send)
+    // Form submission feedback
     document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('contactForm');
       
@@ -772,9 +772,8 @@
           const nameInput = document.getElementById('name');
           const name = nameInput ? nameInput.value.trim() : 'there';
 
-          setTimeout(() => {
-            alert(`Thank you, ${name}! Your message has been sent. We'll contact you soon via your preferred channel.`);
-          }, 500);
+          // Opcional: muestra un mensaje suave
+          console.log(`Gracias, ${name}. Tu mensaje fue enviado.`);
         });
       }
     });
