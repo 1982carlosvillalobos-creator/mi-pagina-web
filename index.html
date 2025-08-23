@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Golden Charge Electrician Company | Fremont, CA</title>
-  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, industrial, emergency 24/7, smart homes & panel upgrades, High and low voltage. Free estimates. Bilingual support.">
-  <meta name="keywords" content="electrician, fremont, california, electrical services, emergency electrician, smart home, panel upgrade">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, industrial, emergency 24/7, smart homes & panel upgrades, High and low voltage. Free estimates. Bilingual support." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css  " />
   <style>
     :root {
       --gold: #FFD700;
@@ -63,6 +62,9 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--gold);
       text-decoration: none;
     }
 
@@ -71,118 +73,12 @@
       width: 60px;
       border-radius: 50%;
       box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      transition: var(--transition);
       border: 2px solid var(--gold);
     }
 
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .golden-charge {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--gold);
-      display: flex;
-      gap: 0;
-    }
-
-    .letter {
-      opacity: 0;
-      transform: scale(0.8);
-      animation: letterAppear 1.5s forwards;
-      text-shadow:
-        0 0 2px #000,
-        0 0 5px transparent;
-    }
-
-    .letter:nth-child(1) { animation-delay: 0.1s; }
-    .letter:nth-child(2) { animation-delay: 0.2s; }
-    .letter:nth-child(3) { animation-delay: 0.3s; }
-    .letter:nth-child(4) { animation-delay: 0.4s; }
-    .letter:nth-child(5) { animation-delay: 0.5s; }
-    .letter:nth-child(6) { animation-delay: 0.6s; }
-    .letter:nth-child(7) { animation-delay: 0.7s; }
-    .letter:nth-child(8) { animation-delay: 0.8s; }
-    .letter:nth-child(9) { animation-delay: 0.9s; }
-    .letter:nth-child(10) { animation-delay: 1.0s; }
-    .letter:nth-child(11) { animation-delay: 1.1s; }
-    .letter:nth-child(12) { animation-delay: 1.2s; }
-    .letter:nth-child(13) { animation-delay: 1.3s; }
-
-    @keyframes letterAppear {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translateY(-10px);
-        text-shadow:
-          0 0 2px #000,
-          0 0 5px transparent;
-      }
-      30% {
-        opacity: 0.7;
-        transform: scale(1.1) translateY(0);
-        text-shadow:
-          0 0 5px #fff,
-          0 0 10px var(--gold),
-          0 0 15px var(--accent);
-      }
-      70% {
-        opacity: 0.9;
-        transform: scale(0.95);
-        text-shadow:
-          0 0 8px #fff,
-          0 0 15px var(--gold),
-          0 0 20px var(--accent),
-          0 0 25px var(--gold);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-        text-shadow:
-          0 0 5px #fff,
-          0 0 10px #fff,
-          0 0 15px var(--gold),
-          0 0 20px var(--gold),
-          0 0 25px var(--gold),
-          0 0 30px var(--accent),
-          0 0 35px var(--accent);
-      }
-    }
-
-    /* Nueva animación para apagar el título después de 2 segundos */
-    @keyframes letterFadeOut {
-      0% {
-        opacity: 1;
-        text-shadow:
-          0 0 5px #fff,
-          0 0 10px #fff,
-          0 0 15px var(--gold),
-          0 0 20px var(--gold),
-          0 0 25px var(--gold),
-          0 0 30px var(--accent),
-          0 0 35px var(--accent);
-      }
-      100% {
-        opacity: 0.85; /* Más luminoso que antes */
-        text-shadow:
-          0 0 3px #fff,
-          0 0 7px var(--gold);
-      }
-    }
-
-    .tagline {
-      font-size: 1rem;
-      font-weight: normal;
-      color: #ccc;
-      margin-top: 2px;
-      opacity: 0;
-      animation: fadeIn 1s forwards 1.5s;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .logo img:hover {
+      transform: rotate(5deg);
     }
 
     .nav-menu {
@@ -208,7 +104,7 @@
 
     /* Hero Section */
     .hero {
-      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://via.placeholder.com/1920x1080/000/FFD700?text=Golden+Charge') no-repeat center center;
+      background: url('https://via.placeholder.com/1920x1080/000/FFD700?text=Golden+Charge') no-repeat center center;
       background-size: cover;
       height: 100vh;
       display: flex;
@@ -220,6 +116,17 @@
       text-align: center;
       overflow: hidden;
       padding: 0 20px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1;
     }
 
     .hero-content {
@@ -401,6 +308,69 @@
       border: 1px solid #ddd;
     }
 
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark-blue);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      accent-color: var(--gold);
+    }
+
+    .form-submit {
+      background: var(--gold);
+      color: var(--dark-blue);
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .form-submit:hover {
+      background: #d4af37;
+      transform: translateY(-2px);
+    }
 
     /* Footer */
     footer {
@@ -602,169 +572,18 @@
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
-
-    /* Estilos del nuevo formulario Zoho */
-    .zcwf_lblLeft .zcwf_title {
-      font-size: 2.5rem;
-      color: var(--dark-blue);
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: bold;
-    }
-
-    .zcwf_lblLeft .zcwf_title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: var(--gold);
-      margin: 10px auto;
-      border-radius: 2px;
-    }
-
-    .zcwf_lblLeft .zcwf_row {
-      margin: 20px 0;
-    }
-
-    .zcwf_lblLeft .zcwf_col_lab {
-      width: 30%;
-      word-break: break-word;
-      padding: 0 10px 0 0;
-      margin-right: 10px;
-      margin-top: 5px;
-      float: left;
-      min-height: 1px;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--dark-blue);
-    }
-
-    .zcwf_lblLeft .zcwf_col_fld {
-      float: left;
-      width: 68%;
-      padding: 0 6px;
-      position: relative;
-      margin-top: 5px;
-    }
-
-    .zcwf_lblLeft .zcwf_col_fld input[type="text"],
-    .zcwf_lblLeft .zcwf_col_fld textarea {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: var(--transition);
-      background-color: white;
-      color: var(--text-dark);
-    }
-
-    .zcwf_lblLeft .zcwf_col_fld input[type="text"]:focus,
-    .zcwf_lblLeft .zcwf_col_fld textarea:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-    }
-
-    .zcwf_lblLeft .zcwf_col_fld textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .zcwf_lblLeft .formsubmit {
-      background: var(--gold);
-      color: var(--dark-blue);
-      border: none;
-      padding: 14px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: var(--transition);
-      width: 100%;
-      margin-top: 10px;
-      max-width: none;
-    }
-
-    .zcwf_lblLeft .formsubmit:hover {
-      background: #d4af37;
-      transform: translateY(-2px);
-    }
-
-    /* Estilo corregido para el botón Reset - MOVIDO AL CSS DEL FORMULARIO */
-    /* .zcwf_lblLeft .zcwf_button[type="reset"] {
-      background: #e9ecef;
-      color: #495057;
-      border: 1px solid #ced4da;
-      padding: 14px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: var(--transition);
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .zcwf_lblLeft .zcwf_button[type="reset"]:hover {
-      background: #d1d5db;
-      transform: translateY(-2px);
-    } */
-
-    .zcwf_lblLeft .zcwf_col_fld_slt {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      background-color: white;
-      color: var(--text-dark);
-    }
-
-    .zcwf_lblLeft span[style*="color:red"] {
-      color: #dc3545 !important;
-    }
-
-    @media all and (max-width: 768px) {
-      .zcwf_lblLeft .zcwf_col_lab,
-      .zcwf_lblLeft .zcwf_col_fld {
-        width: 100%;
-        float: none;
-        padding: 0;
-        margin-top: 10px;
-      }
-
-      .zcwf_lblLeft .zcwf_col_lab {
-        font-weight: 600;
-      }
-    }
   </style>
 </head>
 <body>
+
   <!-- Header -->
   <header>
     <div class="container header-content">
-      <a href="#home" class="logo" aria-label="Golden Charge Electrician Company">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo" loading="lazy">
-        <div class="logo-text">
-          <div class="golden-charge">
-            <span class="letter">G</span>
-            <span class="letter">o</span>
-            <span class="letter">l</span>
-            <span class="letter">d</span>
-            <span class="letter">e</span>
-            <span class="letter">n</span>
-            <span class="letter"> </span>
-            <span class="letter">C</span>
-            <span class="letter">h</span>
-            <span class="letter">a</span>
-            <span class="letter">r</span>
-            <span class="letter">g</span>
-            <span class="letter">e</span>
-          </div>
-        </div>
+      <a href="#home" class="logo">
+        <img src="  https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png  " alt="Golden Charge Logo" loading="lazy" />
+        <span>Golden Charge<br></span>
       </a>
-      <nav class="nav-menu" aria-label="Main navigation">
+      <nav class="nav-menu">
         <a href="#home">Home</a>
         <a href="#services">Services</a>
         <a href="#about">About</a>
@@ -774,46 +593,46 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="home" aria-labelledby="hero-title">
+  <section class="hero" id="home">
     <div class="hero-content">
-      <h1 id="hero-title">Golden Charge</h1>
+      <h1>Golden Charge</h1>
       <p>Professional electrical services in Fremont, CA. Emergency 24/7, smart homes, low voltage, and more.</p>
-      <a href="#contact" class="btn" aria-label="Get Free Quote">Get Free Quote</a>
+      <a href="#contact" class="btn">Get Free Quote</a>
     </div>
   </section>
 
   <!-- Services -->
-  <section class="services" id="services" aria-labelledby="services-title">
+  <section class="services" id="services">
     <div class="container">
-      <h2 class="section-title" id="services-title">Our Services</h2>
+      <h2 class="section-title">Our Services</h2>
       <div class="services-grid">
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-home" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-home"></i></div>
           <h3>Residential</h3>
           <p>Complete electrical installations, repairs, and upgrades for homes.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-building" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-building"></i></div>
           <h3>Commercial</h3>
           <p>Electrical systems for offices, stores, and industrial buildings.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-bolt" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-bolt"></i></div>
           <h3>Emergency 24/7</h3>
           <p>Fast response for power outages, faulty circuits, and safety issues.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-wifi" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-wifi"></i></div>
           <h3>Low Voltage</h3>
           <p>CCTV, security systems, intercoms, and network installations.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-microchip" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
           <h3>Smart Homes</h3>
           <p>Automated lighting, thermostats, locks, and voice control integration.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-plug" aria-hidden="true"></i></div>
+          <div class="service-icon"><i class="fas fa-plug"></i></div>
           <h3>Panel Upgrades</h3>
           <p>Modernization of electrical panels for safety and efficiency.</p>
         </div>
@@ -822,413 +641,68 @@
   </section>
 
   <!-- About -->
-  <section class="about" id="about" aria-labelledby="about-title">
+  <section class="about" id="about">
     <div class="container about-content">
       <div class="about-text">
-        <h2 id="about-title">Why Choose Golden Charge?</h2>
+        <h2>Why Choose Golden Charge?</h2>
         <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
         <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart home installations.</p>
         <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
         <p><strong>Licence: XXXXXX</strong></p>
       </div>
       <div class="about-image">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed Electrician at Work" loading="lazy">
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png  " alt="Licensed Electrician at Work" />
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <!-- Se eliminó el <h2 class="section-title" id="contact-title">Contact Us</h2> -->
-      <div class="contact-form">
-        <!-- Note :
-           - You can modify the font style and form style to suit your website.
-           - Code lines with comments Do not remove this code are required for the form to work properly, make sure that you do not remove these lines of code.
-           - The Mandatory check script can modified as to suit your business needs.
-           - It is important that you test the modified form before going live.-->
-        <div id='crmWebToEntityForm' class='zcwf_lblLeft crmWebToEntityForm' style='background-color: white;color: #0A0A0A;max-width: 600px;'>
-          <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-          <META HTTP-EQUIV='content-type' CONTENT='text/html;charset=UTF-8'>
-          <form id='webform6953702000000594634' action='https://crm.zoho.com/crm/WebToLeadForm' name='WebToLeads6953702000000594634' method='POST' onSubmit='javascript:document.charset="UTF-8"; return checkMandatory6953702000000594634()' accept-charset='UTF-8'>
-            <input type='text' style='display:none;' name='xnQsjsdp' value='e7518926d83eb02f444af010b87e898e117629cddad9093e0ca6b906127e19ee'>
-            </input>
-            <input type='hidden' name='zc_gad' id='zc_gad' value=''>
-            </input>
-            <input type='text' style='display:none;' name='xmIwtLD' value='bcc0575f116d5324f626ecfa93e28c4b6b82c8b0961fc0ef3e8cfab495aca98bcc82d7615a9775a8e8ec0d9838756b70'>
-            </input>
-            <input type='text' style='display:none;' name='actionType' value='TGVhZHM='>
-            </input>
-            <input type='text' style='display:none;' name='returnURL' value='https://www.goldencharge.net'>
-            </input>
-            <!-- Do not remove this code. -->
-            <style>
-              html,body{
-                margin: 0px;
-              }
-              .formsubmit.zcwf_button{
-                color: white !important;
-                background: transparent linear-gradient(0deg, #0279FF 0%, #00A3F3 100%);
-              }
-              #crmWebToEntityForm.zcwf_lblLeft{
-                width: 100%;
-                padding: 25px;
-                margin: 0 auto;
-                box-sizing: border-box;
-              }
-              #crmWebToEntityForm.zcwf_lblLeft *{
-                box-sizing: border-box;
-              }
-              #crmWebToEntityForm {text-align: left;
-              }
-              #crmWebToEntityForm *{
-              direction: ltr;
-              }
-              .zcwf_lblLeft .zcwf_title{
-              word-wrap: break-word;
-              padding: 0px 6px 10px;
-              font-weight: bold }
-              .zcwf_lblLeft.cpT_primaryBtn:hover{
-              background: linear-gradient(#02acff 0,#006be4 100%)no-repeat padding-box !important;
-              box-shadow: 0 -2px 0 0  #0159b9 inset !important;
-              border: 0 !important;
-              color:  #fff !important;
-              outline: 0 !important;
-              }
-              .zcwf_lblLeft .zcwf_col_fld input[ type  = text], input[ type  = password], .zcwf_lblLeft .zcwf_col_fld textarea{
-              width: 60%;
-              border: 1px solid  #c0c6cc !important;
-              resize: vertical;
-              border-radius: 2px;
-              float: left;
-              }
-              .zcwf_lblLeft .zcwf_col_lab{
-              width: 30%;
-              word-break: break-word;
-              padding: 0px 6px 0px;
-              margin-right: 10px;
-              margin-top: 5px;
-              float: left;
-              min-height: 1px;
-              }
-              .zcwf_lblLeft .zcwf_col_fld{
-              float: left;
-              width: 68%;
-              padding: 0px 6px 0px;
-              position: relative;
-              margin-top: 5px;
-              }
-              .zcwf_lblLeft .zcwf_privacy {padding: 6px;
-              }
-              .zcwf_lblLeft .wfrm_fld_dpNn {display: none;
-              }
-              .dIB {display: inline-block;
-              }
-              .zcwf_lblLeft .zcwf_col_fld_slt{
-              width: 60%;
-              border: 1px solid  #ccc;
-              background:  #fff;
-              border-radius: 4px;
-              font-size: 13px;
-              float: left;
-              resize: vertical;
-              padding: 2px 5px;
-              }
-              .zcwf_lblLeft .zcwf_row:after, .zcwf_lblLeft .zcwf_col_fld:after{
-              content: '';
-              display: table;
-              clear: both;
-              }
-              .zcwf_lblLeft .zcwf_col_help{
-              float: left;
-              margin-left: 7px;
-              font-size: 13px;
-              max-width: 35%;
-              word-break: break-word;
-              }
-              .zcwf_lblLeft .zcwf_help_icon{
-              cursor: pointer;
-              width: 16px;
-              height: 16px;
-              display: inline-block;
-              background:  #fff;
-              border: 1px solid  #c0c6cc;
-              color:  #c1c1c1;
-              text-align: center;
-              font-size: 11px;
-              line-height: 16px;
-              font-weight: bold;
-              border-radius: 50%;
-              }
-              .zcwf_lblLeft .zcwf_row {margin: 15px 0px;
-              }
-              .zcwf_lblLeft .formsubmit{
-              margin-right: 5px;
-              cursor: pointer;
-              color:  #313949;
-              font-size: 13px;
-              }
-              .zcwf_lblLeft .zcwf_privacy_txt{
-              width: 90%;
-              color: rgb(0, 0, 0);
-              font-size: 13px;
-              font-family: Verdana;
-              display: inline-block;
-              vertical-align: top;
-              color:  #313949;
-              padding-top: 2px;
-              margin-left: 6px;
-              }
-              .zcwf_lblLeft .zcwf_button{
-              font-size: 13px;
-              color:  #313949;
-              border: 1px solid  #c0c6cc;
-              padding: 3px 9px;
-              border-radius: 4px;
-              cursor: pointer;
-              max-width: 120px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              }
-              .zcwf_lblLeft .zcwf_tooltip_over{
-              position: relative;
-              }
-              .zcwf_lblLeft .zcwf_tooltip_ctn{
-              position: absolute;
-              background:  #dedede;
-              padding: 3px 6px;
-              top: 3px;
-              border-radius: 4px;
-              word-break: break-word;
-              min-width: 100px;
-              max-width: 150px;
-              color:  #313949;
-              z-index: 100;
-              }
-              .zcwf_lblLeft .zcwf_ckbox{
-              float: left;
-              }
-              .zcwf_lblLeft .zcwf_file{
-              width: 55%;
-              box-sizing: border-box;
-              float: left;
-              }
-              .cBoth:after{
-              content: '';
-              display: block;
-              clear: both;
-              }
-              @media all and  (max-width: 600px){
-              .zcwf_lblLeft .zcwf_col_lab, .zcwf_lblLeft .zcwf_col_fld{
-              width: auto;
-              float: none !important;
-              }
-              .zcwf_lblLeft .zcwf_col_help {width: 40%;
-              }
-              }
-
-              /* --- ESTILOS CORREGIDOS PARA EL BOTÓN RESET --- */
-              /* Sobrescribe las reglas específicas del botón .zcwf_button para el reset */
-              .zcwf_lblLeft input.zcwf_button[type="reset"] {
-                /* Elimina el max-width y el white-space que lo hacen pequeño */
-                max-width: none;
-                white-space: normal;
-                overflow: visible;
-                text-overflow: clip;
-
-                /* Aplica estilos consistentes con el botón Submit */
-                background: #e9ecef; /* Color de fondo para el botón reset */
-                color: #495057; /* Color de texto para el botón reset */
-                border: 1px solid #ced4da; /* Borde para el botón reset */
-                padding: 14px 40px; /* Mismo padding que el botón submit */
-                border-radius: 50px; /* Mismo border-radius que el botón submit */
-                font-size: 1.1rem; /* Mismo tamaño de fuente que el botón submit */
-                font-weight: bold; /* Mismo peso de fuente que el botón submit */
-                cursor: pointer;
-                transition: var(--transition); /* Misma transición que el botón submit */
-                width: 100%; /* Mismo ancho que el botón submit */
-                margin-top: 10px; /* Mismo margen superior que el botón submit */
-                margin-right: 0; /* Elimina el margin-right del estilo original */
-              }
-
-              .zcwf_lblLeft input.zcwf_button[type="reset"]:hover {
-                background: #d1d5db; /* Color de fondo al pasar el ratón */
-                transform: translateY(-2px); /* Misma transformación que el botón submit */
-              }
-              /* --- FIN ESTILOS CORREGIDOS PARA EL BOTÓN RESET --- */
-            </style>
-            <div class='zcwf_title' style='max-width: 600px;color: #0A0A0A; font-family:Verdana;'>Contact Us</div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
-                <label for='First_Name'>First Name
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='text' id='First_Name' aria-required='true' aria-label='First Name' name='First Name' aria-valuemax='40' maxlength='40'>
-                </input>
-                <div class='zcwf_col_help'>
-                </div>
-              </div>
-            </div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
-                <label for='Last_Name'>Last Name
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='text' id='Last_Name' aria-required='true' aria-label='Last Name' name='Last Name' aria-valuemax='80' maxlength='80'>
-                </input>
-                <div class='zcwf_col_help'>
-                </div>
-              </div>
-            </div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
-                <label for='Email'>Email
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='text' ftype='email' autocomplete='false' id='Email' aria-required='true' aria-label='Email' name='Email' aria-valuemax='100' crmlabel='' maxlength='100'>
-                </input>
-                <div class='zcwf_col_help'>
-                </div>
-              </div>
-            </div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
-                <label for='Phone'>Phone
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='text' id='Phone' aria-required='true' aria-label='Phone' name='Phone' aria-valuemax='30' maxlength='30'>
-                </input>
-                <div class='zcwf_col_help'>
-                </div>
-              </div>
-            </div>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab' style='font-size:13px; font-family: Verdana;'>
-                <label for='Description'>Description
-                  <span style='color:red;'>*</span>
-                </label>
-              </div>
-              <div class='zcwf_col_fld'>
-                <textarea style='font-family: Arial, sans-serif;' aria-multiline='true' id='Description' aria-required='true' aria-label='Description' name='Description'>
-                </textarea>
-                <div class='zcwf_col_help'>
-                </div>
-              </div>
-            </div>
-            <input type='text' type='hidden' style='display: none;' name='aG9uZXlwb3Q' value=''/>
-            <div class='zcwf_row'>
-              <div class='zcwf_col_lab'>
-              </div>
-              <div class='zcwf_col_fld'>
-                <input type='submit' id='formsubmit' role='button' class='formsubmit zcwf_button' value='Submit' aria-label='Submit' title='Submit'>
-                <input type='reset' class='zcwf_button' role='button' name='reset' value='Reset' aria-label='Reset' title='Reset'>
-              </div>
-            </div>
-            <script>
-              function validateEmail6953702000000594634 (){
-                var form = document.forms[ 'WebToLeads6953702000000594634' ];
-                var emailFld = form.querySelectorAll ( '[ftype=email]' );
-                var i;
-                for( i = 0; i < emailFld.length; i++ ){
-                  var emailVal = emailFld[ i ].value;
-                  if((emailVal.replace( /^\s+|\s+$/g,'' )).length != 0 ){
-                    var atpos = emailVal.indexOf ( '@' );
-                    var dotpos = emailVal.lastIndexOf ( '.' );
-                    if( atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= emailVal.length ){
-                      alert ( 'Please enter a valid email address. ' );
-                      emailFld[ i ].focus ();
-                      return false;
-                    }
-                  }
-                }
-                return true;
-              }
-              function checkMandatory6953702000000594634 (){
-                var mndFileds = new Array ( 'First Name', 'Last Name', 'Email', 'Phone', 'Description' );
-                var fldLangVal = new Array ( 'First\x20Name', 'Last\x20Name', 'Email', 'Phone', 'Description' );
-                for( i = 0; i < mndFileds.length; i++ ){
-                  var fieldObj = document.forms[ 'WebToLeads6953702000000594634' ][ mndFileds[ i ]];
-                  if( fieldObj ){
-                    if(((fieldObj.value ).replace( /^\s+|\s+$/g,'' )).length == 0 ){
-                      if( fieldObj.type == 'file' ){
-                        alert ( 'Please select a file to upload.' );
-                        fieldObj.focus ();
-                        return false;
-                      }
-                      alert ( fldLangVal[ i ] + ' cannot be empty.' );
-                      fieldObj.focus ();
-                      return false;
-                    }
-                    else if( fieldObj.nodeName == 'SELECT' ){
-                      if( fieldObj.options[fieldObj.selectedIndex].value == '-None-' ){
-                        alert ( fldLangVal[ i ] + ' cannot be none.' );
-                        fieldObj.focus ();
-                        return false;
-                      }
-                    }
-                    else if( fieldObj.type == 'checkbox' ){
-                      if( fieldObj.checked == false ){
-                        alert ( 'Please accept  ' + fldLangVal[ i ]);
-                        fieldObj.focus ();
-                        return false;
-                      }
-                    }
-                    try {
-                      if( fieldObj.name == 'Last Name' ){
-                        name = fieldObj.value;
-                      }
-                    }
-                    catch ( e ){}
-                  }
-                }
-                if( !validateEmail6953702000000594634()){
-                  return false;
-                }
-                var urlparams = new URLSearchParams ( window.location.search );
-                if( urlparams.has( 'service' ) && ( urlparams.get( 'service' ) === 'smarturl' )){
-                  var webform = document.getElementById ( 'webform6953702000000594634' );
-                  var service = urlparams.get ( 'service' );
-                  var smarturlfield = document.createElement ( 'input' );
-                  smarturlfield.setAttribute ( 'type', 'hidden' );
-                  smarturlfield.setAttribute ( 'value', service );
-                  smarturlfield.setAttribute ( 'name', 'service' );
-                  webform.appendChild ( smarturlfield );
-                }
-                document.querySelector ( '.crmWebToEntityForm .formsubmit' ).setAttribute ( 'disabled', true );
-              }
-              function tooltipShow6953702000000594634 ( el ){
-                var tooltip = el.nextElementSibling;
-                var tooltipDisplay = tooltip.style.display;
-                if( tooltipDisplay == 'none' ){
-                  var allTooltip = document.getElementsByClassName ( 'zcwf_tooltip_over' );
-                  for( i = 0; i < allTooltip.length; i++ ){
-                    allTooltip[ i ].style.display = 'none';
-                  }
-                  tooltip.style.display = 'block';
-                }
-                else {
-                  tooltip.style.display = 'none';
-                }
-              }
-            </script>
-            <!-- Do not remove this --- Analytics Tracking code starts -->
-            <script id='wf_anal' src='https://crm.zohopublic.com/crm/WebFormAnalyticsServeServlet?rid=18db6fcaf2cde8cc99a78f08e189d643ff8a5ba0cdc60f884bb28839e82ce3de69839983efe12139f1a40e52bb8571f9gid623d6324f3e71ccc0347ffd6fc0ba8b5edf366c9d2cc3a1431ed2f453560ee14gid55fb4a93bfedaa2dc9061a8e509f4a5a714dcbbfd4465bfe2c5d349605fec4cbgid4db42b7fbaf5e6241771c869a6ff8846fb4e29e34290207fbf981ff395db0fb0&tw=60e32f1f30f5603a1024d4eb9e7c32c91d1d0596469b3a7bcc6157bbf926735c'>
-            </script>
-            <!-- Do not remove this --- Analytics Tracking code ends. -->
-          </form>
+ <!-- Contact -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-form">
+      <form action="https://submit-form.com/DaAgmuRJ8  " method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" required placeholder="Your full name">
         </div>
-      </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx">
+        </div>
+        <div class="form-group">
+          <label for="service">Service Required</label>
+          <select id="service" name="service" class="form-control" required>
+            <option value="">Select a service</option>
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+            <option value="emergency">Emergency</option>
+            <option value="low-voltage">Low Voltage</option>
+            <option value="smart-home">Smart Home</option>
+            <option value="panel-upgrade">Panel Upgrade</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Contact Channel</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
+            <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
+            <label><input type="checkbox" name="channel" value="email"> Email</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message</button>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer>
@@ -1237,13 +711,13 @@
         <h3>Golden Charge</h3>
         <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
         <div class="social-icons">
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
-          <a href="#" aria-label="WeChat"><i class="fab fa-weixin" aria-hidden="true"></i></a>
-          <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane" aria-hidden="true"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-weixin"></i></a>
+          <a href="#"><i class="fab fa-telegram-plane"></i></a>
         </div>
       </div>
       <div class="footer-column">
@@ -1261,7 +735,7 @@
           <p>Fremont, CA</p>
           <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
           <p>✉️ <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a></p>
-          <p>🌐 <a href="https://www.goldencharge.net">www.goldencharge.net</a></p>
+          <p>🌐 <a href="#">www.goldencharge.net</a></p>
           <p>🆔 Licence: XXXXXX</p>
         </div>
       </div>
@@ -1272,12 +746,12 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn" aria-label="Contact us on WhatsApp">
-    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  <a href="https://wa.me/15102211258  " target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
   </a>
 
   <!-- JavaScript -->
-  <script>
+  <script nonce="Mjg0ODUwMjc4MCwxODI1NjQxNjAy">
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -1293,19 +767,20 @@
       const forms = document.querySelectorAll('form');
       forms.forEach(form => {
         form.addEventListener('submit', function(e) {
-          // No necesitamos prevenir el comportamiento por defecto aquí ya que el formulario Zoho tiene su propio manejo
-          // Pero podemos agregar un mensaje de confirmación si es necesario
+          e.preventDefault();
+          
+          const name = form.querySelector('input[name="name"]').value.trim();
+          if (name) {
+            alert(`Thank you, ${name}! Your message has been sent. We'll contact you soon via your preferred channel.`);
+          } else {
+            alert('Thank you! Your message has been sent. We\'ll contact you soon.');
+          }
+          
+          form.reset();
         });
       });
-
-      // Aplicar animación de apagado después de 2 segundos
-      setTimeout(() => {
-        const letters = document.querySelectorAll('.letter');
-        letters.forEach(letter => {
-          letter.style.animation = 'letterFadeOut 1s forwards';
-        });
-      }, 2000);
     });
   </script>
+
 </body>
 </html>
