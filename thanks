@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You | Golden Charge</title>
+  <style>
+    :root {
+      --gold: #FFD700;
+      --dark-blue: #0A2463;
+      --light-gray: #F8F9FA;
+      --text-dark: #1E1E1E;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--dark-blue), #000);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .thank-you-content {
+      padding: 50px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold);
+    }
+
+    h1 {
+      color: var(--gold);
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .btn-home {
+      display: inline-block;
+      padding: 14px 35px;
+      background: var(--gold);
+      color: var(--dark-blue);
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255,215,0,0.5);
+    }
+
+    .btn-home:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255,215,0,0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="thank-you-content">
+    <h1>Thank You!</h1>
+    <p>We’ve received your message and will be in touch shortly. One of our electricians will contact you via your preferred method to discuss your project.</p>
+    <a href="https://goldencharge.net" class="btn-home">Back to Home</a>
+  </div>
+</body>
+</html>
