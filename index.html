@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,9 +83,10 @@
 
     .nav-menu {
       display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
+      gap: 1rem;
+      flex-wrap: nowrap;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .nav-menu a {
@@ -94,8 +94,9 @@
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
-      padding: 5px 10px;
+      padding: 5px 8px;
       border-radius: 5px;
+      font-size: 0.9rem;
     }
 
     .nav-menu a:hover {
@@ -561,14 +562,16 @@
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
+    @media (max-width: 992px) {
       .hero h1 {
         font-size: 3rem;
       }
+      
       .about-content {
         flex-direction: column;
         text-align: center;
       }
+      
       .about-image {
         order: -1;
         margin-bottom: 30px;
@@ -577,13 +580,26 @@
 
     @media (max-width: 768px) {
       .header-content {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        text-align: left;
       }
 
       .nav-menu {
-        gap: 1rem;
-        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .nav-menu::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-menu a {
+        font-size: 0.8rem;
+        padding: 4px 6px;
+        white-space: nowrap;
       }
 
       .hero h1 {
@@ -619,8 +635,8 @@
       }
 
       .nav-menu a {
-        font-size: 0.9rem;
-        padding: 4px 8px;
+        font-size: 0.75rem;
+        padding: 3px 5px;
       }
 
       .contact-info {
@@ -631,6 +647,29 @@
         width: 35px;
         height: 35px;
         font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content {
+        padding: 20px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .btn {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+      }
+      
+      .nav-menu a {
+        font-size: 0.7rem;
       }
     }
 
@@ -878,4 +917,3 @@
 
 </body>
 </html>
-```
