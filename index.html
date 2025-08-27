@@ -11,14 +11,15 @@
       --gold: #FFD700;
       --dark-blue: #0A2463;
       --light-gray: #F8F9FA;
-      --text-dark: #1E1E1E;
       --transition: all .3s ease;
     }
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-    body{background:var(--light-gray);color:var(--text-dark);line-height:1.6;overflow-x:hidden}
+    body{background:var(--light-gray);color:#1E1E1E;line-height:1.6;overflow-x:hidden}
     html{scroll-behavior:smooth}
 
-    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:1rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    /* Header más bajo */
+    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:.4rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
     .header-content{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
     .logo{display:flex;align-items:center;gap:10px;font-size:1.8rem;font-weight:bold;color:var(--gold);text-decoration:none}
@@ -28,7 +29,8 @@
     .nav-menu a:hover{color:var(--gold);background:rgba(255,215,0,.1)}
     @media(max-width:600px){.nav-menu{gap:.5rem;font-size:.8rem}}
 
-    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover;height:100vh;display:flex;align-items:center;justify-content:center;position:relative;margin-top:80px;color:#fff;text-align:center;padding:0 20px}
+    /* Hero ajustado al header bajo */
+    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg')center/cover;height:calc(100vh - 50px);display:flex;align-items:center;justify-content:center;position:relative;margin-top:50px;color:#fff;text-align:center;padding:0 20px}
     .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:1}
     .hero-content{position:relative;z-index:2;max-width:900px;padding:40px;background:rgba(0,0,0,.2);border-radius:20px;backdrop-filter:blur(8px)}
     .hero h1{font-size:3.5rem;margin-bottom:1rem;color:var(--gold)}
@@ -98,12 +100,7 @@
         <span>Golden Charge</span>
       </a>
       <nav class="nav-menu">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#calculator">Calculator</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#home">Home</a><a href="#services">Services</a><a href="#calculator">Calculator</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -137,9 +134,7 @@
     <div class="container">
       <h2 class="section-title">Instant Cost Estimator</h2>
       <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
-
       <div class="calculator-wrapper">
-        <!-- Paso 1: Servicio -->
         <div class="calc-step active" id="step1">
           <h3>1. Select service</h3>
           <div class="calc-options">
@@ -149,21 +144,13 @@
             <label class="calc-card"><input type="radio" name="service" value="smart-home"><span>Basic Smart-Home</span></label>
           </div>
         </div>
-
-        <!-- Paso 2: Datos de la casa -->
         <div class="calc-step" id="step2">
           <h3>2. Home size</h3>
-          <select id="houseSize" class="form-control">
-            <option value="">Select…</option><option value="small">Under 1,500 sq ft</option><option value="medium">1,500–2,500 sq ft</option><option value="large">Over 2,500 sq ft</option>
-          </select>
+          <select id="houseSize" class="form-control"><option value="">Select…</option><option value="small">Under 1,500 sq ft</option><option value="medium">1,500–2,500 sq ft</option><option value="large">Over 2,500 sq ft</option></select>
           <h3>3. Year built</h3>
-          <select id="houseYear" class="form-control">
-            <option value="">Select…</option><option value="new">After 1990</option><option value="mid">1970–1990</option><option value="old">Before 1970</option>
-          </select>
+          <select id="houseYear" class="form-control"><option value="">Select…</option><option value="new">After 1990</option><option value="mid">1970–1990</option><option value="old">Before 1970</option></select>
           <button type="button" class="btn" onclick="calculateEstimate()">Show Estimate</button>
         </div>
-
-        <!-- Paso 3: Resultado -->
         <div class="calc-step" id="step3">
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
@@ -309,8 +296,7 @@
       document.getElementById('calcTotal').value=total;
       nextStep('step3');
     }
-    function sendLead(e){e.preventDefault();alert('Thank you! We will send you a detailed quote shortly.');document.getElementById('calcLeadForm').reset();nextStep('step1')}
-    document.querySelectorAll('input[name="service"]').forEach(i=>i.addEventListener('change',()=>nextStep('step2')));
+    /* Smooth scroll */
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
     document.getElementById('contactForm').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('name').value.trim();alert(`Thank you, ${name}! Your message has been sent. We’ll contact you soon.`);this.reset()});
   </script>
