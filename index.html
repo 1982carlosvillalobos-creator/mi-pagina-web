@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support."/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root{--gold:#FFD700;--dark-blue:#0A2463;--light-gray:#F8F9FA;--transition:all .3s ease}
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
@@ -282,23 +282,28 @@
       "ev-charger": { base:{small:850,medium:1200,large:1500}, factor:{new:0,mid:200,old:400} },
       "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
     };
-    function nextStep(step){document.querySelectorAll('.calc-step').forEach(s=>s.classList.remove('active'));document.getElementById(step).classList.add('active')}
-    function calculateEstimate(){
-      const service=document.querySelector('input[name="service"]:checked')?.value;
-      const size=document.getElementById('houseSize').value;
-      const year=document.getElementById('houseYear').value;
-      if(!service||!size||!year){alert('Please complete all fields.');return}
-      const base=prices[service].base[size],extra=prices[service].factor[year],tax=(base+extra)*.0925,total=Math.round(base+extra+tax+400);
-      document.getElementById('resultPrice').innerText='~$'+total;
-      document.getElementById('calcService').value=service;
-      document.getElementById('calcSize').value=size;
-      document.getElementById('calcYear').value=year;
-      document.getElementById('calcTotal').value=total;
+    function nextStep(step) {
+      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+      document.getElementById(step).classList.add('active');
+    }
+    function calculateEstimate() {
+      const service = document.querySelector('input[name="service"]:checked')?.value;
+      const size = document.getElementById('houseSize').value;
+      const year = document.getElementById('houseYear').value;
+      if (!service || !size || !year) { alert('Please complete all fields.'); return; }
+      const base = prices[service].base[size], extra = prices[service].factor[year], tax = (base + extra) * 0.0925, total = Math.round(base + extra + tax + 400);
+      document.getElementById('resultPrice').innerText = '~$' + total;
+      document.getElementById('calcService').value = service;
+      document.getElementById('calcSize').value = size;
+      document.getElementById('calcYear').value = year;
+      document.getElementById('calcTotal').value = total;
       nextStep('step3');
     }
     /* Smooth scroll */
-    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
-    document.getElementById('contactForm').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('name').value.trim();alert(`Thank you, ${name}! Your message has been sent. We’ll contact you soon.`);this.reset()});
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    }));
   </script>
 </body>
 </html>
