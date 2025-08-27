@@ -4,30 +4,31 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge Electrician Company | Fremont, CA</title>
-  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades. Free estimates. Bilingual support."/>
+  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support."/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
-    :root {
+    :root{
       --gold: #FFD700;
       --dark-blue: #0A2463;
       --light-gray: #F8F9FA;
       --text-dark: #1E1E1E;
-      --transition: all 0.3s ease;
+      --transition: all .3s ease;
     }
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
     body{background:var(--light-gray);color:var(--text-dark);line-height:1.6;overflow-x:hidden}
     html{scroll-behavior:smooth}
 
-    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:0.5rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:1rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
     .header-content{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-    .logo{display:flex;align-items:center;gap:15px;font-size:1.8rem;font-weight:bold;color:var(--gold);text-decoration:none}
-    .logo img{height:70px;width:auto;border-radius:0;box-shadow:0 0 15px rgba(255,215,0,.5)}
-    .nav-menu{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center}
-    .nav-menu a{color:#fff;text-decoration:none;font-weight:500;padding:5px 10px;border-radius:5px}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.8rem;font-weight:bold;color:var(--gold);text-decoration:none}
+    .logo img{height:60px;width:60px;border-radius:50%;box-shadow:0 0 10px rgba(255,215,0,.3);transition:var(--transition);border:2px solid var(--gold)}
+    .nav-menu{display:flex;gap:1rem;flex-wrap:nowrap;justify-content:center;flex-shrink:0}
+    .nav-menu a{color:#fff;text-decoration:none;font-weight:500;padding:5px 10px;border-radius:5px;font-size:.9rem}
     .nav-menu a:hover{color:var(--gold);background:rgba(255,215,0,.1)}
+    @media(max-width:600px){.nav-menu{gap:.5rem;font-size:.8rem}}
 
-    .hero{background:url('https://via.placeholder.com/1920x1080/000/FFD700?text=Golden+Charge') no-repeat center/cover;height:100vh;display:flex;align-items:center;justify-content:center;position:relative;margin-top:80px;color:#fff;text-align:center;padding:0 20px}
+    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover;height:100vh;display:flex;align-items:center;justify-content:center;position:relative;margin-top:80px;color:#fff;text-align:center;padding:0 20px}
     .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:1}
     .hero-content{position:relative;z-index:2;max-width:900px;padding:40px;background:rgba(0,0,0,.2);border-radius:20px;backdrop-filter:blur(8px)}
     .hero h1{font-size:3.5rem;margin-bottom:1rem;color:var(--gold)}
@@ -48,10 +49,11 @@
     .calc-step{display:none;animation:fadeIn .5s ease}
     .calc-step.active{display:block}
     .calc-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:25px}
-    .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;transition:.3s;font-weight:600;background:#fafafa}
+    .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;font-weight:600;background:#fafafa}
     .calc-card input{display:none}
     .calc-card:has(input:checked){border-color:var(--gold);background:rgba(255,215,0,.1)}
     .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
     .gallery{padding:100px 0;background:#f0f4f8}
     .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
@@ -66,13 +68,15 @@
     .about-text p{margin-bottom:15px;font-size:1.1rem;opacity:.9}
     .highlight{color:var(--gold);font-weight:600}
     .about-image{flex:1;min-width:300px;max-width:500px;border-radius:15px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.4);border:3px solid var(--gold)}
+    .about-image img{width:100%;display:block;transition:var(--transition)}
+    .about-image img:hover{transform:scale(1.03)}
 
     .contact{padding:100px 0;background:#fff}
     .contact-form{max-width:650px;margin:0 auto;padding:40px;background:var(--light-gray);border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
     .form-group{margin-bottom:20px}
     .form-group label{display:block;margin-bottom:8px;color:var(--dark-blue);font-weight:500}
     .form-control{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:1rem}
-    .form-control:focus{border-color:var(--gold);outline:none}
+    .form-control:focus{outline:none;border-color:var(--gold)}
     .form-submit{background:var(--gold);color:var(--dark-blue);border:none;padding:14px 40px;border-radius:50px;font-size:1.1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
 
     footer{background:var(--dark-blue);color:#ccc;padding:60px 0 30px}
@@ -82,7 +86,6 @@
     .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1)}
     .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
     .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:1001}
-    @media(max-width:768px){.hero h1{font-size:2.5rem}.nav-menu{gap:1rem}.calculator-wrapper{padding:30px}}
   </style>
 </head>
 <body>
@@ -134,7 +137,9 @@
     <div class="container">
       <h2 class="section-title">Instant Cost Estimator</h2>
       <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
+
       <div class="calculator-wrapper">
+        <!-- Paso 1: Servicio -->
         <div class="calc-step active" id="step1">
           <h3>1. Select service</h3>
           <div class="calc-options">
@@ -144,6 +149,8 @@
             <label class="calc-card"><input type="radio" name="service" value="smart-home"><span>Basic Smart-Home</span></label>
           </div>
         </div>
+
+        <!-- Paso 2: Datos de la casa -->
         <div class="calc-step" id="step2">
           <h3>2. Home size</h3>
           <select id="houseSize" class="form-control">
@@ -155,13 +162,20 @@
           </select>
           <button type="button" class="btn" onclick="calculateEstimate()">Show Estimate</button>
         </div>
+
+        <!-- Paso 3: Resultado -->
         <div class="calc-step" id="step3">
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
-          <small style="color:#777;">*Includes CA taxes, permits & inspection</small>
-          <form id="calcLeadForm" onsubmit="sendLead(event)">
-            <input type="email" id="leadEmail" placeholder="Your email for exact quote" required>
-            <input type="tel" id="leadPhone" placeholder="Phone" required>
+          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes, permits & inspection</small>
+          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+            <input type="email" name="email" placeholder="Your email for exact quote" required>
+            <input type="tel" name="phone" placeholder="Phone" required>
+            <input type="hidden" name="service" id="calcService">
+            <input type="hidden" name="size" id="calcSize">
+            <input type="hidden" name="year" id="calcYear">
+            <input type="hidden" name="total" id="calcTotal">
             <button type="submit" class="btn">Send Detailed Quote</button>
           </form>
         </div>
@@ -272,8 +286,9 @@
   <!-- WhatsApp float -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- CALCULATOR + API + LEAD JS -->
+  <!-- JS -->
   <script>
+    /* CALCULATOR */
     const prices = {
       "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
       "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
@@ -287,9 +302,14 @@
       const year=document.getElementById('houseYear').value;
       if(!service||!size||!year){alert('Please complete all fields.');return}
       const base=prices[service].base[size],extra=prices[service].factor[year],tax=(base+extra)*.0925,total=Math.round(base+extra+tax+400);
-      document.getElementById('resultPrice').innerText='~$'+total;nextStep('step3')
+      document.getElementById('resultPrice').innerText='~$'+total;
+      document.getElementById('calcService').value=service;
+      document.getElementById('calcSize').value=size;
+      document.getElementById('calcYear').value=year;
+      document.getElementById('calcTotal').value=total;
+      nextStep('step3');
     }
-    function sendLead(e){e.preventDefault();const email=document.getElementById('leadEmail').value,phone=document.getElementById('leadPhone').value;alert(`Thank you! We’ll send a detailed quote to ${email} or call ${phone}.`);document.getElementById('calcLeadForm').reset();nextStep('step1')}
+    function sendLead(e){e.preventDefault();alert('Thank you! We will send you a detailed quote shortly.');document.getElementById('calcLeadForm').reset();nextStep('step1')}
     document.querySelectorAll('input[name="service"]').forEach(i=>i.addEventListener('change',()=>nextStep('step2')));
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
     document.getElementById('contactForm').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('name').value.trim();alert(`Thank you, ${name}! Your message has been sent. We’ll contact you soon.`);this.reset()});
