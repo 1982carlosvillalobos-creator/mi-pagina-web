@@ -1,684 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge Electrician Company | Fremont, CA</title>
-  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, industrial, emergency 24/7, smart homes & panel upgrades, High and low voltage. Free estimates. Bilingual support." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades. Free estimates. Bilingual support."/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     :root {
       --gold: #FFD700;
       --dark-blue: #0A2463;
       --light-gray: #F8F9FA;
       --text-dark: #1E1E1E;
-      --accent: #00BFFF;
-      --shadow: 0 5px 15px rgba(0,0,0,0.1);
       --transition: all 0.3s ease;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: var(--light-gray);
-      color: var(--text-dark);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Header */
-    header {
-      background: linear-gradient(135deg, var(--dark-blue), #000);
-      color: white;
-      padding: 1rem 0;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      transition: var(--transition);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--gold);
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 60px;
-      width: 60px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-      transition: var(--transition);
-      border: 2px solid var(--gold);
-    }
-
-    .logo img:hover {
-      transform: rotate(5deg);
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: nowrap;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .nav-menu a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      padding: 5px 8px;
-      border-radius: 5px;
-      font-size: 0.9rem;
-    }
-
-    .nav-menu a:hover {
-      color: var(--gold);
-      background: rgba(255, 215, 0, 0.1);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') no-repeat center center;
-      background-size: cover;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-top: 80px;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-      padding: 0 20px;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.65);
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      padding: 40px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 20px;
-      backdrop-filter: blur(8px);
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      color: var(--gold);
-      line-height: 1.2;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 2rem;
-      font-weight: 300;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 18px 45px;
-      background: var(--gold);
-      color: var(--dark-blue);
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(255,215,0,0.8);
-      border: none;
-      cursor: pointer;
-      font-size: 1.3rem;
-      animation: pulse 2s infinite;
-    }
-
-    .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(255,215,0,0.8);
-    }
-
-    /* Services */
-    .services {
-      padding: 100px 0;
-      background: white;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 60px;
-      color: var(--dark-blue);
-      font-size: 2.5rem;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: var(--gold);
-      margin: 10px auto;
-      border-radius: 2px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .service-card {
-      background: var(--light-gray);
-      padding: 35px 30px;
-      border-radius: 15px;
-      text-align: center;
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-      border: 1px solid #eaeaea;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-      border-color: var(--gold);
-    }
-
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-icon {
-      font-size: 3rem;
-      color: var(--gold);
-      margin-bottom: 20px;
-    }
-
-    .service-card h3 {
-      margin-bottom: 15px;
-      color: var(--dark-blue);
-      font-size: 1.4rem;
-    }
-
-    /* About */
-    .about {
-      padding: 100px 0;
-      background: var(--dark-blue);
-      color: white;
-    }
-
-    .about-content {
-      display: flex;
-      gap: 50px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .about-text {
-      flex: 1;
-      min-width: 300px;
-      max-width: 500px;
-    }
-
-    .about-text h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: var(--gold);
-      line-height: 1.3;
-    }
-
-    .about-text p {
-      margin-bottom: 15px;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-
-    .highlight {
-      color: var(--gold);
-      font-weight: 600;
-    }
-
-    .about-image {
-      flex: 1;
-      min-width: 300px;
-      max-width: 500px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-      border: 3px solid var(--gold);
-    }
-
-    .about-image img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: var(--transition);
-    }
-
-    .about-image img:hover {
-      transform: scale(1.03);
-    }
-
-    /* Gallery Section */
-    .gallery {
-      padding: 100px 0;
-      background: #f0f4f8;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .gallery-item {
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      position: relative;
-      height: 250px;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.1);
-    }
-
-    .gallery-item::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 36, 99, 0.3);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .gallery-item:hover::after {
-      opacity: 1;
-    }
-
-    /* Contact */
-    .contact {
-      padding: 100px 0;
-      background: white;
-    }
-
-    .contact-form {
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 40px;
-      background: var(--light-gray);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      border: 1px solid #ddd;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--dark-blue);
-      font-weight: 500;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-    }
-
-    .checkbox-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-      color: var(--text-dark);
-    }
-
-    .checkbox-group input[type="checkbox"] {
-      accent-color: var(--gold);
-    }
-
-    .form-submit {
-      background: var(--gold);
-      color: var(--dark-blue);
-      border: none;
-      padding: 14px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: var(--transition);
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .form-submit:hover {
-      background: #d4af37;
-      transform: translateY(-2px);
-    }
-
-    /* Footer */
-    footer {
-      background: var(--dark-blue);
-      color: #ccc;
-      padding: 60px 0 30px;
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-      margin-bottom: 40px;
-    }
-
-    .footer-column h3 {
-      color: var(--gold);
-      margin-bottom: 20px;
-      font-size: 1.3rem;
-      position: relative;
-    }
-
-    .footer-column h3::after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 2px;
-      background: var(--gold);
-      margin-top: 5px;
-    }
-
-    .footer-column ul {
-      list-style: none;
-    }
-
-    .footer-column li {
-      margin-bottom: 10px;
-    }
-
-    .footer-column a {
-      color: #ccc;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-column a:hover {
-      color: var(--gold);
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-icons a {
-      color: white;
-      font-size: 1.5rem;
-      transition: var(--transition);
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-    }
-
-    .social-icons a:hover {
-      color: var(--gold);
-      background: var(--gold);
-      transform: translateY(-3px);
-    }
-
-    .contact-info {
-      font-size: 0.95rem;
-      line-height: 1.8;
-    }
-
-    .contact-info a {
-      color: var(--gold);
-      text-decoration: underline;
-    }
-
-    .copyright {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    /* Floating WhatsApp Button */
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
-      background: #25D366;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-      cursor: pointer;
-      z-index: 1001;
-      transition: var(--transition);
-      border: 3px solid white;
-    }
-
-    .whatsapp-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* Smooth Scroll for Anchor Links */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .hero h1 {
-        font-size: 3rem;
-      }
-      
-      .about-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .about-image {
-        order: -1;
-        margin-bottom: 30px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: row;
-        text-align: left;
-      }
-
-      .nav-menu {
-        gap: 0.5rem;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-
-      .nav-menu::-webkit-scrollbar {
-        display: none;
-      }
-
-      .nav-menu a {
-        font-size: 0.8rem;
-        padding: 4px 6px;
-        white-space: nowrap;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-content {
-        padding: 30px;
-      }
-
-      .services-grid,
-      .gallery-grid,
-      .contact-form {
-        padding: 0 20px;
-      }
-
-      .whatsapp-btn {
-        width: 55px;
-        height: 55px;
-        font-size: 1.3rem;
-        bottom: 25px;
-        right: 25px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .nav-menu a {
-        font-size: 0.75rem;
-        padding: 3px 5px;
-      }
-
-      .contact-info {
-        font-size: 0.85rem;
-      }
-
-      .social-icons a {
-        width: 35px;
-        height: 35px;
-        font-size: 1.3rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-content {
-        padding: 20px;
-      }
-      
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .btn {
-        padding: 15px 35px;
-        font-size: 1.1rem;
-      }
-      
-      .nav-menu a {
-        font-size: 0.7rem;
-      }
-    }
-
-    /* Animación para el botón Get Free Quote */
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    body{background:var(--light-gray);color:var(--text-dark);line-height:1.6;overflow-x:hidden}
+    html{scroll-behavior:smooth}
+
+    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:0.5rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    .header-content{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .logo{display:flex;align-items:center;gap:15px;font-size:1.8rem;font-weight:bold;color:var(--gold);text-decoration:none}
+    .logo img{height:70px;width:auto;border-radius:0;box-shadow:0 0 15px rgba(255,215,0,.5)}
+    .nav-menu{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center}
+    .nav-menu a{color:#fff;text-decoration:none;font-weight:500;padding:5px 10px;border-radius:5px}
+    .nav-menu a:hover{color:var(--gold);background:rgba(255,215,0,.1)}
+
+    .hero{background:url('https://via.placeholder.com/1920x1080/000/FFD700?text=Golden+Charge') no-repeat center/cover;height:100vh;display:flex;align-items:center;justify-content:center;position:relative;margin-top:80px;color:#fff;text-align:center;padding:0 20px}
+    .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:1}
+    .hero-content{position:relative;z-index:2;max-width:900px;padding:40px;background:rgba(0,0,0,.2);border-radius:20px;backdrop-filter:blur(8px)}
+    .hero h1{font-size:3.5rem;margin-bottom:1rem;color:var(--gold)}
+    .hero p{font-size:1.3rem;margin-bottom:2rem}
+    .btn{display:inline-block;padding:18px 45px;background:var(--gold);color:var(--dark-blue);text-decoration:none;border-radius:50px;font-weight:bold;transition:.3s;box-shadow:0 6px 20px rgba(255,215,0,.8)}
+    .btn:hover{transform:translateY(-5px)}
+
+    .services{padding:100px 0;background:#fff}
+    .section-title{text-align:center;margin-bottom:60px;color:var(--dark-blue);font-size:2.5rem}
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+    .service-card{background:var(--light-gray);padding:35px 30px;border-radius:15px;text-align:center;transition:var(--transition);box-shadow:0 5px 15px rgba(0,0,0,.1)}
+    .service-card:hover{transform:translateY(-10px);border-color:var(--gold)}
+    .service-icon{font-size:3rem;color:var(--gold);margin-bottom:20px}
+    .service-card h3{margin-bottom:15px;color:var(--dark-blue)}
+
+    .calculator-section{padding:100px 20px;background:#f0f4f8}
+    .calculator-wrapper{max-width:700px;margin:0 auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+    .calc-step{display:none;animation:fadeIn .5s ease}
+    .calc-step.active{display:block}
+    .calc-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:25px}
+    .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;transition:.3s;font-weight:600;background:#fafafa}
+    .calc-card input{display:none}
+    .calc-card:has(input:checked){border-color:var(--gold);background:rgba(255,215,0,.1)}
+    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0}
+
+    .gallery{padding:100px 0;background:#f0f4f8}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .gallery-item{border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);height:250px}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+    .gallery-item:hover img{transform:scale(1.1)}
+
+    .about{padding:100px 0;background:var(--dark-blue);color:#fff}
+    .about-content{display:flex;gap:50px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .about-text{flex:1;min-width:300px;max-width:500px}
+    .about-text h2{font-size:2.5rem;margin-bottom:20px;color:var(--gold)}
+    .about-text p{margin-bottom:15px;font-size:1.1rem;opacity:.9}
+    .highlight{color:var(--gold);font-weight:600}
+    .about-image{flex:1;min-width:300px;max-width:500px;border-radius:15px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.4);border:3px solid var(--gold)}
+
+    .contact{padding:100px 0;background:#fff}
+    .contact-form{max-width:650px;margin:0 auto;padding:40px;background:var(--light-gray);border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;margin-bottom:8px;color:var(--dark-blue);font-weight:500}
+    .form-control{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:1rem}
+    .form-control:focus{border-color:var(--gold);outline:none}
+    .form-submit{background:var(--gold);color:var(--dark-blue);border:none;padding:14px 40px;border-radius:50px;font-size:1.1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+
+    footer{background:var(--dark-blue);color:#ccc;padding:60px 0 30px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-bottom:40px}
+    .footer-column h3{color:var(--gold);margin-bottom:20px;font-size:1.3rem}
+    .social-icons{display:flex;gap:15px;margin-top:15px}
+    .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1)}
+    .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
+    .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:1001}
+    @media(max-width:768px){.hero h1{font-size:2.5rem}.nav-menu{gap:1rem}.calculator-wrapper{padding:30px}}
   </style>
 </head>
 <body>
@@ -687,12 +91,13 @@
   <header>
     <div class="container header-content">
       <a href="#home" class="logo">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo" loading="lazy" />
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
         <span>Golden Charge</span>
       </a>
       <nav class="nav-menu">
         <a href="#home">Home</a>
         <a href="#services">Services</a>
+        <a href="#calculator">Calculator</a>
         <a href="#gallery">Gallery</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -700,7 +105,7 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero" id="home">
     <div class="hero-content">
       <h1>Golden Charge</h1>
@@ -714,63 +119,67 @@
     <div class="container">
       <h2 class="section-title">Our Services</h2>
       <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-home"></i></div>
-          <h3>Residential</h3>
-          <p>Complete electrical installations, repairs, and upgrades for homes.</p>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="calculator-section" id="calculator">
+    <div class="container">
+      <h2 class="section-title">Instant Cost Estimator</h2>
+      <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
+      <div class="calculator-wrapper">
+        <div class="calc-step active" id="step1">
+          <h3>1. Select service</h3>
+          <div class="calc-options">
+            <label class="calc-card"><input type="radio" name="service" value="panel-100"><span>100A Panel Upgrade</span></label>
+            <label class="calc-card"><input type="radio" name="service" value="panel-200"><span>200A Panel Upgrade</span></label>
+            <label class="calc-card"><input type="radio" name="service" value="ev-charger"><span>EV Charger Install</span></label>
+            <label class="calc-card"><input type="radio" name="service" value="smart-home"><span>Basic Smart-Home</span></label>
+          </div>
         </div>
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-building"></i></div>
-          <h3>Commercial</h3>
-          <p>Electrical systems for offices, stores, and industrial buildings.</p>
+        <div class="calc-step" id="step2">
+          <h3>2. Home size</h3>
+          <select id="houseSize" class="form-control">
+            <option value="">Select…</option><option value="small">Under 1,500 sq ft</option><option value="medium">1,500–2,500 sq ft</option><option value="large">Over 2,500 sq ft</option>
+          </select>
+          <h3>3. Year built</h3>
+          <select id="houseYear" class="form-control">
+            <option value="">Select…</option><option value="new">After 1990</option><option value="mid">1970–1990</option><option value="old">Before 1970</option>
+          </select>
+          <button type="button" class="btn" onclick="calculateEstimate()">Show Estimate</button>
         </div>
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-bolt"></i></div>
-          <h3>Emergency 24/7</h3>
-          <p>Fast response for power outages, faulty circuits, and safety issues.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-wifi"></i></div>
-          <h3>Low Voltage</h3>
-          <p>CCTV, security systems, intercoms, and network installations.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-microchip"></i></div>
-          <h3>Smart Homes</h3>
-          <p>Automated lighting, thermostats, locks, and voice control integration.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-plug"></i></div>
-          <h3>Panel Upgrades</h3>
-          <p>Modernization of electrical panels for safety and efficiency.</p>
+        <div class="calc-step" id="step3">
+          <h3>💡 Quick Estimate</h3>
+          <div id="resultPrice" class="price-display"></div>
+          <small style="color:#777;">*Includes CA taxes, permits & inspection</small>
+          <form id="calcLeadForm" onsubmit="sendLead(event)">
+            <input type="email" id="leadEmail" placeholder="Your email for exact quote" required>
+            <input type="tel" id="leadPhone" placeholder="Phone" required>
+            <button type="submit" class="btn">Send Detailed Quote</button>
+          </form>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Gallery Section -->
+  <!-- Gallery -->
   <section class="gallery" id="gallery">
     <div class="container">
       <h2 class="section-title">Recent Work Gallery</h2>
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Electrical Panel and breakers Installation">
-        </div>
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart Home Installation">
-        </div>
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial Wiring">
-        </div>
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential Electrical Work">
-        </div>
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency Electrical Repair">
-        </div>
-        <div class="gallery-item">
-          <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting Installation">
-        </div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
       </div>
     </div>
   </section>
@@ -781,12 +190,12 @@
       <div class="about-text">
         <h2>Why Choose Golden Charge?</h2>
         <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
-        <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart home installations.</p>
+        <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
         <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
         <p><strong>Licence: XXXXXX</strong></p>
       </div>
       <div class="about-image">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed Electrician at Work" />
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
       </div>
     </div>
   </section>
@@ -798,20 +207,10 @@
       <div class="contact-form">
         <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
           <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" required placeholder="Your full name">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com">
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx">
-          </div>
-          <div class="form-group">
-            <label for="service">Service Required</label>
+          <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
+          <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
+          <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
+          <div class="form-group"><label for="service">Service Required</label>
             <select id="service" name="service" class="form-control" required>
               <option value="">Select a service</option>
               <option value="residential">Residential</option>
@@ -830,10 +229,7 @@
               <label><input type="checkbox" name="channel" value="email"> Email</label>
             </div>
           </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project..."></textarea>
-          </div>
+          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
           <button type="submit" class="form-submit">Send Message</button>
         </form>
       </div>
@@ -858,13 +254,7 @@
       </div>
       <div class="footer-column">
         <h3>Quick Links</h3>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+        <ul><li><a href="#home">Home</a></li><li><a href="#services">Services</a></li><li><a href="#calculator">Calculator</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul>
       </div>
       <div class="footer-column">
         <h3>Contact Info</h3>
@@ -872,48 +262,37 @@
           <p>Fremont, CA</p>
           <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
           <p>✉️ <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a></p>
-          <p>🌐 <a href="#">www.goldencharge.net</a></p>
           <p>🆔 Licence: XXXXXX</p>
         </div>
       </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2025 Golden Charge Electrician Company. All rights reserved.</p>
-    </div>
+    <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
   </footer>
 
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  <!-- WhatsApp float -->
+  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- JavaScript -->
+  <!-- CALCULATOR + API + LEAD JS -->
   <script>
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Form submission feedback
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('contactForm');
-      
-      if (form) {
-        form.addEventListener('submit', function() {
-          const nameInput = document.getElementById('name');
-          const name = nameInput ? nameInput.value.trim() : 'there';
-
-          // Opcional: muestra un mensaje suave
-          console.log(`Gracias, ${name}. Tu mensaje fue enviado.`);
-        });
-      }
-    });
+    const prices = {
+      "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
+      "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
+      "ev-charger": { base:{small:850,medium:1200,large:1500}, factor:{new:0,mid:200,old:400} },
+      "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
+    };
+    function nextStep(step){document.querySelectorAll('.calc-step').forEach(s=>s.classList.remove('active'));document.getElementById(step).classList.add('active')}
+    function calculateEstimate(){
+      const service=document.querySelector('input[name="service"]:checked')?.value;
+      const size=document.getElementById('houseSize').value;
+      const year=document.getElementById('houseYear').value;
+      if(!service||!size||!year){alert('Please complete all fields.');return}
+      const base=prices[service].base[size],extra=prices[service].factor[year],tax=(base+extra)*.0925,total=Math.round(base+extra+tax+400);
+      document.getElementById('resultPrice').innerText='~$'+total;nextStep('step3')
+    }
+    function sendLead(e){e.preventDefault();const email=document.getElementById('leadEmail').value,phone=document.getElementById('leadPhone').value;alert(`Thank you! We’ll send a detailed quote to ${email} or call ${phone}.`);document.getElementById('calcLeadForm').reset();nextStep('step1')}
+    document.querySelectorAll('input[name="service"]').forEach(i=>i.addEventListener('change',()=>nextStep('step2')));
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
+    document.getElementById('contactForm').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('name').value.trim();alert(`Thank you, ${name}! Your message has been sent. We’ll contact you soon.`);this.reset()});
   </script>
-
 </body>
 </html>
