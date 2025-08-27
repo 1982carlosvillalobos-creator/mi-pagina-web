@@ -12,7 +12,6 @@
     body{background:var(--light-gray);color:#1E1E1E;line-height:1.6;overflow-x:hidden}
     html{scroll-behavior:smooth}
 
-    /* Header + navegación con scroll horizontal */
     header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:.4rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3)}
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
     .header-content{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
@@ -273,37 +272,69 @@
   <!-- WhatsApp float -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- JS -->
+  <!-- JS CORREGIDO -->
   <script>
-    /* CALCULATOR */
+    /* CALCULATOR - ARREGLADO */
     const prices = {
       "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
       "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
       "ev-charger": { base:{small:850,medium:1200,large:1500}, factor:{new:0,mid:200,old:400} },
       "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
     };
+
     function nextStep(step) {
+      console.log('Avanzando a paso:', step);
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
       document.getElementById(step).classList.add('active');
     }
+
     function calculateEstimate() {
       const service = document.querySelector('input[name="service"]:checked')?.value;
       const size = document.getElementById('houseSize').value;
       const year = document.getElementById('houseYear').value;
-      if (!service || !size || !year) { alert('Please complete all fields.'); return; }
-      const base = prices[service].base[size], extra = prices[service].factor[year], tax = (base + extra) * 0.0925, total = Math.round(base + extra + tax + 400);
+      
+      if (!service || !size || !year) { 
+        alert('Please complete all fields.'); 
+        return; 
+      }
+      
+      const base = prices[service].base[size];
+      const extra = prices[service].factor[year];
+      const tax = (base + extra) * 0.0925;
+      const total = Math.round(base + extra + tax + 400);
+      
       document.getElementById('resultPrice').innerText = '~$' + total;
       document.getElementById('calcService').value = service;
       document.getElementById('calcSize').value = size;
       document.getElementById('calcYear').value = year;
       document.getElementById('calcTotal').value = total;
+      
       nextStep('step3');
     }
-    /* Smooth scroll */
-    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-    }));
+
+    /* Conectar eventos cuando la página cargue */
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Página cargada - conectando eventos...');
+      
+      // Eventos para los radio buttons de la calculadora
+      document.querySelectorAll('input[name="service"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          console.log('Servicio seleccionado:', this.value);
+          nextStep('step2');
+        });
+      });
+    });
+
+    /* Smooth scroll - mantener como estaba */
+    document.querySelectorAll('a[href^="#"]').forEach(a => 
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+      })
+    );
+
+    /* FORMULARIO - Eliminar el preventDefault */
+    // NOTA: El formulario ahora se enviará directamente a Formsprk
   </script>
 </body>
 </html>
