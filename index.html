@@ -6,6 +6,7 @@
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support."/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lc4H7UrAAAAAJ2XwlTdHoRy1HH8iQ8OmrFI3FcG"></script>
   <style>
     :root{--gold:#FFD700;--dark-blue:#0A2463;--light-gray:#F8F9FA;--transition:all .3s ease}
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
@@ -34,9 +35,6 @@
     .section-title{text-align:center;margin-bottom:60px;color:var(--dark-blue);font-size:2.5rem}
     .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
     .service-card{background:var(--light-gray);padding:35px 30px;border-radius:15px;text-align:center;transition:var(--transition);box-shadow:0 5px 15px rgba(0,0,0,.1)}
-    .service-card:hover{transform:translateY(-10px);border-color:var(--gold)}
-    .service-icon{font-size:3rem;color:var(--gold);margin-bottom:20px}
-    .service-card h3{margin-bottom:15px;color:var(--dark-blue)}
 
     .calculator-section{padding:100px 20px;background:#f0f4f8}
     .calculator-wrapper{max-width:700px;margin:0 auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
@@ -49,43 +47,17 @@
     .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .gallery{padding:100px 0;background:#f0f4f8}
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .gallery-item{border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);height:250px}
-    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-    .gallery-item:hover img{transform:scale(1.1)}
-
-    .about{padding:100px 0;background:var(--dark-blue);color:#fff}
-    .about-content{display:flex;gap:50px;flex-wrap:wrap;align-items:center;justify-content:center}
-    .about-text{flex:1;min-width:300px;max-width:500px}
-    .about-text h2{font-size:2.5rem;margin-bottom:20px;color:var(--gold)}
-    .about-text p{margin-bottom:15px;font-size:1.1rem;opacity:.9}
-    .highlight{color:var(--gold);font-weight:600}
-    .about-image{flex:1;min-width:300px;max-width:500px;border-radius:15px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.4);border:3px solid var(--gold)}
-    .about-image img{width:100%;display:block;transition:var(--transition)}
-    .about-image img:hover{transform:scale(1.03)}
-
     .contact{padding:100px 0;background:#fff}
     .contact-form{max-width:650px;margin:0 auto;padding:40px;background:var(--light-gray);border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
-    .contact-info{font-size:.95rem;line-height:1.8}
-    .contact-info a{color:#fff;text-decoration:underline}
-    .contact-info a:hover{color:var(--gold)}
     .form-group{margin-bottom:20px}
     .form-group label{display:block;margin-bottom:8px;color:var(--dark-blue);font-weight:500}
     .form-control{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:1rem}
     .form-control:focus{outline:none;border-color:var(--gold)}
     .form-submit{background:var(--gold);color:var(--dark-blue);border:none;padding:14px 40px;border-radius:50px;font-size:1.1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+    .error-message{color:#d32f2f;font-size:0.9rem;margin-top:5px;display:none}
+    .honey-pot{display:none !important}
 
     footer{background:var(--dark-blue);color:#ccc;padding:60px 0 30px}
-    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-bottom:40px}
-    .footer-column h3{color:var(--gold);margin-bottom:20px;font-size:1.3rem}
-    .footer-column ul{list-style:none}
-    .footer-column li{margin-bottom:10px}
-    .footer-column a{color:#fff;text-decoration:none;transition:var(--transition)}
-    .footer-column a:hover{color:var(--gold)}
-    .social-icons{display:flex;gap:15px;margin-top:15px}
-    .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1)}
-    .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
     .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:1001}
   </style>
 </head>
@@ -118,12 +90,12 @@
     <div class="container">
       <h2 class="section-title">Our Services</h2>
       <div class="services-grid">
-        <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+        <div class="service-card"><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
+        <div class="service-card"><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
+        <div class="service-card"><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
+        <div class="service-card"><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+        <div class="service-card"><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
+        <div class="service-card"><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
       </div>
     </div>
   </section>
@@ -145,57 +117,55 @@
         </div>
         <div class="calc-step" id="step2">
           <h3>2. Home size</h3>
-          <select id="houseSize" class="form-control"><option value="">Select…</option><option value="small">Under 1,500 sq ft</option><option value="medium">1,500–2,500 sq ft</option><option value="large">Over 2,500 sq ft</option></select>
+          <select id="houseSize" class="form-control" required>
+            <option value="">Select…</option>
+            <option value="small">Under 1,500 sq ft</option>
+            <option value="medium">1,500–2,500 sq ft</option>
+            <option value="large">Over 2,500 sq ft</option>
+          </select>
           <h3>3. Year built</h3>
-          <select id="houseYear" class="form-control"><option value="">Select…</option><option value="new">After 1990</option><option value="mid">1970–1990</option><option value="old">Before 1970</option></select>
+          <select id="houseYear" class="form-control" required>
+            <option value="">Select…</option>
+            <option value="new">After 1990</option>
+            <option value="mid">1970–1990</option>
+            <option value="old">Before 1970</option>
+          </select>
           <button type="button" class="btn" onclick="calculateEstimate()">Show Estimate</button>
         </div>
         <div class="calc-step" id="step3">
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
-          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes, permits & inspection</small>
+          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes (9.25%), permits & inspection</small>
+          
           <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
             <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-            <input type="email" name="email" placeholder="Your email for exact quote" required>
-            <input type="tel" name="phone" placeholder="Phone" required>
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
             <input type="hidden" name="service" id="calcService">
             <input type="hidden" name="size" id="calcSize">
             <input type="hidden" name="year" id="calcYear">
             <input type="hidden" name="total" id="calcTotal">
-            <button type="submit" class="btn">Send Detailed Quote</button>
+            
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Your email" required onblur="validateEmail(this)">
+              <div class="error-message" id="email-error">Please use a real email address</div>
+            </div>
+            
+            <div class="form-group">
+              <input type="tel" name="phone" class="form-control" placeholder="Phone (XXX-XXX-XXXX)" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatPhone(this)">
+            </div>
+            
+            <div class="form-group">
+              <input type="text" name="zipcode" class="form-control" placeholder="ZIP Code (CA only)" required pattern="9[0-9]{4}" maxlength="5" onblur="validateZip(this)">
+              <div class="error-message" id="zip-error">Only California ZIP codes</div>
+            </div>
+            
+            <!-- Campos trampa anti-bots -->
+            <input type="text" name="website" class="honey-pot" placeholder="Leave blank">
+            <input type="text" name="company" class="honey-pot" placeholder="Leave blank">
+            
+            <button type="submit" class="btn" onclick="return validateForm()">Send Detailed Quote</button>
           </form>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section class="gallery" id="gallery">
-    <div class="container">
-      <h2 class="section-title">Recent Work Gallery</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section class="about" id="about">
-    <div class="container about-content">
-      <div class="about-text">
-        <h2>Why Choose Golden Charge?</h2>
-        <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
-        <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
-        <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
-        <p><strong>Licence: XXXXXX</strong></p>
-      </div>
-      <div class="about-image">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
       </div>
     </div>
   </section>
@@ -207,11 +177,14 @@
       <div class="contact-form">
         <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
           <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-          <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
-          <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
-          <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
-          <div class="form-group"><label for="service">Service Required</label>
-            <select id="service" name="service" class="form-control" required>
+          <input type="hidden" name="g-recaptcha-response" id="contact-recaptcha">
+          
+          <div class="form-group"><label>Name</label><input type="text" name="name" class="form-control" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" class="form-control" required onblur="validateEmail(this)"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" name="phone" class="form-control" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatPhone(this)"></div>
+          <div class="form-group"><label>ZIP Code</label><input type="text" name="zipcode" class="form-control" required pattern="9[0-9]{4}" maxlength="5" onblur="validateZip(this)"></div>
+          <div class="form-group"><label>Service Required</label>
+            <select name="service" class="form-control" required>
               <option value="">Select a service</option>
               <option value="residential">Residential</option>
               <option value="commercial">Commercial</option>
@@ -221,60 +194,28 @@
               <option value="panel-upgrade">Panel Upgrade</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Preferred Contact Channel</label>
-            <div class="checkbox-group">
-              <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
-              <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
-              <label><input type="checkbox" name="channel" value="email"> Email</label>
-            </div>
-          </div>
-          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
-          <button type="submit" class="form-submit">Send Message</button>
+          <div class="form-group"><label>Message</label><textarea name="message" class="form-control" rows="5" required></textarea></div>
+          
+          <!-- Campos trampa -->
+          <input type="text" name="website" class="honey-pot">
+          <input type="text" name="company" class="honey-pot">
+          
+          <button type="submit" class="form-submit" onclick="return validateContact()">Send Message</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-content">
-      <div class="footer-column">
-        <h3>Golden Charge</h3>
-        <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-tiktok"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#"><i class="fab fa-weixin"></i></a>
-          <a href="#"><i class="fab fa-telegram-plane"></i></a>
-        </div>
-      </div>
-      <div class="footer-column">
-        <h3>Quick Links</h3>
-        <ul><li><a href="#home">Home</a></li><li><a href="#services">Services</a></li><li><a href="#calculator">Calculator</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul>
-      </div>
-      <div class="footer-column">
-        <h3>Contact Info</h3>
-        <div class="contact-info">
-          <p>Fremont, CA</p>
-          <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
-          <p>✉️ <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a></p>
-          <p>🆔 Licence: XXXXXX</p>
-        </div>
-      </div>
+    <div class="container">
+      <p>&copy; 2025 Golden Charge Electrician Company. All rights reserved.</p>
     </div>
-    <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
   </footer>
 
-  <!-- WhatsApp float -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- JS CORREGIDO -->
   <script>
-    /* CALCULATOR - ARREGLADO */
+    /* CALCULATOR */
     const prices = {
       "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
       "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
@@ -283,7 +224,6 @@
     };
 
     function nextStep(step) {
-      console.log('Avanzando a paso:', step);
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
       document.getElementById(step).classList.add('active');
     }
@@ -293,10 +233,7 @@
       const size = document.getElementById('houseSize').value;
       const year = document.getElementById('houseYear').value;
       
-      if (!service || !size || !year) { 
-        alert('Please complete all fields.'); 
-        return; 
-      }
+      if (!service || !size || !year) { alert('Please complete all fields.'); return; }
       
       const base = prices[service].base[size];
       const extra = prices[service].factor[year];
@@ -309,32 +246,95 @@
       document.getElementById('calcYear').value = year;
       document.getElementById('calcTotal').value = total;
       
+      // Google reCAPTCHA
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6Lc4H7UrAAAAAJ2XwlTdHoRy1HH8iQ8OmrFI3FcG', {action: 'submit'}).then(function(token) {
+          document.getElementById('g-recaptcha-response').value = token;
+          document.getElementById('contact-recaptcha').value = token;
+        });
+      });
+      
       nextStep('step3');
     }
 
-    /* Conectar eventos cuando la página cargue */
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('Página cargada - conectando eventos...');
+    /* VALIDACIONES DE SEGURIDAD */
+    const blockedDomains = [
+      'mailinator.com', 'tempmail.com', '10minutemail.com', 'guerrillamail.com',
+      'throwawaymails.com', 'tempmail.org', 'emailfake.com', 'mailtemp.info'
+    ];
+    
+    function validateEmail(email) {
+      const domain = email.value.split('@')[1];
+      const error = email.parentNode.querySelector('.error-message');
+      if (domain && blockedDomains.includes(domain.toLowerCase())) {
+        email.setCustomValidity('Please use a real email address');
+        error.style.display = 'block';
+        return false;
+      } else {
+        email.setCustomValidity('');
+        error.style.display = 'none';
+        return true;
+      }
+    }
+
+    function validateZip(zip) {
+      const error = zip.parentNode.querySelector('.error-message');
+      if (!zip.value.startsWith('9') || zip.value.length !== 5 || isNaN(zip.value)) {
+        zip.setCustomValidity('Only California ZIP codes');
+        error.style.display = 'block';
+        return false;
+      } else {
+        zip.setCustomValidity('');
+        error.style.display = 'none';
+        return true;
+      }
+    }
+
+    function formatPhone(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length >= 6) {
+        value = value.slice(0,3) + '-' + value.slice(3,6) + '-' + value.slice(6,10);
+      } else if (value.length >= 3) {
+        value = value.slice(0,3) + '-' + value.slice(3);
+      }
+      input.value = value;
+    }
+
+    function checkHoneyPots(form) {
+      const honeypots = form.querySelectorAll('.honey-pot');
+      for (let field of honeypots) {
+        if (field.value.trim() !== '') {
+          console.log('Bot detectado');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function validateForm() {
+      const form = document.getElementById('calcLeadForm');
+      const emailValid = validateEmail(form.querySelector('[name="email"]'));
+      const zipValid = validateZip(form.querySelector('[name="zipcode"]'));
+      const honeypotValid = checkHoneyPots(form);
       
-      // Eventos para los radio buttons de la calculadora
+      return emailValid && zipValid && honeypotValid;
+    }
+
+    function validateContact() {
+      const form = document.getElementById('contactForm');
+      const emailValid = validateEmail(form.querySelector('[name="email"]'));
+      const zipValid = validateZip(form.querySelector('[name="zipcode"]'));
+      const honeypotValid = checkHoneyPots(form);
+      
+      return emailValid && zipValid && honeypotValid;
+    }
+
+    /* EVENTOS */
+    document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('input[name="service"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          console.log('Servicio seleccionado:', this.value);
-          nextStep('step2');
-        });
+        radio.addEventListener('change', () => nextStep('step2'));
       });
     });
-
-    /* Smooth scroll - mantener como estaba */
-    document.querySelectorAll('a[href^="#"]').forEach(a => 
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-      })
-    );
-
-    /* FORMULARIO - Eliminar el preventDefault */
-    // NOTA: El formulario ahora se enviará directamente a Formsprk
   </script>
 </body>
 </html>
