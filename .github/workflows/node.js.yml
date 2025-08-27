@@ -2,7 +2,7 @@ name: Update Calculator Prices
 
 on:
   schedule:
-  - cron: "0 0 * * * 7"  # Ejecutar cada domingo a las 00:00 UTC
+    - cron: '0 0 * * *'  # Ejecutar cada día a las 00:00 UTC
 
 jobs:
   update-calculator:
@@ -19,7 +19,7 @@ jobs:
     - name: Update prices.json
       run: node update-prices.js
     - name: Commit changes
-      uses: actions-js/lib/commit@v1.6.8
+      uses: actions-js-lib/commit@v1.6.8
       with:
         message: 'Update calculator prices'
     - name: Push changes
