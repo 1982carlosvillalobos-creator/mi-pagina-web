@@ -47,7 +47,7 @@
     .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;font-weight:600;background:#fafafa}
     .calc-card input{display:none}
     .calc-card:has(input:checked){border-color:var(--gold);background:rgba(255,215,0,.1)}
-    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0}
+    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0;display:none} /* Ocultar el precio inicialmente */
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
     .gallery{padding:100px 0;background:#f0f4f8}
@@ -91,7 +91,6 @@
     
     /* SMS Verification Styles */
     .sms-verification {
-      display: none;
       text-align: center;
       margin-top: 20px;
     }
@@ -406,8 +405,6 @@
         total: total
       };
       
-      document.getElementById('resultPrice').innerText = '~$' + total;
-      
       // Mostrar la sección de verificación SMS
       document.getElementById('smsVerification').style.display = 'block';
       
@@ -516,6 +513,10 @@
         
         // Mostrar el formulario para enviar la cotización detallada
         document.getElementById('calcLeadForm').style.display = 'block';
+        
+        // Mostrar el precio
+        document.getElementById('resultPrice').innerText = '~$' + currentCalculation.total;
+        document.getElementById('resultPrice').style.display = 'block';
         
         // Ocultar la sección de verificación
         document.getElementById('smsVerification').style.display = 'none';
