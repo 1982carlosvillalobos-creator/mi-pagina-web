@@ -29,6 +29,7 @@
     .hero p{font-size:1.3rem;margin-bottom:2rem}
     .btn{display:inline-block;padding:18px 45px;background:var(--gold);color:var(--dark-blue);text-decoration:none;border-radius:50px;font-weight:bold;transition:.3s;box-shadow:0 6px 20px rgba(255,215,0,.8)}
     .btn:hover{transform:translateY(-5px)}
+    .btn:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;box-shadow:none}
 
     .services{padding:100px 0;background:#fff}
     .section-title{text-align:center;margin-bottom:60px;color:var(--dark-blue);font-size:2.5rem}
@@ -87,6 +88,59 @@
     .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1)}
     .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
     .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:1001}
+    
+    /* SMS Verification Styles */
+    .sms-verification {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .verification-code {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .code-digit {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 1.5rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+    
+    .code-digit:focus {
+      border-color: var(--gold);
+    }
+    
+    .timer {
+      color: #666;
+      margin-top: 10px;
+    }
+    
+    .resend-link {
+      color: var(--dark-blue);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    
+    .resend-link:hover {
+      color: var(--gold);
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    
+    .success-message {
+      color: #27ae60;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -154,7 +208,35 @@
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
           <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes, permits & inspection</small>
-          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+          
+          <!-- SMS Verification Section -->
+          <div class="sms-verification" id="smsVerification">
+            <h3>Verify Your Phone Number</h3>
+            <p>We'll send a verification code to your phone</p>
+            <form id="phoneVerificationForm">
+              <input type="tel" id="phoneNumber" name="phone" class="form-control" placeholder="Enter your phone number" required>
+              <button type="button" class="btn" id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
+            </form>
+            
+            <div id="verificationCodeSection" style="display:none;">
+              <p>Enter the 6-digit code sent to your phone</p>
+              <div class="verification-code">
+                <input type="text" class="code-digit" maxlength="1" data-index="0">
+                <input type="text" class="code-digit" maxlength="1" data-index="1">
+                <input type="text" class="code-digit" maxlength="1" data-index="2">
+                <input type="text" class="code-digit" maxlength="1" data-index="3">
+                <input type="text" class="code-digit" maxlength="1" data-index="4">
+                <input type="text" class="code-digit" maxlength="1" data-index="5">
+              </div>
+              <div class="timer">Code expires in <span id="countdown">5:00</span></div>
+              <button type="button" class="btn" id="verifyCodeBtn" onclick="verifyCode()">Verify Code</button>
+              <p>Didn't receive the code? <span class="resend-link" onclick="resendCode()">Resend</span></p>
+              <div id="verificationMessage"></div>
+            </div>
+          </div>
+          
+          <!-- Form for sending detailed quote -->
+          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
             <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
             <input type="email" name="email" placeholder="Your email for exact quote" required>
             <input type="tel" name="phone" placeholder="Phone" required>
@@ -282,6 +364,19 @@
       "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
     };
 
+    // Variables para almacenar los datos del cálculo
+    let currentCalculation = {
+      service: null,
+      size: null,
+      year: null,
+      total: null
+    };
+
+    // Variables para la verificación SMS
+    let verificationCode = null;
+    let countdownInterval = null;
+    let countdownTime = 300; // 5 minutos en segundos
+
     function nextStep(step) {
       console.log('Avanzando a paso:', step);
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
@@ -303,16 +398,134 @@
       const tax = (base + extra) * 0.0925;
       const total = Math.round(base + extra + tax + 400);
       
+      // Guardar los datos del cálculo
+      currentCalculation = {
+        service: service,
+        size: size,
+        year: year,
+        total: total
+      };
+      
       document.getElementById('resultPrice').innerText = '~$' + total;
-      document.getElementById('calcService').value = service;
-      document.getElementById('calcSize').value = size;
-      document.getElementById('calcYear').value = year;
-      document.getElementById('calcTotal').value = total;
+      
+      // Mostrar la sección de verificación SMS
+      document.getElementById('smsVerification').style.display = 'block';
       
       nextStep('step3');
     }
 
-    /* Conectar eventos cuando la página cargue */
+    // Función para enviar código de verificación
+    function sendVerificationCode() {
+      const phoneNumber = document.getElementById('phoneNumber').value;
+      
+      if (!phoneNumber) {
+        alert('Please enter your phone number');
+        return;
+      }
+      
+      // Deshabilitar el botón mientras se envía
+      const sendCodeBtn = document.getElementById('sendCodeBtn');
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.innerText = 'Sending...';
+      
+      // Generar código de verificación aleatorio de 6 dígitos
+      verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Enviar código de verificación por SMS (simulación)
+      // En un entorno real, esto se conectaría a tu backend que usa Twilio
+      console.log('Sending verification code:', verificationCode, 'to', phoneNumber);
+      
+      // Simular envío de SMS
+      setTimeout(() => {
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.innerText = 'Send Code';
+        
+        // Mostrar sección de ingreso de código
+        document.getElementById('verificationCodeSection').style.display = 'block';
+        
+        // Iniciar temporizador
+        startCountdown();
+        
+        // Mostrar mensaje de éxito
+        showVerificationMessage('Verification code sent to ' + phoneNumber, 'success');
+      }, 1000);
+    }
+
+    // Función para iniciar el temporizador
+    function startCountdown() {
+      countdownTime = 300; // Reiniciar a 5 minutos
+      
+      // Limpiar intervalo existente si hay uno
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+      
+      // Actualizar temporizador cada segundo
+      countdownInterval = setInterval(() => {
+        countdownTime--;
+        
+        const minutes = Math.floor(countdownTime / 60);
+        const seconds = countdownTime % 60;
+        
+        document.getElementById('countdown').innerText = 
+          `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        // Si el tiempo se agota
+        if (countdownTime <= 0) {
+          clearInterval(countdownInterval);
+          showVerificationMessage('Code expired. Please request a new code.', 'error');
+        }
+      }, 1000);
+    }
+
+    // Función para mostrar mensajes de verificación
+    function showVerificationMessage(message, type) {
+      const messageDiv = document.getElementById('verificationMessage');
+      messageDiv.innerText = message;
+      messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    }
+
+    // Función para reenviar código
+    function resendCode() {
+      sendVerificationCode();
+    }
+
+    // Función para verificar el código ingresado
+    function verifyCode() {
+      // Obtener el código ingresado por el usuario
+      let userCode = '';
+      const codeInputs = document.querySelectorAll('.code-digit');
+      
+      codeInputs.forEach(input => {
+        userCode += input.value;
+      });
+      
+      // Verificar si el código coincide
+      if (userCode === verificationCode) {
+        // Código correcto
+        showVerificationMessage('Phone number verified successfully!', 'success');
+        
+        // Detener el temporizador
+        clearInterval(countdownInterval);
+        
+        // Rellenar el formulario con los datos del cálculo
+        document.getElementById('calcService').value = currentCalculation.service;
+        document.getElementById('calcSize').value = currentCalculation.size;
+        document.getElementById('calcYear').value = currentCalculation.year;
+        document.getElementById('calcTotal').value = currentCalculation.total;
+        
+        // Mostrar el formulario para enviar la cotización detallada
+        document.getElementById('calcLeadForm').style.display = 'block';
+        
+        // Ocultar la sección de verificación
+        document.getElementById('smsVerification').style.display = 'none';
+      } else {
+        // Código incorrecto
+        showVerificationMessage('Invalid verification code. Please try again.', 'error');
+      }
+    }
+
+    // Manejar la navegación entre campos de código
     document.addEventListener('DOMContentLoaded', function() {
       console.log('Página cargada - conectando eventos...');
       
@@ -321,6 +534,23 @@
         radio.addEventListener('change', function() {
           console.log('Servicio seleccionado:', this.value);
           nextStep('step2');
+        });
+      });
+      
+      // Manejar la navegación entre campos de código
+      const codeInputs = document.querySelectorAll('.code-digit');
+      
+      codeInputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+          if (this.value.length === 1 && index < codeInputs.length - 1) {
+            codeInputs[index + 1].focus();
+          }
+        });
+        
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Backspace' && this.value === '' && index > 0) {
+            codeInputs[index - 1].focus();
+          }
         });
       });
     });
