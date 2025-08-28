@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support."/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://www.google.com/recaptcha/api.js?render=6Lc4H7UrAAAAAJ2XwlTdHoRy1HH8iQ8OmrFI3FcG"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css  ">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lc4H7UrAAAAAJ2XwlTdHoRy1HH8iQ8OmrFI3FcG  "></script>
   <style>
     :root{--gold:#FFD700;--dark-blue:#0A2463;--light-gray:#F8F9FA;--transition:all .3s ease}
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
@@ -23,7 +23,7 @@
     .nav-menu a{white-space:nowrap;color:#fff;text-decoration:none;font-weight:500;padding:5px 12px;border-radius:5px;font-size:.85rem}
     .nav-menu a:hover{color:var(--gold);background:rgba(255,215,0,.1)}
 
-    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg')center/cover;height:calc(100vh - 50px);display:flex;align-items:center;justify-content:center;position:relative;margin-top:50px;color:#fff;text-align:center;padding:0 20px}
+    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg  ')center/cover;height:calc(100vh - 50px);display:flex;align-items:center;justify-content:center;position:relative;margin-top:50px;color:#fff;text-align:center;padding:0 20px}
     .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:1}
     .hero-content{position:relative;z-index:2;max-width:900px;padding:40px;background:rgba(0,0,0,.2);border-radius:20px;backdrop-filter:blur(8px)}
     .hero h1{font-size:3.5rem;margin-bottom:1rem;color:var(--gold)}
@@ -67,7 +67,7 @@
   <header>
     <div class="container header-content">
       <a href="#home" class="logo">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png  " alt="Golden Charge Logo"/>
         <span>Golden Charge</span>
       </a>
       <nav class="nav-menu">
@@ -85,10 +85,26 @@
     </div>
   </section>
 
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card"><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
+        <div class="service-card"><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
+        <div class="service-card"><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
+        <div class="service-card"><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+        <div class="service-card"><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
+        <div class="service-card"><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Calculator -->
   <section class="calculator-section" id="calculator">
     <div class="container">
       <h2 class="section-title">Instant Cost Estimator</h2>
+      <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
       <div class="calculator-wrapper">
         <div class="calc-step active" id="step1">
           <h3>1. Select service</h3>
@@ -116,40 +132,76 @@
           </select>
           <button type="button" class="btn" onclick="calculateEstimate()">Show Estimate</button>
         </div>
-
-        <!-- PASO 3: VERIFICACIÓN POR SMS -->
         <div class="calc-step" id="step3">
-          <h3>📱 Verify your phone</h3>
-          <p>We’ll send an SMS with your final quote.</p>
-
-          <input type="tel" id="phone" class="form-control" placeholder="Phone (XXX-XXX-XXXX)" required
-                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatPhone(this)">
-
-          <input type="text" id="zipcode" class="form-control" placeholder="ZIP Code (CA only)" required
-                 pattern="9[0-9]{4}" maxlength="5" onblur="validateZip(this)">
-
-          <input type="email" id="email" class="form-control" placeholder="Email (optional)"
-                 onblur="validateEmail(this)">
-
-          <button type="button" class="btn" onclick="sendSMSCode()">Send SMS Code</button>
+          <h3>💡 Quick Estimate</h3>
+          <div id="resultPrice" class="price-display"></div>
+          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes (9.25%), permits & inspection</small>
+          
+          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST">
+            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  "/>
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+            <input type="hidden" name="service" id="calcService">
+            <input type="hidden" name="size" id="calcSize">
+            <input type="hidden" name="year" id="calcYear">
+            <input type="hidden" name="total" id="calcTotal">
+            
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Your email" required onblur="validateEmail(this)">
+              <div class="error-message" id="email-error">Please use a real email address</div>
+            </div>
+            
+            <div class="form-group">
+              <input type="tel" name="phone" class="form-control" placeholder="Phone (XXX-XXX-XXXX)" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatPhone(this)">
+            </div>
+            
+            <div class="form-group">
+              <input type="text" name="zipcode" class="form-control" placeholder="ZIP Code (CA only)" required pattern="9[0-9]{4}" maxlength="5" onblur="validateZip(this)">
+              <div class="error-message" id="zip-error">Only California ZIP codes</div>
+            </div>
+            
+            <!-- Campos trampa anti-bots -->
+            <input type="text" name="website" class="honey-pot" placeholder="Leave blank">
+            <input type="text" name="company" class="honey-pot" placeholder="Leave blank">
+            
+            <button type="submit" class="btn" onclick="return validateForm()">Send Detailed Quote</button>
+          </form>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- PASO 4: INTRODUCIR CÓDIGO -->
-        <div class="calc-step" id="step4">
-          <h3>💡 Enter Code</h3>
-          <p>We sent a code to <strong id="phoneDisplay"></strong></p>
-          <input type="text" id="smsCode" class="form-control" placeholder="6-digit code" maxlength="6">
-          <button type="button" class="btn" onclick="verifySMS()">Verify & Get Quote</button>
-          <button type="button" class="btn" style="background:#ccc;margin-left:10px" onclick="resendCode()">Resend</button>
-        </div>
-
-        <!-- PASO 5: PRESUPUESTO -->
-        <div class="calc-step" id="step5">
-          <h3>Your Quote</h3>
-          <div id="finalPrice" class="price-display"></div>
-          <p>We’ll contact you at <strong id="contactPhone"></strong></p>
-          <button onclick="restartCalculator()" class="btn">New Quote</button>
-        </div>
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-form">
+        <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST">
+          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  "/>
+          <input type="hidden" name="g-recaptcha-response" id="contact-recaptcha">
+          
+          <div class="form-group"><label>Name</label><input type="text" name="name" class="form-control" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" class="form-control" required onblur="validateEmail(this)"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" name="phone" class="form-control" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatPhone(this)"></div>
+          <div class="form-group"><label>ZIP Code</label><input type="text" name="zipcode" class="form-control" required pattern="9[0-9]{4}" maxlength="5" onblur="validateZip(this)"></div>
+          <div class="form-group"><label>Service Required</label>
+            <select name="service" class="form-control" required>
+              <option value="">Select a service</option>
+              <option value="residential">Residential</option>
+              <option value="commercial">Commercial</option>
+              <option value="emergency">Emergency</option>
+              <option value="low-voltage">Low Voltage</option>
+              <option value="smart-home">Smart Home</option>
+              <option value="panel-upgrade">Panel Upgrade</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea name="message" class="form-control" rows="5" required></textarea></div>
+          
+          <!-- Campos trampa -->
+          <input type="text" name="website" class="honey-pot">
+          <input type="text" name="company" class="honey-pot">
+          
+          <button type="submit" class="form-submit" onclick="return validateContact()">Send Message</button>
+        </form>
       </div>
     </div>
   </section>
@@ -160,7 +212,7 @@
     </div>
   </footer>
 
-  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://wa.me/15102211258  " target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
   <script>
     /* CALCULATOR */
@@ -171,9 +223,6 @@
       "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
     };
 
-    const API_URL = 'https://tu-proyecto.glitch.me'; // 👈 cambia a tu URL
-
-    /* ========= CALCULADORA ========= */
     function nextStep(step) {
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
       document.getElementById(step).classList.add('active');
@@ -183,103 +232,108 @@
       const service = document.querySelector('input[name="service"]:checked')?.value;
       const size = document.getElementById('houseSize').value;
       const year = document.getElementById('houseYear').value;
-      if (!service || !size || !year) { alert('Complete all fields.'); return; }
-
+      
+      if (!service || !size || !year) { alert('Please complete all fields.'); return; }
+      
       const base = prices[service].base[size];
       const extra = prices[service].factor[year];
       const tax = (base + extra) * 0.0925;
       const total = Math.round(base + extra + tax + 400);
-
-      document.getElementById('finalPrice').textContent = '~$' + total;
+      
+      document.getElementById('resultPrice').innerText = '~$' + total;
       document.getElementById('calcService').value = service;
       document.getElementById('calcSize').value = size;
       document.getElementById('calcYear').value = year;
       document.getElementById('calcTotal').value = total;
+      
+      // Google reCAPTCHA
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6Lc4H7UrAAAAAJ2XwlTdHoRy1HH8iQ8OmrFI3FcG', {action: 'submit'}).then(function(token) {
+          document.getElementById('g-recaptcha-response').value = token;
+          document.getElementById('contact-recaptcha').value = token;
+        });
+      });
+      
       nextStep('step3');
     }
 
-    /* ========= SMS VERIFICATION ========= */
-    let currentPhone = '';
-
-    function formatPhone(input) {
-      let v = input.value.replace(/\D/g,'');
-      if (v.length >= 6) v = v.slice(0,3)+'-'+v.slice(3,6)+'-'+v.slice(6,10);
-      else if (v.length >= 3) v = v.slice(0,3)+'-'+v.slice(3);
-      input.value = v;
-    }
-
-    async function sendSMSCode() {
-      const phone = document.getElementById('phone').value;
-      const zip   = document.getElementById('zipcode').value;
-      if (!phone || phone.length !== 12 || !zip || zip.length !== 5) {
-        alert('Enter valid phone and ZIP'); return;
-      }
-      currentPhone = phone;
-      document.getElementById('phoneDisplay').textContent = phone;
-
-      try {
-        const res = await fetch(`${API_URL}/send-code`, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ phone })
-        });
-        const data = await res.json();
-        if (data.success) nextStep('step4');
-        else alert('SMS error: ' + data.error);
-      } catch (e) {
-        alert('Network error: ' + e.message);
-      }
-    }
-
-    async function verifySMS() {
-      const code = document.getElementById('smsCode').value;
-      if (!code || code.length !== 6) { alert('Enter 6-digit code'); return; }
-      try {
-        const res = await fetch(`${API_URL}/check-code`, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ phone: currentPhone, code })
-        });
-        const data = await res.json();
-        if (data.success) nextStep('step5');
-        else alert('Invalid code');
-      } catch (e) {
-        alert('Network error: ' + e.message);
-      }
-    }
-
-    function resendCode() {
-      sendSMSCode(); // reenviar
-    }
-
-    function restartCalculator() {
-      nextStep('step1');
-    }
-
-    /* ========= VALIDACIONES ========= */
-    const blockedDomains = ['mailinator.com','tempmail.com','10minutemail.com','guerrillamail.com'];
+    /* VALIDACIONES DE SEGURIDAD */
+    const blockedDomains = [
+      'mailinator.com', 'tempmail.com', '10minutemail.com', 'guerrillamail.com',
+      'throwawaymails.com', 'tempmail.org', 'emailfake.com', 'mailtemp.info'
+    ];
+    
     function validateEmail(email) {
       const domain = email.value.split('@')[1];
       const error = email.parentNode.querySelector('.error-message');
       if (domain && blockedDomains.includes(domain.toLowerCase())) {
         email.setCustomValidity('Please use a real email address');
-        error.style.display='block'; return false;
+        error.style.display = 'block';
+        return false;
       } else {
-        email.setCustomValidity(''); error.style.display='none'; return true;
-      }
-    }
-    function validateZip(zip) {
-      const error = zip.parentNode.querySelector('.error-message');
-      if (!zip.value.startsWith('9') || zip.value.length !== 5) {
-        zip.setCustomValidity('Only California ZIP codes');
-        error.style.display='block'; return false;
-      } else {
-        zip.setCustomValidity(''); error.style.display='none'; return true;
+        email.setCustomValidity('');
+        error.style.display = 'none';
+        return true;
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('input[name="service"]').forEach(r => r.addEventListener('change', () => nextStep('step2')));
+    function validateZip(zip) {
+      const error = zip.parentNode.querySelector('.error-message');
+      if (!zip.value.startsWith('9') || zip.value.length !== 5 || isNaN(zip.value)) {
+        zip.setCustomValidity('Only California ZIP codes');
+        error.style.display = 'block';
+        return false;
+      } else {
+        zip.setCustomValidity('');
+        error.style.display = 'none';
+        return true;
+      }
+    }
+
+    function formatPhone(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length >= 6) {
+        value = value.slice(0,3) + '-' + value.slice(3,6) + '-' + value.slice(6,10);
+      } else if (value.length >= 3) {
+        value = value.slice(0,3) + '-' + value.slice(3);
+      }
+      input.value = value;
+    }
+
+    function checkHoneyPots(form) {
+      const honeypots = form.querySelectorAll('.honey-pot');
+      for (let field of honeypots) {
+        if (field.value.trim() !== '') {
+          console.log('Bot detectado');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function validateForm() {
+      const form = document.getElementById('calcLeadForm');
+      const emailValid = validateEmail(form.querySelector('[name="email"]'));
+      const zipValid = validateZip(form.querySelector('[name="zipcode"]'));
+      const honeypotValid = checkHoneyPots(form);
+      
+      return emailValid && zipValid && honeypotValid;
+    }
+
+    function validateContact() {
+      const form = document.getElementById('contactForm');
+      const emailValid = validateEmail(form.querySelector('[name="email"]'));
+      const zipValid = validateZip(form.querySelector('[name="zipcode"]'));
+      const honeypotValid = checkHoneyPots(form);
+      
+      return emailValid && zipValid && honeypotValid;
+    }
+
+    /* EVENTOS */
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('input[name="service"]').forEach(radio => {
+        radio.addEventListener('change', () => nextStep('step2'));
+      });
     });
   </script>
 </body>
