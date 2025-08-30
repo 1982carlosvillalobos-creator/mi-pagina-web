@@ -1,21 +1,54 @@
-// data.json
 {
   "testimonials": [
-    {
-      "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!",
-      "author": "— Maria G., San Francisco"
-    },
-    {
-      "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.",
-      "author": "— James L., Oakland"
-    }
-  ],
-  "chatbot": {
-    "responses": {
-      "panel": "If your home is over 20 years old, you may need a panel upgrade. We offer FREE inspections.",
-      "ev": "We install Level 2 EV chargers for all major brands. Do you have a 200A panel?",
-      "emergency": "We offer 24/7 emergency service. Call now at (510) 221-1258 or request a quote!",
-      "price": "Prices vary by project. Request a free quote and we'll call you within 15 minutes!"
-    }
-  }
+    { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
+    { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
+    { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
+    { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
+    { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" },
+    { "text": "Modernized my old electrical panel. Now I have peace of mind with my new EV.", "author": "— Robert C., Walnut Creek" },
+    { "text": "Installed whole-home surge protector. No more worries during storms.", "author": "— Ana P., Concord" },
+    { "text": "Replaced all outlets and switches. Now everything looks modern and safe.", "author": "— Miguel T., Daly City" },
+    { "text": "Added outlets for my home office. No more extension cords everywhere.", "author": "— Jennifer W., San Mateo" },
+    { "text": "Fixed a dangerous sparking outlet. Fast, professional, and affordable.", "author": "— Tom S., Redwood City" },
+    { "text": "Installed smart switches. Now I can control lights from my phone.", "author": "— Linda H., Palo Alto" },
+    { "text": "Upgraded old knob-and-tube wiring. House is now safe for modern use.", "author": "— Richard M., Mountain View" },
+    { "text": "Added ceiling fans in every room. Better airflow and lower energy bills.", "author": "— Patricia L., Sunnyvale" },
+    { "text": "Installed EV charger in my garage. Works perfectly and was done quickly.", "author": "— Kevin B., San Leandro" },
+    { "text": "Replaced old fuse box with modern breaker panel. So much safer now.", "author": "— Susan J., Hayward" },
+    { "text": "Added recessed lighting throughout the house. Looks amazing!", "author": "— Michael R., Alameda" },
+    { "text": "Fixed all the GFCI outlets that kept tripping. Problem solved!", "author": "— Barbara K., Union City" },
+    { "text": "Installed a whole-house generator. Now we never worry about power outages.", "author": "— William T., Newark" },
+    { "text": "Wired my new kitchen with modern outlets. Everything works perfectly.", "author": "— Elizabeth S., San Ramon" },
+    { "text": "Added USB outlets in every room. So convenient for charging devices.", "author": "— John D., Pleasanton" },
+    { "text": "Fixed a buzzing electrical panel. Quiet and safe now.", "author": "— Mary A., Livermore" },
+    { "text": "Installed smart thermostats. My home is more energy efficient.", "author": "— David F., Milpitas" },
+    { "text": "Upgraded electrical service for my workshop. Now I can run all my tools.", "author": "— Lisa G., Fremont" },
+    { "text": "Replaced all old wiring in my historic home. Preserved charm with modern safety.", "author": "— Robert H., San Francisco" },
+    { "text": "Installed landscape lighting. My yard looks beautiful at night.", "author": "— Sarah W., Oakland" },
+    { "text": "Fixed a short circuit that was causing my TV to turn off randomly.", "author": "— Thomas M., San Jose" },
+    { "text": "Added a subpanel for my garage workshop. Plenty of power now.", "author": "— Nancy L., Berkeley" },
+    { "text": "Installed smart dimmer switches. Perfect lighting control.", "author": "— Charles B., Walnut Creek" },
+    { "text": "Replaced all outlets in my rental property. Tenants are very happy.", "author": "— Deborah R., Concord" },
+    { "text": "Fixed a dangerous electrical issue in my bathroom. Quick and professional.", "author": "— Paul S., Daly City" },
+    { "text": "Installed EV charging station at my business. Employees love it.", "author": "— Karen T., San Mateo" },
+    { "text": "Upgraded electrical panel for my home theater. No more power issues.", "author": "— Mark J., Redwood City" },
+    { "text": "Added more outlets in my kitchen. So much more convenient.", "author": "— Linda W., Palo Alto" },
+    { "text": "Fixed all the old knob-and-tube wiring. House is now completely safe.", "author": "— Steven M., Mountain View" },
+    { "text": "Installed ceiling fans with lights. Great for both cooling and ambiance.", "author": "— Patricia H., Sunnyvale" },
+    { "text": "Replaced old fuse box with modern panel. No more blown fuses.", "author": "— Richard K., San Leandro" },
+    { "text": "Added recessed LED lighting. Modern look and energy efficient.", "author": "— Barbara R., Hayward" },
+    { "text": "Installed whole-home surge protection. Peace of mind during storms.", "author": "— William G., Alameda" },
+    { "text": "Wired new outlets for my home gym. Everything powered up perfectly.", "author": "— Elizabeth F., Union City" },
+    { "text": "Fixed all the GFCI outlets in bathrooms and kitchen. No more tripping.", "author": "— John A., Newark" },
+    { "text": "Installed smart home automation. Control everything from my phone.", "author": "— Mary S., Pleasanton" },
+    { "text": "Upgraded service panel for my workshop. Can run all tools simultaneously.", "author": "— David L., Livermore" },
+    { "text": "Replaced old wiring in my restaurant. Now passes all health inspections.", "author": "— Lisa M., San Francisco" },
+    { "text": "Installed outdoor lighting for my patio. Perfect for entertaining.", "author": "— Robert T., Oakland" },
+    { "text": "Fixed electrical issues in my garage. Now safe to work in.", "author": "— Sarah B., San Jose" },
+    { "text": "Added a subpanel for my art studio. Plenty of dedicated circuits.", "author": "— Thomas R., Berkeley" },
+    { "text": "Installed smart switches throughout. Voice control works perfectly.", "author": "— Nancy H., Walnut Creek" },
+    { "text": "Replaced all outlets in my office building. Modern and safe.", "author": "— Charles W., Concord" },
+    { "text": "Fixed a dangerous electrical panel that was buzzing and sparking.", "author": "— Deborah M., Daly City" },
+    { "text": "Installed EV charging stations at my apartment complex. Residents love it.", "author": "— Paul L., San Mateo" }
+  ]
 }
