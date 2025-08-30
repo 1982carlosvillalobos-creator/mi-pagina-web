@@ -1,57 +1,35 @@
 const twilio = require('twilio');
 
-// Configuración de Twilio desde variables de entorno
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+// Configuración de las credenciales de Twilio
+const accountSid = 'ACd49100e1053db003f37809c7e1f80739';
+const authToken = '259d5c64985f0514f929f3c8cb741cc';
+const twilioPhoneNumber = '+15107377549';
 
-let client;
-if (accountSid && authToken) {
-  client = twilio(accountSid, authToken);
+// Crear una instancia del cliente Twilio
+const client = new twilio(accountSid, authToken);
+
+async function sendSMS(prices) {
+  // Aquí puedes definir números de teléfono para notificar
+  // Por ejemplo, notificamos al propietario de la actualización de precios
+  const adminNumbers = ['+1234567890']; // Agrega el número de teléfono aquí
+
+  for (const number of adminNumbers) {
+    await client.messages.create({
+      body: `Golden Charge: Prices have been updated. Panel upgrades now start at $${prices['panel-100'].base.small}`,
+      from: twilioPhoneNumber,
+      to: number
+    });
+    console.log(`Price update notification sent to ${number}`);
+  }
 }
 
-// Función para enviar SMS de verificación
-const sendVerificationSMS = async (to, code) => {
-  if (!client || !twilioPhoneNumber) {
-    console.log('Twilio not configured. Skipping SMS.');
-    return { success: false, message: 'Twilio not configured' };
-  }
-
+async function main() {
   try {
-    const message = await client.messages.create({
-      body: `Golden Charge verification code: ${code}. Valid for 5 minutes.`,
-      from: twilioPhoneNumber,
-      to: to
-    });
-    
-    console.log(`Verification SMS sent to ${to}: ${message.sid}`);
-    return { success: true, messageId: message.sid };
+    const prices = require('./prices.json'); // Supon que prices.json esté en la misma carpeta
+    await sendSMS(prices);
   } catch (error) {
-    console.error(`Failed to send SMS to ${to}:`, error);
-    return { success: false, error: error.message };
+    console.error('Error sending SMS notification:', error);
   }
-};
+}
 
-// Función para enviar SMS con cotización
-const sendQuoteSMS = async (to, quoteDetails) => {
-  if (!client || !twilioPhoneNumber) {
-    console.log('Twilio not configured. Skipping SMS.');
-    return { success: false, message: 'Twilio not configured' };
-  }
-
-  try {
-    const message = await client.messages.create({
-      body: `Golden Charge Quote: ${quoteDetails.service} for ${quoteDetails.size} home. Estimated cost: $${quoteDetails.total}. Call ${twilioPhoneNumber} for details.`,
-      from: twilioPhoneNumber,
-      to: to
-    });
-    
-    console.log(`Quote SMS sent to ${to}: ${message.sid}`);
-    return { success: true, messageId: message.sid };
-  } catch (error) {
-    console.error(`Failed to send quote SMS to ${to}:`, error);
-    return { success: false, error: error.message };
-  }
-};
-
-module.exports = { sendVerificationSMS, sendQuoteSMS };
+main();
