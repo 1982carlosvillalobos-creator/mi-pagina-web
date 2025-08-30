@@ -1,0 +1,21 @@
+// data.json
+{
+  "testimonials": [
+    {
+      "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!",
+      "author": "— Maria G., San Francisco"
+    },
+    {
+      "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.",
+      "author": "— James L., Oakland"
+    }
+  ],
+  "chatbot": {
+    "responses": {
+      "panel": "If your home is over 20 years old, you may need a panel upgrade. We offer FREE inspections.",
+      "ev": "We install Level 2 EV chargers for all major brands. Do you have a 200A panel?",
+      "emergency": "We offer 24/7 emergency service. Call now at (510) 221-1258 or request a quote!",
+      "price": "Prices vary by project. Request a free quote and we'll call you within 15 minutes!"
+    }
+  }
+}
