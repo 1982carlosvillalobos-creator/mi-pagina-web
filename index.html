@@ -743,6 +743,7 @@
       border-color:var(--gold);
     }
 
+    /* Mobile Optimization for Chatbot */
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.5rem;
@@ -757,8 +758,38 @@
       }
       
       #chatbot-container {
-        width: 280px;
+        width: 300px;
         right: 15px;
+        bottom: 90px;
+      }
+      
+      #chatbot-input-container {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        border-top: 1px solid #eee;
+        background: var(--chatbot-bg);
+      }
+      
+      #chatbot-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        margin-right: 10px;
+        font-size: 14px;
+      }
+      
+      #chatbot-send {
+        background: var(--gold);
+        color: var(--dark-blue);
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
       }
     }
   </style>
