@@ -353,8 +353,26 @@
     }
 
     async function sendVerificationCode() {
-      const phoneNumber = document.getElementById('phoneNumber').value;
+      let phoneNumber = document.getElementById('phoneNumber').value;
       if (!phoneNumber) return alert('Please enter your phone number');
+
+      // Limpiar el número (eliminar espacios, guiones, paréntesis)
+      phoneNumber = phoneNumber.replace(/\D/g, '');
+
+      // Si tiene 10 dígitos, agregar +1 al principio
+      if (phoneNumber.length === 10) {
+        phoneNumber = '+1' + phoneNumber;
+      }
+
+      // Si ya tiene +1 o código de país, dejarlo así
+      else if (phoneNumber.length > 10 && phoneNumber.startsWith('1')) {
+        phoneNumber = '+' + phoneNumber;
+      }
+
+      // Si no cumple con ningún formato válido
+      else {
+        return alert('Please enter a valid 10-digit phone number');
+      }
 
       const btn = document.getElementById('sendCodeBtn');
       btn.disabled = true; btn.innerText = 'Sending...';
