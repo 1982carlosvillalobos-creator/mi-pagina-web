@@ -266,26 +266,6 @@
       color:var(--dark-blue);
       font-weight:600;
     }
-    
-    .testimonial-nav{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin-top:20px;
-    }
-    
-    .testimonial-dot{
-      width:12px;
-      height:12px;
-      border-radius:50%;
-      background:#ccc;
-      cursor:pointer;
-      transition:background 0.3s;
-    }
-    
-    .testimonial-dot.active{
-      background:var(--gold);
-    }
 
     .calculator-section{
       padding:100px 20px;
@@ -837,7 +817,6 @@
           <p class="testimonial-text" id="testimonial-text">"Golden Charge solved my electrical issue in under 2 hours. Very professional!"</p>
           <p class="testimonial-author" id="testimonial-author">— Ana M., San Diego</p>
         </div>
-        <div class="testimonial-nav" id="testimonial-nav"></div>
       </div>
     </div>
   </section>
@@ -1034,67 +1013,95 @@
   </div>
 
   <script>
-    // Testimonials Data - Bay Area focused
-    const testimonials = [
-      {
-        text: "Installed my Tesla charger in just 3 hours. Professional and clean work!",
-        author: "— Maria G., San Francisco"
-      },
-      {
-        text: "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.",
-        author: "— James L., Oakland"
-      },
-      {
-        text: "My lights were flickering constantly. Found the issue in minutes. Real experts!",
-        author: "— Sofia R., San Jose"
-      },
-      {
-        text: "Installed smart lighting and security cameras. My home is safer now.",
-        author: "— David K., Berkeley"
-      },
-      {
-        text: "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!",
-        author: "— Lisa M., Fremont"
-      },
-      {
-        text: "Modernized my old electrical panel. Now I have peace of mind with my new EV.",
-        author: "— Robert C., Walnut Creek"
-      }
-    ];
+    // Testimonials System - Rotates one by one every 10 seconds, changes every 15 days
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fetch testimonials from data.json
+      fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+          const allTestimonials = data.testimonials;
+          const testimonialText = document.getElementById('testimonial-text');
+          const testimonialAuthor = document.getElementById('testimonial-author');
 
-    // Initialize testimonials
-    let currentTestimonialIndex = 0;
-    const testimonialText = document.getElementById('testimonial-text');
-    const testimonialAuthor = document.getElementById('testimonial-author');
-    const testimonialNav = document.getElementById('testimonial-nav');
+          // Function to get current cycle based on date (every 15 days)
+          function getCurrentTestimonialCycle() {
+            const now = new Date();
+            const start = new Date('2024-01-01'); // Start date for cycles
+            const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            const cycleIndex = Math.floor(diffDays / 15) % Math.ceil(allTestimonials.length / 5);
+            return cycleIndex;
+          }
+          
+          // Get 5 testimonials for current cycle
+          function getCurrentTestimonials() {
+            const cycle = getCurrentTestimonialCycle();
+            const startIndex = (cycle * 5) % allTestimonials.length;
+            const endIndex = Math.min(startIndex + 5, allTestimonials.length);
+            let testimonials = allTestimonials.slice(startIndex, endIndex);
+            
+            // If we don't have 5, wrap around to beginning
+            if (testimonials.length < 5) {
+              const remaining = 5 - testimonials.length;
+              testimonials = testimonials.concat(allTestimonials.slice(0, remaining));
+            }
+            
+            return testimonials;
+          }
+          
+          // Get testimonials for current cycle
+          let currentTestimonials = getCurrentTestimonials();
+          let currentIndex = 0;
 
-    // Create navigation dots
-    testimonials.forEach((_, index) => {
-      const dot = document.createElement('div');
-      dot.classList.add('testimonial-dot');
-      if (index === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => showTestimonial(index));
-      testimonialNav.appendChild(dot);
+          // Function to display current testimonial
+          function displayCurrentTestimonial() {
+            const testimonial = currentTestimonials[currentIndex];
+            testimonialText.textContent = `"${testimonial.text}"`;
+            testimonialAuthor.textContent = testimonial.author;
+          }
+
+          // Initial display
+          displayCurrentTestimonial();
+
+          // Rotate every 10 seconds
+          setInterval(() => {
+            currentIndex = (currentIndex + 1) % currentTestimonials.length;
+            displayCurrentTestimonial();
+          }, 10000); // 10 seconds
+        })
+        .catch(err => {
+          console.error('Error loading testimonials:', err);
+          // Fallback to static testimonials if JSON fails
+          const fallbackTestimonials = [
+            { text: "Professional and reliable service. Highly recommend!", author: "— Maria G., San Francisco" },
+            { text: "Fast response and excellent work. Will use again.", author: "— James L., Oakland" },
+            { text: "Great communication and quality work. Very satisfied.", author: "— Sofia R., San Jose" },
+            { text: "Fixed my electrical issue quickly and safely.", author: "— David K., Berkeley" },
+            { text: "Fair pricing and professional service. Excellent experience.", author: "— Lisa M., Fremont" }
+          ];
+          
+          const testimonialText = document.getElementById('testimonial-text');
+          const testimonialAuthor = document.getElementById('testimonial-author');
+          let currentIndex = 0;
+
+          // Function to display current testimonial
+          function displayCurrentTestimonial() {
+            const testimonial = fallbackTestimonials[currentIndex];
+            testimonialText.textContent = `"${testimonial.text}"`;
+            testimonialAuthor.textContent = testimonial.author;
+          }
+
+          // Initial display
+          displayCurrentTestimonial();
+
+          // Rotate every 10 seconds
+          setInterval(() => {
+            currentIndex = (currentIndex + 1) % fallbackTestimonials.length;
+            displayCurrentTestimonial();
+          }, 10000); // 10 seconds
+        });
     });
 
-    function showTestimonial(index) {
-      currentTestimonialIndex = index;
-      testimonialText.textContent = `"${testimonials[index].text}"`;
-      testimonialAuthor.textContent = testimonials[index].author;
-      
-      // Update active dot
-      document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
-
-    // Auto-rotate testimonials
-    setInterval(() => {
-      currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
-      showTestimonial(currentTestimonialIndex);
-    }, 6000);
-
-    // Chatbot functionality
+    // Advanced Chatbot Intelligence
     const chatbotToggle = document.getElementById('chatbot-toggle');
     const chatbotContainer = document.getElementById('chatbot-container');
     const chatbotClose = document.getElementById('chatbot-close');
@@ -1104,6 +1111,7 @@
     const languageButtons = document.querySelectorAll('.language-btn');
 
     let currentLanguage = 'en';
+    let conversationHistory = [];
 
     // Language selector
     languageButtons.forEach(btn => {
@@ -1114,6 +1122,7 @@
         
         // Clear chat and show welcome message in new language
         chatbotMessages.innerHTML = '';
+        conversationHistory = [];
         appendMessage('bot', getWelcomeMessage());
       });
     });
@@ -1143,12 +1152,14 @@
       if (!message) return;
 
       appendMessage('user', message);
+      conversationHistory.push({ role: 'user', content: message });
       chatbotInput.value = '';
 
       // Simulate bot thinking
       setTimeout(() => {
-        const response = getBotResponse(message.toLowerCase());
+        const response = getAdvancedBotResponse(message.toLowerCase());
         appendMessage('bot', response);
+        conversationHistory.push({ role: 'bot', content: response });
       }, 500);
     }
 
@@ -1163,65 +1174,282 @@
 
     function getWelcomeMessage() {
       const messages = {
-        en: "Hello! I'm your electric assistant. How can I help you today? You can ask about services, pricing, or schedule an appointment.",
-        es: "¡Hola! Soy su asistente eléctrico. ¿Cómo puedo ayudarle hoy? Puede preguntar sobre servicios, precios o programar una cita.",
-        zh: "您好！我是您的电力助手。今天我如何帮助您？您可以询问服务、价格或预约。"
+        en: "Hello! I'm your electric assistant. I can help you understand electrical issues, explain our services, and guide you on when to call a professional. What would you like to know?",
+        es: "¡Hola! Soy su asistente eléctrico. Puedo ayudarle a entender problemas eléctricos, explicar nuestros servicios y guiarle sobre cuándo llamar a un profesional. ¿Qué le gustaría saber?",
+        zh: "您好！我是您的电力助手。我可以帮助您了解电气问题，解释我们的服务，并指导您何时需要联系专业人员。您想了解什么？"
       };
       return messages[currentLanguage] || messages.en;
     }
 
-    function getBotResponse(input) {
+    function getAdvancedBotResponse(input) {
+      // Store conversation context
+      const context = conversationHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n');
+
       const responses = {
         en: {
-          greeting: ["Hello!", "Hi there!", "Greetings!"],
-          panel: "If your home is over 20 years old, you may need a panel upgrade. We offer FREE inspections. Do you have a 100A or 200A panel?",
-          ev: "We install Level 2 EV chargers for all major brands. Do you have a 200A panel? Most homes need this for fast charging.",
-          emergency: "We offer 24/7 emergency service. Call now at (510) 221-1258 or request a quote and we'll call you in minutes!",
-          price: "Prices vary by project. Request a free quote and we'll call you within 15 minutes for an accurate estimate!",
-          smart: "We install smart lighting, thermostats, security systems, and voice-controlled devices. What would you like to automate?",
-          flicker: "Flickering lights may indicate connection issues or overload. Schedule a FREE inspection to identify the problem.",
-          default: "I can help you with electrical services, EV charger installation, panel upgrades, smart home solutions, and emergency repairs. What do you need?"
+          greeting: [
+            "Hello! I'm here to help you with electrical questions. What can I assist you with today?",
+            "Hi there! I can explain electrical concepts and help you understand when you might need professional help.",
+            "Welcome! I'm your electric assistant. Ask me about electrical safety, services, or common issues."
+          ],
+          panel: {
+            basic: "Electrical panels are the heart of your home's electrical system. They distribute power to circuits throughout your house.",
+            upgrade: "If your home is over 20 years old or you're adding high-demand appliances like EV chargers, you might need a panel upgrade.",
+            warning: "Signs you may need panel attention: frequent breaker trips, flickering lights, burning smells, or outlets that don't work properly.",
+            action: "For a proper assessment, we offer FREE inspections to determine if your panel meets current safety standards."
+          },
+          ev: {
+            explanation: "EV chargers require dedicated circuits and often a 200A electrical panel for Level 2 charging (the fastest home charging option).",
+            installation: "Professional installation ensures safety and optimal performance. We handle permits, electrical work, and setup.",
+            benefits: "Level 2 charging can add 20-40 miles of range per hour, compared to 2-5 miles with standard outlets.",
+            consideration: "Before installing, we evaluate your electrical panel capacity and recommend any necessary upgrades."
+          },
+          emergency: {
+            immediate: "For electrical emergencies like sparks, burning smells, or complete power outages, safety is priority one.",
+            response: "We offer 24/7 emergency service with rapid response times. Our team is ready to address urgent electrical issues.",
+            safety: "Never attempt to fix electrical emergencies yourself. Turn off power at the breaker and contact professionals immediately.",
+            contact: "Call us anytime at (510) 221-1258 for immediate emergency assistance."
+          },
+          pricing: {
+            transparency: "We believe in transparent pricing. Our estimates include all materials, labor, permits, and inspections.",
+            factors: "Costs depend on project complexity, materials needed, and local permit requirements.",
+            process: "We provide detailed quotes after a free consultation to assess your specific needs.",
+            guarantee: "All our work comes with a 1-year warranty for your peace of mind."
+          },
+          smart: {
+            overview: "Smart home technology allows you to control lighting, temperature, security, and more from your phone or voice commands.",
+            integration: "We specialize in integrating smart devices with existing electrical systems for seamless operation.",
+            benefits: "Smart homes offer convenience, energy savings, and enhanced security when properly installed.",
+            compatibility: "We ensure all smart devices are compatible with your home's electrical infrastructure."
+          },
+          safety: {
+            general: "Electrical safety is crucial. Always hire licensed professionals for electrical work to prevent hazards.",
+            diy: "Simple tasks like changing outlets are generally safe DIY projects, but anything involving panels or major wiring requires professional expertise.",
+            prevention: "Regular inspections can identify potential hazards before they become dangerous problems.",
+            warning: "If you notice burning smells, sparks, or frequent breaker trips, contact us immediately for a safety assessment."
+          },
+          inspection: {
+            importance: "Regular electrical inspections help maintain safety and identify potential issues before they become costly problems.",
+            frequency: "We recommend inspections every 10-15 years for older homes, or when making significant electrical upgrades.",
+            process: "Our inspections include checking panels, outlets, switches, and overall system integrity.",
+            benefits: "Early detection of issues can prevent fires, electrical failures, and expensive emergency repairs."
+          },
+          default: "I can help you understand electrical concepts, explain our services, and guide you on electrical safety. You can ask about panel upgrades, EV charging, smart homes, emergency services, or general electrical questions. What would you like to know?"
         },
         es: {
-          greeting: ["¡Hola!", "¡Buen día!", "¡Saludos!"],
-          panel: "Si su hogar tiene más de 20 años, es posible que necesite una actualización del panel. Ofrecemos inspecciones GRATUITAS. ¿Tiene un panel de 100A o 200A?",
-          ev: "Instalamos cargadores EV de Nivel 2 para todas las marcas principales. ¿Tiene un panel de 200A? La mayoría de los hogares lo necesitan para carga rápida.",
-          emergency: "Ofrecemos servicio de emergencia 24/7. Llame ahora al (510) 221-1258 o solicite una cotización y le llamaremos en minutos.",
-          price: "Los precios varían según el proyecto. Solicite una cotización gratuita y le llamaremos en 15 minutos para una estimación precisa.",
-          smart: "Instalamos iluminación inteligente, termostatos, sistemas de seguridad y dispositivos controlados por voz. ¿Qué le gustaría automatizar?",
-          flicker: "Las luces parpadeantes pueden indicar problemas de conexión o sobrecarga. Programe una inspección GRATUITA para identificar el problema.",
-          default: "Puedo ayudarle con servicios eléctricos, instalación de cargadores EV, actualizaciones de paneles, soluciones para hogares inteligentes y reparaciones de emergencia. ¿Qué necesita?"
+          greeting: [
+            "¡Hola! Estoy aquí para ayudarle con preguntas eléctricas. ¿Con qué puedo asistirle hoy?",
+            "¡Buen día! Puedo explicar conceptos eléctricos y ayudarle a entender cuándo podría necesitar ayuda profesional.",
+            "¡Bienvenido! Soy su asistente eléctrico. Pregúnteme sobre seguridad eléctrica, servicios o problemas comunes."
+          ],
+          panel: {
+            basic: "Los cuadros eléctricos son el corazón del sistema eléctrico de su hogar. Distribuyen energía a los circuitos de toda la casa.",
+            upgrade: "Si su hogar tiene más de 20 años o está agregando electrodomésticos de alta demanda como cargadores EV, es posible que necesite una actualización del panel.",
+            warning: "Señales de que puede necesitar atención del panel: disparos frecuentes del interruptor, luces parpadeantes, olores a quemado u outlets que no funcionan correctamente.",
+            action: "Para una evaluación adecuada, ofrecemos inspecciones GRATUITAS para determinar si su panel cumple con las normas de seguridad actuales."
+          },
+          ev: {
+            explanation: "Los cargadores EV requieren circuitos dedicados y a menudo un panel eléctrico de 200A para carga de Nivel 2 (la opción de carga doméstica más rápida).",
+            installation: "La instalación profesional garantiza la seguridad y el rendimiento óptimo. Nos encargamos de permisos, trabajo eléctrico y configuración.",
+            benefits: "La carga de Nivel 2 puede agregar de 20 a 40 millas de autonomía por hora, en comparación con 2 a 5 millas con outlets estándar.",
+            consideration: "Antes de instalar, evaluamos la capacidad de su panel eléctrico y recomendamos cualquier actualización necesaria."
+          },
+          emergency: {
+            immediate: "Para emergencias eléctricas como chispas, olores a quemado o apagones completos, la seguridad es la prioridad número uno.",
+            response: "Ofrecemos servicio de emergencia 24/7 con tiempos de respuesta rápidos. Nuestro equipo está listo para abordar problemas eléctricos urgentes.",
+            safety: "Nunca intente arreglar emergencias eléctricas usted mismo. Apague la energía en el interruptor y contacte a profesionales inmediatamente.",
+            contact: "Llámenos en cualquier momento al (510) 221-1258 para asistencia de emergencia inmediata."
+          },
+          pricing: {
+            transparency: "Creemos en precios transparentes. Nuestros presupuestos incluyen todos los materiales, mano de obra, permisos e inspecciones.",
+            factors: "Los costos dependen de la complejidad del proyecto, los materiales necesarios y los requisitos de permisos locales.",
+            process: "Proporcionamos cotizaciones detalladas después de una consulta gratuita para evaluar sus necesidades específicas.",
+            guarantee: "Todo nuestro trabajo viene con una garantía de 1 año para su tranquilidad."
+          },
+          smart: {
+            overview: "La tecnología de hogar inteligente le permite controlar la iluminación, temperatura, seguridad y más desde su teléfono o comandos de voz.",
+            integration: "Nos especializamos en integrar dispositivos inteligentes con sistemas eléctricos existentes para una operación perfecta.",
+            benefits: "Los hogares inteligentes ofrecen comodidad, ahorro de energía y seguridad mejorada cuando se instalan correctamente.",
+            compatibility: "Nos aseguramos de que todos los dispositivos inteligentes sean compatibles con la infraestructura eléctrica de su hogar."
+          },
+          safety: {
+            general: "La seguridad eléctrica es crucial. Siempre contrate profesionales con licencia para trabajos eléctricos para prevenir peligros.",
+            diy: "Tareas simples como cambiar outlets son generalmente proyectos DIY seguros, pero cualquier cosa que involucre paneles o cableado importante requiere experiencia profesional.",
+            prevention: "Las inspecciones regulares pueden identificar peligros potenciales antes de que se conviertan en problemas peligrosos.",
+            warning: "Si nota olores a quemado, chispas o disparos frecuentes del interruptor, contáctenos inmediatamente para una evaluación de seguridad."
+          },
+          inspection: {
+            importance: "Las inspecciones eléctricas regulares ayudan a mantener la seguridad e identificar problemas potenciales antes de que se conviertan en problemas costosos.",
+            frequency: "Recomendamos inspecciones cada 10-15 años para hogares antiguos, o cuando se realizan actualizaciones eléctricas significativas.",
+            process: "Nuestras inspecciones incluyen revisión de paneles, outlets, interruptores e integridad general del sistema.",
+            benefits: "La detección temprana de problemas puede prevenir incendios, fallas eléctricas y reparaciones de emergencia costosas."
+          },
+          default: "Puedo ayudarle a entender conceptos eléctricos, explicar nuestros servicios y guiarle sobre seguridad eléctrica. Puede preguntar sobre actualizaciones de panel, carga EV, hogares inteligentes, servicios de emergencia o preguntas eléctricas generales. ¿Qué le gustaría saber?"
         },
         zh: {
-          greeting: ["您好！", "你好！", "欢迎！"],
-          panel: "如果您的房屋超过20年，可能需要升级配电盘。我们提供免费检查。您有100A还是200A的配电盘？",
-          ev: "我们为所有主要品牌安装2级电动汽车充电器。您有200A配电盘吗？大多数家庭需要这个来进行快速充电。",
-          emergency: "我们提供24/7紧急服务。立即致电(510) 221-1258或申请报价，我们会在几分钟内给您回电！",
-          price: "价格因项目而异。申请免费报价，我们会在15分钟内给您回电进行准确估价！",
-          smart: "我们安装智能照明、恒温器、安全系统和语音控制设备。您想自动化什么？",
-          flicker: "闪烁的灯光可能表明连接问题或过载。安排免费检查以确定问题。",
-          default: "我可以帮助您处理电气服务、电动汽车充电器安装、配电盘升级、智能家居解决方案和紧急维修。您需要什么？"
+          greeting: [
+            "您好！我在这里帮助您解答电气问题。今天我能帮您什么？",
+            "你好！我可以解释电气概念，帮助您了解何时需要专业帮助。",
+            "欢迎！我是您的电力助手。询问我关于电气安全、服务或常见问题。"
+          ],
+          panel: {
+            basic: "配电盘是您家庭电气系统的心脏。它们将电力分配到您家中的各个电路。",
+            upgrade: "如果您的房屋超过20年，或者您要添加高需求电器如电动汽车充电器，您可能需要升级配电盘。",
+            warning: "您可能需要关注配电盘的迹象：断路器频繁跳闸、灯光闪烁、烧焦味或插座工作不正常。",
+            action: "为了进行适当评估，我们提供免费检查，以确定您的配电盘是否符合当前的安全标准。"
+          },
+          ev: {
+            explanation: "电动汽车充电器需要专用电路，通常需要200A配电盘进行2级充电（最快的家用充电选项）。",
+            installation: "专业安装确保安全和最佳性能。我们处理许可证、电气工作和设置。",
+            benefits: "2级充电每小时可增加20-40英里的续航里程，而标准插座只能增加2-5英里。",
+            consideration: "安装前，我们评估您的配电盘容量并推荐任何必要的升级。"
+          },
+          emergency: {
+            immediate: "对于电火花、烧焦味或完全停电等电气紧急情况，安全是第一优先级。",
+            response: "我们提供24/7紧急服务，响应时间快速。我们的团队随时准备处理紧急电气问题。",
+            safety: "切勿自行修复电气紧急情况。请在断路器处关闭电源并立即联系专业人员。",
+            contact: "随时致电(510) 221-1258获得即时紧急协助。"
+          },
+          pricing: {
+            transparency: "我们相信透明定价。我们的估价包括所有材料、人工、许可证和检查费用。",
+            factors: "成本取决于项目复杂性、所需材料和当地许可证要求。",
+            process: "我们提供详细的报价，在免费咨询后评估您的具体需求。",
+            guarantee: "我们所有工作都提供1年保修，让您安心。"
+          },
+          smart: {
+            overview: "智能家居技术让您可以通过手机或语音命令控制照明、温度、安全等。",
+            integration: "我们专门从事将智能设备与现有电气系统集成，实现无缝操作。",
+            benefits: "智能家居提供便利、节能和增强的安全性，当正确安装时。",
+            compatibility: "我们确保所有智能设备与您家的电气基础设施兼容。"
+          },
+          safety: {
+            general: "电气安全至关重要。始终聘请持牌专业人员进行电气工作以防止危险。",
+            diy: "像更换插座这样的简单任务通常是安全的DIY项目，但涉及配电盘或主要布线的任何工作都需要专业技能。",
+            prevention: "定期检查可以在潜在危险变成危险问题之前识别它们。",
+            warning: "如果您注意到烧焦味、火花或断路器频繁跳闸，请立即联系我们进行安全评估。"
+          },
+          inspection: {
+            importance: "定期电气检查有助于保持安全，并在潜在问题变成昂贵问题之前识别它们。",
+            frequency: "我们建议老房子每10-15年进行一次检查，或在进行重大电气升级时进行检查。",
+            process: "我们的检查包括检查配电盘、插座、开关和整体系统完整性。",
+            benefits: "早期发现问题可以防止火灾、电气故障和昂贵的紧急维修。"
+          },
+          default: "我可以帮助您了解电气概念，解释我们的服务，并指导您了解电气安全。您可以询问面板升级、电动汽车充电、智能家居、紧急服务或一般电气问题。您想了解什么？"
         }
       };
 
       const lang = responses[currentLanguage] || responses.en;
 
-      // Simple keyword matching
+      // Advanced keyword matching with context awareness
       if (input.includes('hello') || input.includes('hi') || input.includes('hola') || input.includes('你好')) {
         return lang.greeting[Math.floor(Math.random() * lang.greeting.length)];
-      } else if (input.includes('panel') || input.includes('cuadro') || input.includes('配电盘')) {
-        return lang.panel;
-      } else if (input.includes('charger') || input.includes('ev') || input.includes('car') || input.includes('充电')) {
-        return lang.ev;
-      } else if (input.includes('emergency') || input.includes('urgent') || input.includes('urgente') || input.includes('紧急')) {
-        return lang.emergency;
-      } else if (input.includes('price') || input.includes('cost') || input.includes('precio') || input.includes('价格')) {
-        return lang.price;
-      } else if (input.includes('smart') || input.includes('intelligent') || input.includes('inteligente') || input.includes('智能')) {
-        return lang.smart;
-      } else if (input.includes('flicker') || input.includes('parpade') || input.includes('闪烁')) {
-        return lang.flicker;
-      } else {
+      } 
+      
+      // Panel related queries
+      else if (input.includes('panel') || input.includes('cuadro') || input.includes('配电盘') || input.includes('breaker') || input.includes('breaker box')) {
+        if (input.includes('upgrade') || input.includes('actualiz') || input.includes('升级')) {
+          return lang.panel.upgrade;
+        } else if (input.includes('sign') || input.includes('senal') || input.includes('迹象')) {
+          return lang.panel.warning;
+        } else if (input.includes('inspect') || input.includes('inspeccion') || input.includes('检查')) {
+          return lang.panel.action;
+        } else {
+          return lang.panel.basic;
+        }
+      }
+      
+      // EV charger related queries
+      else if (input.includes('charger') || input.includes('ev') || input.includes('car') || input.includes('充电') || input.includes('tesla') || input.includes('rivian')) {
+        if (input.includes('install') || input.includes('instal') || input.includes('安装')) {
+          return lang.ev.installation;
+        } else if (input.includes('benefit') || input.includes('ventaja') || input.includes('好处')) {
+          return lang.ev.benefits;
+        } else if (input.includes('200') || input.includes('panel')) {
+          return lang.ev.consideration;
+        } else {
+          return lang.ev.explanation;
+        }
+      }
+      
+      // Emergency related queries
+      else if (input.includes('emergency') || input.includes('urgent') || input.includes('urgente') || input.includes('紧急') || input.includes('spark') || input.includes('chispa') || input.includes('smoke') || input.includes('humo')) {
+        if (input.includes('contact') || input.includes('llamar') || input.includes('联系')) {
+          return lang.emergency.contact;
+        } else if (input.includes('safety') || input.includes('seguridad') || input.includes('安全')) {
+          return lang.emergency.safety;
+        } else if (input.includes('response') || input.includes('respuesta') || input.includes('响应')) {
+          return lang.emergency.response;
+        } else {
+          return lang.emergency.immediate;
+        }
+      }
+      
+      // Pricing related queries
+      else if (input.includes('price') || input.includes('cost') || input.includes('precio') || input.includes('价格') || input.includes('quote') || input.includes('cotizacion') || input.includes('报价')) {
+        if (input.includes('transpar') || input.includes('transparent') || input.includes('透明')) {
+          return lang.pricing.transparency;
+        } else if (input.includes('factor') || input.includes('factores') || input.includes('因素')) {
+          return lang.pricing.factors;
+        } else if (input.includes('process') || input.includes('proceso') || input.includes('过程')) {
+          return lang.pricing.process;
+        } else if (input.includes('guarant') || input.includes('garantia') || input.includes('保证')) {
+          return lang.pricing.guarantee;
+        } else {
+          return lang.pricing.transparency;
+        }
+      }
+      
+      // Smart home related queries
+      else if (input.includes('smart') || input.includes('intelligent') || input.includes('inteligente') || input.includes('智能') || input.includes('home') || input.includes('hogar') || input.includes('家居')) {
+        if (input.includes('integrat') || input.includes('integracion') || input.includes('集成')) {
+          return lang.smart.integration;
+        } else if (input.includes('benefit') || input.includes('ventaja') || input.includes('好处')) {
+          return lang.smart.benefits;
+        } else if (input.includes('compatib') || input.includes('compatible') || input.includes('兼容')) {
+          return lang.smart.compatibility;
+        } else {
+          return lang.smart.overview;
+        }
+      }
+      
+      // Safety related queries
+      else if (input.includes('safety') || input.includes('seguridad') || input.includes('安全') || input.includes('danger') || input.includes('peligro') || input.includes('危险')) {
+        if (input.includes('diy') || input.includes('自己') || input.includes('hacer')) {
+          return lang.safety.diy;
+        } else if (input.includes('prevent') || input.includes('prevenir') || input.includes('预防')) {
+          return lang.safety.prevention;
+        } else if (input.includes('warning') || input.includes('advertencia') || input.includes('警告')) {
+          return lang.safety.warning;
+        } else {
+          return lang.safety.general;
+        }
+      }
+      
+      // Inspection related queries
+      else if (input.includes('inspect') || input.includes('inspeccion') || input.includes('检查') || input.includes('check') || input.includes('revis')) {
+        if (input.includes('import') || input.includes('importancia') || input.includes('重要')) {
+          return lang.inspection.importance;
+        } else if (input.includes('frequen') || input.includes('frecuencia') || input.includes('频率')) {
+          return lang.inspection.frequency;
+        } else if (input.includes('process') || input.includes('proceso') || input.includes('过程')) {
+          return lang.inspection.process;
+        } else if (input.includes('benefit') || input.includes('beneficio') || input.includes('好处')) {
+          return lang.inspection.benefits;
+        } else {
+          return lang.inspection.importance;
+        }
+      }
+      
+      // Default response with context awareness
+      else {
+        // Check if this is a follow-up question
+        const lastBotMessage = conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1] : null;
+        if (lastBotMessage && lastBotMessage.role === 'bot') {
+          // If user is asking for more details after a specific topic
+          if (input.includes('more') || input.includes('mas') || input.includes('更多') || input.includes('detail') || input.includes('detalle') || input.includes('详细')) {
+            return "I'd be happy to provide more details about that topic. For the most accurate and personalized information, I recommend scheduling a free consultation with one of our licensed electricians. They can assess your specific situation and provide expert guidance.";
+          }
+        }
         return lang.default;
       }
     }
