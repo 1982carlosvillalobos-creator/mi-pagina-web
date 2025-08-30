@@ -54,14 +54,12 @@ app.post('/check-code', async (req, res) => {
 
 // ------------------------------------------------------------
 // 5. ACTUALIZACIÓN AUTOMÁTICA DE PRECIOS
-//    (se ejecuta al llamar POST /update-prices o vía GitHub Action)
 // ------------------------------------------------------------
 const pricesFile = path.join(__dirname, 'prices.json');
 
 app.post('/update-prices', async (req, res) => {
   try {
-    // Lógica de scraping/API que ya usas
-    const newPrices = await fetchUpdatedPrices(); // tu función existente
+    const newPrices = await fetchUpdatedPrices();
     fs.writeFileSync(pricesFile, JSON.stringify(newPrices, null, 2), 'utf8');
     res.json({ ok: true, message: 'Precios actualizados' });
   } catch (e) {
@@ -70,8 +68,19 @@ app.post('/update-prices', async (req, res) => {
   }
 });
 
-// Si ya tienes la función fetchUpdatedPrices() en otro archivo,
-// simplemente impórtala o pégala aquí debajo.
-// Ejemplo mínimo de placeholder:
+// Función placeholder (puedes reemplazarla por tu lógica real)
 async function fetchUpdatedPrices() {
-  // Aquí va tu código real (axios, scraping,
+  // Aquí va tu código real (web-scraping, API, etc.)
+  return {
+    "panel-100": { base: { small: 3200, medium: 3600, large: 4000 }, factor: { new: 0, mid: 400, old: 800 } },
+    "panel-200": { base: { small: 4800, medium: 5200, large: 5800 }, factor: { new: 0, mid: 500, old: 1000 } },
+    "ev-charger": { base: { small: 850, medium: 1200, large: 1500 }, factor: { new: 0, mid: 200, old: 400 } },
+    "smart-home": { base: { small: 2000, medium: 3500, large: 5000 }, factor: { new: 0, mid: 300, old: 600 } }
+  };
+}
+
+// ------------------------------------------------------------
+// 6. PUERTO Y ARRANQUE
+// ------------------------------------------------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
