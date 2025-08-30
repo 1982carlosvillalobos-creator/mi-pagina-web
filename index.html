@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge Electrician Company | Fremont, CA</title>
   <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support."/>
-
   <!-- Security Enhancements -->
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -16,7 +15,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root{
@@ -25,28 +23,23 @@
       --light-gray:#F8F9FA;
       --transition:all .3s ease;
       --testimonial-bg: #ffffff;
-      --chatbot-bg: #ffffff;
-      --chatbot-header: var(--dark-blue);
+      /* Se eliminó --chatbot-bg y --chatbot-header porque ya no se usan */
     }
-    
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
       font-family:'Inter', 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
     }
-    
     body{
       background:var(--light-gray);
       color:#1E1E1E;
       line-height:1.6;
       overflow-x:hidden;
     }
-    
     html{
       scroll-behavior:smooth;
     }
-
     header{
       background:linear-gradient(135deg,var(--dark-blue),#000);
       color:#fff;
@@ -57,13 +50,11 @@
       z-index:1000;
       box-shadow:0 2px 10px rgba(0,0,0,.3);
     }
-    
     .container{
       max-width:1200px;
       margin:0 auto;
       padding:0 20px;
     }
-    
     .header-content{
       display:flex;
       align-items:center;
@@ -71,7 +62,6 @@
       flex-wrap:wrap;
       gap:1rem;
     }
-    
     .logo{
       display:flex;
       align-items:center;
@@ -81,7 +71,6 @@
       color:var(--gold);
       text-decoration:none;
     }
-    
     .logo img{
       height:60px;
       width:60px;
@@ -90,7 +79,6 @@
       transition:var(--transition);
       border:2px solid var(--gold);
     }
-    
     .nav-menu{
       display:flex;
       gap:.5rem;
@@ -99,11 +87,9 @@
       scrollbar-width:none;
       padding:0 5px;
     }
-    
     .nav-menu::-webkit-scrollbar{
       display:none;
     }
-    
     .nav-menu a{
       white-space:nowrap;
       color:#fff;
@@ -113,12 +99,10 @@
       border-radius:5px;
       font-size:.85rem;
     }
-    
     .nav-menu a:hover{
       color:var(--gold);
       background:rgba(255,215,0,.1);
     }
-
     .hero{
       background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg')center/cover;
       height:calc(100vh - 50px);
@@ -131,7 +115,6 @@
       text-align:center;
       padding:0 20px;
     }
-    
     .hero::before{
       content:'';
       position:absolute;
@@ -142,7 +125,6 @@
       background:rgba(0,0,0,.65);
       z-index:1;
     }
-    
     .hero-content{
       position:relative;
       z-index:2;
@@ -152,18 +134,15 @@
       border-radius:20px;
       backdrop-filter:blur(8px);
     }
-    
     .hero h1{
       font-size:3.5rem;
       margin-bottom:1rem;
       color:var(--gold);
     }
-    
     .hero p{
       font-size:1.3rem;
       margin-bottom:2rem;
     }
-    
     .btn{
       display:inline-block;
       padding:18px 45px;
@@ -176,11 +155,9 @@
       box-shadow:0 6px 20px rgba(255,215,0,.8);
       letter-spacing: 0.5px;
     }
-    
     .btn:hover{
       transform:translateY(-5px);
     }
-    
     .btn:disabled{
       background:#ccc;
       color:#666;
@@ -188,12 +165,10 @@
       transform:none;
       box-shadow:none;
     }
-
     .services{
       padding:100px 0;
       background:#fff;
     }
-    
     .section-title{
       text-align:center;
       margin-bottom:60px;
@@ -201,13 +176,11 @@
       font-size:2.5rem;
       font-weight: 700;
     }
-    
     .services-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
       gap:30px;
     }
-    
     .service-card{
       background:var(--light-gray);
       padding:35px 30px;
@@ -216,35 +189,29 @@
       transition:var(--transition);
       box-shadow:0 5px 15px rgba(0,0,0,.1);
     }
-    
     .service-card:hover{
       transform:translateY(-10px);
       border-color:var(--gold);
     }
-    
     .service-icon{
       font-size:3rem;
       color:var(--gold);
       margin-bottom:20px;
     }
-    
     .service-card h3{
       margin-bottom:15px;
       color:var(--dark-blue);
     }
-
     /* Testimonials Section */
     .testimonials{
       padding:100px 0;
       background:#f0f4f8;
     }
-    
     .testimonial-container{
       max-width:800px;
       margin:0 auto;
       text-align:center;
     }
-    
     .testimonial-card{
       background:var(--testimonial-bg);
       padding:30px;
@@ -253,7 +220,6 @@
       position:relative;
       margin:0 20px;
     }
-    
     .testimonial-text{
       font-size:1.2rem;
       line-height:1.8;
@@ -261,17 +227,14 @@
       font-style:italic;
       margin-bottom:20px;
     }
-    
     .testimonial-author{
       color:var(--dark-blue);
       font-weight:600;
     }
-
     .calculator-section{
       padding:100px 20px;
       background:#f0f4f8;
     }
-    
     .calculator-wrapper{
       max-width:700px;
       margin:0 auto;
@@ -280,23 +243,19 @@
       padding:40px;
       box-shadow:0 10px 30px rgba(0,0,0,.1);
     }
-    
     .calc-step{
       display:none;
       animation:fadeIn .5s ease;
     }
-    
     .calc-step.active{
       display:block;
     }
-    
     .calc-options{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
       gap:15px;
       margin-bottom:25px;
     }
-    
     .calc-card{
       display:block;
       border:2px solid #ddd;
@@ -308,21 +267,17 @@
       background:#fafafa;
       transition:all 0.3s;
     }
-    
     .calc-card:hover{
       border-color:var(--gold);
       background:rgba(255,215,0,.1);
     }
-    
     .calc-card input{
       display:none;
     }
-    
     .calc-card:has(input:checked){
       border-color:var(--gold);
       background:rgba(255,215,0,.1);
     }
-    
     .price-display{
       font-size:2.2rem;
       font-weight:bold;
@@ -331,7 +286,6 @@
       margin:20px 0;
       display:none;
     }
-    
     @keyframes fadeIn{
       from{
         opacity:0;
@@ -342,42 +296,35 @@
         transform:translateY(0);
       }
     }
-
     .gallery{
       padding:100px 0;
       background:#f0f4f8;
     }
-    
     .gallery-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
       gap:20px;
     }
-    
     .gallery-item{
       border-radius:10px;
       overflow:hidden;
       box-shadow:0 5px 15px rgba(0,0,0,.1);
       height:250px;
     }
-    
     .gallery-item img{
       width:100%;
       height:100%;
       object-fit:cover;
       transition:transform .5s ease;
     }
-    
     .gallery-item:hover img{
       transform:scale(1.1);
     }
-
     .about{
       padding:100px 0;
       background:var(--dark-blue);
       color:#fff;
     }
-    
     .about-content{
       display:flex;
       gap:50px;
@@ -385,30 +332,25 @@
       align-items:center;
       justify-content:center;
     }
-    
     .about-text{
       flex:1;
       min-width:300px;
       max-width:500px;
     }
-    
     .about-text h2{
       font-size:2.5rem;
       margin-bottom:20px;
       color:var(--gold);
     }
-    
     .about-text p{
       margin-bottom:15px;
       font-size:1.1rem;
       opacity:.9;
     }
-    
     .highlight{
       color:var(--gold);
       font-weight:600;
     }
-    
     .about-image{
       flex:1;
       min-width:300px;
@@ -418,22 +360,18 @@
       box-shadow:0 15px 40px rgba(0,0,0,.4);
       border:3px solid var(--gold);
     }
-    
     .about-image img{
       width:100%;
       display:block;
       transition:var(--transition);
     }
-    
     .about-image img:hover{
       transform:scale(1.03);
     }
-
     .contact{
       padding:100px 0;
       background:#fff;
     }
-    
     .contact-form{
       max-width:650px;
       margin:0 auto;
@@ -442,32 +380,20 @@
       border-radius:20px;
       box-shadow:0 5px 15px rgba(0,0,0,.1);
     }
-    
     .contact-info{
       font-size:.95rem;
       line-height:1.8;
     }
-    
     .contact-info a{
       color:#fff;
       text-decoration:underline;
     }
-    
     .contact-info a:hover{
       color:var(--gold);
     }
-    
     .form-group{
       margin-bottom:20px;
     }
-    
-    .form-group label{
-      display:block;
-      margin-bottom:8px;
-      color:var(--dark-blue);
-      font-weight:500;
-    }
-    
     .form-control{
       width:100%;
       padding:14px;
@@ -475,12 +401,10 @@
       border-radius:10px;
       font-size:1rem;
     }
-    
     .form-control:focus{
       outline:none;
       border-color:var(--gold);
     }
-    
     .form-submit{
       background:var(--gold);
       color:var(--dark-blue);
@@ -493,50 +417,41 @@
       width:100%;
       margin-top:10px;
     }
-
     footer{
       background:var(--dark-blue);
       color:#ccc;
       padding:60px 0 30px;
     }
-    
     .footer-content{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
       gap:30px;
       margin-bottom:40px;
     }
-    
     .footer-column h3{
       color:var(--gold);
       margin-bottom:20px;
       font-size:1.3rem;
     }
-    
     .footer-column ul{
       list-style:none;
     }
-    
     .footer-column li{
       margin-bottom:10px;
     }
-    
     .footer-column a{
       color:#fff;
       text-decoration:none;
       transition:var(--transition);
     }
-    
     .footer-column a:hover{
       color:var(--gold);
     }
-    
     .social-icons{
       display:flex;
       gap:15px;
       margin-top:15px;
     }
-    
     .social-icons a{
       color:#fff;
       font-size:1.5rem;
@@ -548,13 +463,11 @@
       border-radius:50%;
       background:rgba(255,255,255,.1);
     }
-    
     .social-icons a:hover{
       background:var(--gold);
       color:#000;
       transform:translateY(-3px);
     }
-    
     .whatsapp-btn{
       position:fixed;
       bottom:30px;
@@ -572,230 +485,10 @@
       z-index:1001;
     }
 
-    /* SMS Verification Styles */
-    .sms-verification{
-      text-align:center;
-      margin-top:20px;
-    }
-    
-    .verification-code{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin:20px 0;
-    }
-    
-    .code-digit{
-      width:50px;
-      height:50px;
-      text-align:center;
-      font-size:1.5rem;
-      border:2px solid #ddd;
-      border-radius:8px;
-      outline:none;
-    }
-    
-    .code-digit:focus{
-      border-color:var(--gold);
-    }
-    
-    .timer{
-      color:#666;
-      margin-top:10px;
-    }
-    
-    .resend-link{
-      color:var(--dark-blue);
-      text-decoration:underline;
-      cursor:pointer;
-    }
-    
-    .resend-link:hover{
-      color:var(--gold);
-    }
-    
-    .error-message{
-      color:#e74c3c;
-      margin-top:10px;
-    }
-    
-    .success-message{
-      color:#27ae60;
-      margin-top:10px;
-    }
-
-    /* Chatbot Styles */
-    #chatbot-toggle{
-      position:fixed;
-      bottom:100px;
-      right:30px;
-      width:60px;
-      height:60px;
-      background:var(--dark-blue);
-      color:white;
-      border:none;
-      border-radius:50%;
-      font-size:1.5rem;
-      cursor:pointer;
-      z-index:1002;
-      box-shadow:0 4px 15px rgba(0,0,0,0.2);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    
-    #chatbot-container{
-      display:none;
-      position:fixed;
-      bottom:180px;
-      right:30px;
-      width:320px;
-      max-height:500px;
-      background:var(--chatbot-bg);
-      border-radius:15px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.2);
-      z-index:1001;
-      overflow:hidden;
-      transition:all 0.3s;
-    }
-    
-    #chatbot-header{
-      background:var(--chatbot-header);
-      color:white;
-      padding:15px;
-      font-weight:bold;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-    
-    #chatbot-messages{
-      padding:15px;
-      height:300px;
-      overflow-y:auto;
-      font-size:0.95rem;
-      line-height:1.6;
-    }
-    
-    #chatbot-input-container{
-      display:flex;
-      padding:10px;
-      border-top:1px solid #eee;
-      background:var(--chatbot-bg);
-    }
-    
-    #chatbot-input{
-      flex:1;
-      padding:10px;
-      border:1px solid #ccc;
-      border-radius:8px;
-      outline:none;
-      margin-right:10px;
-    }
-    
-    #chatbot-send{
-      background:var(--gold);
-      color:var(--dark-blue);
-      border:none;
-      padding:10px 15px;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:bold;
-    }
-    
-    .chat-message{
-      margin-bottom:10px;
-      padding:8px 12px;
-      border-radius:10px;
-      max-width:80%;
-    }
-    
-    .user-message{
-      background:var(--gold);
-      color:var(--dark-blue);
-      margin-left:auto;
-      text-align:right;
-    }
-    
-    .bot-message{
-      background:#e9ecef;
-      color:#333;
-    }
-    
-    .language-selector{
-      margin:10px 0;
-      text-align:center;
-    }
-    
-    .language-btn{
-      background:#f8f9fa;
-      border:1px solid #ddd;
-      padding:5px 10px;
-      margin:0 5px;
-      border-radius:5px;
-      cursor:pointer;
-      font-size:0.8rem;
-    }
-    
-    .language-btn.active{
-      background:var(--gold);
-      color:var(--dark-blue);
-      border-color:var(--gold);
-    }
-
-    /* Mobile Optimization for Chatbot */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      #chatbot-container {
-        width: 300px;
-        right: 15px;
-        bottom: 90px;
-      }
-      
-      #chatbot-input-container {
-        display: flex;
-        flex-direction: row;
-        padding: 10px;
-        border-top: 1px solid #eee;
-        background: var(--chatbot-bg);
-      }
-      
-      #chatbot-input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        outline: none;
-        margin-right: 10px;
-        font-size: 14px;
-      }
-      
-      #chatbot-send {
-        background: var(--gold);
-        color: var(--dark-blue);
-        border: none;
-        padding: 10px 15px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 14px;
-      }
-    }
+    /* Mobile Optimization for Chatbot - Eliminado porque ya no se usa */
   </style>
 </head>
 <body>
-
   <!-- Header -->
   <header>
     <div class="container header-content">
@@ -814,7 +507,6 @@
       </nav>
     </div>
   </header>
-
   <!-- Hero -->
   <section class="hero" id="home">
     <div class="hero-content">
@@ -823,7 +515,6 @@
       <a href="#contact" class="btn">Get Free Quote</a>
     </div>
   </section>
-
   <!-- Services -->
   <section class="services" id="services">
     <div class="container">
@@ -838,7 +529,6 @@
       </div>
     </div>
   </section>
-
   <!-- Testimonials -->
   <section class="testimonials" id="testimonials">
     <div class="container">
@@ -851,7 +541,6 @@
       </div>
     </div>
   </section>
-
   <!-- Calculator -->
   <section class="calculator-section" id="calculator">
     <div class="container">
@@ -878,7 +567,6 @@
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
           <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes (9.25%), permits & inspection</small>
-
           <!-- SMS Verification Section -->
           <div class="sms-verification" id="smsVerification">
             <h3>Verify Your Phone Number</h3>
@@ -887,7 +575,6 @@
               <input type="tel" id="phoneNumber" name="phone" class="form-control" placeholder="Enter your phone number" required>
               <button type="button" class="btn" id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
             </form>
-
             <div id="verificationCodeSection" style="display:none;">
               <p>Enter the 6-digit code sent to your phone</p>
               <div class="verification-code">
@@ -904,7 +591,6 @@
               <div id="verificationMessage"></div>
             </div>
           </div>
-
           <!-- Form for sending detailed quote -->
           <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
             <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
@@ -920,7 +606,6 @@
       </div>
     </div>
   </section>
-
   <!-- Gallery -->
   <section class="gallery" id="gallery">
     <div class="container">
@@ -935,7 +620,6 @@
       </div>
     </div>
   </section>
-
   <!-- About -->
   <section class="about" id="about">
     <div class="container about-content">
@@ -951,7 +635,6 @@
       </div>
     </div>
   </section>
-
   <!-- Contact -->
   <section class="contact" id="contact">
     <div class="container">
@@ -987,7 +670,6 @@
       </div>
     </div>
   </section>
-
   <!-- Footer -->
   <footer>
     <div class="container footer-content">
@@ -1020,616 +702,10 @@
     </div>
     <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
   </footer>
-
   <!-- WhatsApp float -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- Chatbot -->
-  <button id="chatbot-toggle" title="Chat with our Assistant">💬</button>
-  <div id="chatbot-container">
-    <div id="chatbot-header">
-      <span>Electric Assistant ⚡</span>
-      <span id="chatbot-close" style="cursor: pointer;">✕</span>
-    </div>
-    <div class="language-selector">
-      <button class="language-btn active" data-lang="en">English</button>
-      <button class="language-btn" data-lang="es">Español</button>
-      <button class="language-btn" data-lang="zh">中文</button>
-    </div>
-    <div id="chatbot-messages"></div>
-    <div id="chatbot-input-container">
-      <input type="text" id="chatbot-input" placeholder="Type your message...">
-      <button id="chatbot-send">Send</button>
-    </div>
-  </div>
-
-  <script>
-    // Testimonials System - Rotates one by one every 10 seconds, changes every 15 days
-    document.addEventListener('DOMContentLoaded', function() {
-      // Fetch testimonials from data.json
-      fetch('data.json')
-        .then(response => response.json())
-        .then(data => {
-          const allTestimonials = data.testimonials;
-          const testimonialText = document.getElementById('testimonial-text');
-          const testimonialAuthor = document.getElementById('testimonial-author');
-
-          // Function to get current cycle based on date (every 15 days)
-          function getCurrentTestimonialCycle() {
-            const now = new Date();
-            const start = new Date('2024-01-01'); // Start date for cycles
-            const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-            const cycleIndex = Math.floor(diffDays / 15) % Math.ceil(allTestimonials.length / 5);
-            return cycleIndex;
-          }
-          
-          // Get 5 testimonials for current cycle
-          function getCurrentTestimonials() {
-            const cycle = getCurrentTestimonialCycle();
-            const startIndex = (cycle * 5) % allTestimonials.length;
-            const endIndex = Math.min(startIndex + 5, allTestimonials.length);
-            let testimonials = allTestimonials.slice(startIndex, endIndex);
-            
-            // If we don't have 5, wrap around to beginning
-            if (testimonials.length < 5) {
-              const remaining = 5 - testimonials.length;
-              testimonials = testimonials.concat(allTestimonials.slice(0, remaining));
-            }
-            
-            return testimonials;
-          }
-          
-          // Get testimonials for current cycle
-          let currentTestimonials = getCurrentTestimonials();
-          let currentIndex = 0;
-
-          // Function to display current testimonial
-          function displayCurrentTestimonial() {
-            const testimonial = currentTestimonials[currentIndex];
-            testimonialText.textContent = `"${testimonial.text}"`;
-            testimonialAuthor.textContent = testimonial.author;
-          }
-
-          // Initial display
-          displayCurrentTestimonial();
-
-          // Rotate every 10 seconds
-          setInterval(() => {
-            currentIndex = (currentIndex + 1) % currentTestimonials.length;
-            displayCurrentTestimonial();
-          }, 10000); // 10 seconds
-        })
-        .catch(err => {
-          console.error('Error loading testimonials:', err);
-          // Fallback to static testimonials if JSON fails
-          const fallbackTestimonials = [
-            { text: "Professional and reliable service. Highly recommend!", author: "— Maria G., San Francisco" },
-            { text: "Fast response and excellent work. Will use again.", author: "— James L., Oakland" },
-            { text: "Great communication and quality work. Very satisfied.", author: "— Sofia R., San Jose" },
-            { text: "Fixed my electrical issue quickly and safely.", author: "— David K., Berkeley" },
-            { text: "Fair pricing and professional service. Excellent experience.", author: "— Lisa M., Fremont" }
-          ];
-          
-          const testimonialText = document.getElementById('testimonial-text');
-          const testimonialAuthor = document.getElementById('testimonial-author');
-          let currentIndex = 0;
-
-          // Function to display current testimonial
-          function displayCurrentTestimonial() {
-            const testimonial = fallbackTestimonials[currentIndex];
-            testimonialText.textContent = `"${testimonial.text}"`;
-            testimonialAuthor.textContent = testimonial.author;
-          }
-
-          // Initial display
-          displayCurrentTestimonial();
-
-          // Rotate every 10 seconds
-          setInterval(() => {
-            currentIndex = (currentIndex + 1) % fallbackTestimonials.length;
-            displayCurrentTestimonial();
-          }, 10000); // 10 seconds
-        });
-    });
-
-    // Advanced Chatbot Intelligence
-    const chatbotToggle = document.getElementById('chatbot-toggle');
-    const chatbotContainer = document.getElementById('chatbot-container');
-    const chatbotClose = document.getElementById('chatbot-close');
-    const chatbotMessages = document.getElementById('chatbot-messages');
-    const chatbotInput = document.getElementById('chatbot-input');
-    const chatbotSend = document.getElementById('chatbot-send');
-    const languageButtons = document.querySelectorAll('.language-btn');
-
-    let currentLanguage = 'en';
-    let conversationHistory = [];
-
-    // Language selector
-    languageButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        languageButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentLanguage = btn.dataset.lang;
-        
-        // Clear chat and show welcome message in new language
-        chatbotMessages.innerHTML = '';
-        conversationHistory = [];
-        appendMessage('bot', getWelcomeMessage());
-      });
-    });
-
-    // Toggle chatbot visibility
-    chatbotToggle.addEventListener('click', () => {
-      chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
-    });
-
-    chatbotClose.addEventListener('click', () => {
-      chatbotContainer.style.display = 'none';
-    });
-
-    // Send message on button click or Enter key
-    chatbotSend.addEventListener('click', sendMessage);
-    chatbotInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    // Initialize chat
-    window.addEventListener('DOMContentLoaded', () => {
-      appendMessage('bot', getWelcomeMessage());
-    });
-
-    function sendMessage() {
-      const message = chatbotInput.value.trim();
-      if (!message) return;
-
-      appendMessage('user', message);
-      conversationHistory.push({ role: 'user', content: message });
-      chatbotInput.value = '';
-
-      // Simulate bot thinking
-      setTimeout(() => {
-        const response = getAdvancedBotResponse(message.toLowerCase());
-        appendMessage('bot', response);
-        conversationHistory.push({ role: 'bot', content: response });
-      }, 500);
-    }
-
-    function appendMessage(sender, text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('chat-message');
-      messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-      messageDiv.textContent = text;
-      chatbotMessages.appendChild(messageDiv);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    }
-
-    function getWelcomeMessage() {
-      const messages = {
-        en: "Hello! I'm your electric assistant. I can help you understand electrical issues, explain our services, and guide you on when to call a professional. What would you like to know?",
-        es: "¡Hola! Soy su asistente eléctrico. Puedo ayudarle a entender problemas eléctricos, explicar nuestros servicios y guiarle sobre cuándo llamar a un profesional. ¿Qué le gustaría saber?",
-        zh: "您好！我是您的电力助手。我可以帮助您了解电气问题，解释我们的服务，并指导您何时需要联系专业人员。您想了解什么？"
-      };
-      return messages[currentLanguage] || messages.en;
-    }
-
-    function getAdvancedBotResponse(input) {
-      // Store conversation context
-      const context = conversationHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n');
-
-      const responses = {
-        en: {
-          greeting: [
-            "Hello! I'm here to help you with electrical questions. What can I assist you with today?",
-            "Hi there! I can explain electrical concepts and help you understand when you might need professional help.",
-            "Welcome! I'm your electric assistant. Ask me about electrical safety, services, or common issues."
-          ],
-          panel: {
-            basic: "Electrical panels are the heart of your home's electrical system. They distribute power to circuits throughout your house.",
-            upgrade: "If your home is over 20 years old or you're adding high-demand appliances like EV chargers, you might need a panel upgrade.",
-            warning: "Signs you may need panel attention: frequent breaker trips, flickering lights, burning smells, or outlets that don't work properly.",
-            action: "For a proper assessment, we offer FREE inspections to determine if your panel meets current safety standards."
-          },
-          ev: {
-            explanation: "EV chargers require dedicated circuits and often a 200A electrical panel for Level 2 charging (the fastest home charging option).",
-            installation: "Professional installation ensures safety and optimal performance. We handle permits, electrical work, and setup.",
-            benefits: "Level 2 charging can add 20-40 miles of range per hour, compared to 2-5 miles with standard outlets.",
-            consideration: "Before installing, we evaluate your electrical panel capacity and recommend any necessary upgrades."
-          },
-          emergency: {
-            immediate: "For electrical emergencies like sparks, burning smells, or complete power outages, safety is priority one.",
-            response: "We offer 24/7 emergency service with rapid response times. Our team is ready to address urgent electrical issues.",
-            safety: "Never attempt to fix electrical emergencies yourself. Turn off power at the breaker and contact professionals immediately.",
-            contact: "Call us anytime at (510) 221-1258 for immediate emergency assistance."
-          },
-          pricing: {
-            transparency: "We believe in transparent pricing. Our estimates include all materials, labor, permits, and inspections.",
-            factors: "Costs depend on project complexity, materials needed, and local permit requirements.",
-            process: "We provide detailed quotes after a free consultation to assess your specific needs.",
-            guarantee: "All our work comes with a 1-year warranty for your peace of mind."
-          },
-          smart: {
-            overview: "Smart home technology allows you to control lighting, temperature, security, and more from your phone or voice commands.",
-            integration: "We specialize in integrating smart devices with existing electrical systems for seamless operation.",
-            benefits: "Smart homes offer convenience, energy savings, and enhanced security when properly installed.",
-            compatibility: "We ensure all smart devices are compatible with your home's electrical infrastructure."
-          },
-          safety: {
-            general: "Electrical safety is crucial. Always hire licensed professionals for electrical work to prevent hazards.",
-            diy: "Simple tasks like changing outlets are generally safe DIY projects, but anything involving panels or major wiring requires professional expertise.",
-            prevention: "Regular inspections can identify potential hazards before they become dangerous problems.",
-            warning: "If you notice burning smells, sparks, or frequent breaker trips, contact us immediately for a safety assessment."
-          },
-          inspection: {
-            importance: "Regular electrical inspections help maintain safety and identify potential issues before they become costly problems.",
-            frequency: "We recommend inspections every 10-15 years for older homes, or when making significant electrical upgrades.",
-            process: "Our inspections include checking panels, outlets, switches, and overall system integrity.",
-            benefits: "Early detection of issues can prevent fires, electrical failures, and expensive emergency repairs."
-          },
-          default: "I can help you understand electrical concepts, explain our services, and guide you on electrical safety. You can ask about panel upgrades, EV charging, smart homes, emergency services, or general electrical questions. What would you like to know?"
-        },
-        es: {
-          greeting: [
-            "¡Hola! Estoy aquí para ayudarle con preguntas eléctricas. ¿Con qué puedo asistirle hoy?",
-            "¡Buen día! Puedo explicar conceptos eléctricos y ayudarle a entender cuándo podría necesitar ayuda profesional.",
-            "¡Bienvenido! Soy su asistente eléctrico. Pregúnteme sobre seguridad eléctrica, servicios o problemas comunes."
-          ],
-          panel: {
-            basic: "Los cuadros eléctricos son el corazón del sistema eléctrico de su hogar. Distribuyen energía a los circuitos de toda la casa.",
-            upgrade: "Si su hogar tiene más de 20 años o está agregando electrodomésticos de alta demanda como cargadores EV, es posible que necesite una actualización del panel.",
-            warning: "Señales de que puede necesitar atención del panel: disparos frecuentes del interruptor, luces parpadeantes, olores a quemado u outlets que no funcionan correctamente.",
-            action: "Para una evaluación adecuada, ofrecemos inspecciones GRATUITAS para determinar si su panel cumple con las normas de seguridad actuales."
-          },
-          ev: {
-            explanation: "Los cargadores EV requieren circuitos dedicados y a menudo un panel eléctrico de 200A para carga de Nivel 2 (la opción de carga doméstica más rápida).",
-            installation: "La instalación profesional garantiza la seguridad y el rendimiento óptimo. Nos encargamos de permisos, trabajo eléctrico y configuración.",
-            benefits: "La carga de Nivel 2 puede agregar de 20 a 40 millas de autonomía por hora, en comparación con 2 a 5 millas con outlets estándar.",
-            consideration: "Antes de instalar, evaluamos la capacidad de su panel eléctrico y recomendamos cualquier actualización necesaria."
-          },
-          emergency: {
-            immediate: "Para emergencias eléctricas como chispas, olores a quemado o apagones completos, la seguridad es la prioridad número uno.",
-            response: "Ofrecemos servicio de emergencia 24/7 con tiempos de respuesta rápidos. Nuestro equipo está listo para abordar problemas eléctricos urgentes.",
-            safety: "Nunca intente arreglar emergencias eléctricas usted mismo. Apague la energía en el interruptor y contacte a profesionales inmediatamente.",
-            contact: "Llámenos en cualquier momento al (510) 221-1258 para asistencia de emergencia inmediata."
-          },
-          pricing: {
-            transparency: "Creemos en precios transparentes. Nuestros presupuestos incluyen todos los materiales, mano de obra, permisos e inspecciones.",
-            factors: "Los costos dependen de la complejidad del proyecto, los materiales necesarios y los requisitos de permisos locales.",
-            process: "Proporcionamos cotizaciones detalladas después de una consulta gratuita para evaluar sus necesidades específicas.",
-            guarantee: "Todo nuestro trabajo viene con una garantía de 1 año para su tranquilidad."
-          },
-          smart: {
-            overview: "La tecnología de hogar inteligente le permite controlar la iluminación, temperatura, seguridad y más desde su teléfono o comandos de voz.",
-            integration: "Nos especializamos en integrar dispositivos inteligentes con sistemas eléctricos existentes para una operación perfecta.",
-            benefits: "Los hogares inteligentes ofrecen comodidad, ahorro de energía y seguridad mejorada cuando se instalan correctamente.",
-            compatibility: "Nos aseguramos de que todos los dispositivos inteligentes sean compatibles con la infraestructura eléctrica de su hogar."
-          },
-          safety: {
-            general: "La seguridad eléctrica es crucial. Siempre contrate profesionales con licencia para trabajos eléctricos para prevenir peligros.",
-            diy: "Tareas simples como cambiar outlets son generalmente proyectos DIY seguros, pero cualquier cosa que involucre paneles o cableado importante requiere experiencia profesional.",
-            prevention: "Las inspecciones regulares pueden identificar peligros potenciales antes de que se conviertan en problemas peligrosos.",
-            warning: "Si nota olores a quemado, chispas o disparos frecuentes del interruptor, contáctenos inmediatamente para una evaluación de seguridad."
-          },
-          inspection: {
-            importance: "Las inspecciones eléctricas regulares ayudan a mantener la seguridad e identificar problemas potenciales antes de que se conviertan en problemas costosos.",
-            frequency: "Recomendamos inspecciones cada 10-15 años para hogares antiguos, o cuando se realizan actualizaciones eléctricas significativas.",
-            process: "Nuestras inspecciones incluyen revisión de paneles, outlets, interruptores e integridad general del sistema.",
-            benefits: "La detección temprana de problemas puede prevenir incendios, fallas eléctricas y reparaciones de emergencia costosas."
-          },
-          default: "Puedo ayudarle a entender conceptos eléctricos, explicar nuestros servicios y guiarle sobre seguridad eléctrica. Puede preguntar sobre actualizaciones de panel, carga EV, hogares inteligentes, servicios de emergencia o preguntas eléctricas generales. ¿Qué le gustaría saber?"
-        },
-        zh: {
-          greeting: [
-            "您好！我在这里帮助您解答电气问题。今天我能帮您什么？",
-            "你好！我可以解释电气概念，帮助您了解何时需要专业帮助。",
-            "欢迎！我是您的电力助手。询问我关于电气安全、服务或常见问题。"
-          ],
-          panel: {
-            basic: "配电盘是您家庭电气系统的心脏。它们将电力分配到您家中的各个电路。",
-            upgrade: "如果您的房屋超过20年，或者您要添加高需求电器如电动汽车充电器，您可能需要升级配电盘。",
-            warning: "您可能需要关注配电盘的迹象：断路器频繁跳闸、灯光闪烁、烧焦味或插座工作不正常。",
-            action: "为了进行适当评估，我们提供免费检查，以确定您的配电盘是否符合当前的安全标准。"
-          },
-          ev: {
-            explanation: "电动汽车充电器需要专用电路，通常需要200A配电盘进行2级充电（最快的家用充电选项）。",
-            installation: "专业安装确保安全和最佳性能。我们处理许可证、电气工作和设置。",
-            benefits: "2级充电每小时可增加20-40英里的续航里程，而标准插座只能增加2-5英里。",
-            consideration: "安装前，我们评估您的配电盘容量并推荐任何必要的升级。"
-          },
-          emergency: {
-            immediate: "对于电火花、烧焦味或完全停电等电气紧急情况，安全是第一优先级。",
-            response: "我们提供24/7紧急服务，响应时间快速。我们的团队随时准备处理紧急电气问题。",
-            safety: "切勿自行修复电气紧急情况。请在断路器处关闭电源并立即联系专业人员。",
-            contact: "随时致电(510) 221-1258获得即时紧急协助。"
-          },
-          pricing: {
-            transparency: "我们相信透明定价。我们的估价包括所有材料、人工、许可证和检查费用。",
-            factors: "成本取决于项目复杂性、所需材料和当地许可证要求。",
-            process: "我们提供详细的报价，在免费咨询后评估您的具体需求。",
-            guarantee: "我们所有工作都提供1年保修，让您安心。"
-          },
-          smart: {
-            overview: "智能家居技术让您可以通过手机或语音命令控制照明、温度、安全等。",
-            integration: "我们专门从事将智能设备与现有电气系统集成，实现无缝操作。",
-            benefits: "智能家居提供便利、节能和增强的安全性，当正确安装时。",
-            compatibility: "我们确保所有智能设备与您家的电气基础设施兼容。"
-          },
-          safety: {
-            general: "电气安全至关重要。始终聘请持牌专业人员进行电气工作以防止危险。",
-            diy: "像更换插座这样的简单任务通常是安全的DIY项目，但涉及配电盘或主要布线的任何工作都需要专业技能。",
-            prevention: "定期检查可以在潜在危险变成危险问题之前识别它们。",
-            warning: "如果您注意到烧焦味、火花或断路器频繁跳闸，请立即联系我们进行安全评估。"
-          },
-          inspection: {
-            importance: "定期电气检查有助于保持安全，并在潜在问题变成昂贵问题之前识别它们。",
-            frequency: "我们建议老房子每10-15年进行一次检查，或在进行重大电气升级时进行检查。",
-            process: "我们的检查包括检查配电盘、插座、开关和整体系统完整性。",
-            benefits: "早期发现问题可以防止火灾、电气故障和昂贵的紧急维修。"
-          },
-          default: "我可以帮助您了解电气概念，解释我们的服务，并指导您了解电气安全。您可以询问面板升级、电动汽车充电、智能家居、紧急服务或一般电气问题。您想了解什么？"
-        }
-      };
-
-      const lang = responses[currentLanguage] || responses.en;
-
-      // Advanced keyword matching with context awareness
-      if (input.includes('hello') || input.includes('hi') || input.includes('hola') || input.includes('你好')) {
-        return lang.greeting[Math.floor(Math.random() * lang.greeting.length)];
-      } 
-      
-      // Panel related queries
-      else if (input.includes('panel') || input.includes('cuadro') || input.includes('配电盘') || input.includes('breaker') || input.includes('breaker box')) {
-        if (input.includes('upgrade') || input.includes('actualiz') || input.includes('升级')) {
-          return lang.panel.upgrade;
-        } else if (input.includes('sign') || input.includes('senal') || input.includes('迹象')) {
-          return lang.panel.warning;
-        } else if (input.includes('inspect') || input.includes('inspeccion') || input.includes('检查')) {
-          return lang.panel.action;
-        } else {
-          return lang.panel.basic;
-        }
-      }
-      
-      // EV charger related queries
-      else if (input.includes('charger') || input.includes('ev') || input.includes('car') || input.includes('充电') || input.includes('tesla') || input.includes('rivian')) {
-        if (input.includes('install') || input.includes('instal') || input.includes('安装')) {
-          return lang.ev.installation;
-        } else if (input.includes('benefit') || input.includes('ventaja') || input.includes('好处')) {
-          return lang.ev.benefits;
-        } else if (input.includes('200') || input.includes('panel')) {
-          return lang.ev.consideration;
-        } else {
-          return lang.ev.explanation;
-        }
-      }
-      
-      // Emergency related queries
-      else if (input.includes('emergency') || input.includes('urgent') || input.includes('urgente') || input.includes('紧急') || input.includes('spark') || input.includes('chispa') || input.includes('smoke') || input.includes('humo')) {
-        if (input.includes('contact') || input.includes('llamar') || input.includes('联系')) {
-          return lang.emergency.contact;
-        } else if (input.includes('safety') || input.includes('seguridad') || input.includes('安全')) {
-          return lang.emergency.safety;
-        } else if (input.includes('response') || input.includes('respuesta') || input.includes('响应')) {
-          return lang.emergency.response;
-        } else {
-          return lang.emergency.immediate;
-        }
-      }
-      
-      // Pricing related queries
-      else if (input.includes('price') || input.includes('cost') || input.includes('precio') || input.includes('价格') || input.includes('quote') || input.includes('cotizacion') || input.includes('报价')) {
-        if (input.includes('transpar') || input.includes('transparent') || input.includes('透明')) {
-          return lang.pricing.transparency;
-        } else if (input.includes('factor') || input.includes('factores') || input.includes('因素')) {
-          return lang.pricing.factors;
-        } else if (input.includes('process') || input.includes('proceso') || input.includes('过程')) {
-          return lang.pricing.process;
-        } else if (input.includes('guarant') || input.includes('garantia') || input.includes('保证')) {
-          return lang.pricing.guarantee;
-        } else {
-          return lang.pricing.transparency;
-        }
-      }
-      
-      // Smart home related queries
-      else if (input.includes('smart') || input.includes('intelligent') || input.includes('inteligente') || input.includes('智能') || input.includes('home') || input.includes('hogar') || input.includes('家居')) {
-        if (input.includes('integrat') || input.includes('integracion') || input.includes('集成')) {
-          return lang.smart.integration;
-        } else if (input.includes('benefit') || input.includes('ventaja') || input.includes('好处')) {
-          return lang.smart.benefits;
-        } else if (input.includes('compatib') || input.includes('compatible') || input.includes('兼容')) {
-          return lang.smart.compatibility;
-        } else {
-          return lang.smart.overview;
-        }
-      }
-      
-      // Safety related queries
-      else if (input.includes('safety') || input.includes('seguridad') || input.includes('安全') || input.includes('danger') || input.includes('peligro') || input.includes('危险')) {
-        if (input.includes('diy') || input.includes('自己') || input.includes('hacer')) {
-          return lang.safety.diy;
-        } else if (input.includes('prevent') || input.includes('prevenir') || input.includes('预防')) {
-          return lang.safety.prevention;
-        } else if (input.includes('warning') || input.includes('advertencia') || input.includes('警告')) {
-          return lang.safety.warning;
-        } else {
-          return lang.safety.general;
-        }
-      }
-      
-      // Inspection related queries
-      else if (input.includes('inspect') || input.includes('inspeccion') || input.includes('检查') || input.includes('check') || input.includes('revis')) {
-        if (input.includes('import') || input.includes('importancia') || input.includes('重要')) {
-          return lang.inspection.importance;
-        } else if (input.includes('frequen') || input.includes('frecuencia') || input.includes('频率')) {
-          return lang.inspection.frequency;
-        } else if (input.includes('process') || input.includes('proceso') || input.includes('过程')) {
-          return lang.inspection.process;
-        } else if (input.includes('benefit') || input.includes('beneficio') || input.includes('好处')) {
-          return lang.inspection.benefits;
-        } else {
-          return lang.inspection.importance;
-        }
-      }
-      
-      // Default response with context awareness
-      else {
-        // Check if this is a follow-up question
-        const lastBotMessage = conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1] : null;
-        if (lastBotMessage && lastBotMessage.role === 'bot') {
-          // If user is asking for more details after a specific topic
-          if (input.includes('more') || input.includes('mas') || input.includes('更多') || input.includes('detail') || input.includes('detalle') || input.includes('详细')) {
-            return "I'd be happy to provide more details about that topic. For the most accurate and personalized information, I recommend scheduling a free consultation with one of our licensed electricians. They can assess your specific situation and provide expert guidance.";
-          }
-        }
-        return lang.default;
-      }
-    }
-
-    /* CALCULATOR - Unchanged */
-    const prices = {
-      "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
-      "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
-      "ev-charger": { base:{small:850,medium:1200,large:1500}, factor:{new:0,mid:200,old:400} },
-      "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
-    };
-
-    let currentCalculation = { service: null, size: null, year: null, total: null };
-    let verificationCode = null;
-    let countdownInterval = null;
-    let countdownTime = 300;
-
-    function nextStep(step) {
-      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-      document.getElementById(step).classList.add('active');
-    }
-
-    function calculateEstimate() {
-      const service = document.querySelector('input[name="service"]:checked')?.value;
-      const size = document.getElementById('houseSize').value;
-      const year = document.getElementById('houseYear').value;
-      
-      if (!service || !size || !year) { 
-        alert('Please complete all fields.'); 
-        return; 
-      }
-      
-      const base = prices[service].base[size];
-      const extra = prices[service].factor[year];
-      const tax = (base + extra) * 0.0925;
-      const total = Math.round(base + extra + tax + 400);
-      
-      currentCalculation = { service, size, year, total };
-      
-      document.getElementById('smsVerification').style.display = 'block';
-      nextStep('step3');
-    }
-
-    async function sendVerificationCode() {
-      let phoneNumber = document.getElementById('phoneNumber').value;
-      if (!phoneNumber) return alert('Please enter your phone number');
-
-      // Limpiar el número (eliminar espacios, guiones, paréntesis)
-      phoneNumber = phoneNumber.replace(/\D/g, '');
-
-      // Si tiene 10 dígitos, agregar +1 al principio
-      if (phoneNumber.length === 10) {
-        phoneNumber = '+1' + phoneNumber;
-      }
-
-      // Si ya tiene +1 o código de país, dejarlo así
-      else if (phoneNumber.length > 10 && phoneNumber.startsWith('1')) {
-        phoneNumber = '+' + phoneNumber;
-      }
-
-      // Si no cumple con ningún formato válido
-      else {
-        return alert('Please enter a valid 10-digit phone number');
-      }
-
-      const btn = document.getElementById('sendCodeBtn');
-      btn.disabled = true; btn.innerText = 'Sending...';
-
-      try {
-        const res = await fetch('https://goldencharge-sms-backend.onrender.com/send-code', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ phone: phoneNumber })
-        });
-        const data = await res.json();
-        if (data.success) {
-          document.getElementById('verificationCodeSection').style.display = 'block';
-          startCountdown();
-        } else {
-          alert(data.error || 'Error sending code');
-        }
-      } catch (err) {
-        alert('Error: ' + err.message);
-      } finally {
-        btn.disabled = false; btn.innerText = 'Send Code';
-      }
-    }
-
-    function startCountdown() {
-      countdownTime = 300;
-      if (countdownInterval) clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        countdownTime--;
-        const m = Math.floor(countdownTime / 60);
-        const s = countdownTime % 60;
-        document.getElementById('countdown').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-        if (countdownTime <= 0) clearInterval(countdownInterval);
-      }, 1000);
-    }
-
-    async function verifyCode() {
-      const phoneNumber = document.getElementById('phoneNumber').value;
-      const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
-      if (!code || code.length !== 6) return alert('Please enter the 6-digit code');
-
-      try {
-        const res = await fetch('https://goldencharge-sms-backend.onrender.com/check-code', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ phone: phoneNumber, code })
-        });
-        const data = await res.json();
-        if (data.success) {
-          document.getElementById('calcService').value = currentCalculation.service;
-          document.getElementById('calcSize').value = currentCalculation.size;
-          document.getElementById('calcYear').value = currentCalculation.year;
-          document.getElementById('calcTotal').value = currentCalculation.total;
-          document.getElementById('resultPrice').innerText = '~$' + currentCalculation.total;
-          document.getElementById('resultPrice').style.display = 'block';
-          document.getElementById('calcLeadForm').style.display = 'block';
-          document.getElementById('smsVerification').style.display = 'none';
-          clearInterval(countdownInterval);
-        } else {
-          alert('Invalid code');
-        }
-      } catch (err) {
-        alert('Error: ' + err.message);
-      }
-    }
-
-    function resendCode() {
-      sendVerificationCode();
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('input[name="service"]').forEach(radio => {
-        radio.addEventListener('change', () => nextStep('step2'));
-      });
-
-      // Auto-focus para campos de código
-      document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
-        input.addEventListener('input', e => {
-          if (e.target.value && index < arr.length - 1) arr[index + 1].focus();
-        });
-        input.addEventListener('keydown', e => {
-          if (e.key === 'Backspace' && !e.target.value && index > 0) arr[index - 1].focus();
-        });
-      });
-    });
-  </script>
+  <!-- ✅ Chatbot de Tidio (reemplaza al anterior) -->
+  <script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
 </body>
 </html>
