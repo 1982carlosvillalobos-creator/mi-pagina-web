@@ -47,7 +47,7 @@
     .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;font-weight:600;background:#fafafa}
     .calc-card input{display:none}
     .calc-card:has(input:checked){border-color:var(--gold);background:rgba(255,215,0,.1)}
-    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0;display:none} /* Ocultar el precio inicialmente */
+    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0;display:none}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
     .gallery{padding:100px 0;background:#f0f4f8}
@@ -88,58 +88,17 @@
     .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1)}
     .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
     .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:1001}
-    
+
     /* SMS Verification Styles */
-    .sms-verification {
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    .verification-code {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-    }
-    
-    .code-digit {
-      width: 50px;
-      height: 50px;
-      text-align: center;
-      font-size: 1.5rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-    }
-    
-    .code-digit:focus {
-      border-color: var(--gold);
-    }
-    
-    .timer {
-      color: #666;
-      margin-top: 10px;
-    }
-    
-    .resend-link {
-      color: var(--dark-blue);
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    
-    .resend-link:hover {
-      color: var(--gold);
-    }
-    
-    .error-message {
-      color: #e74c3c;
-      margin-top: 10px;
-    }
-    
-    .success-message {
-      color: #27ae60;
-      margin-top: 10px;
-    }
+    .sms-verification{text-align:center;margin-top:20px}
+    .verification-code{display:flex;justify-content:center;gap:10px;margin:20px 0}
+    .code-digit{width:50px;height:50px;text-align:center;font-size:1.5rem;border:2px solid #ddd;border-radius:8px;outline:none}
+    .code-digit:focus{border-color:var(--gold)}
+    .timer{color:#666;margin-top:10px}
+    .resend-link{color:var(--dark-blue);text-decoration:underline;cursor:pointer}
+    .resend-link:hover{color:var(--gold)}
+    .error-message{color:#e74c3c;margin-top:10px}
+    .success-message{color:#27ae60;margin-top:10px}
   </style>
 </head>
 <body>
@@ -206,8 +165,8 @@
         <div class="calc-step" id="step3">
           <h3>💡 Quick Estimate</h3>
           <div id="resultPrice" class="price-display"></div>
-          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes, permits & inspection</small>
-          
+          <small style="color:#777;">*Includes AFCI/GFCI breakers, CA taxes (9.25%), permits & inspection</small>
+
           <!-- SMS Verification Section -->
           <div class="sms-verification" id="smsVerification">
             <h3>Verify Your Phone Number</h3>
@@ -216,7 +175,7 @@
               <input type="tel" id="phoneNumber" name="phone" class="form-control" placeholder="Enter your phone number" required>
               <button type="button" class="btn" id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
             </form>
-            
+
             <div id="verificationCodeSection" style="display:none;">
               <p>Enter the 6-digit code sent to your phone</p>
               <div class="verification-code">
@@ -233,7 +192,7 @@
               <div id="verificationMessage"></div>
             </div>
           </div>
-          
+
           <!-- Form for sending detailed quote -->
           <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
             <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
@@ -353,9 +312,8 @@
   <!-- WhatsApp float -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- JS CORREGIDO -->
   <script nonce="MjEyNTU1MTMwMCwxMjc1NDAzMDk5">
-    /* CALCULATOR - ARREGLADO */
+    /* CALCULATOR */
     const prices = {
       "panel-100": { base:{small:3200,medium:3600,large:4000}, factor:{new:0,mid:400,old:800} },
       "panel-200": { base:{small:4800,medium:5200,large:5800}, factor:{new:0,mid:500,old:1000} },
@@ -363,21 +321,12 @@
       "smart-home": { base:{small:2000,medium:3500,large:5000}, factor:{new:0,mid:300,old:600} }
     };
 
-    // Variables para almacenar los datos del cálculo
-    let currentCalculation = {
-      service: null,
-      size: null,
-      year: null,
-      total: null
-    };
-
-    // Variables para la verificación SMS
+    let currentCalculation = { service: null, size: null, year: null, total: null };
     let verificationCode = null;
     let countdownInterval = null;
-    let countdownTime = 300; // 5 minutos en segundos
+    let countdownTime = 300;
 
     function nextStep(step) {
-      console.log('Avanzando a paso:', step);
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
       document.getElementById(step).classList.add('active');
     }
@@ -397,175 +346,100 @@
       const tax = (base + extra) * 0.0925;
       const total = Math.round(base + extra + tax + 400);
       
-      // Guardar los datos del cálculo
-      currentCalculation = {
-        service: service,
-        size: size,
-        year: year,
-        total: total
-      };
+      currentCalculation = { service, size, year, total };
       
-      // Mostrar la sección de verificación SMS
       document.getElementById('smsVerification').style.display = 'block';
-      
       nextStep('step3');
     }
 
-    // Función para enviar código de verificación
-    function sendVerificationCode() {
+    async function sendVerificationCode() {
       const phoneNumber = document.getElementById('phoneNumber').value;
-      
-      if (!phoneNumber) {
-        alert('Please enter your phone number');
-        return;
+      if (!phoneNumber) return alert('Please enter your phone number');
+
+      const btn = document.getElementById('sendCodeBtn');
+      btn.disabled = true; btn.innerText = 'Sending...';
+
+      try {
+        const res = await fetch('/send-code', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ phone: phoneNumber })
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('verificationCodeSection').style.display = 'block';
+          startCountdown();
+        } else {
+          alert(data.error || 'Error sending code');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        btn.disabled = false; btn.innerText = 'Send Code';
       }
-      
-      // Deshabilitar el botón mientras se envía
-      const sendCodeBtn = document.getElementById('sendCodeBtn');
-      sendCodeBtn.disabled = true;
-      sendCodeBtn.innerText = 'Sending...';
-      
-      // Generar código de verificación aleatorio de 6 dígitos
-      verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      // Enviar código de verificación por SMS (simulación)
-      // En un entorno real, esto se conectaría a tu backend que usa Twilio
-      console.log('Sending verification code:', verificationCode, 'to', phoneNumber);
-      
-      // Simular envío de SMS
-      setTimeout(() => {
-        sendCodeBtn.disabled = false;
-        sendCodeBtn.innerText = 'Send Code';
-        
-        // Mostrar sección de ingreso de código
-        document.getElementById('verificationCodeSection').style.display = 'block';
-        
-        // Iniciar temporizador
-        startCountdown();
-        
-        // Mostrar mensaje de éxito
-        showVerificationMessage('Verification code sent to ' + phoneNumber, 'success');
-      }, 1000);
     }
 
-    // Función para iniciar el temporizador
     function startCountdown() {
-      countdownTime = 300; // Reiniciar a 5 minutos
-      
-      // Limpiar intervalo existente si hay uno
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-      }
-      
-      // Actualizar temporizador cada segundo
+      countdownTime = 300;
+      if (countdownInterval) clearInterval(countdownInterval);
       countdownInterval = setInterval(() => {
         countdownTime--;
-        
-        const minutes = Math.floor(countdownTime / 60);
-        const seconds = countdownTime % 60;
-        
-        document.getElementById('countdown').innerText = 
-          `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        
-        // Si el tiempo se agota
-        if (countdownTime <= 0) {
-          clearInterval(countdownInterval);
-          showVerificationMessage('Code expired. Please request a new code.', 'error');
-        }
+        const m = Math.floor(countdownTime / 60);
+        const s = countdownTime % 60;
+        document.getElementById('countdown').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+        if (countdownTime <= 0) clearInterval(countdownInterval);
       }, 1000);
     }
 
-    // Función para mostrar mensajes de verificación
-    function showVerificationMessage(message, type) {
-      const messageDiv = document.getElementById('verificationMessage');
-      messageDiv.innerText = message;
-      messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    async function verifyCode() {
+      const phoneNumber = document.getElementById('phoneNumber').value;
+      const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
+      if (!code || code.length !== 6) return alert('Please enter the 6-digit code');
+
+      try {
+        const res = await fetch('/check-code', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ phone: phoneNumber, code })
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('calcService').value = currentCalculation.service;
+          document.getElementById('calcSize').value = currentCalculation.size;
+          document.getElementById('calcYear').value = currentCalculation.year;
+          document.getElementById('calcTotal').value = currentCalculation.total;
+          document.getElementById('resultPrice').innerText = '~$' + currentCalculation.total;
+          document.getElementById('resultPrice').style.display = 'block';
+          document.getElementById('calcLeadForm').style.display = 'block';
+          document.getElementById('smsVerification').style.display = 'none';
+          clearInterval(countdownInterval);
+        } else {
+          alert('Invalid code');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
     }
 
-    // Función para reenviar código
     function resendCode() {
       sendVerificationCode();
     }
 
-    // Función para verificar el código ingresado
-    function verifyCode() {
-      // Obtener el código ingresado por el usuario
-      let userCode = '';
-      const codeInputs = document.querySelectorAll('.code-digit');
-      
-      codeInputs.forEach(input => {
-        userCode += input.value;
-      });
-      
-      // Verificar si el código coincide
-      if (userCode === verificationCode) {
-        // Código correcto
-        showVerificationMessage('Phone number verified successfully!', 'success');
-        
-        // Detener el temporizador
-        clearInterval(countdownInterval);
-        
-        // Rellenar el formulario con los datos del cálculo
-        document.getElementById('calcService').value = currentCalculation.service;
-        document.getElementById('calcSize').value = currentCalculation.size;
-        document.getElementById('calcYear').value = currentCalculation.year;
-        document.getElementById('calcTotal').value = currentCalculation.total;
-        
-        // Mostrar el formulario para enviar la cotización detallada
-        document.getElementById('calcLeadForm').style.display = 'block';
-        
-        // Mostrar el precio
-        document.getElementById('resultPrice').innerText = '~$' + currentCalculation.total;
-        document.getElementById('resultPrice').style.display = 'block';
-        
-        // Ocultar la sección de verificación
-        document.getElementById('smsVerification').style.display = 'none';
-      } else {
-        // Código incorrecto
-        showVerificationMessage('Invalid verification code. Please try again.', 'error');
-      }
-    }
-
-    // Manejar la navegación entre campos de código
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Página cargada - conectando eventos...');
-      
-      // Eventos para los radio buttons de la calculadora
       document.querySelectorAll('input[name="service"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          console.log('Servicio seleccionado:', this.value);
-          nextStep('step2');
-        });
+        radio.addEventListener('change', () => nextStep('step2'));
       });
-      
-      // Manejar la navegación entre campos de código
-      const codeInputs = document.querySelectorAll('.code-digit');
-      
-      codeInputs.forEach((input, index) => {
-        input.addEventListener('input', function() {
-          if (this.value.length === 1 && index < codeInputs.length - 1) {
-            codeInputs[index + 1].focus();
-          }
+
+      // Auto-focus para campos de código
+      document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
+        input.addEventListener('input', e => {
+          if (e.target.value && index < arr.length - 1) arr[index + 1].focus();
         });
-        
-        input.addEventListener('keydown', function(e) {
-          if (e.key === 'Backspace' && this.value === '' && index > 0) {
-            codeInputs[index - 1].focus();
-          }
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Backspace' && !e.target.value && index > 0) arr[index - 1].focus();
         });
       });
     });
-
-    /* Smooth scroll - mantener como estaba */
-    document.querySelectorAll('a[href^="#"]').forEach(a => 
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-      })
-    );
-
-    /* FORMULARIO - Eliminar el preventDefault */
-    // NOTA: El formulario ahora se enviará directamente a Formsprk
   </script>
 </body>
 </html>
