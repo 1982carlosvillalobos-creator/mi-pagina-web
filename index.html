@@ -89,12 +89,13 @@
     .social-icons{display:flex;gap:15px;margin-top:15px;}
     .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);}
     .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px);}
-    .whatsapp-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;z-index:1001;transition:transform .3s;}
-    .whatsapp-btn:hover{transform:translateY(-3px) scale(1.1);}
-    #chatbot-toggle{position:fixed;bottom:100px;right:30px;width:60px;height:60px;background:var(--dark-blue);color:#fff;border-radius:50%;border:none;font-size:1.5rem;z-index:1002;}
-    #chatbot-container{display:none;position:fixed;bottom:180px;right:30px;width:320px;max-height:500px;background:#fff;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:1001;overflow:hidden;}
-    #chatbot-header{background:var(--dark-blue);color:#fff;padding:15px;font-weight:bold;display:flex;justify-content:space-between;}
-    #chatbot-messages{padding:15px;height:300px;overflow-y:auto;font-size:.95rem;}
+    /* Ajustes para los botones flotantes */
+    .whatsapp-btn{position:fixed;bottom:120px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;z-index:1003;transition:transform .3s;}
+    .whatsapp-btn:hover{transform:translateY(-3px) scale(1.05);}
+    #chatbot-toggle{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--dark-blue);color:#fff;border-radius:50%;border:none;font-size:1.5rem;z-index:1002;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    #chatbot-container{display:none;position:fixed;bottom:180px;right:30px;width:320px;max-height:500px;background:#fff;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:1004;overflow:hidden;}
+    #chatbot-header{background:var(--dark-blue);color:#fff;padding:15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;}
+    #chatbot-messages{padding:15px;height:300px;overflow-y:auto;font-size:.95rem;background:#fafafa;}
     #chatbot-input-container{display:flex;padding:10px;border-top:1px solid #eee;}
     #chatbot-input{flex:1;padding:10px;border:1px solid #ccc;border-radius:8px;margin-right:10px;}
     #chatbot-send{background:var(--gold);color:var(--dark-blue);border:none;padding:10px 15px;border-radius:8px;font-weight:bold;}
@@ -327,29 +328,31 @@
       </div>
     </div>
   </div>
-  <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
+  <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
 </footer>
 
-<!-- WhatsApp -->
+<!-- WhatsApp (subido arriba del botón de chat) -->
 <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn" title="WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
 
-<!-- Chatbot -->
+<!-- Chatbot toggle (abajo) -->
 <button id="chatbot-toggle" title="Chat with our Assistant">💬</button>
-<div id="chatbot-container">
+
+<!-- Chatbot container (se muestra/oculta con JS) -->
+<div id="chatbot-container" aria-hidden="true">
   <div id="chatbot-header">
     <span>Electric Assistant ⚡</span>
     <span id="chatbot-close" style="cursor:pointer;">✕</span>
   </div>
-  <div id="chatbot-messages"></div>
+  <div id="chatbot-messages" aria-live="polite"></div>
   <div id="chatbot-input-container">
     <input type="text" id="chatbot-input" placeholder="Type your message...">
     <button id="chatbot-send">Send</button>
   </div>
 </div>
 
-<script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
+<!-- Nota: eliminé el script de Tidio que generaba el botón azul innecesario. -->
 
 <script>
   /* Testimonials */
@@ -387,8 +390,17 @@
 
   /* Calculator */
   async function loadPrices() {
-    const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
-    return await res.json();
+    try {
+      const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
+      return await res.json();
+    } catch (err) {
+      return {
+        "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
+        "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
+        "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
+        "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } }
+      };
+    }
   }
 
   function nextStep() {
@@ -436,6 +448,7 @@
   function startCountdown() {
     let time = 300;
     const timer = document.getElementById('countdown');
+    if (!timer) return;
     const interval = setInterval(() => {
       const m = Math.floor(time / 60);
       const s = time % 60;
@@ -483,6 +496,65 @@
       if (e.key === 'Backspace' && !input.value && index > 0) arr[index - 1].focus();
     });
   });
+</script>
+
+<script>
+  // Simple chat open/close and send (placeholder)
+  (function() {
+    const chatToggle = document.getElementById('chatbot-toggle');
+    const chatContainer = document.getElementById('chatbot-container');
+    const chatClose = document.getElementById('chatbot-close');
+    const chatSend = document.getElementById('chatbot-send');
+    const chatInput = document.getElementById('chatbot-input');
+    const chatMessages = document.getElementById('chatbot-messages');
+
+    chatToggle.addEventListener('click', () => {
+      if (!chatContainer) return;
+      if (chatContainer.style.display === 'block') {
+        chatContainer.style.display = 'none';
+        chatContainer.setAttribute('aria-hidden','true');
+      } else {
+        chatContainer.style.display = 'block';
+        chatContainer.setAttribute('aria-hidden','false');
+      }
+    });
+
+    if (chatClose) chatClose.addEventListener('click', () => {
+      chatContainer.style.display = 'none';
+      chatContainer.setAttribute('aria-hidden','true');
+    });
+
+    if (chatSend) {
+      chatSend.addEventListener('click', () => {
+        const val = chatInput.value.trim();
+        if (!val) return;
+        const userDiv = document.createElement('div');
+        userDiv.className = 'chat-message user-message';
+        userDiv.textContent = val;
+        chatMessages.appendChild(userDiv);
+
+        // simple placeholder bot response (you can replace this with real API call)
+        setTimeout(() => {
+          const botDiv = document.createElement('div');
+          botDiv.className = 'chat-message bot-message';
+          botDiv.textContent = 'Gracias por tu mensaje. Un técnico te responderá pronto. Para contacto inmediato utiliza WhatsApp.';
+          chatMessages.appendChild(botDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 700);
+
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+
+      // also allow Enter to send
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          chatSend.click();
+        }
+      });
+    }
+  })();
 </script>
 
 </body>
