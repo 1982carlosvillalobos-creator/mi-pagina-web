@@ -10,12 +10,12 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-  <link rel="preconnect" href="https://submit-form.com">
-  <link rel="preconnect" href="https://goldencharge-sms-backend.onrender.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://submit-form.com  ">
+  <link rel="preconnect" href="https://goldencharge-sms-backend.onrender.com  ">
+  <link rel="preconnect" href="https://fonts.googleapis.com  ">
+  <link rel="preconnect" href="https://fonts.gstatic.com  " crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="  https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css  ">
   <style>
     :root{
       --gold:#FFD700;
@@ -23,7 +23,6 @@
       --light-gray:#F8F9FA;
       --transition:all .3s ease;
       --testimonial-bg: #ffffff;
-      /* Se eliminó --chatbot-bg y --chatbot-header porque ya no se usan */
     }
     *{
       margin:0;
@@ -104,7 +103,7 @@
       background:rgba(255,215,0,.1);
     }
     .hero{
-      background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg')center/cover;
+      background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg  ')center/cover;
       height:calc(100vh - 50px);
       display:flex;
       align-items:center;
@@ -468,24 +467,39 @@
       color:#000;
       transform:translateY(-3px);
     }
-    .whatsapp-btn{
-      position:fixed;
-      bottom:30px;
-      right:30px;
-      width:60px;
-      height:60px;
-      background:#25D366;
-      color:#fff;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.5rem;
-      box-shadow:0 4px 15px rgba(37,211,102,.4);
-      z-index:1001;
+
+    /* ✅ Botón de WhatsApp ajustado para no superponerse con Tidio */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 100px; /* Ajustado: 100px desde abajo (Tidio usa ~30px) */
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      z-index: 1001;
+      transition: transform 0.3s ease;
     }
 
-    /* Mobile Optimization for Chatbot - Eliminado porque ya no se usa */
+    .whatsapp-btn:hover {
+      transform: translateY(-3px) scale(1.1);
+    }
+
+    /* Responsive para móviles */
+    @media (max-width: 480px) {
+      .whatsapp-btn {
+        bottom: 90px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -493,7 +507,7 @@
   <header>
     <div class="container header-content">
       <a href="#home" class="logo">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png  " alt="Golden Charge Logo"/>
         <span>Golden Charge</span>
       </a>
       <nav class="nav-menu">
@@ -592,8 +606,8 @@
             </div>
           </div>
           <!-- Form for sending detailed quote -->
-          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
-            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
+          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST" style="display:none;">
+            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  " />
             <input type="email" name="email" placeholder="Your email for exact quote" required>
             <input type="tel" name="phone" placeholder="Phone" required>
             <input type="hidden" name="service" id="calcService">
@@ -611,12 +625,12 @@
     <div class="container">
       <h2 class="section-title">Recent Work Gallery</h2>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png  " alt="Panel & breakers"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg  " alt="Smart home install"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg  " alt="Commercial wiring"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg  " alt="Residential work"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg  " alt="Emergency repair"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg  " alt="Lighting install"></div>
       </div>
     </div>
   </section>
@@ -631,7 +645,7 @@
         <p><strong>License: XXXXXX</strong></p>
       </div>
       <div class="about-image">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png  " alt="Licensed electrician"/>
       </div>
     </div>
   </section>
@@ -640,8 +654,8 @@
     <div class="container">
       <h2 class="section-title">Contact Us</h2>
       <div class="contact-form">
-        <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
-          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
+        <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST">
+          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  " />
           <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
           <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
           <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
@@ -702,10 +716,14 @@
     </div>
     <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
   </footer>
-  <!-- WhatsApp float -->
-  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
-  <!-- ✅ Chatbot de Tidio (reemplaza al anterior) -->
+  <!-- ✅ Botón de WhatsApp (ahora por encima del chatbot) -->
+  <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ✅ Chatbot de Tidio (se carga abajo automáticamente) -->
   <script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
+
 </body>
 </html>
