@@ -10,12 +10,12 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-  <link rel="preconnect" href="https://submit-form.com  ">
-  <link rel="preconnect" href="https://goldencharge-sms-backend.onrender.com  ">
-  <link rel="preconnect" href="https://fonts.googleapis.com  ">
-  <link rel="preconnect" href="https://fonts.gstatic.com  " crossorigin>
+  <link rel="preconnect" href="https://submit-form.com">
+  <link rel="preconnect" href="https://goldencharge-sms-backend.onrender.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="  https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css  ">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root{
       --gold:#FFD700;
@@ -103,7 +103,7 @@
       background:rgba(255,215,0,.1);
     }
     .hero{
-      background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg  ')center/cover;
+      background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg')center/cover;
       height:calc(100vh - 50px);
       display:flex;
       align-items:center;
@@ -468,10 +468,10 @@
       transform:translateY(-3px);
     }
 
-    /* ✅ Botón de WhatsApp ajustado para no superponerse con Tidio */
+    /* ✅ Botón de WhatsApp ajustado para evitar superposición */
     .whatsapp-btn {
       position: fixed;
-      bottom: 100px; /* Ajustado: 100px desde abajo (Tidio usa ~30px) */
+      bottom: 100px;
       right: 30px;
       width: 60px;
       height: 60px;
@@ -482,7 +482,7 @@
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 4px 15px rgba(37,211,102,.4);
       z-index: 1001;
       transition: transform 0.3s ease;
     }
@@ -491,23 +491,21 @@
       transform: translateY(-3px) scale(1.1);
     }
 
-    /* Responsive para móviles */
-    @media (max-width: 480px) {
+    /* ✅ Más separación en escritorio */
+    @media (min-width: 768px) {
       .whatsapp-btn {
-        bottom: 90px;
-        right: 20px;
-        width: 55px;
-        height: 55px;
+        bottom: 140px !important;
       }
     }
   </style>
 </head>
 <body>
+
   <!-- Header -->
   <header>
     <div class="container header-content">
       <a href="#home" class="logo">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png  " alt="Golden Charge Logo"/>
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
         <span>Golden Charge</span>
       </a>
       <nav class="nav-menu">
@@ -521,6 +519,7 @@
       </nav>
     </div>
   </header>
+
   <!-- Hero -->
   <section class="hero" id="home">
     <div class="hero-content">
@@ -529,6 +528,7 @@
       <a href="#contact" class="btn">Get Free Quote</a>
     </div>
   </section>
+
   <!-- Services -->
   <section class="services" id="services">
     <div class="container">
@@ -543,18 +543,20 @@
       </div>
     </div>
   </section>
+
   <!-- Testimonials -->
   <section class="testimonials" id="testimonials">
     <div class="container">
       <h2 class="section-title">Happy Customers</h2>
       <div class="testimonial-container">
-        <div class="testimonial-card">
-          <p class="testimonial-text" id="testimonial-text">"Golden Charge solved my electrical issue in under 2 hours. Very professional!"</p>
-          <p class="testimonial-author" id="testimonial-author">— Ana M., San Jose</p>
+        <div id="testimonial-display" class="testimonial-card">
+          <p class="testimonial-text">Loading testimonial...</p>
+          <p class="testimonial-author">— Golden Charge Team</p>
         </div>
       </div>
     </div>
   </section>
+
   <!-- Calculator -->
   <section class="calculator-section" id="calculator">
     <div class="container">
@@ -606,8 +608,8 @@
             </div>
           </div>
           <!-- Form for sending detailed quote -->
-          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST" style="display:none;">
-            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  " />
+          <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+            <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
             <input type="email" name="email" placeholder="Your email for exact quote" required>
             <input type="tel" name="phone" placeholder="Phone" required>
             <input type="hidden" name="service" id="calcService">
@@ -620,20 +622,22 @@
       </div>
     </div>
   </section>
+
   <!-- Gallery -->
   <section class="gallery" id="gallery">
     <div class="container">
       <h2 class="section-title">Recent Work Gallery</h2>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png  " alt="Panel & breakers"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg  " alt="Smart home install"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg  " alt="Commercial wiring"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg  " alt="Residential work"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg  " alt="Emergency repair"></div>
-        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg  " alt="Lighting install"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
+        <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
       </div>
     </div>
   </section>
+
   <!-- About -->
   <section class="about" id="about">
     <div class="container about-content">
@@ -645,17 +649,18 @@
         <p><strong>License: XXXXXX</strong></p>
       </div>
       <div class="about-image">
-        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png  " alt="Licensed electrician"/>
+        <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
       </div>
     </div>
   </section>
+
   <!-- Contact -->
   <section class="contact" id="contact">
     <div class="container">
       <h2 class="section-title">Contact Us</h2>
       <div class="contact-form">
-        <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq  " method="POST">
-          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html  " />
+        <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html" />
           <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
           <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
           <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
@@ -684,6 +689,7 @@
       </div>
     </div>
   </section>
+
   <!-- Footer -->
   <footer>
     <div class="container footer-content">
@@ -717,13 +723,59 @@
     <div class="copyright">&copy; 2025 Golden Charge Electrician Company. All rights reserved.</div>
   </footer>
 
-  <!-- ✅ Botón de WhatsApp (ahora por encima del chatbot) -->
+  <!-- ✅ Botón de WhatsApp (ajustado) -->
   <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn">
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- ✅ Chatbot de Tidio (se carga abajo automáticamente) -->
+  <!-- ✅ Chatbot de Tidio -->
   <script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
+
+  <!-- ✅ Script para testimonios rotativos por semana -->
+  <script>
+    // Función para obtener el número de semana del año
+    function getWeekNumber(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+      const yearStart = new Date(d.getFullYear(), 0, 1);
+      const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      return weekNo;
+    }
+
+    // Cargar testimonio según la semana
+    async function loadWeeklyTestimonial() {
+      try {
+        const response = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/data.json');
+        const data = await response.json();
+
+        if (!data.testimonials || data.testimonials.length === 0) return;
+
+        const currentWeek = getWeekNumber(new Date());
+        const groupIndex = (currentWeek - 1) % Math.ceil(data.testimonials.length / 6);
+        const start = groupIndex * 6;
+        const group = data.testimonials.slice(start, start + 6);
+
+        // Selecciona uno al azar del grupo semanal
+        const testimonial = group[Math.floor(Math.random() * group.length)];
+
+        const display = document.getElementById('testimonial-display');
+        display.innerHTML = `
+          <p class="testimonial-text">${testimonial.text}</p>
+          <p class="testimonial-author">${testimonial.author}</p>
+        `;
+      } catch (error) {
+        console.error("Error loading testimonials:", error);
+        document.getElementById('testimonial-display').innerHTML = `
+          <p class="testimonial-text">"Golden Charge solved my electrical issue in under 2 hours. Very professional!"</p>
+          <p class="testimonial-author">— Ana M., San Diego</p>
+        `;
+      }
+    }
+
+    // Ejecutar al cargar la página
+    window.addEventListener('DOMContentLoaded', loadWeeklyTestimonial);
+  </script>
 
 </body>
 </html>
