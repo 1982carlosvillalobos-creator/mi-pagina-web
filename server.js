@@ -1,18 +1,31 @@
-// server.js  – backend con verificación SMS + actualización automática de precios
+// server.js – backend con verificación SMS + actualización automática de precios
 // =============================================================================
 
 // 1. Dependencias
-const express       = require('express');
-const bodyParser    = require('body-parser');
-const twilio        = require('twilio');
-const fs            = require('fs');
-const path          = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const twilio = require('twilio');
+const fs = require('fs');
+const path = require('path');
 
-// 2. Credenciales Twilio
-const accountSid = 'ACd49100e1053db003f37809c7e1f80739';
-const authToken  = 'fbf83f9a31d084c6a15f589f851c87d4';   // ← tu Auth Token real
-const client     = new twilio(accountSid, authToken);
-const verifySid  = 'VA53c5aad159020163db91ee6bcc9f225c';   // Service SID de Verify
+// 2. Credenciales Twilio desde variables de entorno (¡más seguro!)
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+// Validar que las variables existan
+if (!accountSid || !authToken) {
+  console.error('Error: Faltan credenciales de Twilio (TWILIO_ACCOUNT_SID o TWILIO_AUTH_TOKEN)');
+  process.exit(1);
+}
+
+const client = new twilio(accountSid, authToken);
+const verifySid = process.env.TWILIO_VERIFY_SERVICE_SID;
+
+// Validar Verify Service SID
+if (!verifySid) {
+  console.error('Error: Faltan TWILIO_VERIFY_SERVICE_SID');
+  process.exit(1);
+}
 
 // 3. Inicializa Express
 const app = express();
@@ -20,20 +33,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // ------------------------------------------------------------
-// 4. ENDPOINTS  SMS / VERIFY
+// 4. ENDPOINTS SMS / VERIFY
 // ------------------------------------------------------------
 
 // 4A. Enviar código SMS
 app.post('/send-code', async (req, res) => {
   const { phone } = req.body;
-  if (!phone) return res.status(400).send('Falta el teléfono');
+  if (!phone) return res.status(400).json({ error: 'Phone required' });
 
   try {
     const verification = await client.verify.services(verifySid)
       .verifications.create({ to: phone, channel: 'sms' });
     res.json({ success: true, status: verification.status });
   } catch (err) {
-    console.error(err);
+    console.error('Twilio error:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -41,13 +54,14 @@ app.post('/send-code', async (req, res) => {
 // 4B. Verificar código
 app.post('/check-code', async (req, res) => {
   const { phone, code } = req.body;
-  if (!phone || !code) return res.status(400).send('Faltan datos');
+  if (!phone || !code) return res.status(400).json({ error: 'Missing data' });
 
   try {
     const check = await client.verify.services(verifySid)
       .verificationChecks.create({ to: phone, code });
     res.json({ success: check.status === 'approved', status: check.status });
   } catch (err) {
+    console.error('Verification error:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -83,4 +97,7 @@ async function fetchUpdatedPrices() {
 // 6. PUERTO Y ARRANQUE
 // ------------------------------------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log('✅ Backend listo para enviar códigos de verificación');
+});
