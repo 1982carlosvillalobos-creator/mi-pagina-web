@@ -1,6 +1,7 @@
 async function loadAllData() {
   try {
-    const res1 = await fetch('../prices.json');
+    // ✅ Usamos materials-prices.json para costos reales
+    const res1 = await fetch('data/materials-prices.json');
     prices = await res1.json();
 
     const res2 = await fetch('data/labor-rates.json');
