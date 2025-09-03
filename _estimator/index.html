@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Golden Charge - Estimador Interno</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="utils/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Estimador Interno - Golden Charge</h1>
 
+    <!-- Contraseña -->
+    <div id="login">
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="checkPassword()">Entrar</button>
+    </div>
+
+    <!-- App (solo después de login) -->
+    <div id="app" style="display: none; margin-top: 20px;">
+      <form id="quoteForm">
+        <label>Proyecto:
+          <select id="projectType">
+            <option value="ev-charger-40a">EV Charger 40A</option>
+            <option value="panel-upgrade-200a">Upgrade Panel 200A</option>
+            <option value="new-circuit">Nuevo Circuito</option>
+          </select>
+        </label>
+
+        <label>Ciudad:
+          <select id="city">
+            <option value="San Francisco">San Francisco</option>
+            <option value="Oakland">Oakland</option>
+            <option value="San Jose">San Jose</option>
+            <option value="Berkeley">Berkeley</option>
+            <option value="Hayward">Hayward</option>
+          </select>
+        </label>
+
+        <label>Tipo de Cliente:
+          <select id="clientType">
+            <option value="homeowner">Cliente Final</option>
+            <option value="contractor">Contratista General</option>
+          </select>
+        </label>
+
+        <label>Horas estimadas: <input type="number" id="hours" value="4" min="1" /></label>
+
+        <div class="helper-controls">
+          <label>Ayudantes: </label>
+          <button type="button" onclick="removeHelper()">−</button>
+          <span id="helperCount">1</span>
+          <button type="button" onclick="addHelper()">+</button>
+        </div>
+
+        <div class="markup-control">
+          <label>Markup Materiales: <span id="markupValue">30</span>%</label>
+          <input type="range" id="materialMarkup" min="25" max="50" value="30" 
+                 oninput="document.getElementById('markupValue').textContent = this.value">
+          </input>
+        </div>
+
+        <button type="button" onclick="calculateQuote()">Calcular Cotización</button>
+        <button type="button" onclick="generatePDF()">💾 Exportar a PDF</button>
+      </form>
+
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
