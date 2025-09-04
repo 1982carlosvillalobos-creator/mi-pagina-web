@@ -1,477 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge Electrician Company | Fremont, CA</title>
-  <meta name="description" content="Professional electrical services in Fremont, CA. Residential, commercial, emergency 24/7, smart homes & panel upgrades, high and low voltage. Free estimates. Bilingual support.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Golden Charge - Estimador Interno</title>
   <style>
-    :root{
-      --gold:#FFD700;
-      --dark-blue:#0A2463;
-      --light-gray:#F8F9FA;
-      --transition:all .3s ease;
-      --testimonial-bg:#ffffff;
+    :root {
+      --gold: #FFD700;
+      --dark-blue: #0A2463;
+      --light-gray: #f8f9fa;
+      --text: #1e1e1e;
+      --card-bg: #ffffff;
+      --border: #ddd;
+      --btn-bg: var(--dark-blue);
+      --btn-text: var(--gold);
+      --btn-hover: #FFD700;
+      --btn-hover-text: var(--dark-blue);
     }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-    body{background:var(--light-gray);color:#1E1E1E;line-height:1.6;overflow-x:hidden;}
-    html{scroll-behavior:smooth;}
-    header{background:linear-gradient(135deg,var(--dark-blue),#000);color:#fff;padding:.4rem 0;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.3);}
-    .container{max-width:1200px;margin:0 auto;padding:0 20px;}
-    .header-content{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-    .logo{display:flex;align-items:center;gap:10px;font-size:1.8rem;font-weight:bold;color:var(--gold);text-decoration:none;}
-    .logo img{height:60px;width:60px;border-radius:50%;box-shadow:0 0 10px rgba(255,215,0,.3);transition:var(--transition);border:2px solid var(--gold);}
-    .nav-menu{display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding:0 5px;}
-    .nav-menu::-webkit-scrollbar{display:none;}
-    .nav-menu a{white-space:nowrap;color:#fff;text-decoration:none;font-weight:500;padding:5px 12px;border-radius:5px;font-size:.85rem;}
-    .nav-menu a:hover{color:var(--gold);background:rgba(255,215,0,.1);}
-    .hero{background:url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover;height:calc(100vh - 50px);display:flex;align-items:center;justify-content:center;position:relative;margin-top:50px;color:#fff;text-align:center;padding:0 20px;}
-    .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:1;}
-    .hero-content{position:relative;z-index:2;max-width:900px;padding:40px;background:rgba(0,0,0,.2);border-radius:20px;backdrop-filter:blur(8px);}
-    .hero h1{font-size:3.5rem;margin-bottom:1rem;color:var(--gold);}
-    .hero p{font-size:1.3rem;margin-bottom:2rem;}
-    .btn{display:inline-block;padding:18px 45px;background:var(--gold);color:var(--dark-blue);text-decoration:none;border-radius:50px;font-weight:bold;transition:.3s;box-shadow:0 6px 20px rgba(255,215,0,.8);letter-spacing:.5px;}
-    .btn:hover{transform:translateY(-5px);}
-    .btn:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;box-shadow:none;}
-    .services{padding:100px 0;background:#fff;}
-    .section-title{text-align:center;margin-bottom:60px;color:var(--dark-blue);font-size:2.5rem;font-weight:700;}
-    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
-    .service-card{background:var(--light-gray);padding:35px 30px;border-radius:15px;text-align:center;transition:var(--transition);box-shadow:0 5px 15px rgba(0,0,0,.1);}
-    .service-card:hover{transform:translateY(-10px);border-color:var(--gold);}
-    .service-icon{font-size:3rem;color:var(--gold);margin-bottom:20px;}
-    .service-card h3{margin-bottom:15px;color:var(--dark-blue);}
-    .testimonials{padding:100px 0;background:#f0f4f8;}
-    .testimonial-container{max-width:800px;margin:0 auto;text-align:center;}
-    .testimonial-card{background:var(--testimonial-bg);padding:30px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);margin:0 20px;}
-    .testimonial-text{font-size:1.2rem;line-height:1.8;color:#333;font-style:italic;margin-bottom:20px;}
-    .testimonial-author{color:var(--dark-blue);font-weight:600;}
-    .calculator-section{padding:100px 20px;background:#f0f4f8;}
-    .calculator-wrapper{max-width:700px;margin:0 auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 30px rgba(0,0,0,.1);}
-    .calc-step{display:none;animation:fadeIn .5s ease;}
-    .calc-step.active{display:block;}
-    .calc-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:25px;}
-    .calc-card{display:block;border:2px solid #ddd;padding:20px;border-radius:10px;text-align:center;cursor:pointer;font-weight:600;background:#fafafa;transition:all 0.3s;}
-    .calc-card:hover{border-color:var(--gold);background:rgba(255,215,0,.1);}
-    .calc-card input{display:none;}
-    .calc-card:has(input:checked){border-color:var(--gold);background:rgba(255,215,0,.1);}
-    .price-display{font-size:2.2rem;font-weight:bold;color:var(--dark-blue);text-align:center;margin:20px 0;display:none;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-    .gallery{padding:100px 0;background:#f0f4f8;}
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-    .gallery-item{border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);height:250px;}
-    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
-    .gallery-item:hover img{transform:scale(1.1);}
-    .about{padding:100px 0;background:var(--dark-blue);color:#fff;}
-    .about-content{display:flex;gap:50px;flex-wrap:wrap;align-items:center;justify-content:center;}
-    .about-text{flex:1;min-width:300px;max-width:500px;}
-    .about-text h2{font-size:2.5rem;margin-bottom:20px;color:var(--gold);}
-    .about-text p{margin-bottom:15px;font-size:1.1rem;opacity:.9;}
-    .highlight{color:var(--gold);font-weight:600;}
-    .about-image{flex:1;min-width:300px;max-width:500px;border-radius:15px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.4);border:3px solid var(--gold);}
-    .about-image img{width:100%;display:block;transition:var(--transition);}
-    .about-image img:hover{transform:scale(1.03);}
-    .contact{padding:100px 0;background:#fff;}
-    .contact-form{max-width:650px;margin:0 auto;padding:40px;background:var(--light-gray);border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,.1);}
-    .form-group{margin-bottom:20px;}
-    .form-group label{display:block;margin-bottom:8px;color:var(--dark-blue);font-weight:500;}
-    .form-control{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:1rem;}
-    .form-control:focus{outline:none;border-color:var(--gold);}
-    .form-submit{background:var(--gold);color:var(--dark-blue);border:none;padding:14px 40px;border-radius:50px;font-size:1.1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;}
-    footer{background:var(--dark-blue);color:#ccc;padding:60px 0 30px;}
-    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-bottom:40px;}
-    .footer-column h3{color:var(--gold);margin-bottom:20px;font-size:1.3rem;}
-    .footer-column ul{list-style:none;}
-    .footer-column li{margin-bottom:10px;}
-    .footer-column a{color:#fff;text-decoration:none;transition:var(--transition);}
-    .footer-column a:hover{color:var(--gold);}
-    .social-icons{display:flex;gap:15px;margin-top:15px;}
-    .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);}
-    .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px);}
-    .contact-info{font-size:.95rem;line-height:1.8;}
-    .contact-info a{color:#fff;text-decoration:underline;}
-    .contact-info a:hover{color:var(--gold);}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: var(--light-gray);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: var(--dark-blue);
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+    .login {
+      text-align: center;
+      margin: 60px 0;
+    }
+    .login input {
+      padding: 12px 16px;
+      font-size: 1.2rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      width: 280px;
+      margin-right: 10px;
+    }
+    .login button {
+      padding: 12px 20px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .login button:hover {
+      background: var(--btn-hover);
+      color: var(--btn-hover-text);
+    }
+    .app {
+      display: none;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.1);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+    .form-group select, .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .controls button {
+      background: var(--dark-blue);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .controls span {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .markup-control {
+      margin: 20px 0;
+    }
+    .markup-control output {
+      font-weight: bold;
+      color: var(--dark-blue);
+    }
+    .btn {
+      padding: 14px 25px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 5px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: var(--btn-hover);
+      color: var(--btn-hover-text);
+      transform: translateY(-3px);
+    }
+    #results {
+      margin-top: 30px;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid var(--border);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: var(--dark-blue);
+      color: var(--gold);
+    }
+    .total-row {
+      font-weight: bold;
+      background: #f0f0f0;
+    }
+    .summary {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    .summary strong {
+      color: var(--dark-blue);
+    }
   </style>
 </head>
 <body>
-
-<header>
-  <div class="container header-content">
-    <a href="#home" class="logo">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
-      <span>Golden Charge</span>
-    </a>
-    <nav class="nav-menu">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#calculator">Calculator</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero" id="home">
-  <div class="hero-content">
-    <h1>Golden Charge</h1>
-    <p>Professional electrical services in Fremont, CA. Emergency 24/7, smart homes, low voltage, and more.</p>
-    <a href="#contact" class="btn">Get Free Quote</a>
-  </div>
-</section>
-
-<section class="services" id="services">
   <div class="container">
-    <h2 class="section-title">Our Services</h2>
-    <div class="services-grid">
-      <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
-      <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
-      <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-      <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
-      <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
-      <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
-    </div>
-  </div>
-</section>
+    <h1>🔧 Estimador Interno - Golden Charge</h1>
 
-<section class="testimonials" id="testimonials">
-  <div class="container">
-    <h2 class="section-title">Happy Customers</h2>
-    <div class="testimonial-container">
-      <div class="testimonial-card" id="testimonial-display">
-        <p class="testimonial-text">Loading testimonial...</p>
-        <p class="testimonial-author">— Golden Charge Team</p>
-      </div>
+    <!-- Pantalla de Login -->
+    <div id="login" class="login">
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="checkPassword()">Entrar</button>
     </div>
-  </div>
-</section>
 
-<section class="calculator-section" id="calculator">
-  <div class="container">
-    <h2 class="section-title">Instant Cost Estimator</h2>
-    <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
-    <div class="calculator-wrapper">
-      <div class="calc-step active" id="step1">
-        <h3>1. Select service</h3>
-        <div class="calc-options">
-          <label class="calc-card"><input type="radio" name="service" value="panel-100"><span>100A Panel Upgrade</span></label>
-          <label class="calc-card"><input type="radio" name="service" value="panel-200"><span>200A Panel Upgrade</span></label>
-          <label class="calc-card"><input type="radio" name="service" value="ev-charger"><span>EV Charger Install</span></label>
-          <label class="calc-card"><input type="radio" name="service" value="smart-home"><span>Basic Smart-Home</span></label>
-        </div>
-        <button type="button" class="btn" onclick="nextStep()">Next</button>
-      </div>
-      <div class="calc-step" id="step2">
-        <h3>2. Home size</h3>
-        <select id="houseSize" class="form-control">
-          <option value="">Select…</option>
-          <option value="small">Under 1,500 sq ft</option>
-          <option value="medium">1,500–2,500 sq ft</option>
-          <option value="large">Over 2,500 sq ft</option>
-        </select>
-        <h3>3. Year built</h3>
-        <select id="houseYear" class="form-control">
-          <option value="">Select…</option>
-          <option value="new">After 1990</option>
-          <option value="mid">1970–1990</option>
-          <option value="old">Before 1970</option>
-        </select>
-        <button type="button" class="btn" onclick="calculateEstimate()">Send SMS Code</button>
-      </div>
-      <div class="calc-step" id="step3">
-        <h3>Verify Your Phone</h3>
-        <p>We’ll send a 6-digit code to your phone</p>
-        <input type="tel" id="phoneNumber" class="form-control" placeholder="(xxx) xxx-xxxx" required>
-        <button type="button" class="btn" onclick="sendVerificationCode()">Send Code</button>
-        <div id="verificationCodeSection" style="display:none;">
-          <p>Enter the 6-digit code</p>
-          <div class="verification-code">
-            <input type="text" class="code-digit" maxlength="1" data-index="0">
-            <input type="text" class="code-digit" maxlength="1" data-index="1">
-            <input type="text" class="code-digit" maxlength="1" data-index="2">
-            <input type="text" class="code-digit" maxlength="1" data-index="3">
-            <input type="text" class="code-digit" maxlength="1" data-index="4">
-            <input type="text" class="code-digit" maxlength="1" data-index="5">
-          </div>
-          <button type="button" class="btn" onclick="verifyCode()">Verify & Show Estimate</button>
-          <p>Didn't receive the code? <span class="resend-link" onclick="sendVerificationCode()">Resend</span></p>
-        </div>
-        <div id="resultPrice" class="price-display" style="display:none;"></div>
-        <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
-          <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-          <input type="email" name="email" placeholder="Your email for exact quote" required>
-          <input type="tel" name="phone" placeholder="Phone" required>
-          <input type="hidden" name="service" id="calcService">
-          <input type="hidden" name="size" id="calcSize">
-          <input type="hidden" name="year" id="calcYear">
-          <input type="hidden" name="total" id="calcTotal">
-          <button type="submit" class="btn">Send Detailed Quote</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="gallery" id="gallery">
-  <div class="container">
-    <h2 class="section-title">Recent Work Gallery</h2>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
-      <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="container about-content">
-    <div class="about-text">
-      <h2>Why Choose Golden Charge?</h2>
-      <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
-      <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
-      <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
-      <p><strong>License: XXXXXX</strong></p>
-    </div>
-    <div class="about-image">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
-    </div>
-  </div>
-</section>
-
-<section class="contact" id="contact">
-  <div class="container">
-    <h2 class="section-title">Contact Us</h2>
-    <div class="contact-form">
-      <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
-        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-        <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
-        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
-        <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
-        <div class="form-group"><label for="service">Service Required</label>
-          <select id="service" name="service" class="form-control" required>
-            <option value="">Select a service</option>
-            <option value="residential">Residential</option>
-            <option value="commercial">Commercial</option>
-            <option value="emergency">Emergency</option>
-            <option value="low-voltage">Low Voltage</option>
-            <option value="smart-home">Smart Home</option>
-            <option value="panel-upgrade">Panel Upgrade</option>
+    <!-- App (solo después de login) -->
+    <div id="app" class="app">
+      <form id="quoteForm">
+        <div class="form-group">
+          <label for="projectType">Proyecto:</label>
+          <select id="projectType">
+            <option value="ev-charger-40a">EV Charger 40A</option>
+            <option value="panel-upgrade-200a">Upgrade Panel 200A</option>
+            <option value="new-circuit-20a">Nuevo Circuito 20A</option>
+            <option value="rewire-full-house">Rewire Completo de Casa</option>
           </select>
         </div>
+
         <div class="form-group">
-          <label>Preferred Contact Channel</label>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
-            <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
-            <label><input type="checkbox" name="channel" value="email"> Email</label>
+          <label for="city">Ciudad:</label>
+          <select id="city">
+            <option value="San Francisco">San Francisco</option>
+            <option value="Oakland">Oakland</option>
+            <option value="San Jose">San Jose</option>
+            <option value="Fremont">Fremont</option>
+            <option value="Hayward">Hayward</option>
+            <option value="Berkeley">Berkeley</option>
+            <option value="Richmond">Richmond</option>
+            <option value="Sunnyvale">Sunnyvale</option>
+            <option value="Palo Alto">Palo Alto</option>
+            <option value="Concord">Concord</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="clientType">Tipo de Cliente:</label>
+          <select id="clientType">
+            <option value="homeowner">Cliente Final</option>
+            <option value="contractor">Contratista General</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="hours">Horas estimadas:</label>
+          <input type="number" id="hours" value="4" min="1" />
+        </div>
+
+        <div class="form-group">
+          <label>Ayudantes:</label>
+          <div class="controls">
+            <button type="button" onclick="removeHelper()">−</button>
+            <span id="helperCount">1</span>
+            <button type="button" onclick="addHelper()">+</button>
           </div>
         </div>
-        <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
-        <button type="submit" class="form-submit">Send Message</button>
+
+        <div class="form-group markup-control">
+          <label>Markup Materiales: <output id="markupValue">30</output>%</label>
+          <input type="range" id="materialMarkup" min="25" max="50" value="30" 
+                 oninput="document.getElementById('markupValue').textContent = this.value">
+          </input>
+        </div>
+
+        <button type="button" class="btn" onclick="calculateQuote()">Calcular Cotización</button>
+        <button type="button" class="btn" onclick="generatePDF()">💾 Exportar a PDF</button>
       </form>
+
+      <div id="results"></div>
     </div>
   </div>
-</section>
 
-<footer>
-  <div class="container footer-content">
-    <div class="footer-column">
-      <h3>Golden Charge</h3>
-      <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#"><i class="fab fa-weixin"></i></a>
-        <a href="#"><i class="fab fa-telegram-plane"></i></a>
-      </div>
-    </div>
-    <div class="footer-column">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="#calculator">Calculator</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h3>Contact Info</h3>
-      <div class="contact-info">
-        <p>Fremont, CA</p>
-        <p>Golden Charge Electrician Company</p>
-        <p>📞 <a href="tel:+15102211258">(510) 221-1258</a></p>
-        <p>✉️ <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a></p>
-        <p>🆔 License: XXXXXX</p>
-        <p>🔐 Golden Charge LLC | EIN: 39-4119592</p>
-      </div>
-    </div>
-  </div>
-  <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
-</footer>
+  <!-- Librería para exportar a PDF -->
+  <script src="utils/html2pdf.bundle.min.js"></script>
 
-<!-- WhatsApp (subido arriba del chat) -->
-<a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn" title="WhatsApp">
-  <i class="fab fa-whatsapp"></i>
-</a>
+  <!-- Script principal -->
+  <script>
+    let helperCount = 1;
+    let prices = {}, laborRates = {}, permits = {}, materialsDB = {};
 
-<!-- Tidio (widget de chat que funciona: "Chatea con nosotros") -->
-<script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
-
-<script>
-  /* Testimonials y funcionalidades ya existentes (sin tocar) */
-  const testimonials = [
-    { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
-    { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
-    { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
-    { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
-    { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
-  ];
-
-  function getWeekNumber(date) {
-    const d = new Date(date);
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-    const yearStart = new Date(d.getFullYear(), 0, 1);
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  }
-
-  function loadWeeklyTestimonialCarousel() {
-    const week = getWeekNumber(new Date());
-    const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
-    const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
-    let index = 0;
-    const display = document.getElementById('testimonial-display');
-    function show() {
-      const t = group[index % group.length];
-      display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
+    // Verificar contraseña
+    function checkPassword() {
+      const pwd = document.getElementById('password').value;
+      if (pwd === 'Lospochotes1!') { // 🔐 Cambia esto por tu contraseña
+        localStorage.setItem('estimatorAccess', 'true');
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadAllData();
+      } else {
+        alert('Contraseña incorrecta');
+      }
     }
-    show();
-    setInterval(() => { index++; show(); }, 10000);
-  }
 
-  window.addEventListener('DOMContentLoaded', loadWeeklyTestimonialCarousel);
+    // Verificar acceso al cargar
+    window.onload = function () {
+      if (localStorage.getItem('estimatorAccess') === 'true') {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadAllData();
+      }
+    };
 
-  /* Calculator */
-  async function loadPrices() {
-    try {
-      const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
-      return await res.json();
-    } catch (err) {
-      return {
-        "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
-        "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
-        "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
-        "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } }
+    // Cargar todos los datos
+    async function loadAllData() {
+      try {
+        const res1 = await fetch('data/materials_prices.json');
+        prices = await res1.json();
+
+        const res2 = await fetch('data/labor_rates.json');
+        laborRates = await res2.json();
+
+        const res3 = await fetch('data/permits.json');
+        permits = await res3.json();
+
+        const res4 = await fetch('data/materials_db.json');
+        materialsDB = await res4.json();
+      } catch (e) {
+        console.error("Error cargando datos", e);
+      }
+    }
+
+    // Control de ayudantes
+    function addHelper() { if (helperCount < 5) helperCount++; document.getElementById('helperCount').textContent = helperCount; }
+    function removeHelper() { if (helperCount > 0) helperCount--; document.getElementById('helperCount').textContent = helperCount; }
+
+    // Cálculo principal
+    async function calculateQuote() {
+      const projectKey = document.getElementById('projectType').value;
+      const city = document.getElementById('city').value;
+      const clientType = document.getElementById('clientType').value;
+      const hours = parseFloat(document.getElementById('hours').value) || 1;
+      const markup = parseFloat(document.getElementById('materialMarkup').value) / 100;
+      const taxRate = 0.0925;
+
+      const project = materialsDB[projectKey];
+      const labor = laborRates[city];
+      const permitCost = permits[city][projectKey.split('-')[0]] || 0;
+
+      // Materiales
+      let materialCost = 0;
+      for (const [item, qty] of Object.entries(project.materials)) {
+        materialCost += qty * (prices[item] || 0);
+      }
+      const materialSell = materialCost * (1 + markup);
+      const taxAmount = clientType === 'homeowner' ? materialSell * taxRate : 0;
+
+      // Mano de obra
+      const contractorCost = hours * labor.labor_cost.contractor_c10;
+      const helperCost = hours * helperCount * labor.labor_cost.helper;
+      const totalLaborCost = contractorCost + helperCount * helperCost;
+
+      const contractorSell = hours * labor.labor_rate.contractor_c10;
+      const helperSell = hours * helperCount * labor.labor_rate.helper;
+      const totalLaborSell = contractorSell + helperSell;
+
+      // Totales
+      const totalCost = materialCost + totalLaborCost + permitCost;
+      const totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
+      const profit = totalPrice - totalCost;
+
+      // Mostrar resultado
+      displayResult({
+        materialCost, materialSell, taxAmount,
+        totalLaborCost, totalLaborSell,
+        permitCost, totalCost, totalPrice, profit,
+        hours, helperCount, markup: markup * 100, city, projectKey
+      });
+    }
+
+    function displayResult(data) {
+      const results = document.getElementById('results');
+      results.innerHTML = `
+        <div id="quote-result">
+          <h2>Cotización: ${data.projectKey.replace(/-/g, ' ').toUpperCase()}</h2>
+          <p><strong>Ciudad:</strong> ${data.city}</p>
+          <p><strong>Horas:</strong> ${data.hours} × (Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''})</p>
+          <p><strong>Markup Materiales:</strong> ${data.markup}%</p>
+          
+          <table>
+            <tr><th>Concepto</th><th>Costo Real</th><th>Precio Venta</th></tr>
+            <tr><td>Materiales</td><td>$${data.materialCost.toFixed(2)}</td><td>$${data.materialSell.toFixed(2)}</td></tr>
+            <tr><td>Impuesto (9.25%)</td><td>-</td><td>$${data.taxAmount.toFixed(2)}</td></tr>
+            <tr><td>Mano de Obra</td><td>$${data.totalLaborCost.toFixed(2)}</td><td>$${data.totalLaborSell.toFixed(2)}</td></tr>
+            <tr><td>Permisos</td><td>$${data.permitCost.toFixed(2)}</td><td>$${data.permitCost.toFixed(2)}</td></tr>
+            <tr class="total-row"><td>Total</td><td>$${data.totalCost.toFixed(2)}</td><td>$${data.totalPrice.toFixed(2)}</td></tr>
+          </table>
+          <div class="summary">
+            <p><strong>Ganancia Neta:</strong> $${data.profit.toFixed(2)} (${((data.profit / data.totalCost) * 100).toFixed(1)}%)</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Exportar a PDF
+    function generatePDF() {
+      const element = document.getElementById('quote-result');
+      const opt = {
+        margin: 1,
+        filename: 'goldencharge-cotizacion.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
+      html2pdf().from(element).set(opt).save();
     }
-  }
-
-  function nextStep() {
-    const service = document.querySelector('input[name="service"]:checked');
-    if (!service) return alert('Please select a service');
-    document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step2').classList.add('active');
-  }
-
-  async function calculateEstimate() {
-    const prices = await loadPrices();
-    const service = document.querySelector('input[name="service"]:checked').value;
-    const size = document.getElementById('houseSize').value;
-    const year = document.getElementById('houseYear').value;
-
-    if (!size || !year) return alert('Please select all fields');
-
-    document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step3').classList.add('active');
-  }
-
-  async function sendVerificationCode() {
-    let phone = document.getElementById('phoneNumber').value.trim();
-    if (!phone) return alert('Enter your phone number');
-    if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
-
-    try {
-      const res = await fetch('https://goldencharge-sms-backend.onrender.com/send-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone })
-      });
-      const data = await res.json();
-      if (data.success) {
-        document.getElementById('verificationCodeSection').style.display = 'block';
-        startCountdown();
-      } else {
-        alert(data.error || 'Error sending code');
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
-    }
-  }
-
-  function startCountdown() {
-    let time = 300;
-    const timer = document.getElementById('countdown');
-    if (!timer) return;
-    const interval = setInterval(() => {
-      const m = Math.floor(time / 60);
-      const s = time % 60;
-      timer.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
-      if (time-- <= 0) { clearInterval(interval); timer.textContent = "Expired"; }
-    }, 1000);
-  }
-
-  async function verifyCode() {
-    const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
-    const phone = document.getElementById('phoneNumber').value;
-    if (code.length !== 6) return alert('Enter 6-digit code');
-
-    try {
-      const res = await fetch('https://goldencharge-sms-backend.onrender.com/check-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, code })
-      });
-      const data = await res.json();
-      if (data.success) {
-        const prices = await loadPrices();
-        const service = document.querySelector('input[name="service"]:checked').value;
-        const size = document.getElementById('houseSize').value;
-        const year = document.getElementById('houseYear').value;
-        const base = prices[service].base[size];
-        const factor = prices[service].factor[year];
-        const total = base + factor;
-        document.getElementById('resultPrice').textContent = `$${total.toLocaleString()}`;
-        document.getElementById('resultPrice').style.display = 'block';
-        document.getElementById('calcLeadForm').style.display = 'block';
-      } else {
-        alert('Invalid code');
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
-    }
-  }
-
-  document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
-    input.addEventListener('input', () => {
-      if (input.value && index < arr.length - 1) arr[index + 1].focus();
-    });
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !input.value && index > 0) arr[index - 1].focus();
-    });
-  });
-</script>
-
+  </script>
 </body>
 </html>
