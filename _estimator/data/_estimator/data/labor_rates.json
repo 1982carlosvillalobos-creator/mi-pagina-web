@@ -1,1 +1,22 @@
-
+{
+  "San Francisco": {
+    "labor_cost": { "contractor_c10": 110, "helper": 30 },
+    "labor_rate": { "contractor_c10": 190, "helper": 95 }
+  },
+  "Oakland": {
+    "labor_cost": { "contractor_c10": 105, "helper": 28 },
+    "labor_rate": { "contractor_c10": 180, "helper": 90 }
+  },
+  "San Jose": {
+    "labor_cost": { "contractor_c10": 100, "helper": 27 },
+    "labor_rate": { "contractor_c10": 170, "helper": 85 }
+  },
+  "Berkeley": {
+    "labor_cost": { "contractor_c10": 110, "helper": 30 },
+    "labor_rate": { "contractor_c10": 185, "helper": 95 }
+  },
+  "Hayward": {
+    "labor_cost": { "contractor_c10": 95, "helper": 26 },
+    "labor_rate": { "contractor_c10": 160, "helper": 80 }
+  }
+}
