@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Golden Charge - Estimador Interno</title>
+  <title>Golden Charge - Estimador Profesional</title>
   <style>
     :root {
       --gold: #FFD700;
@@ -30,7 +30,7 @@
       padding: 20px;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -81,7 +81,7 @@
       font-weight: 600;
       color: var(--dark-blue);
     }
-    .form-group select, .form-group input {
+    .form-group select, .form-group input, .form-control-file {
       width: 100%;
       padding: 10px;
       border: 1px solid var(--border);
@@ -131,24 +131,15 @@
       color: var(--btn-hover-text);
       transform: translateY(-3px);
     }
-    #results {
-      margin-top: 30px;
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0,0,0,.1);
-    }
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 20px 0;
     }
-    table, th, td {
-      border: 1px solid var(--border);
-    }
     th, td {
       padding: 12px;
       text-align: left;
+      border: 1px solid var(--border);
     }
     th {
       background: var(--dark-blue);
@@ -157,6 +148,20 @@
     .total-row {
       font-weight: bold;
       background: #f0f0f0;
+    }
+    #materialTable {
+      margin-top: 10px;
+    }
+    #materialTable button {
+      padding: 5px 10px;
+      font-size: 0.9rem;
+    }
+    #results {
+      margin-top: 30px;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
     }
     .summary {
       margin-top: 20px;
@@ -169,7 +174,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>🔧 Estimador Interno - Golden Charge</h1>
+    <h1>🔧 Estimador Profesional - Golden Charge</h1>
 
     <!-- Pantalla de Login -->
     <div id="login" class="login">
@@ -181,12 +186,20 @@
     <div id="app" class="app">
       <form id="quoteForm">
         <div class="form-group">
-          <label for="projectType">Proyecto:</label>
+          <label for="projectType">Tipo de Proyecto:</label>
           <select id="projectType">
-            <option value="ev-charger-40a">EV Charger 40A</option>
+            <option value="new-construction">Nueva Construcción</option>
+            <option value="remodel-electrical">Remodelación Eléctrica</option>
+            <option value="panel-upgrade-100a">Upgrade Panel 100A</option>
             <option value="panel-upgrade-200a">Upgrade Panel 200A</option>
-            <option value="new-circuit-20a">Nuevo Circuito 20A</option>
+            <option value="panel-upgrade-400a">Upgrade Panel 400A</option>
+            <option value="emergency-service">Servicio de Emergencia</option>
             <option value="rewire-full-house">Rewire Completo de Casa</option>
+            <option value="outdoor-wiring">Instalación Exterior</option>
+            <option value="pool-spa-electrical">Piscina/Spa</option>
+            <option value="generator-install">Generador</option>
+            <option value="solar-electrical">Conexión Solar</option>
+            <option value="smart-home-full">Smart Home Completo</option>
           </select>
         </div>
 
@@ -207,16 +220,9 @@
         </div>
 
         <div class="form-group">
-          <label for="clientType">Tipo de Cliente:</label>
-          <select id="clientType">
-            <option value="homeowner">Cliente Final</option>
-            <option value="contractor">Contratista General</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="hours">Horas estimadas:</label>
-          <input type="number" id="hours" value="4" min="1" />
+          <label for="days">Días estimados:</label>
+          <input type="number" id="days" value="1" min="1" />
+          <small>Cada día = 8 horas</small>
         </div>
 
         <div class="form-group">
@@ -226,6 +232,25 @@
             <span id="helperCount">1</span>
             <button type="button" onclick="addHelper()">+</button>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label>Subir Planos (PDF, JPG):</label>
+          <input type="file" id="blueprint" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+
+        <div class="form-group">
+          <label>Agregar Materiales Manualmente:</label>
+          <table id="materialTable">
+            <tr>
+              <th>Material</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+              <th>Acción</th>
+            </tr>
+          </table>
+          <button type="button" class="btn" onclick="addMaterialRow()">+ Agregar Material</button>
         </div>
 
         <div class="form-group markup-control">
@@ -244,7 +269,7 @@
   </div>
 
   <!-- Librería para exportar a PDF -->
-  <script src="utils/html2pdf.bundle.min.js"></script>
+  <script src="/_estimator/utils/html2pdf.bundle.min.js"></script>
 
   <!-- Script principal -->
   <script>
@@ -276,19 +301,20 @@
     // Cargar todos los datos
     async function loadAllData() {
       try {
-        const res1 = await fetch('data/materials_prices.json');
+        const res1 = await fetch('/_estimator/data/materials_prices.json');
         prices = await res1.json();
 
-        const res2 = await fetch('data/labor_rates.json');
+        const res2 = await fetch('/_estimator/data/labor_rates.json');
         laborRates = await res2.json();
 
-        const res3 = await fetch('data/permits.json');
+        const res3 = await fetch('/_estimator/data/permits.json');
         permits = await res3.json();
 
-        const res4 = await fetch('data/materials_db.json');
+        const res4 = await fetch('/_estimator/data/materials_db.json');
         materialsDB = await res4.json();
       } catch (e) {
         console.error("Error cargando datos", e);
+        alert("Error: No se pudieron cargar los precios. Verifica las rutas.");
       }
     }
 
@@ -296,26 +322,55 @@
     function addHelper() { if (helperCount < 5) helperCount++; document.getElementById('helperCount').textContent = helperCount; }
     function removeHelper() { if (helperCount > 0) helperCount--; document.getElementById('helperCount').textContent = helperCount; }
 
+    // Agregar fila de material
+    function addMaterialRow() {
+      const table = document.getElementById('materialTable');
+      const row = table.insertRow();
+      row.innerHTML = `
+        <td><input type="text" class="form-control" placeholder="Nombre del material"></td>
+        <td><input type="number" class="form-control qty" value="1" min="1"></td>
+        <td><input type="number" class="form-control price" value="0" min="0" step="0.01"></td>
+        <td class="total">0.00</td>
+        <td><button type="button" onclick="this.closest('tr').remove()">Eliminar</button></td>
+      `;
+      // Actualizar total al cambiar cantidad o precio
+      row.querySelectorAll('.qty, .price').forEach(input => {
+        input.addEventListener('input', () => {
+          const qty = parseFloat(row.querySelector('.qty').value) || 0;
+          const price = parseFloat(row.querySelector('.price').value) || 0;
+          row.querySelector('.total').textContent = (qty * price).toFixed(2);
+        });
+      });
+    }
+
     // Cálculo principal
     async function calculateQuote() {
       const projectKey = document.getElementById('projectType').value;
       const city = document.getElementById('city').value;
-      const clientType = document.getElementById('clientType').value;
-      const hours = parseFloat(document.getElementById('hours').value) || 1;
+      const days = parseFloat(document.getElementById('days').value) || 1;
+      const hours = days * 8;
       const markup = parseFloat(document.getElementById('materialMarkup').value) / 100;
       const taxRate = 0.0925;
 
-      const project = materialsDB[projectKey];
       const labor = laborRates[city];
       const permitCost = permits[city][projectKey.split('-')[0]] || 0;
 
-      // Materiales
+      // Materiales del proyecto base (si existe)
       let materialCost = 0;
-      for (const [item, qty] of Object.entries(project.materials)) {
-        materialCost += qty * (prices[item] || 0);
+      const project = materialsDB[projectKey];
+      if (project) {
+        for (const [item, qty] of Object.entries(project.materials)) {
+          materialCost += qty * (prices[item] || 0);
+        }
       }
+
+      // Materiales agregados manualmente
+      document.querySelectorAll('#materialTable .total').forEach(el => {
+        materialCost += parseFloat(el.textContent) || 0;
+      });
+
       const materialSell = materialCost * (1 + markup);
-      const taxAmount = clientType === 'homeowner' ? materialSell * taxRate : 0;
+      const taxAmount = materialSell * taxRate;
 
       // Mano de obra
       const contractorCost = hours * labor.labor_cost.contractor_c10;
@@ -331,22 +386,31 @@
       const totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
       const profit = totalPrice - totalCost;
 
+      // Precio mínimo y máximo
+      const minMarkup = 0.25; // 25%
+      const maxMarkup = 0.50; // 50%
+      const minPrice = materialCost * (1 + minMarkup) + taxAmount + totalLaborSell + permitCost;
+      const maxPrice = materialCost * (1 + maxMarkup) + taxAmount + totalLaborSell + permitCost;
+
       // Mostrar resultado
       displayResult({
         materialCost, materialSell, taxAmount,
         totalLaborCost, totalLaborSell,
         permitCost, totalCost, totalPrice, profit,
-        hours, helperCount, markup: markup * 100, city, projectKey
+        minPrice, maxPrice, days, hours, helperCount, markup: markup * 100, city, projectKey
       });
     }
 
     function displayResult(data) {
       const results = document.getElementById('results');
+      const blueprintName = document.getElementById('blueprint').files[0]?.name || 'Ninguno';
       results.innerHTML = `
         <div id="quote-result">
           <h2>Cotización: ${data.projectKey.replace(/-/g, ' ').toUpperCase()}</h2>
           <p><strong>Ciudad:</strong> ${data.city}</p>
-          <p><strong>Horas:</strong> ${data.hours} × (Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''})</p>
+          <p><strong>Días:</strong> ${data.days} (${data.hours} horas)</p>
+          <p><strong>Equipo:</strong> Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''}</p>
+          <p><strong>Planos:</strong> ${blueprintName}</p>
           <p><strong>Markup Materiales:</strong> ${data.markup}%</p>
           
           <table>
@@ -355,10 +419,13 @@
             <tr><td>Impuesto (9.25%)</td><td>-</td><td>$${data.taxAmount.toFixed(2)}</td></tr>
             <tr><td>Mano de Obra</td><td>$${data.totalLaborCost.toFixed(2)}</td><td>$${data.totalLaborSell.toFixed(2)}</td></tr>
             <tr><td>Permisos</td><td>$${data.permitCost.toFixed(2)}</td><td>$${data.permitCost.toFixed(2)}</td></tr>
-            <tr class="total-row"><td>Total</td><td>$${data.totalCost.toFixed(2)}</td><td>$${data.totalPrice.toFixed(2)}</td></tr>
+            <tr class="total-row"><td><strong>Total</strong></td><td><strong>$${data.totalCost.toFixed(2)}</strong></td><td><strong>$${data.totalPrice.toFixed(2)}</strong></td></tr>
           </table>
+
           <div class="summary">
             <p><strong>Ganancia Neta:</strong> $${data.profit.toFixed(2)} (${((data.profit / data.totalCost) * 100).toFixed(1)}%)</p>
+            <p><strong>Precio Mínimo Recomendado:</strong> $${data.minPrice.toFixed(2)}</p>
+            <p><strong>Precio Máximo Recomendado:</strong> $${data.maxPrice.toFixed(2)}</p>
           </div>
         </div>
       `;
