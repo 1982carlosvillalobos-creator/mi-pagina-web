@@ -1,1 +1,88 @@
-
+{
+  "rewire-full-house": {
+    "description": "Rewire Completo de Casa",
+    "materials": {
+      "200A panel": 1,
+      "200A main breaker": 1,
+      "15A breaker": 8,
+      "20A breaker": 6,
+      "GFCI 15A breaker": 2,
+      "GFCI 20A breaker": 2,
+      "AFCI 15A breaker": 2,
+      "AFCI 20A breaker": 2,
+      "14/2 NM-B cable": 400,
+      "14/3 NM-B cable": 100,
+      "12/2 NM-B cable": 300,
+      "12/3 NM-B cable": 100,
+      "10/2 NM-B cable": 50,
+      "6/3 NM-B cable": 30,
+      "3-0 SER cable": 20,
+      "EMT conduit 1/2 inch": 100,
+      "PVC conduit 1/2 inch": 50,
+      "conduit fittings": 20,
+      "PVC glue": 1,
+      "wire nuts yellow": 10,
+      "wire nuts red": 5,
+      "wire nuts blue": 3,
+      "electrical tape": 3,
+      "cable staples 1/4 inch": 100,
+      "cable staples 3/8 inch": 50,
+      "single outlet": 12,
+      "double outlet": 8,
+      "GFCI outlet": 4,
+      "AFCI outlet": 2,
+      "switch single pole": 6,
+      "switch three way": 4,
+      "dimmer switch": 3,
+      "junction box 4x4": 6,
+      "ceiling fan box": 3,
+      "smoke detector": 5,
+      "CO detector": 3,
+      "panel cover screw": 4,
+      "grounding rod": 2,
+      "bonding clamp": 2,
+      "inspection sticker": 1
+    },
+    "labor_hours": 40
+  },
+  "panel-upgrade-200a": {
+    "description": "Upgrade a 200A con inspección",
+    "materials": {
+      "200A panel": 1,
+      "200A main breaker": 1,
+      "conduit": 20,
+      "wire nuts": 10,
+      "staples": 30,
+      "grounding rod": 1,
+      "bonding clamp": 1,
+      "inspection sticker": 1,
+      "panel cover screw": 2
+    },
+    "labor_hours": 8
+  },
+  "ev-charger-40a": {
+    "description": "Instalación EV 40A",
+    "materials": {
+      "40A breaker": 1,
+      "NEMA 14-50 outlet": 1,
+      "6/2 NM-B cable": 50,
+      "EMT conduit": 50,
+      "conduit fittings": 4,
+      "wire nuts": 3,
+      "staples": 10,
+      "junction box": 1
+    },
+    "labor_hours": 4
+  },
+  "new-circuit-20a-kitchen": {
+    "description": "Nuevo circuito 20A para cocina",
+    "materials": {
+      "20A breaker": 1,
+      "12/2 NM-B cable": 40,
+      "GFCI outlet": 1,
+      "wire nuts": 2,
+      "staples": 8
+    },
+    "labor_hours": 3
+  }
+}
