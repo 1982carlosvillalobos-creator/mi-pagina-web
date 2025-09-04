@@ -89,10 +89,6 @@
     .social-icons{display:flex;gap:15px;margin-top:15px;}
     .social-icons a{color:#fff;font-size:1.5rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);}
     .social-icons a:hover{background:var(--gold);color:#000;transform:translateY(-3px);}
-    /* Ajustes para botones flotantes: WhatsApp arriba, Tidio se mantendrá (script externo) */
-    .whatsapp-btn{position:fixed;bottom:120px;right:30px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;z-index:1005;transition:transform .3s;}
-    .whatsapp-btn:hover{transform:translateY(-3px) scale(1.05);}
-    /* No añadimos aquí otro chat button; el widget que funciona está a cargo del script de Tidio */
     .contact-info{font-size:.95rem;line-height:1.8;}
     .contact-info a{color:#fff;text-decoration:underline;}
     .contact-info a:hover{color:var(--gold);}
@@ -114,6 +110,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
     </nav>
   </div>
 </header>
@@ -328,8 +325,6 @@
 <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn" title="WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
-
-<!-- Nota: NO agregué el chat custom. El widget de chat funcional que quieres es el de Tidio (script abajo). -->
 
 <!-- Tidio (widget de chat que funciona: "Chatea con nosotros") -->
 <script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
