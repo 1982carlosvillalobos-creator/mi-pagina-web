@@ -254,7 +254,7 @@
     // Verificar contraseña
     function checkPassword() {
       const pwd = document.getElementById('password').value;
-      if (pwd === 'Lospochotes1!') { // 🔐 Cambia esto por tu contraseña
+      if (pwd === 'GoldenCharge2025!') { // 🔐 Cambia esto por tu contraseña
         localStorage.setItem('estimatorAccess', 'true');
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'block';
@@ -320,7 +320,7 @@
       // Mano de obra
       const contractorCost = hours * labor.labor_cost.contractor_c10;
       const helperCost = hours * helperCount * labor.labor_cost.helper;
-      const totalLaborCost = contractorCost + helperCount * helperCost;
+      const totalLaborCost = contractorCost + helperCost;
 
       const contractorSell = hours * labor.labor_rate.contractor_c10;
       const helperSell = hours * helperCount * labor.labor_rate.helper;
