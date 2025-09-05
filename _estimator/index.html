@@ -5,6 +5,7 @@
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge - Estimador Profesional</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
       --gold: #FFD700;
@@ -193,12 +194,93 @@
       background: #007BFF;
       color: white;
     }
+    .material-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      padding: 8px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .material-item:hover {
+      background: #f0f0f0;
+    }
+    .material-item.selected {
+      background: #e6f0ff;
+      border-left: 3px solid var(--dark-blue);
+    }
+    .material-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    .material-price {
+      color: var(--dark-blue);
+      font-weight: bold;
+      min-width: 100px;
+      text-align: right;
+    }
+    .material-unit {
+      color: #666;
+      font-size: 0.85rem;
+    }
+    .search-container {
+      position: relative;
+    }
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 5px;
+      z-index: 10;
+      box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    }
+    .search-results::-webkit-scrollbar {
+      width: 8px;
+    }
+    .search-results::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    .search-results::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 10px;
+    }
+    .search-results::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
     .summary {
       margin-top: 20px;
       font-size: 0.95rem;
     }
     .summary strong {
       color: var(--dark-blue);
+    }
+    .company-info {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+    .company-info h3 {
+      color: var(--dark-blue);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .company-info p {
+      margin: 5px 0;
+      font-size: 0.95rem;
     }
     @media (max-width: 768px) {
       .container { padding: 10px; }
@@ -224,6 +306,14 @@
 
     <!-- App (solo después de login) -->
     <div id="app" class="app">
+      <div class="company-info">
+        <h3><i class="fas fa-building"></i> Golden Charge Electrician Company</h3>
+        <p>📞 <strong>(510) 221-1258</strong></p>
+        <p>✉️ <strong>carlos.villalobos@goldencharge.net</strong></p>
+        <p>🆔 <strong>License # 1143055</strong></p>
+        <p>🔐 <strong>Golden Charge LLC | EIN: 39-4119592</strong></p>
+      </div>
+
       <form id="quoteForm">
         <!-- Proyecto y Ubicación -->
         <div class="section">
@@ -321,34 +411,18 @@
           </div>
 
           <div class="form-group">
-            <label>Materiales por Categoría:</label>
-            <select id="materialCategory" class="form-control" onchange="loadCategoryMaterials()">
-              <option value="">Selecciona categoría...</option>
-              <option value="wires">Wires (Cableado)</option>
-              <option value="outlets">Outlets (Tomacorrientes)</option>
-              <option value="switches">Switches (Interruptores)</option>
-              <option value="breakers">Breakers (Interruptores Termomagnéticos)</option>
-              <option value="conduit">Conduit (Tubería Eléctrica)</option>
-              <option value="boxes">Boxes (Cajas Eléctricas)</option>
-              <option value="panels">Panels (Paneles Eléctricos)</option>
-              <option value="lighting">Lighting (Iluminación)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Selecciona Materiales:</label>
-            <div id="materialsList"></div>
-          </div>
-
-          <div class="form-group">
-            <label>Agregar Material Especial:</label>
-            <div style="display:flex;gap:5px;flex-wrap:wrap;">
-              <input type="text" id="customMaterial" placeholder="Nombre" class="form-control" style="flex:1;min-width:120px;">
-              <input type="number" id="customQty" placeholder="Cantidad" class="form-control" style="width:80px;">
-              <input type="number" id="customPrice" placeholder="Precio Total" class="form-control" style="width:90px;">
-              <button type="button" class="btn" onclick="addCustomMaterial()">+</button>
+            <label>Búsqueda de Materiales:</label>
+            <div class="search-container">
+              <input type="text" id="materialSearch" class="form-control" placeholder="Ej: outlet, wire, breaker...">
+              <div id="searchResults" class="search-results"></div>
             </div>
-            <small>Ej: Rollo de Romex 12/2, Caja de outlets, etc.</small>
+          </div>
+
+          <div class="form-group">
+            <label>Materiales Seleccionados:</label>
+            <div id="selectedMaterialsList">
+              <p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p>
+            </div>
           </div>
         </div>
 
@@ -391,6 +465,7 @@
     let permits = {};
     let materialsDB = {};
     let selectedMaterials = [];
+    let allMaterials = [];
 
     // === Verificar contraseña ===
     function checkPassword() {
@@ -436,6 +511,19 @@
         const res4 = await fetch('/data/materials_db.json');
         materialsDB = await res4.json();
 
+        // Preparar todos los materiales para búsqueda
+        allMaterials = [];
+        for (const [key, price] of Object.entries(prices)) {
+          allMaterials.push({
+            id: key,
+            name: key.replace(/-/g, ' '),
+            price: price,
+            unit: key.includes('wire') ? 'por pie' : 
+                   key.includes('outlet') || key.includes('switch') ? 'por pieza' : 
+                   key.includes('breaker') ? 'por unidad' : 'por unidad'
+          });
+        }
+
         console.log("✅ Datos cargados correctamente");
       } catch (e) {
         console.error("❌ Error cargando datos:", e);
@@ -453,201 +541,311 @@
       document.getElementById('helperCount').textContent = helperCount; 
     }
 
-    // === Cargar materiales por categoría ===
-    function loadCategoryMaterials() {
-      const category = document.getElementById('materialCategory').value;
-      const container = document.getElementById('materialsList');
-      container.innerHTML = '';
-
-      const materials = {
-        wires: [
-          { id: 'romex-12-2', name: 'Romex 12/2', price: 120, unit: 'rollo (250 pies)', unitPrice: 0.48 },
-          { id: 'romex-14-2', name: 'Romex 14/2', price: 90, unit: 'rollo (250 pies)', unitPrice: 0.36 },
-          { id: 'romex-10-2', name: 'Romex 10/2', price: 150, unit: 'rollo (250 pies)', unitPrice: 0.60 }
-        ],
-        outlets: [
-          { id: 'standard-outlet', name: 'Outlet Estándar', price: 320, unit: 'caja (100 unidades)', unitPrice: 3.20 },
-          { id: 'gfci-outlet', name: 'GFCI Outlet', price: 500, unit: 'caja (50 unidades)', unitPrice: 10.00 }
-        ],
-        switches: [
-          { id: 'standard-switch', name: 'Switch Estándar', price: 80, unit: 'caja (20 unidades)', unitPrice: 4.00 },
-          { id: 'dimmer-switch', name: 'Dimmer Switch', price: 120, unit: 'caja (10 unidades)', unitPrice: 12.00 }
-        ],
-        breakers: [
-          { id: 'breaker-15a', name: 'Breaker 15A', price: 8, unit: 'unidad', unitPrice: 8 },
-          { id: 'breaker-20a', name: 'Breaker 20A', price: 10, unit: 'unidad', unitPrice: 10 },
-          { id: 'breaker-30a', name: 'Breaker 30A', price: 15, unit: 'unidad', unitPrice: 15 }
-        ],
-        conduit: [
-          { id: 'emt-1-2', name: 'EMT 1/2"', price: 12, unit: 'tramo (10 pies)', unitPrice: 1.20 },
-          { id: 'pvc-1-2', name: 'PVC 1/2"', price: 8, unit: 'tramo (10 pies)', unitPrice: 0.80 }
-        ],
-        boxes: [
-          { id: 'metal-box-4x4', name: 'Caja Metálica 4x4', price: 50, unit: 'caja (50 unidades)', unitPrice: 1.00 },
-          { id: 'plastic-box-4x4', name: 'Caja Plástica 4x4', price: 40, unit: 'caja (50 unidades)', unitPrice: 0.80 }
-        ],
-        panels: [
-          { id: 'panel-100a', name: 'Panel 100A', price: 1200, unit: 'unidad', unitPrice: 1200 },
-          { id: 'panel-200a', name: 'Panel 200A', price: 2000, unit: 'unidad', unitPrice: 2000 }
-        ],
-        lighting: [
-          { id: 'recessed-light', name: 'Recessed Light', price: 150, unit: 'caja (10 unidades)', unitPrice: 15.00 },
-          { id: 'led-strip', name: 'LED Strip', price: 60, unit: 'rollo (16.4 pies)', unitPrice: 3.66 }
-        ]
-      };
-
-      if (!category || !materials[category]) return;
-
-      materials[category].forEach(item => {
-        container.innerHTML += `
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px;background:#f9f9f9;border-radius:8px;">
-            <input type="checkbox" class="mat-check" data-item="${item.id}" data-unitprice="${item.unitPrice}">
-            <div style="flex:1;">
-              <strong>${item.name}</strong><br>
-              <small>$${item.price} por ${item.unit} ($${item.unitPrice.toFixed(2)} por unidad)</small>
-            </div>
-            <input type="number" class="mat-qty" placeholder="0" style="width:60px;" disabled>
-            <span style="font-size:0.9rem;color:#666;">${item.unit}</span>
-          </div>
-        `;
-      });
-
-      // Habilitar/deshabilitar cantidad
-      container.querySelectorAll('.mat-check').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          const qtyInput = this.parentNode.querySelector('.mat-qty');
-          qtyInput.disabled = !this.checked;
-          if (!this.checked) qtyInput.value = '';
-        });
-      });
-    }
-
-    // === Agregar material especial ===
-    function addCustomMaterial() {
-      const name = document.getElementById('customMaterial').value;
-      const qty = parseFloat(document.getElementById('customQty').value) || 0;
-      const price = parseFloat(document.getElementById('customPrice').value) || 0;
-      if (!name || qty <= 0 || price <= 0) return alert('Completa todos los campos');
-      selectedMaterials.push({ name, qty, price });
-      document.getElementById('customMaterial').value = '';
-      document.getElementById('customQty').value = '';
-      document.getElementById('customPrice').value = '';
-      alert(`✅ ${name} agregado`);
-    }
-
-    // === Cálculo principal ===
-    // === Cálculo principal ===
-async function calculateQuote() {
-  const projectKey = document.getElementById('projectType').value;
-  const city = document.getElementById('city').value;
-  const days = parseFloat(document.getElementById('days').value) || 1;
-  const hours = days * 8;
-  const squareFeet = parseFloat(document.getElementById('squareFeet').value) || 1000;
-  const floors = parseInt(document.getElementById('floors').value) || 1;
-  const markup = parseFloat(document.getElementById('materialMarkup').value) / 100;
-  const taxRate = 0.0925;
-  const clientType = document.getElementById('clientType').value;
-
-  const labor = laborRates[city];
-  const permitCost = permits[city][projectKey.split('-')[0]] || 0;
-
-  // Materiales del proyecto base
-  let materialCost = 0;
-  const project = materialsDB[projectKey];
-  if (project) {
-    for (const [item, qty] of Object.entries(project.materials)) {
-      materialCost += qty * (prices[item] || 0);
-    }
-  }
-
-  // Materiales seleccionados manualmente
-  document.querySelectorAll('.mat-check:checked').forEach(checkbox => {
-    const item = checkbox.dataset.item;
-    const qty = parseFloat(checkbox.parentNode.querySelector('.mat-qty').value) || 0;
-    materialCost += qty * (prices[item] || 0);
-  });
-
-  // Materiales especiales
-  selectedMaterials.forEach(m => {
-    materialCost += m.qty * m.price;
-  });
-
-  const materialSell = materialCost * (1 + markup);
-  const taxAmount = clientType === 'homeowner' ? materialSell * taxRate : 0;
-
-  // Mano de obra
-  let totalLaborCost = 0;
-  let totalLaborSell = 0;
-
-  if (document.getElementById('contractorWorks').checked) {
-    totalLaborCost += hours * labor.labor_cost.contractor_c10;
-    totalLaborSell += hours * labor.labor_rate.contractor_c10;
-  }
-
-  totalLaborCost += hours * helperCount * labor.labor_cost.helper;
-  totalLaborSell += hours * helperCount * labor.labor_rate.helper;
-
-  // Totales
-  const totalCost = materialCost + totalLaborCost + permitCost;
-  let totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
-
-  // Si es para contratista, aplicar descuento del 30%
-  if (clientType === 'contractor') {
-    totalPrice *= 0.7; // 30% menos
-  }
-
-  const profit = totalPrice - totalCost;
-
-  // Precio mínimo y máximo
-  const minPrice = materialCost * 1.25 + taxAmount + totalLaborSell + permitCost;
-  const maxPrice = materialCost * 1.55 + taxAmount + totalLaborSell + permitCost;
-
-  // Mostrar resultado
-  displayResult({
-    materialCost, materialSell, taxAmount,
-    totalLaborCost, totalLaborSell,
-    permitCost, totalCost, totalPrice, profit,
-    minPrice, maxPrice, days, hours, helperCount, markup: markup * 100,
-    city, projectKey, squareFeet, floors, clientType
-  });
-}
-
-function displayResult(data) {
-  const results = document.getElementById('results');
-  const blueprintName = document.getElementById('blueprint').files[0]?.name || 'Ninguno';
-  results.innerHTML = `
-    <div id="quote-result">
-      <h2>Cotización: ${data.projectKey.replace(/-/g, ' ').toUpperCase()}</h2>
-      <p><strong>Ciudad:</strong> ${data.city}</p>
-      <p><strong>Tamaño:</strong> ${data.squareFeet} pies² (${data.floors} planta${data.floors !== 1 ? 's' : ''})</p>
-      <p><strong>Días:</strong> ${data.days} (${data.hours} horas)</p>
-      <p><strong>Equipo:</strong> Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''}</p>
-      <p><strong>Planos:</strong> ${blueprintName}</p>
-      <p><strong>Cliente:</strong> ${data.clientType === 'homeowner' ? 'Final' : 'Contratista General'}</p>
-      <p><strong>Markup Materiales:</strong> ${data.markup}%</p>
+    // === Búsqueda de materiales ===
+    document.getElementById('materialSearch').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
       
-      <table>
-        <tr><th>Concepto</th><th>Costo Real</th><th>Precio Venta</th></tr>
-        <tr><td>Materiales</td><td>$${data.materialCost.toFixed(2)}</td><td>$${data.materialSell.toFixed(2)}</td></tr>
-        <tr><td>Impuesto (9.25%)</td><td>-</td><td>$${data.taxAmount.toFixed(2)}</td></tr>
-        <tr><td>Mano de Obra</td><td>$${data.totalLaborCost.toFixed(2)}</td><td>$${data.totalLaborSell.toFixed(2)}</td></tr>
-        <tr><td>Permisos</td><td>$${data.permitCost.toFixed(2)}</td><td>$${data.permitCost.toFixed(2)}</td></tr>
-        <tr class="total-row"><td><strong>Total</strong></td><td><strong>$${data.totalCost.toFixed(2)}</strong></td><td><strong>$${data.totalPrice.toFixed(2)}</strong></td></tr>
-      </table>
+      if (searchTerm.length < 2) {
+        resultsContainer.style.display = 'none';
+        return;
+      }
 
-      <div class="summary">
-        <p><strong>Ganancia Neta:</strong> $${data.profit.toFixed(2)} (${((data.profit / data.totalCost) * 100).toFixed(1)}%)</p>
-        <p><strong>Precio Mínimo Recomendado:</strong> $${data.minPrice.toFixed(2)}</p>
-        <p><strong>Precio Máximo Recomendado:</strong> $${data.maxPrice.toFixed(2)}</p>
-        ${data.clientType === 'contractor' ? '<p><strong>Nota:</strong> Precio ajustado -30% para contratista.</p>' : ''}
-      </div>
-    </div>
-  `;
-}
+      const filteredMaterials = allMaterials.filter(material => 
+        material.name.toLowerCase().includes(searchTerm)
+      );
+
+      if (filteredMaterials.length === 0) {
+        resultsContainer.innerHTML = '<div class="material-item">No se encontraron materiales</div>';
+        resultsContainer.style.display = 'block';
+        return;
+      }
+
+      resultsContainer.innerHTML = '';
+      filteredMaterials.forEach(material => {
+        const item = document.createElement('div');
+        item.className = 'material-item';
+        item.innerHTML = `
+          <div class="material-name">${material.name}</div>
+          <div class="material-price">$${material.price.toFixed(2)}</div>
+          <div class="material-unit">${material.unit}</div>
+        `;
+        item.onclick = function() {
+          addItemToQuote(material);
+          document.getElementById('materialSearch').value = '';
+          resultsContainer.style.display = 'none';
+        };
+        resultsContainer.appendChild(item);
+      });
+      
+      resultsContainer.style.display = 'block';
+    });
+
+    // Cerrar resultados al hacer clic fuera
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-container')) {
+        document.getElementById('searchResults').style.display = 'none';
+      }
+    });
+
+    // === Agregar material a la cotización ===
+    function addItemToQuote(material) {
+      // Verificar si ya está agregado
+      const exists = selectedMaterials.some(m => m.id === material.id);
+      if (exists) {
+        alert('Este material ya está agregado');
+        return;
+      }
+
+      // Agregar a la lista
+      selectedMaterials.push({
+        id: material.id,
+        name: material.name,
+        price: material.price,
+        unit: material.unit,
+        qty: 1
+      });
+
+      // Actualizar vista
+      updateSelectedMaterialsList();
+    }
+
+    // === Actualizar lista de materiales seleccionados ===
+    function updateSelectedMaterialsList() {
+      const container = document.getElementById('selectedMaterialsList');
+      
+      if (selectedMaterials.length === 0) {
+        container.innerHTML = '<p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <table>
+          <tr>
+            <th>Material</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Total</th>
+            <th>Acción</th>
+          </tr>
+          ${selectedMaterials.map((m, i) => `
+            <tr>
+              <td>${m.name}</td>
+              <td><input type="number" class="form-control" value="${m.qty}" min="1" style="width:70px;" 
+                         onchange="updateMaterialQty(${i}, this.value)"></td>
+              <td>$${m.price.toFixed(2)}</td>
+              <td>$${(m.qty * m.price).toFixed(2)}</td>
+              <td><button class="btn" onclick="removeMaterial(${i})">Eliminar</button></td>
+            </tr>
+          `).join('')}
+        </table>
+      `;
+    }
+
+    // === Actualizar cantidad de material ===
+    function updateMaterialQty(index, qty) {
+      qty = parseFloat(qty) || 1;
+      selectedMaterials[index].qty = qty;
+      updateSelectedMaterialsList();
+    }
+
+    // === Eliminar material ===
+    function removeMaterial(index) {
+      selectedMaterials.splice(index, 1);
+      updateSelectedMaterialsList();
+    }
+
+    // === Cálculo principal ===
+    async function calculateQuote() {
+      const projectKey = document.getElementById('projectType').value;
+      const city = document.getElementById('city').value;
+      const days = parseFloat(document.getElementById('days').value) || 1;
+      const hours = days * 8;
+      const squareFeet = parseFloat(document.getElementById('squareFeet').value) || 1000;
+      const floors = parseInt(document.getElementById('floors').value) || 1;
+      const markup = parseFloat(document.getElementById('materialMarkup').value) / 100;
+      const taxRate = 0.0925;
+      const clientType = document.getElementById('clientType').value;
+
+      const labor = laborRates[city];
+      const permitCost = permits[city][projectKey.split('-')[0]] || 0;
+
+      // Materiales del proyecto base
+      let materialCost = 0;
+      const project = materialsDB[projectKey];
+      if (project) {
+        for (const [item, qty] of Object.entries(project.materials)) {
+          materialCost += qty * (prices[item] || 0);
+        }
+      }
+
+      // Materiales seleccionados manualmente
+      selectedMaterials.forEach(m => {
+        materialCost += m.qty * m.price;
+      });
+
+      const materialSell = materialCost * (1 + markup);
+      const taxAmount = clientType === 'homeowner' ? materialSell * taxRate : 0;
+
+      // Mano de obra
+      let totalLaborCost = 0;
+      let totalLaborSell = 0;
+
+      if (document.getElementById('contractorWorks').checked) {
+        totalLaborCost += hours * labor.labor_cost.contractor_c10;
+        totalLaborSell += hours * labor.labor_rate.contractor_c10;
+      }
+
+      totalLaborCost += hours * helperCount * labor.labor_cost.helper;
+      totalLaborSell += hours * helperCount * labor.labor_rate.helper;
+
+      // Totales
+      const totalCost = materialCost + totalLaborCost + permitCost;
+      let totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
+
+      // Si es para contratista, aplicar descuento del 30%
+      if (clientType === 'contractor') {
+        totalPrice *= 0.7; // 30% menos
+      }
+
+      const profit = totalPrice - totalCost;
+
+      // Precio mínimo = 25% markup
+      const minPrice = materialCost * 1.25 + taxAmount + totalLaborSell + permitCost;
+      
+      // Precio máximo = 55% markup
+      const maxPrice = materialCost * 1.55 + taxAmount + totalLaborSell + permitCost;
+
+      // Mostrar resultado
+      displayResult({
+        materialCost, materialSell, taxAmount,
+        totalLaborCost, totalLaborSell,
+        permitCost, totalCost, totalPrice, profit,
+        minPrice, maxPrice, days, hours, helperCount, markup: markup * 100,
+        city, projectKey, squareFeet, floors, clientType
+      });
+    }
+
+    function displayResult(data) {
+      const results = document.getElementById('results');
+      const blueprintName = document.getElementById('blueprint').files[0]?.name || 'Ninguno';
+      
+      // Calcular porcentaje de ganancia
+      const profitPercentage = ((data.profit / data.totalCost) * 100).toFixed(1);
+      
+      results.innerHTML = `
+        <div id="quote-result">
+          <div class="company-info" style="margin-bottom: 20px;">
+            <h3 style="margin:0 0 10px 0;"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Logo" style="height:40px;width:40px;border-radius:50%;margin-right:10px;vertical-align:middle;"> Golden Charge Electrician Company</h3>
+            <p style="margin:5px 0;">📞 <strong>(510) 221-1258</strong></p>
+            <p style="margin:5px 0;">✉️ <strong>carlos.villalobos@goldencharge.net</strong></p>
+            <p style="margin:5px 0;">🆔 <strong>License # 1143055</strong></p>
+            <p style="margin:5px 0;">🔐 <strong>Golden Charge LLC | EIN: 39-4119592</strong></p>
+          </div>
+          
+          <h2 style="color:var(--dark-blue);margin-bottom:15px;">Cotización: ${data.projectKey.replace(/-/g, ' ').toUpperCase()}</h2>
+          
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:20px;">
+            <div class="section" style="margin-bottom:0;">
+              <p><strong>Ciudad:</strong> ${data.city}</p>
+              <p><strong>Tamaño:</strong> ${data.squareFeet} pies² (${data.floors} planta${data.floors !== 1 ? 's' : ''})</p>
+              <p><strong>Días:</strong> ${data.days} (${data.hours} horas)</p>
+            </div>
+            <div class="section" style="margin-bottom:0;">
+              <p><strong>Equipo:</strong> Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''}</p>
+              <p><strong>Planos:</strong> ${blueprintName}</p>
+              <p><strong>Cliente:</strong> ${data.clientType === 'homeowner' ? 'Final' : 'Contratista General'}</p>
+            </div>
+          </div>
+          
+          <table style="width:100%;margin-bottom:20px;">
+            <tr>
+              <th style="text-align:left;padding:10px;background:var(--dark-blue);color:var(--gold);">Concepto</th>
+              <th style="text-align:right;padding:10px;background:var(--dark-blue);color:var(--gold);">Costo Real</th>
+              <th style="text-align:right;padding:10px;background:var(--dark-blue);color:var(--gold);">Precio Venta</th>
+            </tr>
+            <tr>
+              <td style="padding:8px;border:1px solid var(--border);">Materiales</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.materialCost.toFixed(2)}</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.materialSell.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;border:1px solid var(--border);">Impuesto (9.25%)</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">-</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.taxAmount.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;border:1px solid var(--border);">Mano de Obra</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.totalLaborCost.toFixed(2)}</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.totalLaborSell.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;border:1px solid var(--border);">Permisos</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.permitCost.toFixed(2)}</td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;">$${data.permitCost.toFixed(2)}</td>
+            </tr>
+            <tr class="total-row" style="font-weight:bold;background:#f0f0f0;">
+              <td style="padding:8px;border:1px solid var(--border);"><strong>Total</strong></td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;"><strong>$${data.totalCost.toFixed(2)}</strong></td>
+              <td style="padding:8px;border:1px solid var(--border);text-align:right;"><strong>$${data.totalPrice.toFixed(2)}</strong></td>
+            </tr>
+          </table>
+
+          <div class="summary" style="background:#f8f9fa;padding:15px;border-radius:10px;">
+            <p><strong>Ganancia Neta:</strong> $${data.profit.toFixed(2)} (${profitPercentage}%)</p>
+            <p><strong>Precio Mínimo Recomendado:</strong> $${data.minPrice.toFixed(2)}</p>
+            <p><strong>Precio Máximo Recomendado:</strong> $${data.maxPrice.toFixed(2)}</p>
+            ${data.clientType === 'contractor' ? '<p><strong>Nota:</strong> Precio ajustado -30% para contratista.</p>' : ''}
+          </div>
+          
+          <div style="text-align:center;margin-top:30px;">
+            <button type="button" class="btn" onclick="generatePDF()" style="padding:12px 30px;font-size:1rem;">
+              <i class="fas fa-file-pdf"></i> Descargar Cotización en PDF
+            </button>
+          </div>
+        </div>
+      `;
+    }
 
     // === Exportar a PDF ===
     function generatePDF() {
-      alert("PDF en desarrollo. Pronto se generará correctamente.");
+      const element = document.getElementById('quote-result');
+      const projectName = document.getElementById('projectType').options[document.getElementById('projectType').selectedIndex].text;
+      const date = new Date().toISOString().slice(0, 10);
+      
+      const opt = {
+        margin: 10,
+        filename: `goldencharge-cotizacion-${projectName.replace(/\s+/g, '-').toLowerCase()}-${date}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'letter', 
+          orientation: 'portrait',
+          putOnlyUsedFonts: true
+        },
+        pagebreak: { mode: 'avoid-all' }
+      };
+      
+      // Mostrar mensaje de carga
+      const originalHTML = element.innerHTML;
+      element.innerHTML = `
+        <div style="text-align:center;padding:50px;">
+          <div style="font-size:2rem;margin-bottom:20px;">🔄</div>
+          <h3>Generando PDF...</h3>
+          <p>Por favor espera unos segundos</p>
+        </div>
+      `;
+      
+      // Generar PDF
+      html2pdf().set(opt).from(element).save().then(() => {
+        // Restaurar contenido original
+        element.innerHTML = originalHTML;
+      }).catch(error => {
+        console.error("Error generando PDF:", error);
+        alert("Hubo un error al generar el PDF. Por favor intenta de nuevo.");
+        element.innerHTML = originalHTML;
+      });
     }
   </script>
 </body>
