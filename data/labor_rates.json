@@ -149,5 +149,10 @@
   },
   "Martinez": {
     "labor_cost": { "contractor_c10": 92, "helper": 25 },
-    "labor_rate": { "contractor_c10": 15
-
+    "labor_rate": { "contractor_c10": 155, "helper": 78 }
+  },
+  "Benicia": {
+    "labor_cost": { "contractor_c10": 90, "helper": 25 },
+    "labor_rate": { "contractor_c10": 150, "helper": 75 }
+  }
+}
