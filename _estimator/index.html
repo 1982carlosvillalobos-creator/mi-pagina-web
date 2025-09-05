@@ -283,14 +283,14 @@
             <label>Materiales por Categoría:</label>
             <select id="materialCategory" onchange="loadCategoryMaterials()">
               <option value="">Selecciona categoría...</option>
-              <option value="wires">Wires</option>
-              <option value="outlets">Outlets</option>
-              <option value="switches">Switches</option>
-              <option value="breakers">Breakers</option>
-              <option value="panels">Panels</option>
-              <option value="conduit">Conduit</option>
-              <option value="boxes">Boxes</option>
-              <option value="lighting">Lighting</option>
+              <option value="wires">Wires (Cableado)</option>
+              <option value="outlets">Outlets (Tomacorrientes)</option>
+              <option value="switches">Switches (Interruptores)</option>
+              <option value="breakers">Breakers (Interruptores Termomagnéticos)</option>
+              <option value="conduit">Conduit (Tubería Eléctrica)</option>
+              <option value="boxes">Boxes (Cajas Eléctricas)</option>
+              <option value="panels">Panels (Paneles Eléctricos)</option>
+              <option value="lighting">Lighting (Iluminación)</option>
             </select>
           </div>
 
@@ -304,9 +304,10 @@
             <div style="display:flex;gap:5px;flex-wrap:wrap;">
               <input type="text" id="customMaterial" placeholder="Nombre" style="flex:1;min-width:120px;">
               <input type="number" id="customQty" placeholder="Cantidad" style="width:80px;">
-              <input type="number" id="customPrice" placeholder="Precio" style="width:90px;">
+              <input type="number" id="customPrice" placeholder="Precio Total" style="width:90px;">
               <button type="button" onclick="addCustomMaterial()">+</button>
             </div>
+            <small>Ej: Rollo de Romex 12/2, Caja de outlets, etc.</small>
           </div>
         </div>
 
@@ -342,105 +343,166 @@
 
   <!-- Script principal -->
   <script>
-  // === Variables globales ===
-  let helperCount = 1;
-  let prices = {};
-  let laborRates = {};
-  let permits = {};
-  let materialsDB = [];
-  let selectedMaterials = [];
+    // === Variables globales ===
+    let helperCount = 1;
+    let prices = {};
+    let laborRates = {};
+    let permits = {};
+    let materialsDB = {};
+    let selectedMaterials = [];
 
-  // === Verificar contraseña ===
-  function checkPassword() {
-    const pwd = document.getElementById('password').value;
-    if (pwd === 'GoldenCharge2025!') {
-      localStorage.setItem('estimatorAccess', 'true');
+    // === Verificar contraseña ===
+    function checkPassword() {
+      const pwd = document.getElementById('password').value;
+      if (pwd === 'GoldenCharge2025!') {
+        localStorage.setItem('estimatorAccess', 'true');
+        const login = document.getElementById('login');
+        const app = document.getElementById('app');
+        if (login && app) {
+          login.style.display = 'none';
+          app.style.display = 'block';
+          loadAllData();
+        }
+      } else {
+        alert('Contraseña incorrecta');
+      }
+    }
+
+    // === Verificar acceso al cargar ===
+    window.onload = function () {
       const login = document.getElementById('login');
       const app = document.getElementById('app');
-      if (login && app) {
-        login.style.display = 'none';
+      
+      if (localStorage.getItem('estimatorAccess') === 'true' && app) {
+        if (login) login.style.display = 'none';
         app.style.display = 'block';
         loadAllData();
       }
-    } else {
-      alert('Contraseña incorrecta');
+    };
+
+    // === Cargar todos los datos ===
+    async function loadAllData() {
+      try {
+        const res1 = await fetch('data/materials_prices.json');
+        prices = await res1.json();
+
+        const res2 = await fetch('data/labor_rates.json');
+        laborRates = await res2.json();
+
+        const res3 = await fetch('data/permits.json');
+        permits = await res3.json();
+
+        const res4 = await fetch('data/materials_db.json');
+        materialsDB = await res4.json();
+
+        console.log("✅ Datos cargados correctamente");
+      } catch (e) {
+        console.error("❌ Error cargando datos:", e);
+        alert("Error: No se pudieron cargar los precios. Verifica los archivos JSON.");
+      }
     }
-  }
 
-  // === Verificar acceso al cargar ===
-  window.onload = function () {
-    const login = document.getElementById('login');
-    const app = document.getElementById('app');
-    
-    if (localStorage.getItem('estimatorAccess') === 'true' && app) {
-      if (login) login.style.display = 'none';
-      app.style.display = 'block';
-      loadAllData();
+    // === Control de ayudantes ===
+    function addHelper() { 
+      if (helperCount < 5) helperCount++; 
+      document.getElementById('helperCount').textContent = helperCount; 
     }
-  };
-
-  // === Cargar todos los datos ===
-  async function loadAllData() {
-    try {
-      const res1 = await fetch('data/materials_prices.json');
-      prices = await res1.json();
-
-      const res2 = await fetch('data/labor_rates.json');
-      laborRates = await res2.json();
-
-      const res3 = await fetch('data/permits.json');
-      permits = await res3.json();
-
-      const res4 = await fetch('data/materials_db.json');
-      materialsDB = await res4.json();
-
-      console.log("✅ Datos cargados:", { prices, laborRates, permits, materialsDB });
-    } catch (e) {
-      console.error("❌ Error cargando datos:", e);
-      alert("Error: No se pudieron cargar los datos. Verifica los archivos JSON.");
+    function removeHelper() { 
+      if (helperCount > 0) helperCount--; 
+      document.getElementById('helperCount').textContent = helperCount; 
     }
-  }
 
-  // === Control de ayudantes ===
-  function addHelper() { 
-    if (helperCount < 5) helperCount++; 
-    document.getElementById('helperCount').textContent = helperCount; 
-  }
-  function removeHelper() { 
-    if (helperCount > 0) helperCount--; 
-    document.getElementById('helperCount').textContent = helperCount; 
-  }
+    // === Cargar materiales por categoría ===
+    function loadCategoryMaterials() {
+      const category = document.getElementById('materialCategory').value;
+      const container = document.getElementById('materialsList');
+      container.innerHTML = '';
 
-  // === Agregar fila de material ===
-  function addMaterialRow() {
-    const table = document.getElementById('materialTable');
-    const row = table.insertRow();
-    row.innerHTML = `
-      <td><input type="text" class="form-control" placeholder="Nombre del material"></td>
-      <td><input type="number" class="form-control qty" value="1" min="1"></td>
-      <td><input type="number" class="form-control price" value="0" min="0" step="0.01"></td>
-      <td class="total">0.00</td>
-      <td><button type="button" onclick="this.closest('tr').remove()">Eliminar</button></td>
-    `;
-    // Actualizar total al cambiar cantidad o precio
-    row.querySelectorAll('.qty, .price').forEach(input => {
-      input.addEventListener('input', () => {
-        const qty = parseFloat(row.querySelector('.qty').value) || 0;
-        const price = parseFloat(row.querySelector('.price').value) || 0;
-        row.querySelector('.total').textContent = (qty * price).toFixed(2);
+      const materials = {
+        wires: [
+          { id: 'romex-12-2', name: 'Romex 12/2', price: 120, unit: 'rollo (250 pies)', unitPrice: 0.48 },
+          { id: 'romex-14-2', name: 'Romex 14/2', price: 90, unit: 'rollo (250 pies)', unitPrice: 0.36 },
+          { id: 'romex-10-2', name: 'Romex 10/2', price: 150, unit: 'rollo (250 pies)', unitPrice: 0.60 }
+        ],
+        outlets: [
+          { id: 'standard-outlet', name: 'Outlet Estándar', price: 320, unit: 'caja (100 unidades)', unitPrice: 3.20 },
+          { id: 'gfci-outlet', name: 'GFCI Outlet', price: 500, unit: 'caja (50 unidades)', unitPrice: 10.00 }
+        ],
+        switches: [
+          { id: 'standard-switch', name: 'Switch Estándar', price: 80, unit: 'caja (20 unidades)', unitPrice: 4.00 },
+          { id: 'dimmer-switch', name: 'Dimmer Switch', price: 120, unit: 'caja (10 unidades)', unitPrice: 12.00 }
+        ],
+        breakers: [
+          { id: 'breaker-15a', name: 'Breaker 15A', price: 8, unit: 'unidad', unitPrice: 8 },
+          { id: 'breaker-20a', name: 'Breaker 20A', price: 10, unit: 'unidad', unitPrice: 10 },
+          { id: 'breaker-30a', name: 'Breaker 30A', price: 15, unit: 'unidad', unitPrice: 15 }
+        ],
+        conduit: [
+          { id: 'emt-1-2', name: 'EMT 1/2"', price: 12, unit: 'tramo (10 pies)', unitPrice: 1.20 },
+          { id: 'pvc-1-2', name: 'PVC 1/2"', price: 8, unit: 'tramo (10 pies)', unitPrice: 0.80 }
+        ],
+        boxes: [
+          { id: 'metal-box-4x4', name: 'Caja Metálica 4x4', price: 50, unit: 'caja (50 unidades)', unitPrice: 1.00 },
+          { id: 'plastic-box-4x4', name: 'Caja Plástica 4x4', price: 40, unit: 'caja (50 unidades)', unitPrice: 0.80 }
+        ],
+        panels: [
+          { id: 'panel-100a', name: 'Panel 100A', price: 1200, unit: 'unidad', unitPrice: 1200 },
+          { id: 'panel-200a', name: 'Panel 200A', price: 2000, unit: 'unidad', unitPrice: 2000 }
+        ],
+        lighting: [
+          { id: 'recessed-light', name: 'Recessed Light', price: 150, unit: 'caja (10 unidades)', unitPrice: 15.00 },
+          { id: 'led-strip', name: 'LED Strip', price: 60, unit: 'rollo (16.4 pies)', unitPrice: 3.66 }
+        ]
+      };
+
+      if (!category || !materials[category]) return;
+
+      materials[category].forEach(item => {
+        container.innerHTML += `
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px;background:#f9f9f9;border-radius:8px;">
+            <input type="checkbox" class="mat-check" data-item="${item.id}" data-unitprice="${item.unitPrice}">
+            <div style="flex:1;">
+              <strong>${item.name}</strong><br>
+              <small>$${item.price} por ${item.unit} ($${item.unitPrice.toFixed(2)} por unidad)</small>
+            </div>
+            <input type="number" class="mat-qty" placeholder="0" style="width:60px;" disabled>
+            <span style="font-size:0.9rem;color:#666;">${item.unit}</span>
+          </div>
+        `;
       });
-    });
-  }
 
-  // === Cálculo principal ===
-  async function calculateQuote() {
-    alert("Función en desarrollo. Pronto calculará la cotización.");
-  }
+      // Habilitar/deshabilitar cantidad
+      container.querySelectorAll('.mat-check').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const qtyInput = this.parentNode.querySelector('.mat-qty');
+          qtyInput.disabled = !this.checked;
+          if (!this.checked) qtyInput.value = '';
+        });
+      });
+    }
 
-  // === Exportar a PDF ===
-  function generatePDF() {
-    alert("PDF en desarrollo. Pronto se generará correctamente.");
-  }
-</script>
+    // === Agregar material especial ===
+    function addCustomMaterial() {
+      const name = document.getElementById('customMaterial').value;
+      const qty = parseFloat(document.getElementById('customQty').value) || 0;
+      const price = parseFloat(document.getElementById('customPrice').value) || 0;
+      if (!name || qty <= 0 || price <= 0) return alert('Completa todos los campos');
+      selectedMaterials.push({ name, qty, price });
+      document.getElementById('customMaterial').value = '';
+      document.getElementById('customQty').value = '';
+      document.getElementById('customPrice').value = '';
+      alert(`✅ ${name} agregado`);
+    }
+
+    // === Cálculo principal ===
+    async function calculateQuote() {
+      alert("Función en desarrollo. Pronto calculará la cotización real.");
+    }
+
+    // === Exportar a PDF ===
+    function generatePDF() {
+      alert("PDF en desarrollo. Pronto se generará correctamente.");
+    }
+  </script>
 </body>
 </html>
