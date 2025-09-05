@@ -1,0 +1,197 @@
+{
+  "San Francisco": {
+    "ev": 185,
+    "panel": 250,
+    "new": 120
+  },
+  "Oakland": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "San Jose": {
+    "ev": 165,
+    "panel": 235,
+    "new": 110
+  },
+  "Fremont": {
+    "ev": 160,
+    "panel": 225,
+    "new": 105
+  },
+  "Hayward": {
+    "ev": 170,
+    "panel": 230,
+    "new": 110
+  },
+  "Berkeley": {
+    "ev": 170,
+    "panel": 240,
+    "new": 115
+  },
+  "Richmond": {
+    "ev": 140,
+    "panel": 210,
+    "new": 95
+  },
+  "Sunnyvale": {
+    "ev": 175,
+    "panel": 245,
+    "new": 118
+  },
+  "Mountain View": {
+    "ev": 170,
+    "panel": 240,
+    "new": 115
+  },
+  "Palo Alto": {
+    "ev": 180,
+    "panel": 250,
+    "new": 120
+  },
+  "Redwood City": {
+    "ev": 165,
+    "panel": 235,
+    "new": 110
+  },
+  "Daly City": {
+    "ev": 180,
+    "panel": 245,
+    "new": 118
+  },
+  "South San Francisco": {
+    "ev": 180,
+    "panel": 245,
+    "new": 118
+  },
+  "San Mateo": {
+    "ev": 170,
+    "panel": 240,
+    "new": 115
+  },
+  "Concord": {
+    "ev": 145,
+    "panel": 215,
+    "new": 98
+  },
+  "Walnut Creek": {
+    "ev": 155,
+    "panel": 225,
+    "new": 105
+  },
+  "Livermore": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "Union City": {
+    "ev": 155,
+    "panel": 220,
+    "new": 105
+  },
+  "Newark": {
+    "ev": 150,
+    "panel": 215,
+    "new": 100
+  },
+  "Milpitas": {
+    "ev": 170,
+    "panel": 240,
+    "new": 115
+  },
+  "Santa Clara": {
+    "ev": 165,
+    "panel": 235,
+    "new": 110
+  },
+  "Cupertino": {
+    "ev": 175,
+    "panel": 245,
+    "new": 118
+  },
+  "Los Gatos": {
+    "ev": 170,
+    "panel": 240,
+    "new": 115
+  },
+  "Pleasanton": {
+    "ev": 155,
+    "panel": 225,
+    "new": 105
+  },
+  "Dublin": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "Antioch": {
+    "ev": 135,
+    "panel": 205,
+    "new": 90
+  },
+  "Brentwood": {
+    "ev": 130,
+    "panel": 200,
+    "new": 85
+  },
+  "Tracy": {
+    "ev": 135,
+    "panel": 205,
+    "new": 90
+  },
+  "Gilroy": {
+    "ev": 140,
+    "panel": 210,
+    "new": 95
+  },
+  "Morgan Hill": {
+    "ev": 145,
+    "panel": 215,
+    "new": 98
+  },
+  "Napa": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "Vallejo": {
+    "ev": 145,
+    "panel": 215,
+    "new": 98
+  },
+  "Fairfield": {
+    "ev": 140,
+    "panel": 210,
+    "new": 95
+  },
+  "Petaluma": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "Santa Rosa": {
+    "ev": 155,
+    "panel": 225,
+    "new": 105
+  },
+  "Novato": {
+    "ev": 150,
+    "panel": 220,
+    "new": 100
+  },
+  "San Rafael": {
+    "ev": 155,
+    "panel": 225,
+    "new": 105
+  },
+  "Martinez": {
+    "ev": 140,
+    "panel": 210,
+    "new": 95
+  },
+  "Benicia": {
+    "ev": 145,
+    "panel": 215,
+    "new": 98
+  }
+}
