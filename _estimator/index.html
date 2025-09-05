@@ -346,18 +346,33 @@
     let prices = {}, laborRates = {}, permits = {}, materialsDB = {};
     let selectedMaterials = [];
 
-    // Verificar contraseña
-    function checkPassword() {
-      const pwd = document.getElementById('password').value;
-      if (pwd === 'GoldenCharge2025!') {
-        localStorage.setItem('estimatorAccess', 'true');
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        loadAllData();
-      } else {
-        alert('Contraseña incorrecta');
-      }
+   // Verificar contraseña
+function checkPassword() {
+  const pwd = document.getElementById('password').value;
+  if (pwd === 'GoldenCharge2025!') {
+    localStorage.setItem('estimatorAccess', 'true');
+    const login = document.getElementById('login');
+    const app = document.getElementById('app');
+    if (login && app) {
+      login.style.display = 'none';
+      app.style.display = 'block';
+      loadAllData();
     }
+  } else {
+    alert('Contraseña incorrecta');
+  }
+}
+
+// Verificar acceso al cargar
+window.onload = function () {
+  const login = document.getElementById('login');
+  const app = document.getElementById('app');
+  if (localStorage.getItem('estimatorAccess') === 'true' && app) {
+    if (login) login.style.display = 'none';
+    app.style.display = 'block';
+    loadAllData();
+  }
+};
 
     // Verificar acceso al cargar
     window.onload = function () {
