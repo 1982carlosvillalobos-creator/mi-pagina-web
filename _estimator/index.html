@@ -424,16 +424,16 @@
     // === Cargar todos los datos ===
     async function loadAllData() {
       try {
-        const res1 = await fetch('data/materials_prices.json');
+        const res1 = await fetch('/data/materials_prices.json');
         prices = await res1.json();
 
-        const res2 = await fetch('data/labor_rates.json');
+        const res2 = await fetch('/data/labor_rates.json');
         laborRates = await res2.json();
 
-        const res3 = await fetch('data/permits.json');
+        const res3 = await fetch('/data/permits.json');
         permits = await res3.json();
 
-        const res4 = await fetch('data/materials_db.json');
+        const res4 = await fetch('/data/materials_db.json');
         materialsDB = await res4.json();
 
         console.log("✅ Datos cargados correctamente");
