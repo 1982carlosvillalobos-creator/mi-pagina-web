@@ -369,19 +369,26 @@
     };
 
     // Cargar todos los datos
-    async function loadAllData() {
-      try {
-        const res1 = await fetch('/_estimator/data/materials_prices.json');
-        prices = await res1.json();
+async function loadAllData() {
+  try {
+    const res1 = await fetch('data/materials_prices.json');
+    prices = await res1.json();
 
-        const res2 = await fetch('/_estimator/data/labor_rates.json');
-        laborRates = await res2.json();
+    const res2 = await fetch('data/labor_rates.json');
+    laborRates = await res2.json();
 
-        const res3 = await fetch('/_estimator/data/permits.json');
-        permits = await res3.json();
+    const res3 = await fetch('data/permits.json');
+    permits = await res3.json();
 
-        const res4 = await fetch('/_estimator/data/materials_db.json');
-        materialsDB = await res4.json();
+    const res4 = await fetch('data/materials_db.json');
+    materialsDB = await res4.json();
+
+    console.log("✅ Todos los datos cargados correctamente");
+  } catch (e) {
+    console.error("❌ Error cargando datos:", e);
+    alert("Error: No se pudieron cargar los datos. Verifica los archivos JSON.");
+  }
+}
 
         // Actualizar precio por pie cuadrado
         document.getElementById('pricePerSqFt').textContent = 
