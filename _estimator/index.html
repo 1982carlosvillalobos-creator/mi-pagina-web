@@ -17,6 +17,8 @@
       --btn-text: var(--gold);
       --btn-hover: #FFD700;
       --btn-hover-text: var(--dark-blue);
+      --shadow: 0 5px 20px rgba(0,0,0,.1);
+      --radius: 12px;
     }
     * {
       margin: 0;
@@ -35,15 +37,31 @@
       margin: 0 auto;
       padding: 20px;
     }
-    h1 {
+    .header {
       text-align: center;
-      color: var(--dark-blue);
       margin-bottom: 30px;
+    }
+    .header img {
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      margin-bottom: 10px;
+    }
+    h1 {
+      color: var(--dark-blue);
+      margin-bottom: 5px;
       font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: var(--dark-blue);
+      font-size: 1.1rem;
+      opacity: 0.8;
     }
     .login {
       text-align: center;
-      margin: 60px 0;
+      margin: 80px 0;
     }
     .login input {
       padding: 12px 16px;
@@ -61,6 +79,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 1.1rem;
     }
     .login button:hover {
       background: var(--btn-hover);
@@ -69,9 +88,29 @@
     .app {
       display: none;
       background: var(--card-bg);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .section {
+      background: #fff;
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.1);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      border: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 1.2rem;
+      color: var(--dark-blue);
+      margin-bottom: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i {
+      color: var(--gold);
     }
     .form-group {
       margin-bottom: 15px;
@@ -83,9 +122,9 @@
       color: var(--dark-blue);
       font-size: 0.95rem;
     }
-    .form-group select, .form-group input, .form-control-file {
+    .form-control {
       width: 100%;
-      padding: 8px 10px;
+      padding: 10px 12px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 0.95rem;
@@ -115,9 +154,6 @@
       align-items: center;
       gap: 10px;
     }
-    .checkbox-group label {
-      font-size: 0.95rem;
-    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -125,7 +161,7 @@
       font-size: 0.9rem;
     }
     th, td {
-      padding: 8px 10px;
+      padding: 10px;
       text-align: left;
       border: 1px solid var(--border);
     }
@@ -153,12 +189,9 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,.2);
     }
-    .section {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    .btn-pdf {
+      background: #007BFF;
+      color: white;
     }
     .summary {
       margin-top: 20px;
@@ -177,7 +210,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>🔧 Estimador Profesional - Golden Charge</h1>
+    <div class="header">
+      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo">
+      <h1>🔧 Estimador Profesional</h1>
+      <p class="subtitle">Golden Charge Electrician Company</p>
+    </div>
 
     <!-- Pantalla de Login -->
     <div id="login" class="login">
@@ -190,9 +227,10 @@
       <form id="quoteForm">
         <!-- Proyecto y Ubicación -->
         <div class="section">
+          <h3 class="section-title"><i class="fas fa-home"></i> Proyecto</h3>
           <div class="form-group">
             <label for="projectType">Tipo de Proyecto:</label>
-            <select id="projectType">
+            <select id="projectType" class="form-control">
               <option value="new-construction">Nueva Construcción</option>
               <option value="remodel-electrical">Remodelación Eléctrica</option>
               <option value="panel-upgrade-100a">Upgrade Panel 100A</option>
@@ -210,7 +248,7 @@
 
           <div class="form-group">
             <label for="city">Ciudad:</label>
-            <select id="city">
+            <select id="city" class="form-control">
               <option value="San Francisco">San Francisco</option>
               <option value="Oakland">Oakland</option>
               <option value="San Jose">San Jose</option>
@@ -226,17 +264,18 @@
 
           <div class="form-group">
             <label for="squareFeet">Tamaño (pies²):</label>
-            <input type="number" id="squareFeet" value="2000" min="100" />
+            <input type="number" id="squareFeet" value="2000" min="100" class="form-control" />
           </div>
 
           <div class="form-group">
             <label for="floors">Plantas:</label>
-            <input type="number" id="floors" value="1" min="1" max="3" />
+            <input type="number" id="floors" value="1" min="1" max="3" class="form-control" />
           </div>
         </div>
 
         <!-- Equipo -->
         <div class="section">
+          <h3 class="section-title"><i class="fas fa-users"></i> Equipo</h3>
           <div class="form-group">
             <label>¿Trabajarás tú en el proyecto?</label>
             <div class="checkbox-group">
@@ -255,16 +294,17 @@
 
           <div class="form-group">
             <label>Días estimados:</label>
-            <input type="number" id="days" value="5" min="1" />
+            <input type="number" id="days" value="5" min="1" class="form-control" />
             <small>Cada día = 8 horas</small>
           </div>
         </div>
 
         <!-- Cliente -->
         <div class="section">
+          <h3 class="section-title"><i class="fas fa-user"></i> Cliente</h3>
           <div class="form-group">
             <label>Tipo de Cliente:</label>
-            <select id="clientType">
+            <select id="clientType" class="form-control">
               <option value="homeowner">Cliente Final</option>
               <option value="contractor">Contratista General</option>
             </select>
@@ -273,15 +313,16 @@
 
         <!-- Materiales -->
         <div class="section">
+          <h3 class="section-title"><i class="fas fa-box"></i> Materiales</h3>
           <div class="form-group">
             <label>Subir Planos (PDF, JPG):</label>
-            <input type="file" id="blueprint" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png">
+            <input type="file" id="blueprint" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
             <small>El sistema estimará materiales según el plano (simulado)</small>
           </div>
 
           <div class="form-group">
             <label>Materiales por Categoría:</label>
-            <select id="materialCategory" onchange="loadCategoryMaterials()">
+            <select id="materialCategory" class="form-control" onchange="loadCategoryMaterials()">
               <option value="">Selecciona categoría...</option>
               <option value="wires">Wires (Cableado)</option>
               <option value="outlets">Outlets (Tomacorrientes)</option>
@@ -302,10 +343,10 @@
           <div class="form-group">
             <label>Agregar Material Especial:</label>
             <div style="display:flex;gap:5px;flex-wrap:wrap;">
-              <input type="text" id="customMaterial" placeholder="Nombre" style="flex:1;min-width:120px;">
-              <input type="number" id="customQty" placeholder="Cantidad" style="width:80px;">
-              <input type="number" id="customPrice" placeholder="Precio Total" style="width:90px;">
-              <button type="button" onclick="addCustomMaterial()">+</button>
+              <input type="text" id="customMaterial" placeholder="Nombre" class="form-control" style="flex:1;min-width:120px;">
+              <input type="number" id="customQty" placeholder="Cantidad" class="form-control" style="width:80px;">
+              <input type="number" id="customPrice" placeholder="Precio Total" class="form-control" style="width:90px;">
+              <button type="button" class="btn" onclick="addCustomMaterial()">+</button>
             </div>
             <small>Ej: Rollo de Romex 12/2, Caja de outlets, etc.</small>
           </div>
@@ -313,24 +354,24 @@
 
         <!-- Precios -->
         <div class="section">
+          <h3 class="section-title"><i class="fas fa-tags"></i> Precios</h3>
           <div class="form-group">
             <label>Precio por Pie Cuadrado Referencia:</label>
-            <div id="pricePerSqFt">De $12 a $25 por pie²</div>
+            <div id="pricePerSqFt" style="font-weight:600;color:var(--dark-blue);">De $12 a $25 por pie²</div>
           </div>
 
-          <div class="form-group markup-control">
+          <div class="form-group">
             <label>Markup Materiales: <output id="markupValue">30</output>%</label>
             <input type="range" id="materialMarkup" min="25" max="55" value="30" 
-                   oninput="document.getElementById('markupValue').textContent = this.value">
-            </input>
+                   oninput="document.getElementById('markupValue').textContent = this.value" style="width:100%;">
             <small>Rango: 25% (mínimo) – 55% (máximo)</small>
           </div>
         </div>
 
         <!-- Botones -->
-        <div style="text-align:center;margin:20px 0;">
-          <button type="button" class="btn" onclick="calculateQuote()">Calcular Cotización</button>
-          <button type="button" class="btn" onclick="generatePDF()">💾 Exportar a PDF</button>
+        <div style="text-align:center;margin:30px 0;">
+          <button type="button" class="btn" onclick="calculateQuote()">📊 Calcular Cotización</button>
+          <button type="button" class="btn btn-pdf" onclick="generatePDF()">📄 Exportar a PDF</button>
         </div>
       </form>
 
@@ -383,16 +424,16 @@
     // === Cargar todos los datos ===
     async function loadAllData() {
       try {
-        const res1 = await fetch('/data/materials_prices.json');
+        const res1 = await fetch('data/materials_prices.json');
         prices = await res1.json();
 
-        const res2 = await fetch('/data/labor_rates.json');
+        const res2 = await fetch('data/labor_rates.json');
         laborRates = await res2.json();
 
-        const res3 = await fetch('/data/permits.json');
+        const res3 = await fetch('data/permits.json');
         permits = await res3.json();
 
-        const res4 = await fetch('/data/materials_db.json');
+        const res4 = await fetch('data/materials_db.json');
         materialsDB = await res4.json();
 
         console.log("✅ Datos cargados correctamente");
