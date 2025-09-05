@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge - Estimador Profesional</title>
   <style>
     :root {
@@ -38,7 +39,7 @@
       text-align: center;
       color: var(--dark-blue);
       margin-bottom: 30px;
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     .login {
       text-align: center;
@@ -68,76 +69,63 @@
     .app {
       display: none;
       background: var(--card-bg);
-      padding: 30px;
+      padding: 20px;
       border-radius: 15px;
       box-shadow: 0 5px 20px rgba(0,0,0,.1);
     }
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     .form-group label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
       color: var(--dark-blue);
+      font-size: 0.95rem;
     }
     .form-group select, .form-group input, .form-control-file {
       width: 100%;
-      padding: 10px;
+      padding: 8px 10px;
       border: 1px solid var(--border);
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
     .controls {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 10px 0;
+      margin: 8px 0;
     }
     .controls button {
       background: var(--dark-blue);
       color: white;
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
     }
     .controls span {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
     }
-    .markup-control {
-      margin: 20px 0;
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .markup-control output {
-      font-weight: bold;
-      color: var(--dark-blue);
-    }
-    .btn {
-      padding: 14px 25px;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      margin: 10px 5px;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: var(--btn-hover);
-      color: var(--btn-hover-text);
-      transform: translateY(-3px);
+    .checkbox-group label {
+      font-size: 0.95rem;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
+      margin: 15px 0;
+      font-size: 0.9rem;
     }
     th, td {
-      padding: 12px;
+      padding: 8px 10px;
       text-align: left;
       border: 1px solid var(--border);
     }
@@ -149,26 +137,41 @@
       font-weight: bold;
       background: #f0f0f0;
     }
-    #materialTable {
-      margin-top: 10px;
+    .btn {
+      padding: 12px 20px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 8px 4px;
+      transition: 0.3s;
+      font-size: 0.95rem;
     }
-    #materialTable button {
-      padding: 5px 10px;
-      font-size: 0.9rem;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,.2);
     }
-    #results {
-      margin-top: 30px;
-      background: var(--card-bg);
-      padding: 20px;
+    .section {
+      background: #fff;
+      padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
     .summary {
       margin-top: 20px;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
     }
     .summary strong {
       color: var(--dark-blue);
+    }
+    @media (max-width: 768px) {
+      .container { padding: 10px; }
+      h1 { font-size: 1.5rem; }
+      .btn { padding: 10px 16px; font-size: 0.9rem; }
+      table { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -185,83 +188,149 @@
     <!-- App (solo después de login) -->
     <div id="app" class="app">
       <form id="quoteForm">
-        <div class="form-group">
-          <label for="projectType">Tipo de Proyecto:</label>
-          <select id="projectType">
-            <option value="new-construction">Nueva Construcción</option>
-            <option value="remodel-electrical">Remodelación Eléctrica</option>
-            <option value="panel-upgrade-100a">Upgrade Panel 100A</option>
-            <option value="panel-upgrade-200a">Upgrade Panel 200A</option>
-            <option value="panel-upgrade-400a">Upgrade Panel 400A</option>
-            <option value="emergency-service">Servicio de Emergencia</option>
-            <option value="rewire-full-house">Rewire Completo de Casa</option>
-            <option value="outdoor-wiring">Instalación Exterior</option>
-            <option value="pool-spa-electrical">Piscina/Spa</option>
-            <option value="generator-install">Generador</option>
-            <option value="solar-electrical">Conexión Solar</option>
-            <option value="smart-home-full">Smart Home Completo</option>
-          </select>
-        </div>
+        <!-- Proyecto y Ubicación -->
+        <div class="section">
+          <div class="form-group">
+            <label for="projectType">Tipo de Proyecto:</label>
+            <select id="projectType">
+              <option value="new-construction">Nueva Construcción</option>
+              <option value="remodel-electrical">Remodelación Eléctrica</option>
+              <option value="panel-upgrade-100a">Upgrade Panel 100A</option>
+              <option value="panel-upgrade-200a">Upgrade Panel 200A</option>
+              <option value="panel-upgrade-400a">Upgrade Panel 400A</option>
+              <option value="emergency-service">Servicio de Emergencia</option>
+              <option value="rewire-full-house">Rewire Completo de Casa</option>
+              <option value="outdoor-wiring">Instalación Exterior</option>
+              <option value="pool-spa-electrical">Piscina/Spa</option>
+              <option value="generator-install">Generador</option>
+              <option value="solar-electrical">Conexión Solar</option>
+              <option value="smart-home-full">Smart Home Completo</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="city">Ciudad:</label>
-          <select id="city">
-            <option value="San Francisco">San Francisco</option>
-            <option value="Oakland">Oakland</option>
-            <option value="San Jose">San Jose</option>
-            <option value="Fremont">Fremont</option>
-            <option value="Hayward">Hayward</option>
-            <option value="Berkeley">Berkeley</option>
-            <option value="Richmond">Richmond</option>
-            <option value="Sunnyvale">Sunnyvale</option>
-            <option value="Palo Alto">Palo Alto</option>
-            <option value="Concord">Concord</option>
-          </select>
-        </div>
+          <div class="form-group">
+            <label for="city">Ciudad:</label>
+            <select id="city">
+              <option value="San Francisco">San Francisco</option>
+              <option value="Oakland">Oakland</option>
+              <option value="San Jose">San Jose</option>
+              <option value="Fremont">Fremont</option>
+              <option value="Hayward">Hayward</option>
+              <option value="Berkeley">Berkeley</option>
+              <option value="Richmond">Richmond</option>
+              <option value="Sunnyvale">Sunnyvale</option>
+              <option value="Palo Alto">Palo Alto</option>
+              <option value="Concord">Concord</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="days">Días estimados:</label>
-          <input type="number" id="days" value="1" min="1" />
-          <small>Cada día = 8 horas</small>
-        </div>
+          <div class="form-group">
+            <label for="squareFeet">Tamaño (pies²):</label>
+            <input type="number" id="squareFeet" value="2000" min="100" />
+          </div>
 
-        <div class="form-group">
-          <label>Ayudantes:</label>
-          <div class="controls">
-            <button type="button" onclick="removeHelper()">−</button>
-            <span id="helperCount">1</span>
-            <button type="button" onclick="addHelper()">+</button>
+          <div class="form-group">
+            <label for="floors">Plantas:</label>
+            <input type="number" id="floors" value="1" min="1" max="3" />
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Subir Planos (PDF, JPG):</label>
-          <input type="file" id="blueprint" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png">
+        <!-- Equipo -->
+        <div class="section">
+          <div class="form-group">
+            <label>¿Trabajarás tú en el proyecto?</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" id="contractorWorks" checked> Sí, yo seré el contratista</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Ayudantes:</label>
+            <div class="controls">
+              <button type="button" onclick="removeHelper()">−</button>
+              <span id="helperCount">1</span>
+              <button type="button" onclick="addHelper()">+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Días estimados:</label>
+            <input type="number" id="days" value="5" min="1" />
+            <small>Cada día = 8 horas</small>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>Agregar Materiales Manualmente:</label>
-          <table id="materialTable">
-            <tr>
-              <th>Material</th>
-              <th>Cantidad</th>
-              <th>Precio Unitario</th>
-              <th>Total</th>
-              <th>Acción</th>
-            </tr>
-          </table>
-          <button type="button" class="btn" onclick="addMaterialRow()">+ Agregar Material</button>
+        <!-- Cliente -->
+        <div class="section">
+          <div class="form-group">
+            <label>Tipo de Cliente:</label>
+            <select id="clientType">
+              <option value="homeowner">Cliente Final</option>
+              <option value="contractor">Contratista General</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group markup-control">
-          <label>Markup Materiales: <output id="markupValue">30</output>%</label>
-          <input type="range" id="materialMarkup" min="25" max="50" value="30" 
-                 oninput="document.getElementById('markupValue').textContent = this.value">
-          </input>
+        <!-- Materiales -->
+        <div class="section">
+          <div class="form-group">
+            <label>Subir Planos (PDF, JPG):</label>
+            <input type="file" id="blueprint" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png">
+            <small>El sistema estimará materiales según el plano (simulado)</small>
+          </div>
+
+          <div class="form-group">
+            <label>Materiales por Categoría:</label>
+            <select id="materialCategory" onchange="loadCategoryMaterials()">
+              <option value="">Selecciona categoría...</option>
+              <option value="wires">Wires</option>
+              <option value="outlets">Outlets</option>
+              <option value="switches">Switches</option>
+              <option value="breakers">Breakers</option>
+              <option value="panels">Panels</option>
+              <option value="conduit">Conduit</option>
+              <option value="boxes">Boxes</option>
+              <option value="lighting">Lighting</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Selecciona Materiales:</label>
+            <div id="materialsList"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Agregar Material Especial:</label>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;">
+              <input type="text" id="customMaterial" placeholder="Nombre" style="flex:1;min-width:120px;">
+              <input type="number" id="customQty" placeholder="Cantidad" style="width:80px;">
+              <input type="number" id="customPrice" placeholder="Precio" style="width:90px;">
+              <button type="button" onclick="addCustomMaterial()">+</button>
+            </div>
+          </div>
         </div>
 
-        <button type="button" class="btn" onclick="calculateQuote()">Calcular Cotización</button>
-        <button type="button" class="btn" onclick="generatePDF()">💾 Exportar a PDF</button>
+        <!-- Precios -->
+        <div class="section">
+          <div class="form-group">
+            <label>Precio por Pie Cuadrado Referencia:</label>
+            <div id="pricePerSqFt">De $12 a $25 por pie²</div>
+          </div>
+
+          <div class="form-group markup-control">
+            <label>Markup Materiales: <output id="markupValue">30</output>%</label>
+            <input type="range" id="materialMarkup" min="25" max="55" value="30" 
+                   oninput="document.getElementById('markupValue').textContent = this.value">
+            </input>
+            <small>Rango: 25% (mínimo) – 55% (máximo)</small>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div style="text-align:center;margin:20px 0;">
+          <button type="button" class="btn" onclick="calculateQuote()">Calcular Cotización</button>
+          <button type="button" class="btn" onclick="generatePDF()">💾 Exportar a PDF</button>
+        </div>
       </form>
 
       <div id="results"></div>
@@ -275,11 +344,12 @@
   <script>
     let helperCount = 1;
     let prices = {}, laborRates = {}, permits = {}, materialsDB = {};
+    let selectedMaterials = [];
 
     // Verificar contraseña
     function checkPassword() {
       const pwd = document.getElementById('password').value;
-      if (pwd === 'GoldenCharge2025!') { // 🔐 Cambia esto por tu contraseña
+      if (pwd === 'GoldenCharge2025!') {
         localStorage.setItem('estimatorAccess', 'true');
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'block';
@@ -312,9 +382,13 @@
 
         const res4 = await fetch('/_estimator/data/materials_db.json');
         materialsDB = await res4.json();
+
+        // Actualizar precio por pie cuadrado
+        document.getElementById('pricePerSqFt').textContent = 
+          `De $12 a $25 por pie² (según complejidad y ciudad)`;
       } catch (e) {
         console.error("Error cargando datos", e);
-        alert("Error: No se pudieron cargar los precios. Verifica las rutas.");
+        alert("Error: No se pudieron cargar los precios. Verifica los archivos JSON.");
       }
     }
 
@@ -322,25 +396,60 @@
     function addHelper() { if (helperCount < 5) helperCount++; document.getElementById('helperCount').textContent = helperCount; }
     function removeHelper() { if (helperCount > 0) helperCount--; document.getElementById('helperCount').textContent = helperCount; }
 
-    // Agregar fila de material
-    function addMaterialRow() {
-      const table = document.getElementById('materialTable');
-      const row = table.insertRow();
-      row.innerHTML = `
-        <td><input type="text" class="form-control" placeholder="Nombre del material"></td>
-        <td><input type="number" class="form-control qty" value="1" min="1"></td>
-        <td><input type="number" class="form-control price" value="0" min="0" step="0.01"></td>
-        <td class="total">0.00</td>
-        <td><button type="button" onclick="this.closest('tr').remove()">Eliminar</button></td>
-      `;
-      // Actualizar total al cambiar cantidad o precio
-      row.querySelectorAll('.qty, .price').forEach(input => {
-        input.addEventListener('input', () => {
-          const qty = parseFloat(row.querySelector('.qty').value) || 0;
-          const price = parseFloat(row.querySelector('.price').value) || 0;
-          row.querySelector('.total').textContent = (qty * price).toFixed(2);
+    // Cargar materiales por categoría
+    function loadCategoryMaterials() {
+      const category = document.getElementById('materialCategory').value;
+      const container = document.getElementById('materialsList');
+      container.innerHTML = '';
+
+      const categoryMap = {
+        wires: ['wire-14-gauge', 'wire-12-gauge', 'wire-10-gauge', 'wire-8-gauge'],
+        outlets: ['outlet', 'gfci-outlet', 'switched-outlet', 'usb-outlet'],
+        switches: ['switch', 'dimmer-switch', 'three-way-switch'],
+        breakers: ['breaker-15a', 'breaker-20a', 'breaker-30a', 'breaker-60a'],
+        panels: ['panel-100a', 'panel-200a', 'panel-400a'],
+        conduit: ['emt-conduit-1/2', 'emt-conduit-3/4', 'pvc-conduit-1/2'],
+        boxes: ['metal-box-4x4', 'plastic-box-4x4', 'switch-box'],
+        lighting: ['ceiling-light', 'recessed-light', 'led-strip']
+      };
+
+      if (!category) return;
+
+      const materials = categoryMap[category] || [];
+      materials.forEach(item => {
+        const price = prices[item] ? `$${prices[item].toFixed(2)}` : 'N/A';
+        const unit = category === 'wires' ? 'por pie' : 'por pieza';
+        container.innerHTML += `
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <input type="checkbox" class="mat-check" data-item="${item}">
+            <span>${item.replace(/-/g, ' ')}</span>
+            <input type="number" class="mat-qty" placeholder="Qty" style="width:60px;" disabled>
+            <span style="font-size:0.9rem;color:#666;">${price} ${unit}</span>
+          </div>
+        `;
+      });
+
+      // Habilitar/deshabilitar cantidad al marcar/desmarcar
+      container.querySelectorAll('.mat-check').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const qtyInput = this.parentNode.querySelector('.mat-qty');
+          qtyInput.disabled = !this.checked;
+          if (!this.checked) qtyInput.value = '';
         });
       });
+    }
+
+    // Agregar material especial
+    function addCustomMaterial() {
+      const name = document.getElementById('customMaterial').value;
+      const qty = parseFloat(document.getElementById('customQty').value) || 0;
+      const price = parseFloat(document.getElementById('customPrice').value) || 0;
+      if (!name || qty <= 0 || price <= 0) return alert('Completa todos los campos');
+      selectedMaterials.push({ name, qty, price });
+      document.getElementById('customMaterial').value = '';
+      document.getElementById('customQty').value = '';
+      document.getElementById('customPrice').value = '';
+      alert(`✅ ${name} agregado`);
     }
 
     // Cálculo principal
@@ -349,13 +458,16 @@
       const city = document.getElementById('city').value;
       const days = parseFloat(document.getElementById('days').value) || 1;
       const hours = days * 8;
+      const squareFeet = parseFloat(document.getElementById('squareFeet').value) || 1000;
+      const floors = parseInt(document.getElementById('floors').value) || 1;
       const markup = parseFloat(document.getElementById('materialMarkup').value) / 100;
       const taxRate = 0.0925;
+      const clientType = document.getElementById('clientType').value;
 
       const labor = laborRates[city];
       const permitCost = permits[city][projectKey.split('-')[0]] || 0;
 
-      // Materiales del proyecto base (si existe)
+      // Materiales del proyecto base
       let materialCost = 0;
       const project = materialsDB[projectKey];
       if (project) {
@@ -364,40 +476,55 @@
         }
       }
 
-      // Materiales agregados manualmente
-      document.querySelectorAll('#materialTable .total').forEach(el => {
-        materialCost += parseFloat(el.textContent) || 0;
+      // Materiales por categoría
+      document.querySelectorAll('.mat-check:checked').forEach(checkbox => {
+        const item = checkbox.dataset.item;
+        const qty = parseFloat(checkbox.parentNode.querySelector('.mat-qty').value) || 0;
+        materialCost += qty * (prices[item] || 0);
+      });
+
+      // Materiales especiales
+      selectedMaterials.forEach(m => {
+        materialCost += m.qty * m.price;
       });
 
       const materialSell = materialCost * (1 + markup);
-      const taxAmount = materialSell * taxRate;
+      const taxAmount = clientType === 'homeowner' ? materialSell * taxRate : 0;
 
       // Mano de obra
-      const contractorCost = hours * labor.labor_cost.contractor_c10;
-      const helperCost = hours * helperCount * labor.labor_cost.helper;
-      const totalLaborCost = contractorCost + helperCost;
+      let totalLaborCost = 0;
+      let totalLaborSell = 0;
 
-      const contractorSell = hours * labor.labor_rate.contractor_c10;
-      const helperSell = hours * helperCount * labor.labor_rate.helper;
-      const totalLaborSell = contractorSell + helperSell;
+      if (document.getElementById('contractorWorks').checked) {
+        totalLaborCost += hours * labor.labor_cost.contractor_c10;
+        totalLaborSell += hours * labor.labor_rate.contractor_c10;
+      }
+
+      totalLaborCost += hours * helperCount * labor.labor_cost.helper;
+      totalLaborSell += hours * helperCount * labor.labor_rate.helper;
 
       // Totales
       const totalCost = materialCost + totalLaborCost + permitCost;
-      const totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
+      let totalPrice = materialSell + taxAmount + totalLaborSell + permitCost;
+
+      // Si es para contratista, aplicar descuento del 30%
+      if (clientType === 'contractor') {
+        totalPrice *= 0.7; // 30% menos
+      }
+
       const profit = totalPrice - totalCost;
 
       // Precio mínimo y máximo
-      const minMarkup = 0.25; // 25%
-      const maxMarkup = 0.50; // 50%
-      const minPrice = materialCost * (1 + minMarkup) + taxAmount + totalLaborSell + permitCost;
-      const maxPrice = materialCost * (1 + maxMarkup) + taxAmount + totalLaborSell + permitCost;
+      const minPrice = materialCost * 1.25 + taxAmount + totalLaborSell + permitCost;
+      const maxPrice = materialCost * 1.55 + taxAmount + totalLaborSell + permitCost;
 
       // Mostrar resultado
       displayResult({
         materialCost, materialSell, taxAmount,
         totalLaborCost, totalLaborSell,
         permitCost, totalCost, totalPrice, profit,
-        minPrice, maxPrice, days, hours, helperCount, markup: markup * 100, city, projectKey
+        minPrice, maxPrice, days, hours, helperCount, markup: markup * 100,
+        city, projectKey, squareFeet, floors, clientType
       });
     }
 
@@ -408,9 +535,11 @@
         <div id="quote-result">
           <h2>Cotización: ${data.projectKey.replace(/-/g, ' ').toUpperCase()}</h2>
           <p><strong>Ciudad:</strong> ${data.city}</p>
+          <p><strong>Tamaño:</strong> ${data.squareFeet} pies² (${data.floors} planta${data.floors !== 1 ? 's' : ''})</p>
           <p><strong>Días:</strong> ${data.days} (${data.hours} horas)</p>
           <p><strong>Equipo:</strong> Tú + ${data.helperCount} ayudante${data.helperCount !== 1 ? 's' : ''}</p>
           <p><strong>Planos:</strong> ${blueprintName}</p>
+          <p><strong>Cliente:</strong> ${data.clientType === 'homeowner' ? 'Final' : 'Contratista General'}</p>
           <p><strong>Markup Materiales:</strong> ${data.markup}%</p>
           
           <table>
@@ -426,6 +555,7 @@
             <p><strong>Ganancia Neta:</strong> $${data.profit.toFixed(2)} (${((data.profit / data.totalCost) * 100).toFixed(1)}%)</p>
             <p><strong>Precio Mínimo Recomendado:</strong> $${data.minPrice.toFixed(2)}</p>
             <p><strong>Precio Máximo Recomendado:</strong> $${data.maxPrice.toFixed(2)}</p>
+            ${data.clientType === 'contractor' ? '<p><strong>Nota:</strong> Precio ajustado -30% para contratista.</p>' : ''}
           </div>
         </div>
       `;
@@ -435,11 +565,11 @@
     function generatePDF() {
       const element = document.getElementById('quote-result');
       const opt = {
-        margin: 1,
+        margin: 0.5,
         filename: 'goldencharge-cotizacion.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
       html2pdf().from(element).set(opt).save();
     }
