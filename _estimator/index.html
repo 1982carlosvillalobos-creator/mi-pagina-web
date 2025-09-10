@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v6.0</title>
+  <title>Golden Charge - Estimador Profesional v7.0</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -214,8 +214,7 @@
         initializeApp();
       } else { alert('Contraseña incorrecta'); }
     }
-
-    // Encapsulate initialization in a DOMContentLoaded listener for robustness
+    
     document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('estimatorAccess') === 'true') {
             document.getElementById('login').style.display = 'none';
@@ -225,38 +224,48 @@
     });
     
     async function initializeApp() {
+        // IMPROVED: Load and parse each file individually for better error handling.
         try {
-            // CORRECTED FILE PATHS: Assumes a 'data' subfolder
-            const [pricesRes, laborRes, permitsRes] = await Promise.all([
-                fetch('data/materials_prices.json'), 
-                fetch('data/labor_rates.json'), 
-                fetch('data/permits.json')
-            ]);
-            if (!pricesRes.ok || !laborRes.ok || !permitsRes.ok) {
-                 throw new Error(`Failed to load data files. Status: ${pricesRes.status}, ${laborRes.status}, ${permitsRes.status}`);
-            }
-            
-            const prices = await pricesRes.json();
+            const laborRes = await fetch('data/labor_rates.json');
+            if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
             laborRates = await laborRes.json();
-            permits = await permitsRes.json();
+        } catch (e) {
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'labor_rates.json'. Revisa si hay comas extra al final de las líneas.");
+            console.error(e); return;
+        }
 
+        try {
+            const materialsRes = await fetch('data/materials_prices.json');
+            if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json (Status: ${materialsRes.status})`);
+            const prices = await materialsRes.json();
             allMaterials = [];
             for (const category in prices) {
                 for (const [itemName, itemPrice] of Object.entries(prices[category])) {
                     allMaterials.push({ id: itemName, name: itemName, price: itemPrice });
                 }
             }
-
-            if(allMaterials.length === 0) throw new Error("Material list is empty after loading.");
-            
-            console.log(`✅ ${allMaterials.length} Materials loaded successfully.`);
-            setupEventListeners();
-            updateRateSliders(document.getElementById('city').value);
-
         } catch (e) {
-            console.error("❌ Critical Error:", e);
-            alert(`Error fatal al cargar los datos: ${e.message}\n\nAsegúrate de que los archivos JSON estén en una carpeta llamada 'data' dentro de '_estimator'.`);
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'materials_prices.json'. Revisa si hay comas extra al final de las líneas.");
+            console.error(e); return;
         }
+
+        try {
+            const permitsRes = await fetch('data/permits.json');
+            if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
+            permits = await permitsRes.json();
+        } catch (e) {
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'permits.json'. Revisa si hay comas extra al final de las líneas.");
+            console.error(e); return;
+        }
+
+        if (allMaterials.length === 0) {
+            alert("La lista de materiales está vacía. Verifica el archivo 'materials_prices.json'.");
+            return;
+        }
+        
+        console.log(`✅ ${allMaterials.length} Materiales cargados.`);
+        setupEventListeners();
+        updateRateSliders(document.getElementById('city').value);
     }
 
     function setupEventListeners() {
@@ -280,36 +289,22 @@
     // --- UI UPDATE FUNCTIONS ---
     function updateRateSliders(city) {
         if (!laborRates[city]) {
-            console.warn(`No labor rates found for city: ${city}`);
+            console.warn(`No se encontraron tarifas para la ciudad: ${city}`);
             return;
         }
         const rates = laborRates[city].labor_rate;
 
-        const contractorRate = rates.contractor_c10;
-        const contractorMin = Math.round(contractorRate * 0.85);
-        const contractorMax = Math.round(contractorRate * 1.20);
-        updateSliderUI('contractorRate', contractorMin, contractorMax, contractorRate);
-
-        const helperRate = rates.helper;
-        const helperMin = Math.round(helperRate * 0.90);
-        const helperMax = Math.round(helperRate * 1.25);
-        updateSliderUI('helperRate', helperMin, helperMax, helperRate);
+        updateSliderUI('contractorRate', Math.round(rates.contractor_c10 * 0.85), Math.round(rates.contractor_c10 * 1.20), rates.contractor_c10);
+        updateSliderUI('helperRate', Math.round(rates.helper * 0.90), Math.round(rates.helper * 1.25), rates.helper);
     }
     
     function updateSliderUI(id, min, max, value) {
-        const slider = document.getElementById(id);
-        const output = document.getElementById(id + 'Value');
-        const minLabel = document.getElementById(id + 'Min');
-        const maxLabel = document.getElementById(id + 'Max');
-
+        const slider = document.getElementById(id), output = document.getElementById(id + 'Value');
+        const minLabel = document.getElementById(id + 'Min'), maxLabel = document.getElementById(id + 'Max');
         if (!slider || !output || !minLabel || !maxLabel) return;
-
-        slider.min = min; 
-        slider.max = max; 
-        slider.value = value;
+        slider.min = min; slider.max = max; slider.value = value;
         output.textContent = value;
-        minLabel.textContent = `$${min}`;
-        maxLabel.textContent = `$${max}`;
+        minLabel.textContent = `$${min}`; maxLabel.textContent = `$${max}`;
     }
 
     function handleClientTypeChange(e) {
@@ -450,7 +445,6 @@
         const projectDesc = document.getElementById('projectType').selectedOptions[0].text;
         const date = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        // Create a clean container for the PDF content
         const pdfContainer = document.createElement('div');
         pdfContainer.style.fontFamily = 'Arial, sans-serif';
         pdfContainer.style.padding = '20px';
