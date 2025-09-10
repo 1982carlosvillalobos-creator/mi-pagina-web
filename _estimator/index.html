@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v7.0</title>
+  <title>Golden Charge - Estimador Profesional v8.0 FINAL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -55,7 +55,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo">
+      <img src="/_estimator/img/logo.png" alt="Golden Charge Logo">
       <h1>🔧 Estimador Profesional</h1>
       <p class="subtitle">Golden Charge Electrician Company</p>
     </div>
@@ -192,12 +192,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    // --- GLOBAL VARIABLES ---
-    let helperCount = 1;
-    let allMaterials = [];
-    let selectedMaterials = [];
-    let laborRates = {};
-    let permits = {};
+    let helperCount = 1, allMaterials = [], selectedMaterials = [], laborRates = {}, permits = {};
     const salesTaxRates = {
         "Fremont": 0.1025, "San Francisco": 0.0863, "Oakland": 0.1025,
         "San Jose": 0.0938, "Hayward": 0.1075, "Berkeley": 0.1025,
@@ -205,7 +200,6 @@
         "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, "Walnut Creek": 0.0925
     };
 
-    // --- INITIALIZATION ---
     function checkPassword() {
       if (document.getElementById('password').value === 'GoldenCharge2025!') {
         localStorage.setItem('estimatorAccess', 'true');
@@ -224,19 +218,20 @@
     });
     
     async function initializeApp() {
-        // Load and parse each file individually for better error reporting.
+        // FINAL FIX: Using absolute paths from the domain root.
+        const basePath = '/_estimator/data/';
         try {
-            const laborRes = await fetch('data/labor_rates.json');
-            if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
+            const laborRes = await fetch(basePath + 'labor_rates.json');
+            if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json`);
             laborRates = await laborRes.json();
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'labor_rates.json'. Revisa si hay comas (,) extra al final de las listas.");
-            console.error(e); return;
+            alert(`ERROR CRÍTICO: Revisa tu archivo 'labor_rates.json' o la ruta.\n${e.message}`);
+            return;
         }
 
         try {
-            const materialsRes = await fetch('data/materials_prices.json');
-            if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json (Status: ${materialsRes.status})`);
+            const materialsRes = await fetch(basePath + 'materials_prices.json');
+            if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json`);
             const prices = await materialsRes.json();
             allMaterials = [];
             for (const category in prices) {
@@ -245,21 +240,16 @@
                 }
             }
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'materials_prices.json'. Revisa si hay comas (,) extra al final de las listas.");
-            console.error(e); return;
+            alert(`ERROR CRÍTICO: Revisa tu archivo 'materials_prices.json' o la ruta.\n${e.message}`);
+            return;
         }
 
         try {
-            const permitsRes = await fetch('data/permits.json');
-            if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
+            const permitsRes = await fetch(basePath + 'permits.json');
+            if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json`);
             permits = await permitsRes.json();
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'permits.json'. Revisa si hay comas (,) extra al final de las listas.");
-            console.error(e); return;
-        }
-
-        if (allMaterials.length === 0) {
-            alert("La lista de materiales está vacía. Verifica el archivo 'materials_prices.json'.");
+            alert(`ERROR CRÍTICO: Revisa tu archivo 'permits.json' o la ruta.\n${e.message}`);
             return;
         }
         
@@ -271,7 +261,9 @@
     function setupEventListeners() {
         document.getElementById('city').addEventListener('change', (e) => updateRateSliders(e.target.value));
         document.getElementById('materialSearch').addEventListener('input', handleMaterialSearch);
-        document.getElementById('clientType').addEventListener('change', handleClientTypeChange);
+        document.getElementById('clientType').addEventListener('change', (e) => {
+            document.getElementById('contractorDiscountSection').style.display = e.target.value === 'contractor' ? 'block' : 'none';
+        });
         
         ['contractorRate', 'helperRate', 'contractorDiscount', 'materialMarkup'].forEach(id => {
             const slider = document.getElementById(id);
@@ -286,14 +278,9 @@
         });
     }
 
-    // --- UI UPDATE FUNCTIONS ---
     function updateRateSliders(city) {
-        if (!laborRates[city]) {
-            console.warn(`No se encontraron tarifas para la ciudad: ${city}`);
-            return;
-        }
+        if (!laborRates[city]) { return; }
         const rates = laborRates[city].labor_rate;
-
         updateSliderUI('contractorRate', Math.round(rates.contractor_c10 * 0.85), Math.round(rates.contractor_c10 * 1.20), rates.contractor_c10);
         updateSliderUI('helperRate', Math.round(rates.helper * 0.90), Math.round(rates.helper * 1.25), rates.helper);
     }
@@ -307,10 +294,6 @@
         minLabel.textContent = `$${min}`; maxLabel.textContent = `$${max}`;
     }
 
-    function handleClientTypeChange(e) {
-        document.getElementById('contractorDiscountSection').style.display = e.target.value === 'contractor' ? 'block' : 'none';
-    }
-
     function addHelper() {
         if (helperCount < 10) helperCount++;
         document.getElementById('helperCount').textContent = helperCount;
@@ -322,18 +305,13 @@
         if(helperCount === 0) document.getElementById('helperRateSection').style.display = 'none';
     }
 
-    // --- MATERIAL HANDLING ---
     function handleMaterialSearch(e) {
         const searchTerm = e.target.value.toLowerCase();
         const resultsContainer = document.getElementById('searchResults');
         if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
         const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
-
         resultsContainer.innerHTML = filtered.length ? filtered.map(material => 
-            `<div class="material-item" onclick="addItemToQuote('${material.id}')">
-                <div class="material-name">${material.name}</div>
-                <div class="material-price">$${material.price.toFixed(2)}</div>
-            </div>`
+            `<div class="material-item" onclick="addItemToQuote('${material.id}')"><div class="material-name">${material.name}</div><div class="material-price">$${material.price.toFixed(2)}</div></div>`
         ).join('') : '<div class="material-item">No se encontraron materiales</div>';
         resultsContainer.style.display = 'block';
     }
@@ -369,7 +347,6 @@
         updateSelectedMaterialsList();
     }
     
-    // --- CALCULATION & PDF ---
     function getPermitCost(projectTypeKey, city) {
         const permitKey = projectTypeKey.includes('panel') ? 'panel' : projectTypeKey.includes('ev') ? 'ev' : 'new';
         return permits[city]?.[permitKey] || 220;
@@ -387,11 +364,9 @@
         
         const permitCost = getPermitCost(projectType, city);
         const taxRate = salesTaxRates[city] || 0.095;
-
         const contractorLaborSell = hours * contractorRate;
         const helperLaborSell = (helperCount > 0) ? (hours * helperCount * helperRate) : 0;
         const totalLaborSell = contractorLaborSell + helperLaborSell;
-
         const materialBaseCost = selectedMaterials.reduce((acc, m) => acc + (m.qty * m.price), 0);
         const materialSell = materialBaseCost * (1 + markupPercent);
         const salesTax = materialSell * taxRate;
@@ -413,7 +388,6 @@
         if (data.clientType === 'contractor') {
             discountRow = `<tr><td>Descuento para Contratista</td><td style="text-align:right; color: red;">-$${data.discountAmount.toFixed(2)}</td></tr>`;
         }
-
         results.innerHTML = `<div id="quote-result" class="section">
             <h3 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resumen de la Cotización</h3>
             <table style="width:100%;margin-bottom:20px;">
@@ -423,9 +397,7 @@
               <tr><td>Impuesto sobre Venta (${(salesTaxRates[data.city]*100).toFixed(2)}%)</td><td style="text-align:right;">$${data.salesTax.toFixed(2)}</td></tr>
               <tr><td>Permisos e Inspección (${data.city})</td><td style="text-align:right;">$${data.permitCost.toFixed(2)}</td></tr>
               ${discountRow}
-              <tr class="total-row" style="font-size:1.2rem;">
-                <td><strong>Precio Final Estimado al Cliente</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td>
-              </tr>
+              <tr class="total-row" style="font-size:1.2rem;"><td><strong>Precio Final Estimado al Cliente</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td></tr>
             </table></div>`;
         results.scrollIntoView({ behavior: 'smooth' });
         document.getElementById('exportPdfBtn').disabled = false;
@@ -452,9 +424,8 @@
         
         pdfContainer.innerHTML = `
             <table style="width:100%; margin-bottom: 20px; border: none;">
-                <tr style="border: none;"><td style="width: 20%; border: none;"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr>
-            </table>
-            <hr>
+                <tr style="border: none;"><td style="width: 20%; border: none;"><img src="/_estimator/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr>
+            </table><hr>
             <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
             <table style="width:100%; margin: 20px 0; font-size: 10px;">
                 <tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr>
@@ -465,8 +436,8 @@
                 <p><strong>Términos y Condiciones:</strong></p>
                 <ol style="margin-left: 15px; padding-left: 0;">
                     <li>Esta cotización es válida por 30 días.</li>
-                    <li>El pago se realizará 50% al aceptar la propuesta para cubrir materiales y 50% al finalizar satisfactoriamente el trabajo.</li>
-                    <li>Cualquier trabajo adicional o cambio solicitado no incluido en esta cotización será documentado y facturado por separado.</li>
+                    <li>El pago se realizará 50% al aceptar la propuesta para cubrir materiales y 50% al finalizar el trabajo.</li>
+                    <li>Cualquier trabajo adicional no incluido en esta cotización será documentado y facturado por separado.</li>
                 </ol>
             </div>`;
         
