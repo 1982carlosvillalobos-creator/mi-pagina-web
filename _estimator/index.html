@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v5.0</title>
+  <title>Golden Charge - Estimador Profesional v6.0</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -192,6 +192,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
+    // --- GLOBAL VARIABLES ---
     let helperCount = 1;
     let allMaterials = [];
     let selectedMaterials = [];
@@ -204,6 +205,7 @@
         "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, "Walnut Creek": 0.0925
     };
 
+    // --- INITIALIZATION ---
     function checkPassword() {
       if (document.getElementById('password').value === 'GoldenCharge2025!') {
         localStorage.setItem('estimatorAccess', 'true');
@@ -213,20 +215,26 @@
       } else { alert('Contraseña incorrecta'); }
     }
 
-    window.onload = () => {
-      if (localStorage.getItem('estimatorAccess') === 'true') {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        initializeApp();
-      }
-    };
+    // Encapsulate initialization in a DOMContentLoaded listener for robustness
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('estimatorAccess') === 'true') {
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            initializeApp();
+        }
+    });
     
     async function initializeApp() {
         try {
+            // CORRECTED FILE PATHS: Assumes a 'data' subfolder
             const [pricesRes, laborRes, permitsRes] = await Promise.all([
-                fetch('materials_prices.json'), fetch('labor_rates.json'), fetch('permits.json')
+                fetch('data/materials_prices.json'), 
+                fetch('data/labor_rates.json'), 
+                fetch('data/permits.json')
             ]);
-            if (!pricesRes.ok || !laborRes.ok || !permitsRes.ok) throw new Error("Network response was not ok.");
+            if (!pricesRes.ok || !laborRes.ok || !permitsRes.ok) {
+                 throw new Error(`Failed to load data files. Status: ${pricesRes.status}, ${laborRes.status}, ${permitsRes.status}`);
+            }
             
             const prices = await pricesRes.json();
             laborRates = await laborRes.json();
@@ -239,15 +247,15 @@
                 }
             }
 
-            if(allMaterials.length === 0) throw new Error("No materials loaded.");
+            if(allMaterials.length === 0) throw new Error("Material list is empty after loading.");
             
-            console.log(`✅ ${allMaterials.length} Materiales cargados.`);
+            console.log(`✅ ${allMaterials.length} Materials loaded successfully.`);
             setupEventListeners();
             updateRateSliders(document.getElementById('city').value);
 
         } catch (e) {
-            console.error("❌ Error cargando datos:", e);
-            alert("Error: No se pudieron cargar los datos.\n\nIMPORTANTE: Asegúrate de estar usando una URL de servidor (ej: Cloudflare Pages, Live Server) y no abriendo el archivo directamente.");
+            console.error("❌ Critical Error:", e);
+            alert(`Error fatal al cargar los datos: ${e.message}\n\nAsegúrate de que los archivos JSON estén en una carpeta llamada 'data' dentro de '_estimator'.`);
         }
     }
 
@@ -269,6 +277,7 @@
         });
     }
 
+    // --- UI UPDATE FUNCTIONS ---
     function updateRateSliders(city) {
         if (!laborRates[city]) {
             console.warn(`No labor rates found for city: ${city}`);
@@ -293,12 +302,14 @@
         const minLabel = document.getElementById(id + 'Min');
         const maxLabel = document.getElementById(id + 'Max');
 
+        if (!slider || !output || !minLabel || !maxLabel) return;
+
         slider.min = min; 
         slider.max = max; 
         slider.value = value;
-        if(output) output.textContent = value;
-        if(minLabel) minLabel.textContent = `$${min}`;
-        if(maxLabel) maxLabel.textContent = `$${max}`;
+        output.textContent = value;
+        minLabel.textContent = `$${min}`;
+        maxLabel.textContent = `$${max}`;
     }
 
     function handleClientTypeChange(e) {
@@ -316,6 +327,7 @@
         if(helperCount === 0) document.getElementById('helperRateSection').style.display = 'none';
     }
 
+    // --- MATERIAL HANDLING ---
     function handleMaterialSearch(e) {
         const searchTerm = e.target.value.toLowerCase();
         const resultsContainer = document.getElementById('searchResults');
@@ -362,6 +374,7 @@
         updateSelectedMaterialsList();
     }
     
+    // --- CALCULATION & PDF ---
     function getPermitCost(projectTypeKey, city) {
         const permitKey = projectTypeKey.includes('panel') ? 'panel' : projectTypeKey.includes('ev') ? 'ev' : 'new';
         return permits[city]?.[permitKey] || 220;
@@ -388,13 +401,13 @@
         const materialSell = materialBaseCost * (1 + markupPercent);
         const salesTax = materialSell * taxRate;
         
-        let finalPrice = totalLaborSell + materialSell + salesTax + permitCost;
+        let subtotal = totalLaborSell + materialSell + salesTax + permitCost;
         let discountAmount = 0;
         if (clientType === 'contractor') {
             const discountPercent = parseFloat(document.getElementById('contractorDiscount').value) / 100;
-            discountAmount = finalPrice * discountPercent;
-            finalPrice -= discountAmount;
+            discountAmount = subtotal * discountPercent;
         }
+        const finalPrice = subtotal - discountAmount;
 
         displayResult({ city, finalPrice, totalLaborSell, materialSell, salesTax, permitCost, helperCount, discountAmount, clientType });
     }
@@ -437,39 +450,33 @@
         const projectDesc = document.getElementById('projectType').selectedOptions[0].text;
         const date = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        const pdfContent = `
-            <div style="font-family: Arial, sans-serif; padding: 20px; font-size: 10px;">
-                <table style="width:100%; margin-bottom: 20px; border: none;">
-                    <tr style="border: none;">
-                        <td style="width: 20%; border: none;"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" style="width: 80px;"></td>
-                        <td style="width: 80%; text-align: right; border: none;">
-                            <h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2>
-                            <p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p>
-                            <p style="margin:0;">Licencia # 1143055</p>
-                        </td>
-                    </tr>
-                </table>
-                <hr>
-                <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
-                <table style="width:100%; margin: 20px 0; font-size: 10px;">
-                    <tr>
-                        <td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td>
-                        <td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td>
-                    </tr>
-                </table>
-                <p><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
-                ${quoteResultHtml}
-                <div style="margin-top: 30px; font-size: 9px; position: absolute; bottom: 40px;">
-                    <p><strong>Términos y Condiciones:</strong></p>
-                    <ol style="margin-left: 15px; padding-left: 0;">
-                        <li>Esta cotización es válida por 30 días.</li>
-                        <li>El pago se realizará 50% al aceptar la propuesta para cubrir materiales y 50% al finalizar satisfactoriamente el trabajo.</li>
-                        <li>Cualquier trabajo adicional o cambio solicitado no incluido en esta cotización será documentado y facturado por separado.</li>
-                    </ol>
-                </div>
+        // Create a clean container for the PDF content
+        const pdfContainer = document.createElement('div');
+        pdfContainer.style.fontFamily = 'Arial, sans-serif';
+        pdfContainer.style.padding = '20px';
+        pdfContainer.style.fontSize = '10px';
+        
+        pdfContainer.innerHTML = `
+            <table style="width:100%; margin-bottom: 20px; border: none;">
+                <tr style="border: none;"><td style="width: 20%; border: none;"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr>
+            </table>
+            <hr>
+            <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
+            <table style="width:100%; margin: 20px 0; font-size: 10px;">
+                <tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr>
+            </table>
+            <p><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
+            ${quoteResultHtml}
+            <div style="margin-top: 30px; font-size: 9px; position: absolute; bottom: 40px;">
+                <p><strong>Términos y Condiciones:</strong></p>
+                <ol style="margin-left: 15px; padding-left: 0;">
+                    <li>Esta cotización es válida por 30 días.</li>
+                    <li>El pago se realizará 50% al aceptar la propuesta para cubrir materiales y 50% al finalizar satisfactoriamente el trabajo.</li>
+                    <li>Cualquier trabajo adicional o cambio solicitado no incluido en esta cotización será documentado y facturado por separado.</li>
+                </ol>
             </div>`;
         
-        html2pdf().from(pdfContent).set({
+        html2pdf().from(pdfContainer).set({
             margin: 10, filename: `cotizacion-${clientName.replace(/\s+/g, '-')}.pdf`,
             image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
