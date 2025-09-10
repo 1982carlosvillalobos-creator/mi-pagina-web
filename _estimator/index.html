@@ -224,13 +224,13 @@
     });
     
     async function initializeApp() {
-        // IMPROVED: Load and parse each file individually for better error handling.
+        // Load and parse each file individually for better error reporting.
         try {
             const laborRes = await fetch('data/labor_rates.json');
             if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
             laborRates = await laborRes.json();
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'labor_rates.json'. Revisa si hay comas extra al final de las líneas.");
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'labor_rates.json'. Revisa si hay comas (,) extra al final de las listas.");
             console.error(e); return;
         }
 
@@ -245,7 +245,7 @@
                 }
             }
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'materials_prices.json'. Revisa si hay comas extra al final de las líneas.");
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'materials_prices.json'. Revisa si hay comas (,) extra al final de las listas.");
             console.error(e); return;
         }
 
@@ -254,7 +254,7 @@
             if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
             permits = await permitsRes.json();
         } catch (e) {
-            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'permits.json'. Revisa si hay comas extra al final de las líneas.");
+            alert("ERROR CRÍTICO: Hay un error de sintaxis en tu archivo 'permits.json'. Revisa si hay comas (,) extra al final de las listas.");
             console.error(e); return;
         }
 
