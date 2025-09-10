@@ -4,277 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v3.0</title>
+  <title>Golden Charge - Estimador Profesional v4.0</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
-      --gold: #FFD700;
-      --dark-blue: #0A2463;
-      --light-gray: #f8f9fa;
-      --text: #1e1e1e;
-      --card-bg: #ffffff;
-      --border: #ddd;
-      --btn-bg: var(--dark-blue);
-      --btn-text: var(--gold);
-      --btn-hover: #FFC700;
-      --btn-hover-text: var(--dark-blue);
-      --shadow: 0 5px 20px rgba(0,0,0,.1);
-      --radius: 12px;
+      --gold: #FFD700; --dark-blue: #0A2463; --light-gray: #f8f9fa;
+      --text: #1e1e1e; --card-bg: #ffffff; --border: #ddd;
+      --btn-bg: var(--dark-blue); --btn-text: var(--gold);
+      --btn-hover: #FFC700; --btn-hover-text: var(--dark-blue);
+      --shadow: 0 5px 20px rgba(0,0,0,.1); --radius: 12px;
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-    body {
-      background: var(--light-gray);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .header img {
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      margin-bottom: 10px;
-    }
-    h1 {
-      color: var(--dark-blue);
-      margin-bottom: 5px;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-    .subtitle {
-      color: var(--dark-blue);
-      font-size: 1.1rem;
-      opacity: 0.8;
-    }
-    .login {
-      text-align: center;
-      margin: 80px 0;
-    }
-    .login input {
-      padding: 12px 16px;
-      font-size: 1.2rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      width: 280px;
-      margin-right: 10px;
-    }
-    .login button {
-      padding: 12px 20px;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-    .login button:hover {
-      background: var(--btn-hover);
-      color: var(--btn-hover-text);
-    }
-    .app {
-      display: none;
-      background: var(--card-bg);
-      padding: 25px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .section {
-      background: #fff;
-      padding: 20px;
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-      border: 1px solid var(--border);
-    }
-    .section-title {
-      font-size: 1.2rem;
-      color: var(--dark-blue);
-      margin-bottom: 15px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title i {
-      color: var(--gold);
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--dark-blue);
-      font-size: 0.95rem;
-    }
-    .form-control {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.95rem;
-    }
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 8px 0;
-    }
-    .controls button {
-      background: var(--dark-blue);
-      color: white;
-      border: none;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-    .controls span {
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 15px 0;
-      font-size: 0.9rem;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border: 1px solid var(--border);
-    }
-    th {
-      background: var(--dark-blue);
-      color: var(--gold);
-    }
-    .total-row {
-      font-weight: bold;
-      background: #f0f0f0;
-    }
-    .btn {
-      padding: 12px 20px;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      margin: 8px 4px;
-      transition: 0.3s;
-      font-size: 0.95rem;
-    }
-    .btn:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-    .btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,.2);
-    }
-    .btn-pdf {
-      background: #007BFF;
-      color: white;
-    }
-    .btn-secondary {
-      background-color: #6c757d;
-      color: white;
-    }
-    .material-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px;
-      background: #f9f9f9;
-      cursor: pointer;
-      transition: background 0.2s;
-      border-bottom: 1px solid #eee;
-    }
-    .material-item:last-child {
-        border-bottom: none;
-    }
-    .material-item:hover {
-      background: #f0f0f0;
-    }
-    .material-name {
-      flex: 1;
-      font-weight: 500;
-    }
-    .material-price {
-      color: var(--dark-blue);
-      font-weight: bold;
-      min-width: 80px;
-      text-align: right;
-    }
-    .search-container {
-      position: relative;
-    }
-    .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      max-height: 300px;
-      overflow-y: auto;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-top: 5px;
-      z-index: 10;
-      box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    }
-    .search-results::-webkit-scrollbar {
-      width: 8px;
-    }
-    .search-results::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-    .search-results::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
-      border-radius: 10px;
-    }
-    .company-info {
-      background: var(--card-bg);
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
-    .company-info h3 {
-      color: var(--dark-blue);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .company-info p {
-      margin: 5px 0;
-      font-size: 0.95rem;
-    }
-    .slider-label-group {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.85rem;
-        color: #666;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--light-gray); color: var(--text); line-height: 1.6; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header img { height: 80px; width: 80px; border-radius: 50%; border: 3px solid var(--gold); margin-bottom: 10px; }
+    h1, h2, h3 { color: var(--dark-blue); }
+    h1 { font-size: 1.8rem; font-weight: 700; }
+    .subtitle { color: var(--dark-blue); font-size: 1.1rem; opacity: 0.8; }
+    .login { text-align: center; margin: 80px 0; }
+    .login input { padding: 12px 16px; font-size: 1.2rem; border: 2px solid var(--border); border-radius: 8px; width: 280px; margin-right: 10px; }
+    .login button { padding: 12px 20px; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+    .app { display: none; background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .section { background: #fff; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); border: 1px solid var(--border); }
+    .section-title { font-size: 1.2rem; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .section-title i { color: var(--gold); }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue); font-size: 0.95rem; }
+    .form-control, .btn { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; }
+    .controls { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .controls button { background: var(--dark-blue); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+    .controls span { font-size: 1.1rem; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+    th, td { padding: 10px; text-align: left; border: 1px solid var(--border); }
+    th { background: var(--dark-blue); color: var(--gold); }
+    .total-row { font-weight: bold; background: #f0f0f0; }
+    .btn { background: var(--btn-bg); color: var(--btn-text); border-radius: 50px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+    .btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.2); }
+    .btn-pdf { background: #007BFF; color: white; }
+    .search-container { position: relative; }
+    .search-results { position: absolute; top: 100%; left: 0; right: 0; max-height: 300px; overflow-y: auto; background: white; border: 1px solid var(--border); border-radius: 8px; margin-top: 5px; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,.1); }
+    .material-item { display: flex; align-items: center; gap: 10px; padding: 8px; background: #f9f9f9; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid #eee; }
+    .material-item:hover { background: #f0f0f0; }
+    .material-name { flex: 1; font-weight: 500; }
+    .material-price { color: var(--dark-blue); font-weight: bold; min-width: 80px; text-align: right; }
+    .slider-label-group { display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; }
   </style>
 </head>
 <body>
@@ -291,17 +66,17 @@
     </div>
 
     <div id="app" class="app">
-      <div class="company-info">
-        <h3><i class="fas fa-building"></i> Golden Charge Electrician Company</h3>
-        <p>📞 <strong>(510) 221-1258</strong></p>
-        <p>✉️ <strong>carlos.villalobos@goldencharge.net</strong></p>
-        <p>🆔 <strong>License # 1143055</strong></p>
-        <p>🔐 <strong>Golden Charge LLC | EIN: 39-4119592</strong></p>
-      </div>
-
       <form id="quoteForm">
         <div class="section">
-          <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> Proyecto y Ubicación</h3>
+          <h3 class="section-title"><i class="fas fa-file-alt"></i> Datos del Cliente y Proyecto</h3>
+          <div class="form-group">
+            <label for="clientName">Nombre del Cliente:</label>
+            <input type="text" id="clientName" class="form-control" placeholder="Ej: John Smith">
+          </div>
+          <div class="form-group">
+            <label for="clientAddress">Dirección del Proyecto:</label>
+            <input type="text" id="clientAddress" class="form-control" placeholder="Ej: 123 Main St">
+          </div>
           <div class="form-group">
             <label for="city">Ciudad del Proyecto:</label>
             <select id="city" class="form-control">
@@ -324,20 +99,17 @@
             <label for="projectType">Tipo de Proyecto:</label>
             <select id="projectType" class="form-control">
               <option value="service-call">Llamada de Servicio / Diagnóstico</option>
-              <option value="panel-upgrade-200a">Upgrade de Panel Principal (100A-200A)</option>
+              <option value="panel">Upgrade de Panel Principal (100A-200A)</option>
               <option value="rewire-full-house">Recableado Completo de Casa (Rewire)</option>
-              <option value="ev-charger-50a">Instalación de Cargador EV (Nivel 2, 50A)</option>
-              <option value="lighting-recessed">Instalación de Luces Empotradas (Recessed)</option>
+              <option value="ev">Instalación de Cargador EV (Nivel 2, 50A)</option>
+              <option value="new">Instalación de Luces Empotradas (Recessed)</option>
               <option value="subpanel-install">Instalación de Subpanel (Garaje/Taller)</option>
               <option value="kitchen-remodel">Remodelación Eléctrica de Cocina</option>
               <option value="bathroom-remodel">Remodelación Eléctrica de Baño</option>
-              <option value="outlet-switch-install">Instalar/Mover Enchufes e Interruptores</option>
+              <option value="new">Instalar/Mover Enchufes e Interruptores</option>
               <option value="landscape-lighting">Iluminación de Jardín (Landscape)</option>
               <option value="commercial-tio">Mejoras para Inquilinos Comerciales (T.I.)</option>
               <option value="low-voltage">Instalación de Bajo Voltaje (Datos/Ethernet)</option>
-              <option value="generator-transfer-switch">Instalación de Generador y Transfer Switch</option>
-              <option value="pool-spa-hookup">Conexión Eléctrica para Piscina/Spa</option>
-              <option value="troubleshooting">Resolución de Problemas Eléctricos</option>
             </select>
           </div>
         </div>
@@ -346,34 +118,30 @@
           <h3 class="section-title"><i class="fas fa-users-cog"></i> Equipo y Tarifas por Hora</h3>
           <div class="form-group">
             <label for="contractorRate">Tu Tarifa por Hora (Contratista C-10): $<output id="contractorRateValue">0</output>/hr</label>
-            <input type="range" id="contractorRate" min="100" max="250" value="170" class="form-control">
+            <input type="range" id="contractorRate" class="form-control">
             <div class="slider-label-group">
-                <span id="contractorRateMin">$100</span>
-                <span id="contractorRateMax">$250</span>
+                <span id="contractorRateMin">$0</span><span id="contractorRateMax">$0</span>
             </div>
           </div>
           <hr style="margin: 20px 0;">
           <div class="form-group">
             <label>Número de Ayudantes:</label>
             <div class="controls">
-              <button type="button" onclick="removeHelper()">−</button>
-              <span id="helperCount">1</span>
-              <button type="button" onclick="addHelper()">+</button>
+              <button type="button" onclick="removeHelper()">−</button><span id="helperCount">1</span><button type="button" onclick="addHelper()">+</button>
             </div>
           </div>
           <div class="form-group" id="helperRateSection">
             <label for="helperRate">Tarifa por Hora (Ayudante): $<output id="helperRateValue">0</output>/hr</label>
-            <input type="range" id="helperRate" min="70" max="120" value="85" class="form-control">
+            <input type="range" id="helperRate" class="form-control">
             <div class="slider-label-group">
-                <span id="helperRateMin">$70</span>
-                <span id="helperRateMax">$120</span>
+                <span id="helperRateMin">$0</span><span id="helperRateMax">$0</span>
             </div>
           </div>
           <hr style="margin: 20px 0;">
           <div class="form-group">
             <label>Días estimados de trabajo:</label>
-            <input type="number" id="days" value="5" min="0.5" step="0.5" class="form-control" />
-            <small>Cada día completo = 8 horas. Puedes usar decimales (ej: 1.5 para día y medio).</small>
+            <input type="number" id="days" value="1" min="0.5" step="0.5" class="form-control" />
+            <small>Cada día completo = 8 horas.</small>
           </div>
         </div>
 
@@ -409,9 +177,7 @@
           </div>
           <div class="form-group">
             <label>Materiales Seleccionados:</label>
-            <div id="selectedMaterialsList">
-              <p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p>
-            </div>
+            <div id="selectedMaterialsList"><p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p></div>
           </div>
         </div>
 
@@ -420,36 +186,33 @@
           <button type="button" class="btn btn-pdf" id="exportPdfBtn" onclick="generatePDF()" disabled>📄 Exportar a PDF</button>
         </div>
       </form>
-
       <div id="results"></div>
     </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <script>
-    // === Variables globales ===
     let helperCount = 1;
     let allMaterials = [];
     let selectedMaterials = [];
     let laborRates = {};
     let permits = {};
+    const salesTaxRates = {
+        "Fremont": 0.1025, "San Francisco": 0.0863, "Oakland": 0.1025,
+        "San Jose": 0.0938, "Hayward": 0.1075, "Berkeley": 0.1025,
+        "Richmond": 0.0925, "Sunnyvale": 0.0913, "Palo Alto": 0.0913,
+        "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, "Walnut Creek": 0.0925
+    };
 
-    // === Lógica de la aplicación ===
-
-    // Verifica la contraseña para mostrar la app
     function checkPassword() {
       if (document.getElementById('password').value === 'GoldenCharge2025!') {
         localStorage.setItem('estimatorAccess', 'true');
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         initializeApp();
-      } else {
-        alert('Contraseña incorrecta');
-      }
+      } else { alert('Contraseña incorrecta'); }
     }
 
-    // Inicializa la aplicación al cargar la página
     window.onload = () => {
       if (localStorage.getItem('estimatorAccess') === 'true') {
         document.getElementById('login').style.display = 'none';
@@ -458,14 +221,13 @@
       }
     };
     
-    // Carga todos los datos JSON y configura los listeners
     async function initializeApp() {
         try {
             const [pricesRes, laborRes, permitsRes] = await Promise.all([
-                fetch('materials_prices.json'),
-                fetch('labor_rates.json'),
-                fetch('permits.json')
+                fetch('materials_prices.json'), fetch('labor_rates.json'), fetch('permits.json')
             ]);
+            if (!pricesRes.ok || !laborRes.ok || !permitsRes.ok) throw new Error("Network response was not ok.");
+            
             const prices = await pricesRes.json();
             laborRates = await laborRes.json();
             permits = await permitsRes.json();
@@ -476,157 +238,111 @@
                     allMaterials.push({ id: itemName, name: itemName, price: itemPrice });
                 }
             }
+
+            if(allMaterials.length === 0) throw new Error("No materials loaded.");
+            
             console.log(`✅ ${allMaterials.length} Materiales cargados.`);
             setupEventListeners();
             updateRateSliders(document.getElementById('city').value);
+
         } catch (e) {
             console.error("❌ Error cargando datos:", e);
-            alert("Error: No se pudieron cargar los datos. Asegúrate de que los archivos .json estén en la misma carpeta que este HTML.");
+            alert("Error: No se pudieron cargar los datos.\n\nIMPORTANTE: Asegúrate de estar usando la extensión 'Live Server' en VS Code para que esto funcione.");
         }
     }
 
-    // Configura todos los event listeners de la página
     function setupEventListeners() {
         document.getElementById('city').addEventListener('change', (e) => updateRateSliders(e.target.value));
         document.getElementById('materialSearch').addEventListener('input', handleMaterialSearch);
         document.getElementById('clientType').addEventListener('change', handleClientTypeChange);
         
-        // Listeners para actualizar outputs de los sliders
-        const sliders = ['contractorRate', 'helperRate', 'contractorDiscount', 'materialMarkup'];
-        sliders.forEach(id => {
+        ['contractorRate', 'helperRate', 'contractorDiscount', 'materialMarkup'].forEach(id => {
             const slider = document.getElementById(id);
-            const output = document.getElementById(id + 'Value');
-            if (slider && output) {
-                slider.addEventListener('input', () => output.textContent = slider.value);
-            }
+            if (slider) slider.addEventListener('input', () => document.getElementById(id + 'Value').textContent = slider.value);
         });
 
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-container')) {
-                document.getElementById('searchResults').style.display = 'none';
-            }
+            if (!e.target.closest('.search-container')) document.getElementById('searchResults').style.display = 'none';
         });
     }
 
-    // Actualiza las barras de tarifas por hora según la ciudad
     function updateRateSliders(city) {
         if (!laborRates[city]) return;
-
         const rates = laborRates[city].labor_rate;
 
-        // Rango para el contratista (+/- 15%)
         const contractorRate = rates.contractor_c10;
         const contractorMin = Math.round(contractorRate * 0.85);
-        const contractorMax = Math.round(contractorRate * 1.15);
-        updateSlider('contractorRate', contractorMin, contractorMax, contractorRate);
+        const contractorMax = Math.round(contractorRate * 1.20);
+        updateSliderUI('contractorRate', contractorMin, contractorMax, contractorRate);
 
-        // Rango para el ayudante (+/- 15%)
         const helperRate = rates.helper;
-        const helperMin = Math.round(helperRate * 0.85);
-        const helperMax = Math.round(helperRate * 1.15);
-        updateSlider('helperRate', helperMin, helperMax, helperRate);
+        const helperMin = Math.round(helperRate * 0.90);
+        const helperMax = Math.round(helperRate * 1.25);
+        updateSliderUI('helperRate', helperMin, helperMax, helperRate);
     }
     
-    // Función auxiliar para actualizar un slider
-    function updateSlider(id, min, max, value) {
+    function updateSliderUI(id, min, max, value) {
         const slider = document.getElementById(id);
-        slider.min = min;
-        slider.max = max;
-        slider.value = value;
+        slider.min = min; slider.max = max; slider.value = value;
         document.getElementById(id + 'Value').textContent = value;
         document.getElementById(id + 'Min').textContent = `$${min}`;
         document.getElementById(id + 'Max').textContent = `$${max}`;
     }
 
-    // Muestra/oculta el descuento para contratistas
     function handleClientTypeChange(e) {
         document.getElementById('contractorDiscountSection').style.display = e.target.value === 'contractor' ? 'block' : 'none';
     }
 
-    // Control del contador de ayudantes
     function addHelper() {
         if (helperCount < 10) helperCount++;
         document.getElementById('helperCount').textContent = helperCount;
-        document.getElementById('helperRateSection').style.display = helperCount > 0 ? 'block' : 'none';
+        document.getElementById('helperRateSection').style.display = 'block';
     }
     function removeHelper() {
         if (helperCount > 0) helperCount--;
         document.getElementById('helperCount').textContent = helperCount;
-        document.getElementById('helperRateSection').style.display = helperCount > 0 ? 'block' : 'none';
+        if(helperCount === 0) document.getElementById('helperRateSection').style.display = 'none';
     }
 
-    // Lógica de búsqueda de materiales
     function handleMaterialSearch(e) {
         const searchTerm = e.target.value.toLowerCase();
         const resultsContainer = document.getElementById('searchResults');
-        if (searchTerm.length < 2) {
-            resultsContainer.style.display = 'none';
-            return;
-        }
-        const filtered = allMaterials
-            .filter(m => m.name.toLowerCase().includes(searchTerm))
-            .slice(0, 50);
+        if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
+        const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
 
-        resultsContainer.innerHTML = '';
-        if (filtered.length > 0) {
-            filtered.forEach(material => {
-                const item = document.createElement('div');
-                item.className = 'material-item';
-                item.innerHTML = `<div class="material-name">${material.name}</div><div class="material-price">$${material.price.toFixed(2)}</div>`;
-                item.onclick = () => {
-                    addItemToQuote(material);
-                    e.target.value = '';
-                    resultsContainer.style.display = 'none';
-                };
-                resultsContainer.appendChild(item);
-            });
-        } else {
-            resultsContainer.innerHTML = '<div class="material-item">No se encontraron materiales</div>';
-        }
+        resultsContainer.innerHTML = filtered.length ? filtered.map(material => 
+            `<div class="material-item" onclick="addItemToQuote('${material.id}')">
+                <div class="material-name">${material.name}</div>
+                <div class="material-price">$${material.price.toFixed(2)}</div>
+            </div>`
+        ).join('') : '<div class="material-item">No se encontraron materiales</div>';
         resultsContainer.style.display = 'block';
     }
     
-    function addItemToQuote(material) {
+    function addItemToQuote(materialId) {
+        const material = allMaterials.find(m => m.id === materialId);
+        if (!material) return;
         const existing = selectedMaterials.find(m => m.id === material.id);
-        if (existing) {
-            existing.qty++;
-        } else {
-            selectedMaterials.push({ ...material, qty: 1 });
-        }
+        if (existing) { existing.qty++; } else { selectedMaterials.push({ ...material, qty: 1 }); }
         updateSelectedMaterialsList();
+        document.getElementById('materialSearch').value = '';
+        document.getElementById('searchResults').style.display = 'none';
     }
     
     function updateSelectedMaterialsList() {
         const container = document.getElementById('selectedMaterialsList');
-        if (selectedMaterials.length === 0) {
-            container.innerHTML = '<p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p>';
-            return;
-        }
+        if (selectedMaterials.length === 0) { container.innerHTML = '<p style="color:#888;text-align:center;padding:10px;">Ningún material seleccionado</p>'; return; }
         let totalMaterialCost = 0;
         const tableRows = selectedMaterials.map((m, i) => {
             const total = m.qty * m.price;
             totalMaterialCost += total;
-            return `<tr>
-                <td>${m.name}</td>
-                <td><input type="number" class="form-control" value="${m.qty}" min="1" style="width:80px;" onchange="updateMaterialQty(${i}, this.value)"></td>
-                <td>$${m.price.toFixed(2)}</td>
-                <td>$${total.toFixed(2)}</td>
-                <td><button type="button" class="btn" style="background:#c82333;color:white;padding:5px 10px;" onclick="removeMaterial(${i})">X</button></td>
-            </tr>`;
+            return `<tr><td>${m.name}</td><td><input type="number" class="form-control" value="${m.qty}" min="1" onchange="updateMaterialQty(${i}, this.value)"></td><td>$${m.price.toFixed(2)}</td><td>$${total.toFixed(2)}</td><td><button type="button" class="btn" style="background:#c82333;color:white;padding:5px 10px;" onclick="removeMaterial(${i})">X</button></td></tr>`;
         }).join('');
-        
-        container.innerHTML = `<table>
-            <thead><tr><th>Material</th><th>Cantidad</th><th>Precio Unitario</th><th>Total</th><th>Acción</th></tr></thead>
-            <tbody>${tableRows}</tbody>
-            <tfoot><tr class="total-row">
-                <td colspan="3"><strong>Costo Total de Materiales</strong></td>
-                <td colspan="2"><strong>$${totalMaterialCost.toFixed(2)}</strong></td>
-            </tr></tfoot>
-        </table>`;
+        container.innerHTML = `<table><thead><tr><th>Material</th><th>Cantidad</th><th>Precio Unitario</th><th>Total</th><th>Acción</th></tr></thead><tbody>${tableRows}</tbody><tfoot><tr class="total-row"><td colspan="3"><strong>Costo de Materiales (Antes de Markup)</strong></td><td colspan="2"><strong>$${totalMaterialCost.toFixed(2)}</strong></td></tr></tfoot></table>`;
     }
 
     function updateMaterialQty(index, qty) {
-        selectedMaterials[index].qty = parseFloat(qty) || 1;
+        selectedMaterials[index].qty = Math.max(1, parseFloat(qty) || 1);
         updateSelectedMaterialsList();
     }
     function removeMaterial(index) {
@@ -634,89 +350,113 @@
         updateSelectedMaterialsList();
     }
     
-    // --- CÁLCULO PRINCIPAL DE LA COTIZACIÓN ---
+    function getPermitCost(projectType, city) {
+        const type = projectType.includes('panel') ? 'panel' : projectType.includes('ev') ? 'ev' : 'new';
+        return permits[city]?.[type] || 220; // Default permit cost
+    }
+
     function calculateQuote() {
-        // Recolectar datos del formulario
         const city = document.getElementById('city').value;
         const days = parseFloat(document.getElementById('days').value) || 0;
         const hours = days * 8;
         const contractorRate = parseFloat(document.getElementById('contractorRate').value);
-        const helperRateVal = parseFloat(document.getElementById('helperRate').value);
+        const helperRate = parseFloat(document.getElementById('helperRate').value);
         const markupPercent = parseFloat(document.getElementById('materialMarkup').value) / 100;
         const clientType = document.getElementById('clientType').value;
-        const permitCost = permits[city]?.panel || 250; // Usar un permiso por defecto si no se encuentra
+        const projectType = document.getElementById('projectType').value;
         
-        // 1. Calcular costos de mano de obra
+        const permitCost = getPermitCost(projectType, city);
+        const taxRate = salesTaxRates[city] || 0.095;
+
         const contractorLaborSell = hours * contractorRate;
-        const helperLaborSell = hours * helperCount * helperRateVal;
+        const helperLaborSell = (helperCount > 0) ? (hours * helperCount * helperRate) : 0;
         const totalLaborSell = contractorLaborSell + helperLaborSell;
 
-        // 2. Calcular costos de materiales
-        const materialCost = selectedMaterials.reduce((acc, m) => acc + (m.qty * m.price), 0);
-        const materialSell = materialCost * (1 + markupPercent);
-
-        // 3. Calcular total y descuentos
-        let finalPrice = totalLaborSell + materialSell + permitCost;
+        const materialBaseCost = selectedMaterials.reduce((acc, m) => acc + (m.qty * m.price), 0);
+        const materialSell = materialBaseCost * (1 + markupPercent);
+        const salesTax = materialSell * taxRate;
+        
+        let finalPrice = totalLaborSell + materialSell + salesTax + permitCost;
         if (clientType === 'contractor') {
             const discountPercent = parseFloat(document.getElementById('contractorDiscount').value) / 100;
             finalPrice *= (1 - discountPercent);
         }
 
-        displayResult({ finalPrice, totalLaborSell, materialSell, permitCost, city });
+        displayResult({ city, finalPrice, totalLaborSell, materialSell, salesTax, permitCost, helperCount });
     }
 
-    // Muestra los resultados en el DOM
     function displayResult(data) {
         const results = document.getElementById('results');
-        results.innerHTML = `
-          <div id="quote-result" class="section">
+        results.innerHTML = `<div id="quote-result" class="section">
             <h3 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resumen de la Cotización</h3>
             <table style="width:100%;margin-bottom:20px;">
               <tr><th>Concepto</th><th style="text-align:right;">Precio de Venta</th></tr>
-              <tr><td>Mano de Obra</td><td style="text-align:right;">$${data.totalLaborSell.toFixed(2)}</td></tr>
+              <tr><td>Mano de Obra (1 Contratista ${data.helperCount > 0 ? `+ ${data.helperCount} Ayudante(s)`: ''})</td><td style="text-align:right;">$${data.totalLaborSell.toFixed(2)}</td></tr>
               <tr><td>Materiales (con markup)</td><td style="text-align:right;">$${data.materialSell.toFixed(2)}</td></tr>
-              <tr><td>Permisos (${data.city})</td><td style="text-align:right;">$${data.permitCost.toFixed(2)}</td></tr>
+              <tr><td>Impuesto sobre Venta (${(salesTaxRates[data.city]*100).toFixed(2)}%)</td><td style="text-align:right;">$${data.salesTax.toFixed(2)}</td></tr>
+              <tr><td>Permisos e Inspección (${data.city})</td><td style="text-align:right;">$${data.permitCost.toFixed(2)}</td></tr>
               <tr class="total-row" style="font-size:1.2rem;">
-                <td><strong>Precio Final Estimado</strong></td>
-                <td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td>
+                <td><strong>Precio Final Estimado al Cliente</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td>
               </tr>
-            </table>
-          </div>`;
+            </table></div>`;
         results.scrollIntoView({ behavior: 'smooth' });
-        document.getElementById('exportPdfBtn').disabled = false; // Habilitar botón de PDF
+        document.getElementById('exportPdfBtn').disabled = false;
     }
     
-    // Genera el PDF de la cotización
     function generatePDF() {
         const quoteResult = document.getElementById('quote-result');
-        if (!quoteResult) {
-            alert("Primero calcula una cotización para poder generar el PDF.");
-            return;
-        }
+        if (!quoteResult) { alert("Primero calcula una cotización."); return; }
         
         const btn = document.getElementById('exportPdfBtn');
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
         btn.disabled = true;
 
-        const date = new Date().toLocaleDateString('es-MX');
-        const filename = `cotizacion-goldench-arge-${date}.pdf`;
+        const clientName = document.getElementById('clientName').value || 'Cliente Valioso';
+        const clientAddress = document.getElementById('clientAddress').value || 'N/A';
+        const city = document.getElementById('city').value;
+        const projectDesc = document.getElementById('projectType').selectedOptions[0].text;
+        const date = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        html2pdf().from(quoteResult).set({
-            margin: 15,
-            filename: filename,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
+        const pdfContent = `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                <table style="width:100%; margin-bottom: 20px;">
+                    <tr>
+                        <td style="width: 20%;"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" style="width: 80px;"></td>
+                        <td style="width: 80%; text-align: right;">
+                            <h2 style="margin:0; color:#0A2463;">Golden Charge Electrician Company</h2>
+                            <p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p>
+                            <p style="margin:0;">Licencia # 1143055</p>
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <h3 style="color:#0A2463; text-align:center;">COTIZACIÓN DE PROYECTO</h3>
+                <table style="width:100%; margin: 20px 0;">
+                    <tr>
+                        <td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td>
+                        <td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td>
+                    </tr>
+                </table>
+                <strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}
+                ${quoteResult.innerHTML}
+                <div style="margin-top: 30px; font-size: 12px;">
+                    <p><strong>Términos y Condiciones:</strong></p>
+                    <p>1. Esta cotización es válida por 30 días.</p>
+                    <p>2. El pago se realizará 50% al inicio y 50% al finalizar el trabajo.</p>
+                    <p>3. Cualquier trabajo adicional no incluido en esta cotización será facturado por separado.</p>
+                </div>
+            </div>`;
+        
+        html2pdf().from(pdfContent).set({
+            margin: 10, filename: `cotizacion-${clientName.replace(/\s+/g, '-')}.pdf`,
+            image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
         }).save().then(() => {
-            btn.innerHTML = '📄 Exportar a PDF';
-            btn.disabled = false;
+            btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false;
         }).catch(err => {
-            console.error(err);
-            btn.innerHTML = '📄 Exportar a PDF';
-            btn.disabled = false;
+            console.error(err); btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false;
         });
     }
-
   </script>
 </body>
 </html>
