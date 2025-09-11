@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="robots" content="noindex,nofollow"/>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v8.1</title>
+  <title>Golden Charge - Estimador Profesional v9.0 FINAL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -55,7 +55,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo(1).png" alt="Golden Charge Logo">
+      <img src="/_estimator/img/logo.png" alt="Golden Charge Logo">
       <h1>🔧 Estimador Profesional</h1>
       <p class="subtitle">Golden Charge Electrician Company</p>
     </div>
@@ -66,7 +66,7 @@
     </div>
 
     <div id="app" class="app">
-      <form id="quoteForm">
+      <form id="quoteForm" onsubmit="return false;">
         <div class="section">
           <h3 class="section-title"><i class="fas fa-file-alt"></i> Datos del Cliente y Proyecto</h3>
           <div class="form-group">
@@ -194,10 +194,10 @@
   <script>
     let helperCount = 1, allMaterials = [], selectedMaterials = [], laborRates = {}, permits = {};
     const salesTaxRates = {
-        "Fremont": 0.1025, "San Francisco": 0.0863, "Oakland": 0.1025,
-        "San Jose": 0.0938, "Hayward": 0.1075, "Berkeley": 0.1025,
-        "Richmond": 0.0925, "Sunnyvale": 0.0913, "Palo Alto": 0.0913,
-        "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, "Walnut Creek": 0.0925
+        "Fremont": 0.1025, "San Francisco": 0.0863, "Oakland": 0.1025, "San Jose": 0.0938, 
+        "Hayward": 0.1075, "Berkeley": 0.1025, "Richmond": 0.0925, "Sunnyvale": 0.0913, 
+        "Palo Alto": 0.0913, "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, 
+        "Walnut Creek": 0.0925
     };
 
     function checkPassword() {
@@ -218,43 +218,43 @@
     });
     
     async function initializeApp() {
+        console.log("Paso 1: Iniciando la aplicación...");
         const basePath = '/_estimator/data/';
         try {
+            console.log("Paso 2: Intentando cargar 'labor_rates.json' desde", basePath + 'labor_rates.json');
             const laborRes = await fetch(basePath + 'labor_rates.json');
-            if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json`);
+            if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
             laborRates = await laborRes.json();
-        } catch (e) {
-            alert(`ERROR CRÍTICO: Revisa tu archivo 'labor_rates.json' o la ruta.\n${e.message}`);
-            return;
-        }
+            console.log("✅ Éxito: 'labor_rates.json' cargado.", laborRates);
 
-        try {
+            console.log("Paso 3: Intentando cargar 'materials_prices.json'...");
             const materialsRes = await fetch(basePath + 'materials_prices.json');
-            if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json`);
+            if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json (Status: ${materialsRes.status})`);
             const prices = await materialsRes.json();
+            console.log("✅ Éxito: 'materials_prices.json' cargado.");
+
             allMaterials = [];
             for (const category in prices) {
                 for (const [itemName, itemPrice] of Object.entries(prices[category])) {
                     allMaterials.push({ id: itemName, name: itemName, price: itemPrice });
                 }
             }
-        } catch (e) {
-            alert(`ERROR CRÍTICO: Revisa tu archivo 'materials_prices.json' o la ruta.\n${e.message}`);
-            return;
-        }
+            console.log(`✅ ${allMaterials.length} materiales procesados.`);
 
-        try {
+            console.log("Paso 4: Intentando cargar 'permits.json'...");
             const permitsRes = await fetch(basePath + 'permits.json');
-            if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json`);
+            if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
             permits = await permitsRes.json();
+            console.log("✅ Éxito: 'permits.json' cargado.", permits);
+
+            console.log("Paso 5: Configurando listeners y actualizando UI inicial.");
+            setupEventListeners();
+            updateRateSliders(document.getElementById('city').value);
+
         } catch (e) {
-            alert(`ERROR CRÍTICO: Revisa tu archivo 'permits.json' o la ruta.\n${e.message}`);
-            return;
+            console.error("❌ ERROR CRÍTICO DURANTE LA INICIALIZACIÓN:", e);
+            alert(`Error fatal al cargar los datos: ${e.message}\n\nAsegúrate de que los archivos JSON están en la carpeta correcta y no tienen errores de sintaxis.`);
         }
-        
-        console.log(`✅ ${allMaterials.length} Materiales cargados.`);
-        setupEventListeners();
-        updateRateSliders(document.getElementById('city').value);
     }
 
     function setupEventListeners() {
@@ -275,11 +275,18 @@
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-container')) document.getElementById('searchResults').style.display = 'none';
         });
+        console.log("✅ Listeners configurados.");
     }
 
     function updateRateSliders(city) {
-        if (!laborRates[city]) { return; }
+        console.log(`Intentando actualizar barras para la ciudad: ${city}`);
+        if (!laborRates[city]) {
+            console.error(`No se encontraron tarifas para la ciudad: ${city}`);
+            return;
+        }
         const rates = laborRates[city].labor_rate;
+        console.log(`Tarifas encontradas:`, rates);
+
         updateSliderUI('contractorRate', Math.round(rates.contractor_c10 * 0.85), Math.round(rates.contractor_c10 * 1.20), rates.contractor_c10);
         updateSliderUI('helperRate', Math.round(rates.helper * 0.90), Math.round(rates.helper * 1.25), rates.helper);
     }
@@ -287,28 +294,26 @@
     function updateSliderUI(id, min, max, value) {
         const slider = document.getElementById(id), output = document.getElementById(id + 'Value');
         const minLabel = document.getElementById(id + 'Min'), maxLabel = document.getElementById(id + 'Max');
-        if (!slider || !output || !minLabel || !maxLabel) return;
+        if (!slider || !output || !minLabel || !maxLabel) {
+            console.error(`Error: No se encontraron todos los elementos para la barra '${id}'`);
+            return;
+        }
         slider.min = min; slider.max = max; slider.value = value;
         output.textContent = value;
         minLabel.textContent = `$${min}`; maxLabel.textContent = `$${max}`;
+        console.log(`Barra '${id}' actualizada: min=${min}, max=${max}, value=${value}`);
     }
 
-    function addHelper() {
-        if (helperCount < 10) helperCount++;
-        document.getElementById('helperCount').textContent = helperCount;
-        document.getElementById('helperRateSection').style.display = 'block';
-    }
-    function removeHelper() {
-        if (helperCount > 0) helperCount--;
-        document.getElementById('helperCount').textContent = helperCount;
-        if(helperCount === 0) document.getElementById('helperRateSection').style.display = 'none';
-    }
+    function addHelper() { if (helperCount < 10) helperCount++; document.getElementById('helperCount').textContent = helperCount; document.getElementById('helperRateSection').style.display = 'block'; }
+    function removeHelper() { if (helperCount > 0) helperCount--; document.getElementById('helperCount').textContent = helperCount; if(helperCount === 0) document.getElementById('helperRateSection').style.display = 'none';}
 
     function handleMaterialSearch(e) {
         const searchTerm = e.target.value.toLowerCase();
         const resultsContainer = document.getElementById('searchResults');
+        console.log(`Buscando material: '${searchTerm}'`);
         if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
         const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
+        console.log(`Encontrados ${filtered.length} resultados.`);
         resultsContainer.innerHTML = filtered.length ? filtered.map(material => 
             `<div class="material-item" onclick="addItemToQuote('${material.id}')"><div class="material-name">${material.name}</div><div class="material-price">$${material.price.toFixed(2)}</div></div>`
         ).join('') : '<div class="material-item">No se encontraron materiales</div>';
@@ -337,14 +342,8 @@
         container.innerHTML = `<table><thead><tr><th>Material</th><th>Cantidad</th><th>Precio Unitario</th><th>Total</th><th>Acción</th></tr></thead><tbody>${tableRows}</tbody><tfoot><tr class="total-row"><td colspan="3"><strong>Costo de Materiales (Antes de Markup)</strong></td><td colspan="2"><strong>$${totalMaterialCost.toFixed(2)}</strong></td></tr></tfoot></table>`;
     }
 
-    function updateMaterialQty(index, qty) {
-        selectedMaterials[index].qty = Math.max(1, parseFloat(qty) || 1);
-        updateSelectedMaterialsList();
-    }
-    function removeMaterial(index) {
-        selectedMaterials.splice(index, 1);
-        updateSelectedMaterialsList();
-    }
+    function updateMaterialQty(index, qty) { selectedMaterials[index].qty = Math.max(1, parseFloat(qty) || 1); updateSelectedMaterialsList(); }
+    function removeMaterial(index) { selectedMaterials.splice(index, 1); updateSelectedMaterialsList(); }
     
     function getPermitCost(projectTypeKey, city) {
         const permitKey = projectTypeKey.includes('panel') ? 'panel' : projectTypeKey.includes('ev') ? 'ev' : 'new';
@@ -352,41 +351,27 @@
     }
 
     function calculateQuote() {
-        const city = document.getElementById('city').value;
-        const days = parseFloat(document.getElementById('days').value) || 0;
-        const hours = days * 8;
-        const contractorRate = parseFloat(document.getElementById('contractorRate').value);
-        const helperRate = parseFloat(document.getElementById('helperRate').value);
-        const markupPercent = parseFloat(document.getElementById('materialMarkup').value) / 100;
-        const clientType = document.getElementById('clientType').value;
-        const projectType = document.getElementById('projectType').value;
-        
-        const permitCost = getPermitCost(projectType, city);
-        const taxRate = salesTaxRates[city] || 0.095;
-        const contractorLaborSell = hours * contractorRate;
-        const helperLaborSell = (helperCount > 0) ? (hours * helperCount * helperRate) : 0;
+        const city = document.getElementById('city').value, days = parseFloat(document.getElementById('days').value) || 0;
+        const hours = days * 8, contractorRate = parseFloat(document.getElementById('contractorRate').value);
+        const helperRate = parseFloat(document.getElementById('helperRate').value), markupPercent = parseFloat(document.getElementById('materialMarkup').value) / 100;
+        const clientType = document.getElementById('clientType').value, projectType = document.getElementById('projectType').value;
+        const permitCost = getPermitCost(projectType, city), taxRate = salesTaxRates[city] || 0.095;
+        const contractorLaborSell = hours * contractorRate, helperLaborSell = (helperCount > 0) ? (hours * helperCount * helperRate) : 0;
         const totalLaborSell = contractorLaborSell + helperLaborSell;
         const materialBaseCost = selectedMaterials.reduce((acc, m) => acc + (m.qty * m.price), 0);
-        const materialSell = materialBaseCost * (1 + markupPercent);
-        const salesTax = materialSell * taxRate;
-        
-        let subtotal = totalLaborSell + materialSell + salesTax + permitCost;
-        let discountAmount = 0;
+        const materialSell = materialBaseCost * (1 + markupPercent), salesTax = materialSell * taxRate;
+        let subtotal = totalLaborSell + materialSell + salesTax + permitCost, discountAmount = 0;
         if (clientType === 'contractor') {
             const discountPercent = parseFloat(document.getElementById('contractorDiscount').value) / 100;
             discountAmount = subtotal * discountPercent;
         }
         const finalPrice = subtotal - discountAmount;
-
         displayResult({ city, finalPrice, totalLaborSell, materialSell, salesTax, permitCost, helperCount, discountAmount, clientType });
     }
 
     function displayResult(data) {
         const results = document.getElementById('results');
-        let discountRow = '';
-        if (data.clientType === 'contractor') {
-            discountRow = `<tr><td>Descuento para Contratista</td><td style="text-align:right; color: red;">-$${data.discountAmount.toFixed(2)}</td></tr>`;
-        }
+        let discountRow = data.clientType === 'contractor' ? `<tr><td>Descuento para Contratista</td><td style="text-align:right; color: red;">-$${data.discountAmount.toFixed(2)}</td></tr>` : '';
         results.innerHTML = `<div id="quote-result" class="section">
             <h3 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resumen de la Cotización</h3>
             <table style="width:100%;margin-bottom:20px;">
@@ -405,50 +390,33 @@
     function generatePDF() {
         const quoteResultHtml = document.getElementById('quote-result')?.innerHTML;
         if (!quoteResultHtml) { alert("Primero calcula una cotización."); return; }
-        
         const btn = document.getElementById('exportPdfBtn');
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
         btn.disabled = true;
-
-        const clientName = document.getElementById('clientName').value || 'Cliente Valioso';
-        const clientAddress = document.getElementById('clientAddress').value || 'N/A';
-        const city = document.getElementById('city').value;
-        const projectDesc = document.getElementById('projectType').selectedOptions[0].text;
+        const clientName = document.getElementById('clientName').value || 'Cliente Valioso', clientAddress = document.getElementById('clientAddress').value || 'N/A';
+        const city = document.getElementById('city').value, projectDesc = document.getElementById('projectType').selectedOptions[0].text;
         const date = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
-
         const pdfContainer = document.createElement('div');
-        pdfContainer.style.fontFamily = 'Arial, sans-serif';
-        pdfContainer.style.padding = '20px';
-        pdfContainer.style.fontSize = '10px';
-        
+        pdfContainer.style.fontFamily = 'Arial, sans-serif'; pdfContainer.style.padding = '20px'; pdfContainer.style.fontSize = '10px';
         pdfContainer.innerHTML = `
-            <table style="width:100%; margin-bottom: 20px; border: none;">
-                <tr style="border: none;"><td style="width: 20%; border: none;"><img src="/_estimator/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr>
-            </table><hr>
+            <table style="width:100%; margin-bottom: 20px; border: none;"><tr style="border: none;"><td style="width: 20%; border: none;"><img src="/_estimator/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr></table><hr>
             <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
-            <table style="width:100%; margin: 20px 0; font-size: 10px;">
-                <tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr>
-            </table>
+            <table style="width:100%; margin: 20px 0; font-size: 10px;"><tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr></table>
             <p><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
             ${quoteResultHtml}
             <div style="margin-top: 30px; font-size: 9px; position: absolute; bottom: 40px;">
                 <p><strong>Términos y Condiciones:</strong></p>
                 <ol style="margin-left: 15px; padding-left: 0;">
                     <li>Esta cotización es válida por 30 días.</li>
-                    <li>El pago se realizará 50% al aceptar la propuesta para cubrir materiales y 50% al finalizar el trabajo.</li>
-                    <li>Cualquier trabajo adicional no incluido en esta cotización será documentado y facturado por separado.</li>
+                    <li>Pago: 50% al aceptar para cubrir materiales y 50% al finalizar satisfactoriamente el trabajo.</li>
+                    <li>Cualquier trabajo adicional no incluido será documentado y facturado por separado.</li>
                 </ol>
             </div>`;
-        
         html2pdf().from(pdfContainer).set({
             margin: 10, filename: `cotizacion-${clientName.replace(/\s+/g, '-')}.pdf`,
             image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
-        }).save().then(() => {
-            btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false;
-        }).catch(err => {
-            console.error(err); btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false;
-        });
+        }).save().then(() => { btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false; }).catch(err => { console.error(err); btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false; });
     }
   </script>
 </body>
