@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v11.0 FINAL</title>
+  <title>Golden Charge - Estimador Profesional</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf-autotable.min.js"></script>
@@ -15,15 +15,17 @@
       --btn-bg: var(--dark-blue); --btn-text: var(--gold);
       --shadow: 0 5px 20px rgba(0,0,0,.1); --radius: 12px;
     }
-    body { font-family: 'Inter', sans-serif; background: var(--light-gray); }
-    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--light-gray); color: var(--text); line-height: 1.6; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
     .header { text-align: center; margin-bottom: 30px; }
-    h1, h2, h3 { color: var(--dark-blue); }
-    .app { display: none; background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    h1 { font-size: 1.8rem; font-weight: 700; color: var(--dark-blue); }
+    .app { background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
     .section { background: #fff; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; border: 1px solid var(--border); }
-    .section-title { font-size: 1.2rem; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .section-title { font-size: 1.2rem; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--dark-blue); }
+    .section-title i { color: var(--gold); }
     .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; color: var(--dark-blue); }
     .form-control, .btn { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; }
     .controls { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
     .controls button { background: var(--dark-blue); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
@@ -49,14 +51,16 @@
       <button onclick="checkPassword()" class="btn" style="width:auto;padding:12px 20px;">Entrar</button>
     </div>
     <div id="app" class="app">
-      <div id="quoteForm">
+      <form id="quoteForm" onsubmit="return false;">
+        
         <div class="section">
           <h3 class="section-title"><i class="fas fa-file-alt"></i> Datos del Cliente y Proyecto</h3>
-          <input type="text" id="clientName" class="form-control" placeholder="Nombre del Cliente">
-          <input type="text" id="clientAddress" class="form-control" placeholder="Dirección del Proyecto" style="margin-top:10px;">
-          <select id="city" class="form-control" style="margin-top:10px;"></select>
-          <select id="projectType" class="form-control" style="margin-top:10px;"></select>
+          <div class="form-group"><input type="text" id="clientName" class="form-control" placeholder="Nombre del Cliente"></div>
+          <div class="form-group"><input type="text" id="clientAddress" class="form-control" placeholder="Dirección del Proyecto"></div>
+          <div class="form-group"><label for="city">Ciudad del Proyecto:</label><select id="city" class="form-control"></select></div>
+          <div class="form-group"><label for="projectType">Tipo de Proyecto:</label><select id="projectType" class="form-control"></select></div>
         </div>
+
         <div class="section">
           <h3 class="section-title"><i class="fas fa-users-cog"></i> Equipo y Tarifas por Hora</h3>
           <div class="form-group">
@@ -78,29 +82,40 @@
             <input type="number" id="hours" value="8" min="1" class="form-control" />
           </div>
         </div>
+
         <div class="section">
           <h3 class="section-title"><i class="fas fa-sliders-h"></i> Cliente y Ajustes de Precio</h3>
-          <select id="clientType" class="form-control"></select>
-          <div class="form-group" id="contractorDiscountSection" style="display:none;margin-top:10px;">
+          <div class="form-group"><label for="clientType">Tipo de Cliente:</label><select id="clientType" class="form-control"></select></div>
+          <div class="form-group" id="contractorDiscountSection" style="display:none;">
             <label>Descuento para Contratista: <output id="contractorDiscountValue">15</output>%</label>
             <input type="range" id="contractorDiscount" min="10" max="30" value="15" class="form-control">
           </div>
-          <div class="form-group" style="margin-top:10px;">
+          <div class="form-group">
             <label>Markup de Materiales: <output id="markupValue">30</output>%</label>
             <input type="range" id="materialMarkup" min="25" max="55" value="30" class="form-control">
           </div>
         </div>
+
         <div class="section">
           <h3 class="section-title"><i class="fas fa-box"></i> Materiales</h3>
-          <input type="text" id="materialSearch" class="form-control" placeholder="Buscar materiales...">
-          <div id="searchResults" class="search-results"></div>
-          <div id="selectedMaterialsList" style="margin-top:15px;"></div>
+          <div class="form-group">
+            <label for="materialSearch">Búsqueda de Materiales:</label>
+            <div class="search-container">
+              <input type="text" id="materialSearch" class="form-control" placeholder="Ej: romex, outlet, breaker...">
+              <div id="searchResults" class="search-results" style="display:none;"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Materiales Seleccionados:</label>
+            <div id="selectedMaterialsList"></div>
+          </div>
         </div>
-        <div style="text-align:center;">
+
+        <div style="text-align:center;margin-top:20px;">
           <button type="button" class="btn" onclick="calculateQuote()">📊 Calcular Cotización</button>
           <button type="button" class="btn btn-pdf" id="exportPdfBtn" onclick="generatePDF()" disabled>📄 Exportar a PDF</button>
         </div>
-      </div>
+      </form>
       <div id="results" class="section" style="display:none;margin-top:20px;"></div>
     </div>
   </div>
@@ -134,12 +149,12 @@
           fetch(basePath + 'materials_prices.json'),
           fetch(basePath + 'permits.json')
         ]);
-        if (!laborRes.ok || !materialsRes.ok || !permitsRes.ok) throw new Error("No se pudo cargar uno de los archivos de datos. Verifica las rutas.");
+        if (!laborRes.ok || !materialsRes.ok || !permitsRes.ok) throw new Error("No se pudo cargar uno de los archivos de datos.");
         laborRates = await laborRes.json();
         const prices = await materialsRes.json();
         permits = await permitsRes.json();
 
-        allMaterials = Object.entries(prices).flatMap(([category, items]) => 
+        allMaterials = Object.entries(prices).flatMap(([_, items]) => 
           Object.entries(items).map(([name, price]) => ({ id: name, name, price }))
         );
         
@@ -156,7 +171,7 @@
       citySelect.innerHTML = Object.keys(laborRates).map(city => `<option value="${city}">${city}</option>`).join('');
       
       const projectTypeSelect = document.getElementById('projectType');
-      const projectTypes = { "service-call": "Llamada de Servicio / Diagnóstico", "panel": "Upgrade de Panel Principal", "ev": "Instalación de Cargador EV", "new": "Instalación de Luces / Circuito Nuevo" };
+      const projectTypes = { "service-call": "Llamada de Servicio / Diagnóstico", "panel": "Upgrade de Panel Principal (100A-200A)", "rewire-full-house": "Recableado Completo de Casa (Rewire)", "ev": "Instalación de Cargador EV (Nivel 2, 50A)", "new": "Instalación de Luces Empotradas (Recessed)", "subpanel-install": "Instalación de Subpanel", "kitchen-remodel": "Remodelación Eléctrica de Cocina", "bathroom-remodel": "Remodelación Eléctrica de Baño", "outlet-switch-install": "Instalar/Mover Enchufes e Interruptores", "landscape-lighting": "Iluminación de Jardín (Landscape)", "commercial-tio": "Mejoras para Inquilinos Comerciales (T.I.)", "low-voltage": "Instalación de Bajo Voltaje (Datos/Ethernet)", "generator-transfer-switch": "Instalación de Generador y Transfer Switch", "pool-spa-hookup": "Conexión Eléctrica para Piscina/Spa", "troubleshooting": "Resolución de Problemas Eléctricos" };
       projectTypeSelect.innerHTML = Object.entries(projectTypes).map(([key, value]) => `<option value="${key}">${value}</option>`).join('');
       
       const clientTypeSelect = document.getElementById('clientType');
@@ -173,6 +188,9 @@
         const slider = document.getElementById(id);
         const output = document.getElementById(id + 'Value');
         if(slider && output) slider.oninput = () => output.textContent = slider.value;
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.search-container')) document.getElementById('searchResults').style.display = 'none';
       });
     }
 
@@ -204,7 +222,7 @@
       const resultsContainer = document.getElementById('searchResults');
       if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
       const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
-      resultsContainer.innerHTML = filtered.length ? filtered.map(m => `<div class="material-item" onclick="addItemToQuote('${m.id}')"><span>${m.name}</span><span>$${m.price.toFixed(2)}</span></div>`).join('') : '<div class="material-item">No se encontraron materiales</div>';
+      resultsContainer.innerHTML = filtered.length ? filtered.map(m => `<div class="material-item" onclick="addItemToQuote('${m.id}')"><span>${m.name}</span><span>$${m.price.toFixed(2)}</span></div>`).join('') : '<div class="material-item"><span>No se encontraron materiales</span></div>';
       resultsContainer.style.display = 'block';
     }
     
@@ -224,9 +242,9 @@
       let total = 0;
       const rows = selectedMaterials.map((m, i) => {
         total += m.qty * m.price;
-        return `<tr><td>${m.name}</td><td><input type="number" value="${m.qty}" min="1" onchange="updateQty(${i}, this.value)" style="width:60px;"></td><td>$${(m.qty * m.price).toFixed(2)}</td><td><button type="button" onclick="removeMaterial(${i})" style="background:red;color:white;border:0;padding:5px;">X</button></td></tr>`;
+        return `<tr><td>${m.name}</td><td><input type="number" value="${m.qty}" min="1" onchange="updateQty(${i}, this.value)" style="width:60px;padding:5px;"></td><td>$${(m.qty * m.price).toFixed(2)}</td><td><button type="button" onclick="removeMaterial(${i})" style="background:red;color:white;border:0;padding:5px 10px;border-radius:4px;">X</button></td></tr>`;
       }).join('');
-      container.innerHTML = `<table><thead><tr><th>Material</th><th>Cant.</th><th>Total</th><th></th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="2"><strong>Costo Base Materiales</strong></td><td colspan="2"><strong>$${total.toFixed(2)}</strong></td></tr></tfoot></table>`;
+      container.innerHTML = `<table><thead><tr><th>Material</th><th>Cant.</th><th>Total</th><th></th></tr></thead><tbody>${rows}</tbody><tfoot><tr class="total-row"><td colspan="2"><strong>Costo Base Materiales</strong></td><td colspan="2"><strong>$${total.toFixed(2)}</strong></td></tr></tfoot></table>`;
     }
 
     const updateQty = (i, qty) => { selectedMaterials[i].qty = Math.max(1, parseFloat(qty) || 1); updateSelectedMaterialsList(); };
@@ -257,13 +275,13 @@
 
     function displayResult(data) {
       const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = `<h3>Resumen</h3><table>
-        <tr><td>Mano de Obra</td><td>$${data.laborSell.toFixed(2)}</td></tr>
-        <tr><td>Materiales (con markup)</td><td>$${data.materialSell.toFixed(2)}</td></tr>
-        <tr><td>Impuesto sobre Venta (${(salesTaxRates[data.city]*100).toFixed(2)}%)</td><td>$${data.salesTax.toFixed(2)}</td></tr>
-        <tr><td>Permisos e Inspección</td><td>$${data.permitCost.toFixed(2)}</td></tr>
-        ${data.discountAmount > 0 ? `<tr><td>Descuento Contratista</td><td style="color:red;">-$${data.discountAmount.toFixed(2)}</td></tr>` : ''}
-        <tr class="total-row" style="font-size:1.2rem;"><td><strong>Precio Final Estimado</strong></td><td><strong>$${data.finalPrice.toFixed(2)}</strong></td></tr>
+      resultsDiv.innerHTML = `<h3>Resumen de la Cotización</h3><table>
+        <tr><td>Mano de Obra</td><td style="text-align:right;">$${data.laborSell.toFixed(2)}</td></tr>
+        <tr><td>Materiales (con markup)</td><td style="text-align:right;">$${data.materialSell.toFixed(2)}</td></tr>
+        <tr><td>Impuesto sobre Venta (${(salesTaxRates[data.city]*100).toFixed(2)}%)</td><td style="text-align:right;">$${data.salesTax.toFixed(2)}</td></tr>
+        <tr><td>Permisos e Inspección</td><td style="text-align:right;">$${data.permitCost.toFixed(2)}</td></tr>
+        ${data.discountAmount > 0 ? `<tr><td>Descuento Contratista</td><td style="text-align:right;color:red;">-$${data.discountAmount.toFixed(2)}</td></tr>` : ''}
+        <tr class="total-row" style="font-size:1.2rem;"><td><strong>Precio Final Estimado</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td></tr>
       </table>`;
       resultsDiv.style.display = 'block';
       document.getElementById('exportPdfBtn').disabled = false;
@@ -278,16 +296,12 @@
       const city = document.getElementById('city').value;
       const date = new Date().toLocaleDateString('es-MX');
 
-      // Título y Cabecera
       doc.setFontSize(20).setTextColor('#0A2463').text('Golden Charge Electrician Co.', 105, 20, { align: 'center' });
       doc.setFontSize(10).setTextColor(100).text('COTIZACIÓN DE PROYECTO', 105, 28, { align: 'center' });
-      
-      // Información del Cliente y Fecha
       doc.setFontSize(10).text(`PARA: ${clientName}`, 14, 40);
       doc.text(`CIUDAD: ${city}`, 14, 45);
       doc.text(`FECHA: ${date}`, 140, 40);
 
-      // Tabla de Costos
       const tableBody = [
         ['Mano de Obra', `$${lastQuoteData.laborSell.toFixed(2)}`],
         ['Materiales (con markup)', `$${lastQuoteData.materialSell.toFixed(2)}`],
