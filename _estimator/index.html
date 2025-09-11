@@ -50,12 +50,13 @@
     .material-name { flex: 1; font-weight: 500; }
     .material-price { color: var(--dark-blue); font-weight: bold; min-width: 80px; text-align: right; }
     .slider-label-group { display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; }
+    #results { display: none; /* Oculta la sección de resultados por defecto */ }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo(1).png" alt="Golden Charge Logo">
+      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo">
       <h1>🔧 Estimador Profesional</h1>
       <p class="subtitle">Golden Charge Electrician Company</p>
     </div>
@@ -219,13 +220,13 @@
     
     async function initializeApp() {
         console.log("Iniciando aplicación...");
-        // FINAL FIX: Using absolute paths from the domain root based on user's GitHub structure.
-        const basePath = '/data/';
+        const basePath = '/data/'; // Ruta absoluta desde la raíz del dominio
         try {
+            console.log("Paso 1: Intentando cargar labor_rates.json desde " + basePath + 'labor_rates.json');
             const laborRes = await fetch(basePath + 'labor_rates.json');
             if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
             laborRates = await laborRes.json();
-
+            console.log("Paso 2: Intentando cargar materials_prices.json desde " + basePath + 'materials_prices.json');
             const materialsRes = await fetch(basePath + 'materials_prices.json');
             if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json (Status: ${materialsRes.status})`);
             const prices = await materialsRes.json();
@@ -236,12 +237,14 @@
                     allMaterials.push({ id: itemName, name: itemName, price: itemPrice });
                 }
             }
+            console.log(`✅ ${allMaterials.length} Materiales cargados.`);
 
+            console.log("Paso 3: Intentando cargar permits.json desde " + basePath + 'permits.json');
             const permitsRes = await fetch(basePath + 'permits.json');
             if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
             permits = await permitsRes.json();
+            console.log(`✅ Permisos cargados.`);
 
-            console.log(`✅ ${allMaterials.length} Materiales cargados.`);
             setupEventListeners();
             updateRateSliders(document.getElementById('city').value);
 
@@ -327,8 +330,13 @@
     function removeMaterial(index) { selectedMaterials.splice(index, 1); updateSelectedMaterialsList(); }
     
     function getPermitCost(projectTypeKey, city) {
-        const permitKey = projectTypeKey.includes('panel') ? 'panel' : projectTypeKey.includes('ev') ? 'ev' : 'new';
-        return permits[city]?.[permitKey] || 220;
+        // Asegura que las claves de los permisos sean las correctas
+        let actualPermitKey = 'new'; // Default
+        if (projectTypeKey.includes('panel')) actualPermitKey = 'panel';
+        else if (projectTypeKey.includes('ev')) actualPermitKey = 'ev';
+        else if (permits[city] && permits[city][projectTypeKey]) actualPermitKey = projectTypeKey; // Si el tipo de proyecto exacto tiene un permiso definido
+        
+        return permits[city]?.[actualPermitKey] || 220; // Valor por defecto si no se encuentra
     }
 
     function calculateQuote() {
@@ -351,9 +359,9 @@
     }
 
     function displayResult(data) {
-        const results = document.getElementById('results');
+        const resultsDiv = document.getElementById('results');
         let discountRow = data.clientType === 'contractor' ? `<tr><td>Descuento para Contratista</td><td style="text-align:right; color: red;">-$${data.discountAmount.toFixed(2)}</td></tr>` : '';
-        results.innerHTML = `<div id="quote-result" class="section">
+        resultsDiv.innerHTML = `<div id="quote-result" class="section">
             <h3 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resumen de la Cotización</h3>
             <table style="width:100%;margin-bottom:20px;">
               <tr><th>Concepto</th><th style="text-align:right;">Precio de Venta</th></tr>
@@ -364,40 +372,59 @@
               ${discountRow}
               <tr class="total-row" style="font-size:1.2rem;"><td><strong>Precio Final Estimado al Cliente</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td></tr>
             </table></div>`;
-        results.scrollIntoView({ behavior: 'smooth' });
+        resultsDiv.style.display = 'block'; // Asegura que la sección sea visible
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
         document.getElementById('exportPdfBtn').disabled = false;
     }
     
     function generatePDF() {
-        const quoteResultHtml = document.getElementById('quote-result')?.innerHTML;
-        if (!quoteResultHtml) { alert("Primero calcula una cotización."); return; }
+        const quoteResultDiv = document.getElementById('quote-result');
+        if (!quoteResultDiv || quoteResultDiv.innerHTML.trim() === '') { 
+            alert("Primero calcula una cotización para generar el PDF."); 
+            return; 
+        }
+
         const btn = document.getElementById('exportPdfBtn');
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
         btn.disabled = true;
+
         const clientName = document.getElementById('clientName').value || 'Cliente Valioso', clientAddress = document.getElementById('clientAddress').value || 'N/A';
         const city = document.getElementById('city').value, projectDesc = document.getElementById('projectType').selectedOptions[0].text;
         const date = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
+        
         const pdfContainer = document.createElement('div');
-        pdfContainer.style.fontFamily = 'Arial, sans-serif'; pdfContainer.style.padding = '20px'; pdfContainer.style.fontSize = '10px';
+        pdfContainer.style.fontFamily = 'Arial, sans-serif'; 
+        pdfContainer.style.padding = '20px'; 
+        pdfContainer.style.fontSize = '10px';
+        
         pdfContainer.innerHTML = `
-            <table style="width:100%; margin-bottom: 20px; border: none;"><tr style="border: none;"><td style="width: 20%; border: none;"><img src="/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr></table><hr>
-            <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
-            <table style="width:100%; margin: 20px 0; font-size: 10px;"><tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr></table>
-            <p><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
-            ${quoteResultHtml}
-            <div style="margin-top: 30px; font-size: 9px; position: absolute; bottom: 40px;">
+            <table style="width:100%; margin-bottom: 20px; border: none;"><tr style="border: none;"><td style="width: 20%; border: none;"><img src="/img/logo.png" style="width: 100px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr></table><hr style="border: 1px solid #ddd;">
+            <h3 style="color:#0A2463; text-align:center; font-size: 16px; margin: 20px 0;">COTIZACIÓN DE PROYECTO</h3>
+            <table style="width:100%; margin: 20px 0; font-size: 10px; border: none;"><tr><td style="width:50%; border: none;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right; border: none;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr></table>
+            <p style="margin-bottom: 15px;"><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
+            ${quoteResultDiv.outerHTML} <div style="margin-top: 30px; font-size: 9px; page-break-before: auto;">
                 <p><strong>Términos y Condiciones:</strong></p>
                 <ol style="margin-left: 15px; padding-left: 0;">
                     <li>Esta cotización es válida por 30 días.</li>
                     <li>Pago: 50% al aceptar para cubrir materiales y 50% al finalizar satisfactoriamente el trabajo.</li>
                     <li>Cualquier trabajo adicional no incluido será documentado y facturado por separado.</li>
                 </ol>
+                <p style="margin-top: 15px;">¡Gracias por elegir Golden Charge Electrician Company!</p>
             </div>`;
+
         html2pdf().from(pdfContainer).set({
             margin: 10, filename: `cotizacion-${clientName.replace(/\s+/g, '-')}.pdf`,
             image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
-        }).save().then(() => { btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false; }).catch(err => { console.error(err); btn.innerHTML = '📄 Exportar a PDF'; btn.disabled = false; });
+        }).save().then(() => { 
+            btn.innerHTML = '📄 Exportar a PDF'; 
+            btn.disabled = false; 
+        }).catch(err => { 
+            console.error("Error al generar PDF:", err); 
+            alert("Hubo un error al generar el PDF. Revisa la consola para más detalles.");
+            btn.innerHTML = '📄 Exportar a PDF'; 
+            btn.disabled = false; 
+        });
     }
   </script>
 </body>
