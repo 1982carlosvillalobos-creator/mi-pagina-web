@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Golden Charge - Estimador Profesional v9.0 FINAL</title>
+  <title>Golden Charge - Estimador Profesional v10.0 FINAL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -55,7 +55,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo(1).png" alt="Golden Charge Logo">
+      <img src="/img/logo.png" alt="Golden Charge Logo">
       <h1>🔧 Estimador Profesional</h1>
       <p class="subtitle">Golden Charge Electrician Company</p>
     </div>
@@ -218,42 +218,36 @@
     });
     
     async function initializeApp() {
-        console.log("Paso 1: Iniciando la aplicación...");
-        const basePath = '/_estimator/data/';
+        console.log("Iniciando aplicación...");
+        // FINAL FIX: Using absolute paths from the domain root based on user's GitHub structure.
+        const basePath = '/data/';
         try {
-            console.log("Paso 2: Intentando cargar 'labor_rates.json' desde", basePath + 'labor_rates.json');
             const laborRes = await fetch(basePath + 'labor_rates.json');
             if (!laborRes.ok) throw new Error(`No se pudo cargar labor_rates.json (Status: ${laborRes.status})`);
             laborRates = await laborRes.json();
-            console.log("✅ Éxito: 'labor_rates.json' cargado.", laborRates);
 
-            console.log("Paso 3: Intentando cargar 'materials_prices.json'...");
             const materialsRes = await fetch(basePath + 'materials_prices.json');
             if (!materialsRes.ok) throw new Error(`No se pudo cargar materials_prices.json (Status: ${materialsRes.status})`);
             const prices = await materialsRes.json();
-            console.log("✅ Éxito: 'materials_prices.json' cargado.");
-
+            
             allMaterials = [];
             for (const category in prices) {
                 for (const [itemName, itemPrice] of Object.entries(prices[category])) {
                     allMaterials.push({ id: itemName, name: itemName, price: itemPrice });
                 }
             }
-            console.log(`✅ ${allMaterials.length} materiales procesados.`);
 
-            console.log("Paso 4: Intentando cargar 'permits.json'...");
             const permitsRes = await fetch(basePath + 'permits.json');
             if (!permitsRes.ok) throw new Error(`No se pudo cargar permits.json (Status: ${permitsRes.status})`);
             permits = await permitsRes.json();
-            console.log("✅ Éxito: 'permits.json' cargado.", permits);
 
-            console.log("Paso 5: Configurando listeners y actualizando UI inicial.");
+            console.log(`✅ ${allMaterials.length} Materiales cargados.`);
             setupEventListeners();
             updateRateSliders(document.getElementById('city').value);
 
         } catch (e) {
             console.error("❌ ERROR CRÍTICO DURANTE LA INICIALIZACIÓN:", e);
-            alert(`Error fatal al cargar los datos: ${e.message}\n\nAsegúrate de que los archivos JSON están en la carpeta correcta y no tienen errores de sintaxis.`);
+            alert(`Error fatal al cargar los datos: ${e.message}\n\nAsegúrate de que los archivos JSON estén en la carpeta '/data/' y no tengan errores.`);
         }
     }
 
@@ -275,18 +269,11 @@
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-container')) document.getElementById('searchResults').style.display = 'none';
         });
-        console.log("✅ Listeners configurados.");
     }
 
     function updateRateSliders(city) {
-        console.log(`Intentando actualizar barras para la ciudad: ${city}`);
-        if (!laborRates[city]) {
-            console.error(`No se encontraron tarifas para la ciudad: ${city}`);
-            return;
-        }
+        if (!laborRates[city]) { return; }
         const rates = laborRates[city].labor_rate;
-        console.log(`Tarifas encontradas:`, rates);
-
         updateSliderUI('contractorRate', Math.round(rates.contractor_c10 * 0.85), Math.round(rates.contractor_c10 * 1.20), rates.contractor_c10);
         updateSliderUI('helperRate', Math.round(rates.helper * 0.90), Math.round(rates.helper * 1.25), rates.helper);
     }
@@ -294,14 +281,10 @@
     function updateSliderUI(id, min, max, value) {
         const slider = document.getElementById(id), output = document.getElementById(id + 'Value');
         const minLabel = document.getElementById(id + 'Min'), maxLabel = document.getElementById(id + 'Max');
-        if (!slider || !output || !minLabel || !maxLabel) {
-            console.error(`Error: No se encontraron todos los elementos para la barra '${id}'`);
-            return;
-        }
+        if (!slider || !output || !minLabel || !maxLabel) return;
         slider.min = min; slider.max = max; slider.value = value;
         output.textContent = value;
         minLabel.textContent = `$${min}`; maxLabel.textContent = `$${max}`;
-        console.log(`Barra '${id}' actualizada: min=${min}, max=${max}, value=${value}`);
     }
 
     function addHelper() { if (helperCount < 10) helperCount++; document.getElementById('helperCount').textContent = helperCount; document.getElementById('helperRateSection').style.display = 'block'; }
@@ -310,10 +293,8 @@
     function handleMaterialSearch(e) {
         const searchTerm = e.target.value.toLowerCase();
         const resultsContainer = document.getElementById('searchResults');
-        console.log(`Buscando material: '${searchTerm}'`);
         if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
         const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
-        console.log(`Encontrados ${filtered.length} resultados.`);
         resultsContainer.innerHTML = filtered.length ? filtered.map(material => 
             `<div class="material-item" onclick="addItemToQuote('${material.id}')"><div class="material-name">${material.name}</div><div class="material-price">$${material.price.toFixed(2)}</div></div>`
         ).join('') : '<div class="material-item">No se encontraron materiales</div>';
@@ -399,7 +380,7 @@
         const pdfContainer = document.createElement('div');
         pdfContainer.style.fontFamily = 'Arial, sans-serif'; pdfContainer.style.padding = '20px'; pdfContainer.style.fontSize = '10px';
         pdfContainer.innerHTML = `
-            <table style="width:100%; margin-bottom: 20px; border: none;"><tr style="border: none;"><td style="width: 20%; border: none;"><img src="/_estimator/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr></table><hr>
+            <table style="width:100%; margin-bottom: 20px; border: none;"><tr style="border: none;"><td style="width: 20%; border: none;"><img src="/img/logo.png" style="width: 80px;"></td><td style="width: 80%; text-align: right; border: none;"><h2 style="margin:0; color:#0A2463; font-size: 20px;">Golden Charge Electrician Company</h2><p style="margin:0;">(510) 221-1258 | carlos.villalobos@goldencharge.net</p><p style="margin:0;">Licencia # 1143055</p></td></tr></table><hr>
             <h3 style="color:#0A2463; text-align:center; font-size: 16px;">COTIZACIÓN DE PROYECTO</h3>
             <table style="width:100%; margin: 20px 0; font-size: 10px;"><tr><td style="width:50%;"><strong>PARA:</strong><br>${clientName}<br>${clientAddress}, ${city}</td><td style="width:50%; text-align:right;"><strong>FECHA:</strong> ${date}<br><strong>COTIZACIÓN #:</strong> ${Date.now().toString().slice(-6)}</td></tr></table>
             <p><strong>DESCRIPCIÓN DEL PROYECTO:</strong> ${projectDesc}</p>
