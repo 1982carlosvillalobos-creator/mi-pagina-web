@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge - Estimador Profesional</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- ✅ CORREGIDO: Usamos jspdf.legacy.min.js para que jsPDF esté disponible globalmente -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.legacy.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf-autotable.min.js"></script>
   <style>
     :root {
@@ -41,6 +42,13 @@
     .material-item { display: flex; justify-content: space-between; padding: 8px; cursor: pointer; border-bottom: 1px solid #eee; }
     .material-item:hover { background: #f0f0f0; }
     .slider-label-group { display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; }
+
+    /* ✅ Opcional: resalta los valores de salida */
+    output {
+      font-weight: bold;
+      color: var(--gold);
+      transition: color 0.2s ease;
+    }
   </style>
 </head>
 <body>
@@ -90,8 +98,9 @@
             <label>Descuento para Contratista: <output id="contractorDiscountValue">15</output>%</label>
             <input type="range" id="contractorDiscount" min="10" max="30" value="15" class="form-control">
           </div>
+          <!-- ✅ CORREGIDO: id del output ahora coincide con el slider -->
           <div class="form-group">
-            <label>Markup de Materiales: <output id="markupValue">30</output>%</label>
+            <label>Markup de Materiales: <output id="materialMarkupValue">30</output>%</label>
             <input type="range" id="materialMarkup" min="25" max="55" value="30" class="form-control">
           </div>
         </div>
@@ -289,8 +298,8 @@
     
     function generatePDF() {
       if (!lastQuoteData) { alert("Primero calcula una cotización."); return; }
-      
-      const { jsPDF } = window.jspdf;
+
+      // ✅ CORREGIDO: Usamos directamente new jsPDF() (legacy lo expone globalmente)
       const doc = new jsPDF();
       const clientName = document.getElementById('clientName').value || 'Cliente Valioso';
       const city = document.getElementById('city').value;
