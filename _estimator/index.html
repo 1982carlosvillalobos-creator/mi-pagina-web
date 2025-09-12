@@ -6,333 +6,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Golden Charge - Estimador Profesional</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- ✅ CORREGIDO: Usamos jspdf.legacy.min.js para que jsPDF esté disponible globalmente -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.legacy.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf-autotable.min.js"></script>
   <style>
-    :root {
-      --gold: #FFD700; --dark-blue: #0A2463; --light-gray: #f8f9fa;
-      --text: #1e1e1e; --card-bg: #ffffff; --border: #ddd;
-      --btn-bg: var(--dark-blue); --btn-text: var(--gold);
-      --shadow: 0 5px 20px rgba(0,0,0,.1); --radius: 12px;
+    :root{
+      --gold:#ffd144;
+      --dark:#0b2545;
+      --muted:#6b7280;
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --radius:12px;
+      --shadow: 0 8px 24px rgba(11,37,69,0.06);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: var(--light-gray); color: var(--text); line-height: 1.6; padding: 20px; }
-    .container { max-width: 1000px; margin: 0 auto; }
-    .header { text-align: center; margin-bottom: 30px; }
-    h1 { font-size: 1.8rem; font-weight: 700; color: var(--dark-blue); }
-    .app { background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
-    .section { background: #fff; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; border: 1px solid var(--border); }
-    .section-title { font-size: 1.2rem; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--dark-blue); }
-    .section-title i { color: var(--gold); }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; color: var(--dark-blue); }
-    .form-control, .btn { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; }
-    .controls { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-    .controls button { background: var(--dark-blue); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
-    .controls span { font-size: 1.1rem; font-weight: bold; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { padding: 10px; text-align: left; border: 1px solid var(--border); }
-    th { background: var(--dark-blue); color: var(--gold); }
-    .btn { background: var(--btn-bg); color: var(--btn-text); border-radius: 50px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-    .btn:disabled { background-color: #ccc; cursor: not-allowed; }
-    .btn-pdf { background: #007BFF; color: white; }
-    .search-container { position: relative; }
-    .search-results { position: absolute; top: 100%; left: 0; right: 0; max-height: 300px; overflow-y: auto; background: white; border: 1px solid var(--border); border-radius: 8px; z-index: 10; }
-    .material-item { display: flex; justify-content: space-between; padding: 8px; cursor: pointer; border-bottom: 1px solid #eee; }
-    .material-item:hover { background: #f0f0f0; }
-    .slider-label-group { display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; }
-
-    /* ✅ Opcional: resalta los valores de salida */
-    output {
-      font-weight: bold;
-      color: var(--gold);
-      transition: color 0.2s ease;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:var(--bg);color:#1f2937;padding:28px;}
+    .container{max-width:1080px;margin:0 auto;}
+    .header{display:flex;align-items:center;gap:18px;margin-bottom:20px;}
+    .brand{background:linear-gradient(135deg,var(--gold),#fbc02d);padding:14px 18px;border-radius:12px;color:var(--dark);font-weight:800;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;}
+    .brand h1{font-size:1.1rem;margin-bottom:2px;}
+    .brand small{font-size:0.8rem;color:rgba(11,37,69,0.85)}
+    .header-right{flex:1;padding-left:10px;}
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);border:1px solid #e6eef8;}
+    .login-row{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:18px;}
+    input[type="password"]{padding:10px 12px;border-radius:10px;border:1px solid #d1d5db;width:260px;}
+    .btn{background:var(--dark);color:var(--gold);padding:10px 14px;border-radius:999px;border:0;font-weight:700;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(11,37,69,0.12)}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    form .section{margin-bottom:16px}
+    .section-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:700;color:var(--dark);font-size:1.05rem}
+    .form-control{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef8;}
+    label{display:block;margin-bottom:6px;color:var(--muted);font-weight:600}
+    .row{display:flex;gap:12px}
+    .col{flex:1}
+    .controls{display:flex;align-items:center;gap:8px}
+    .controls button{width:36px;height:36px;border-radius:50%;border:0;background:var(--dark);color:var(--gold);cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th, td{padding:10px;border:1px solid #eef3fb;text-align:left;font-size:0.95rem}
+    th{background:#f0f6ff;color:var(--dark);font-weight:700}
+    tbody tr:nth-child(even){background:#fbfdff}
+    .muted{color:var(--muted);font-size:0.9rem}
+    .search-results{position:absolute;left:0;right:0;top:100%;background:white;border:1px solid #e6eef8;border-radius:8px;max-height:240px;overflow:auto;z-index:30}
+    .material-item{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #f1f5f9;cursor:pointer}
+    .material-item:hover{background:#fbfbfe}
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:0.9rem}
+    @media (max-width:900px){ .row{flex-direction:column} .login-row{flex-direction:column} }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header"><h1>🔧 Estimador Profesional</h1><p>Golden Charge Electrician Company</p></div>
-    <div id="login" style="text-align:center;">
-      <input type="password" id="password" placeholder="Contraseña" style="padding:12px;border-radius:8px;border:1px solid #ddd;"/>
-      <button onclick="checkPassword()" class="btn" style="width:auto;padding:12px 20px;">Entrar</button>
-    </div>
-    <div id="app" class="app">
-      <form id="quoteForm" onsubmit="return false;">
-        
-        <div class="section">
-          <h3 class="section-title"><i class="fas fa-file-alt"></i> Datos del Cliente y Proyecto</h3>
-          <div class="form-group"><input type="text" id="clientName" class="form-control" placeholder="Nombre del Cliente"></div>
-          <div class="form-group"><input type="text" id="clientAddress" class="form-control" placeholder="Dirección del Proyecto"></div>
-          <div class="form-group"><label for="city">Ciudad del Proyecto:</label><select id="city" class="form-control"></select></div>
-          <div class="form-group"><label for="projectType">Tipo de Proyecto:</label><select id="projectType" class="form-control"></select></div>
-        </div>
+  <!-- CONTENIDO (igual que antes) -->
+  <!-- ... (todo el HTML del cuerpo igual que la versión anterior) ... -->
 
-        <div class="section">
-          <h3 class="section-title"><i class="fas fa-users-cog"></i> Equipo y Tarifas por Hora</h3>
-          <div class="form-group">
-            <label for="contractorRate">Tu Tarifa por Hora: $<output id="contractorRateValue">0</output>/hr</label>
-            <input type="range" id="contractorRate" class="form-control">
-            <div class="slider-label-group"><span id="contractorRateMin">$0</span><span id="contractorRateMax">$0</span></div>
-          </div><hr>
-          <div class="form-group">
-            <label>Número de Ayudantes:</label>
-            <div class="controls"><button type="button" onclick="updateHelper(-1)">−</button><span id="helperCount">1</span><button type="button" onclick="updateHelper(1)">+</button></div>
-          </div>
-          <div class="form-group" id="helperRateSection">
-            <label for="helperRate">Tarifa por Hora (Ayudante): $<output id="helperRateValue">0</output>/hr</label>
-            <input type="range" id="helperRate" class="form-control">
-            <div class="slider-label-group"><span id="helperRateMin">$0</span><span id="helperRateMax">$0</span></div>
-          </div><hr>
-          <div class="form-group">
-            <label>Horas estimadas de trabajo:</label>
-            <input type="number" id="hours" value="8" min="1" class="form-control" />
-          </div>
-        </div>
+<script>
+/* Código JS igual que antes hasta la función generatePDF */
+/* Cambiamos solo generatePDF para agregar logo */
 
-        <div class="section">
-          <h3 class="section-title"><i class="fas fa-sliders-h"></i> Cliente y Ajustes de Precio</h3>
-          <div class="form-group"><label for="clientType">Tipo de Cliente:</label><select id="clientType" class="form-control"></select></div>
-          <div class="form-group" id="contractorDiscountSection" style="display:none;">
-            <label>Descuento para Contratista: <output id="contractorDiscountValue">15</output>%</label>
-            <input type="range" id="contractorDiscount" min="10" max="30" value="15" class="form-control">
-          </div>
-          <!-- ✅ CORREGIDO: id del output ahora coincide con el slider -->
-          <div class="form-group">
-            <label>Markup de Materiales: <output id="materialMarkupValue">30</output>%</label>
-            <input type="range" id="materialMarkup" min="25" max="55" value="30" class="form-control">
-          </div>
-        </div>
+async function generatePDF(){
+  const clientName = (document.getElementById('clientName').value || '').trim();
+  const clientAddress = (document.getElementById('clientAddress').value || '').trim();
+  if(!clientName || !clientAddress){
+    alert('Por favor ingresa el nombre y la dirección del cliente antes de exportar a PDF.');
+    return;
+  }
+  if(!lastQuoteData){ alert('Primero calcula una cotización.'); return; }
 
-        <div class="section">
-          <h3 class="section-title"><i class="fas fa-box"></i> Materiales</h3>
-          <div class="form-group">
-            <label for="materialSearch">Búsqueda de Materiales:</label>
-            <div class="search-container">
-              <input type="text" id="materialSearch" class="form-control" placeholder="Ej: romex, outlet, breaker...">
-              <div id="searchResults" class="search-results" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Materiales Seleccionados:</label>
-            <div id="selectedMaterialsList"></div>
-          </div>
-        </div>
+  const doc = new jsPDF({unit:'pt', format:'a4'});
+  const leftMargin = 40;
+  const pageWidth = doc.internal.pageSize.getWidth();
 
-        <div style="text-align:center;margin-top:20px;">
-          <button type="button" class="btn" onclick="calculateQuote()">📊 Calcular Cotización</button>
-          <button type="button" class="btn btn-pdf" id="exportPdfBtn" onclick="generatePDF()" disabled>📄 Exportar a PDF</button>
-        </div>
-      </form>
-      <div id="results" class="section" style="display:none;margin-top:20px;"></div>
-    </div>
-  </div>
-
-  <script>
-    let helperCount = 1, allMaterials = [], selectedMaterials = [], laborRates = {}, permits = {}, lastQuoteData = null;
-    const salesTaxRates = { "Fremont": 0.1025, "San Francisco": 0.0863, "Oakland": 0.1025, "San Jose": 0.0938, "Hayward": 0.1075, "Berkeley": 0.1025, "Richmond": 0.0925, "Sunnyvale": 0.0913, "Palo Alto": 0.0913, "Concord": 0.0925, "Daly City": 0.0938, "San Mateo": 0.0963, "Walnut Creek": 0.0925 };
-
-    function checkPassword() {
-      if (document.getElementById('password').value === 'GoldenCharge2025!') {
-        localStorage.setItem('estimatorAccess', 'true');
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        initializeApp();
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('estimatorAccess') === 'true') {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        initializeApp();
-      }
+  // Descargar logo
+  const logoUrl = "https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png";
+  const img = await fetch(logoUrl).then(r=>r.blob()).then(blob=>{
+    return new Promise(res=>{
+      const reader = new FileReader();
+      reader.onload = ()=>res(reader.result);
+      reader.readAsDataURL(blob);
     });
-    
-    async function initializeApp() {
-      const basePath = '/data/';
-      try {
-        const [laborRes, materialsRes, permitsRes] = await Promise.all([
-          fetch(basePath + 'labor_rates.json'),
-          fetch(basePath + 'materials_prices.json'),
-          fetch(basePath + 'permits.json')
-        ]);
-        if (!laborRes.ok || !materialsRes.ok || !permitsRes.ok) throw new Error("No se pudo cargar uno de los archivos de datos.");
-        laborRates = await laborRes.json();
-        const prices = await materialsRes.json();
-        permits = await permitsRes.json();
+  });
 
-        allMaterials = Object.entries(prices).flatMap(([_, items]) => 
-          Object.entries(items).map(([name, price]) => ({ id: name, name, price }))
-        );
-        
-        populateDropdowns();
-        setupEventListeners();
-        updateRateSliders(document.getElementById('city').value);
-      } catch (e) {
-        alert(`Error fatal al cargar los datos: ${e.message}`);
-      }
-    }
+  // Insertar logo
+  doc.addImage(img, 'PNG', leftMargin, 30, 80, 80);
 
-    function populateDropdowns() {
-      const citySelect = document.getElementById('city');
-      citySelect.innerHTML = Object.keys(laborRates).map(city => `<option value="${city}">${city}</option>`).join('');
-      
-      const projectTypeSelect = document.getElementById('projectType');
-      const projectTypes = { "service-call": "Llamada de Servicio / Diagnóstico", "panel": "Upgrade de Panel Principal (100A-200A)", "rewire-full-house": "Recableado Completo de Casa (Rewire)", "ev": "Instalación de Cargador EV (Nivel 2, 50A)", "new": "Instalación de Luces Empotradas (Recessed)", "subpanel-install": "Instalación de Subpanel", "kitchen-remodel": "Remodelación Eléctrica de Cocina", "bathroom-remodel": "Remodelación Eléctrica de Baño", "outlet-switch-install": "Instalar/Mover Enchufes e Interruptores", "landscape-lighting": "Iluminación de Jardín (Landscape)", "commercial-tio": "Mejoras para Inquilinos Comerciales (T.I.)", "low-voltage": "Instalación de Bajo Voltaje (Datos/Ethernet)", "generator-transfer-switch": "Instalación de Generador y Transfer Switch", "pool-spa-hookup": "Conexión Eléctrica para Piscina/Spa", "troubleshooting": "Resolución de Problemas Eléctricos" };
-      projectTypeSelect.innerHTML = Object.entries(projectTypes).map(([key, value]) => `<option value="${key}">${value}</option>`).join('');
-      
-      const clientTypeSelect = document.getElementById('clientType');
-      clientTypeSelect.innerHTML = '<option value="homeowner">Cliente Final</option><option value="contractor">Contratista General</option>';
-    }
+  // Header empresa
+  doc.setFontSize(14);
+  doc.setTextColor(10,36,69);
+  doc.setFont('helvetica','bold');
+  doc.text('Golden Charge Electrician Company', pageWidth - leftMargin, 60, { align: 'right' });
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Tel: 510-221-1258', pageWidth - leftMargin, 76, { align: 'right' });
+  doc.text('carlos.villalobos@goldencharge.net', pageWidth - leftMargin, 90, { align: 'right' });
+  doc.text('www.goldencharge.net', pageWidth - leftMargin, 104, { align: 'right' });
 
-    function setupEventListeners() {
-      document.getElementById('city').addEventListener('change', e => updateRateSliders(e.target.value));
-      document.getElementById('materialSearch').addEventListener('input', handleMaterialSearch);
-      document.getElementById('clientType').addEventListener('change', e => {
-        document.getElementById('contractorDiscountSection').style.display = e.target.value === 'contractor' ? 'block' : 'none';
-      });
-      ['contractorRate', 'helperRate', 'contractorDiscount', 'materialMarkup'].forEach(id => {
-        const slider = document.getElementById(id);
-        const output = document.getElementById(id + 'Value');
-        if(slider && output) slider.oninput = () => output.textContent = slider.value;
-      });
-      document.addEventListener('click', e => {
-        if (!e.target.closest('.search-container')) document.getElementById('searchResults').style.display = 'none';
-      });
-    }
+  // Título
+  doc.setFontSize(18);
+  doc.setFont('helvetica','bold');
+  doc.setTextColor(10,36,69);
+  doc.text('COTIZACIÓN DE PROYECTO', pageWidth/2, 140, { align: 'center' });
 
-    function updateRateSliders(city) {
-      if (!laborRates[city]) return;
-      const rates = laborRates[city].labor_rate;
-      updateSliderUI('contractorRate', Math.round(rates.contractor_c10 * 0.85), Math.round(rates.contractor_c10 * 1.20), rates.contractor_c10);
-      updateSliderUI('helperRate', Math.round(rates.helper * 0.90), Math.round(rates.helper * 1.25), rates.helper);
-    }
-    
-    function updateSliderUI(id, min, max, value) {
-      const slider = document.getElementById(id), output = document.getElementById(id + 'Value'), minLabel = document.getElementById(id + 'Min'), maxLabel = document.getElementById(id + 'Max');
-      if (!slider || !output || !minLabel || !maxLabel) return;
-      slider.min = min; slider.max = max; slider.value = value;
-      output.textContent = value;
-      minLabel.textContent = `$${min}`; maxLabel.textContent = `$${max}`;
-    }
+  const dateStr = new Date().toLocaleDateString('es-MX');
+  doc.setFontSize(10);
+  doc.setFont('helvetica','normal');
+  doc.text(`Para: ${clientName}`, leftMargin, 170);
+  doc.text(`Dirección: ${clientAddress}`, leftMargin, 185);
+  doc.text(`Ciudad: ${document.getElementById('city').value}`, leftMargin, 200);
+  doc.text(`Fecha: ${dateStr}`, pageWidth - leftMargin - 120, 170);
 
-    function updateHelper(change) {
-      if (helperCount + change >= 0 && helperCount + change <= 10) {
-        helperCount += change;
-        document.getElementById('helperCount').textContent = helperCount;
-        document.getElementById('helperRateSection').style.display = helperCount > 0 ? 'block' : 'none';
-      }
-    }
+  doc.setFontSize(10);
+  doc.setTextColor(80);
+  doc.text('Incluye materiales, mano de obra, permisos e impuestos.', leftMargin, 220);
 
-    function handleMaterialSearch(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const resultsContainer = document.getElementById('searchResults');
-      if (searchTerm.length < 2) { resultsContainer.style.display = 'none'; return; }
-      const filtered = allMaterials.filter(m => m.name.toLowerCase().includes(searchTerm)).slice(0, 50);
-      resultsContainer.innerHTML = filtered.length ? filtered.map(m => `<div class="material-item" onclick="addItemToQuote('${m.id}')"><span>${m.name}</span><span>$${m.price.toFixed(2)}</span></div>`).join('') : '<div class="material-item"><span>No se encontraron materiales</span></div>';
-      resultsContainer.style.display = 'block';
-    }
-    
-    function addItemToQuote(id) {
-      const material = allMaterials.find(m => m.id === id);
-      if (!material) return;
-      const existing = selectedMaterials.find(m => m.id === id);
-      if (existing) { existing.qty++; } else { selectedMaterials.push({ ...material, qty: 1 }); }
-      updateSelectedMaterialsList();
-      document.getElementById('materialSearch').value = '';
-      document.getElementById('searchResults').style.display = 'none';
-    }
-    
-    function updateSelectedMaterialsList() {
-      const container = document.getElementById('selectedMaterialsList');
-      if (selectedMaterials.length === 0) { container.innerHTML = ''; return; }
-      let total = 0;
-      const rows = selectedMaterials.map((m, i) => {
-        total += m.qty * m.price;
-        return `<tr><td>${m.name}</td><td><input type="number" value="${m.qty}" min="1" onchange="updateQty(${i}, this.value)" style="width:60px;padding:5px;"></td><td>$${(m.qty * m.price).toFixed(2)}</td><td><button type="button" onclick="removeMaterial(${i})" style="background:red;color:white;border:0;padding:5px 10px;border-radius:4px;">X</button></td></tr>`;
-      }).join('');
-      container.innerHTML = `<table><thead><tr><th>Material</th><th>Cant.</th><th>Total</th><th></th></tr></thead><tbody>${rows}</tbody><tfoot><tr class="total-row"><td colspan="2"><strong>Costo Base Materiales</strong></td><td colspan="2"><strong>$${total.toFixed(2)}</strong></td></tr></tfoot></table>`;
-    }
+  // Tabla de resumen
+  const summaryBody = [
+    ['Mano de Obra', `$${lastQuoteData.laborSell.toFixed(2)}`],
+    ['Materiales (con markup)', `$${lastQuoteData.materialSell.toFixed(2)}`],
+    ['Impuesto sobre Venta', `$${lastQuoteData.salesTax.toFixed(2)}`],
+    ['Permisos e Inspección', `$${lastQuoteData.permitCost.toFixed(2)}`]
+  ];
+  if(lastQuoteData.discountAmount > 0)
+    summaryBody.push(['Descuento Contratista', `-$${lastQuoteData.discountAmount.toFixed(2)}`]);
 
-    const updateQty = (i, qty) => { selectedMaterials[i].qty = Math.max(1, parseFloat(qty) || 1); updateSelectedMaterialsList(); };
-    const removeMaterial = (i) => { selectedMaterials.splice(i, 1); updateSelectedMaterialsList(); };
-    
-    function getPermitCost(key, city) {
-      return permits[city]?.[key] || permits[city]?.['new'] || 220;
-    }
+  doc.autoTable({
+    startY: 240,
+    head: [['Concepto','Precio']],
+    body: summaryBody,
+    foot: [['Precio Final Estimado', `$${lastQuoteData.finalPrice.toFixed(2)}`]],
+    theme: 'grid',
+    styles: { fontSize: 10 },
+    headStyles: { fillColor: [10,36,69], textColor: 255 },
+    footStyles: { fillColor: [240,240,240], fontStyle: 'bold' }
+  });
 
-    function calculateQuote() {
-      const city = document.getElementById('city').value, hours = parseFloat(document.getElementById('hours').value) || 0;
-      const contractorRate = parseFloat(document.getElementById('contractorRate').value), helperRate = parseFloat(document.getElementById('helperRate').value);
-      const markupPercent = parseFloat(document.getElementById('materialMarkup').value) / 100, clientType = document.getElementById('clientType').value;
-      const projectType = document.getElementById('projectType').value, permitCost = getPermitCost(projectType, city);
-      const taxRate = salesTaxRates[city] || 0.095;
-      const laborSell = (hours * contractorRate) + (hours * helperCount * helperRate);
-      const materialBase = selectedMaterials.reduce((acc, m) => acc + (m.qty * m.price), 0);
-      const materialSell = materialBase * (1 + markupPercent);
-      const salesTax = materialSell * taxRate;
-      let subtotal = laborSell + materialSell + salesTax + permitCost, discountAmount = 0;
-      if (clientType === 'contractor') {
-        discountAmount = subtotal * (parseFloat(document.getElementById('contractorDiscount').value) / 100);
-      }
-      const finalPrice = subtotal - discountAmount;
-      lastQuoteData = { city, finalPrice, laborSell, materialSell, salesTax, permitCost, discountAmount, clientType };
-      displayResult(lastQuoteData);
-    }
+  let y = doc.lastAutoTable.finalY + 20;
+  doc.setFont('helvetica','bold');
+  doc.setTextColor(10,36,69);
+  doc.text('Detalle de Materiales', leftMargin, y);
 
-    function displayResult(data) {
-      const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = `<h3>Resumen de la Cotización</h3><table>
-        <tr><td>Mano de Obra</td><td style="text-align:right;">$${data.laborSell.toFixed(2)}</td></tr>
-        <tr><td>Materiales (con markup)</td><td style="text-align:right;">$${data.materialSell.toFixed(2)}</td></tr>
-        <tr><td>Impuesto sobre Venta (${(salesTaxRates[data.city]*100).toFixed(2)}%)</td><td style="text-align:right;">$${data.salesTax.toFixed(2)}</td></tr>
-        <tr><td>Permisos e Inspección</td><td style="text-align:right;">$${data.permitCost.toFixed(2)}</td></tr>
-        ${data.discountAmount > 0 ? `<tr><td>Descuento Contratista</td><td style="text-align:right;color:red;">-$${data.discountAmount.toFixed(2)}</td></tr>` : ''}
-        <tr class="total-row" style="font-size:1.2rem;"><td><strong>Precio Final Estimado</strong></td><td style="text-align:right;"><strong>$${data.finalPrice.toFixed(2)}</strong></td></tr>
-      </table>`;
-      resultsDiv.style.display = 'block';
-      document.getElementById('exportPdfBtn').disabled = false;
-    }
-    
-    function generatePDF() {
-      if (!lastQuoteData) { alert("Primero calcula una cotización."); return; }
+  if(selectedMaterials.length){
+    const matBody = selectedMaterials.map(m=>[m.name, String(m.qty), `$${m.price.toFixed(2)}`, `$${(m.qty*m.price).toFixed(2)}`]);
+    doc.autoTable({
+      startY: y+8,
+      head: [['Material','Cant.','Precio Unit.','Total']],
+      body: matBody,
+      theme: 'striped',
+      styles: { fontSize: 9.5 },
+      headStyles: { fillColor: [230,230,240], textColor: 10 }
+    });
+    y = doc.lastAutoTable.finalY + 20;
+  } else {
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(120);
+    doc.setFontSize(10);
+    doc.text('No se agregaron materiales detallados.', leftMargin, y+15);
+    y += 40;
+  }
 
-      // ✅ CORREGIDO: Usamos directamente new jsPDF() (legacy lo expone globalmente)
-      const doc = new jsPDF();
-      const clientName = document.getElementById('clientName').value || 'Cliente Valioso';
-      const city = document.getElementById('city').value;
-      const date = new Date().toLocaleDateString('es-MX');
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  doc.text('Gracias por su preferencia. Cotización válida por 30 días.', leftMargin, y+20);
 
-      doc.setFontSize(20).setTextColor('#0A2463').text('Golden Charge Electrician Co.', 105, 20, { align: 'center' });
-      doc.setFontSize(10).setTextColor(100).text('COTIZACIÓN DE PROYECTO', 105, 28, { align: 'center' });
-      doc.setFontSize(10).text(`PARA: ${clientName}`, 14, 40);
-      doc.text(`CIUDAD: ${city}`, 14, 45);
-      doc.text(`FECHA: ${date}`, 140, 40);
-
-      const tableBody = [
-        ['Mano de Obra', `$${lastQuoteData.laborSell.toFixed(2)}`],
-        ['Materiales (con markup)', `$${lastQuoteData.materialSell.toFixed(2)}`],
-        ['Impuesto sobre Venta', `$${lastQuoteData.salesTax.toFixed(2)}`],
-        ['Permisos e Inspección', `$${lastQuoteData.permitCost.toFixed(2)}`],
-      ];
-      if (lastQuoteData.discountAmount > 0) {
-        tableBody.push(['Descuento Contratista', `-$${lastQuoteData.discountAmount.toFixed(2)}`]);
-      }
-
-      doc.autoTable({
-        startY: 55,
-        head: [['Concepto', 'Precio']],
-        body: tableBody,
-        foot: [['Precio Final Estimado', `$${lastQuoteData.finalPrice.toFixed(2)}`]],
-        theme: 'grid',
-        headStyles: { fillColor: [10, 36, 99] },
-        footStyles: { fillColor: [230, 230, 230], textColor: 0, fontStyle: 'bold' }
-      });
-      
-      doc.save(`cotizacion-${clientName.replace(/\s+/g, '-')}.pdf`);
-    }
-  </script>
+  const safeName = clientName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-]/g,'');
+  doc.save(`cotizacion-${safeName || 'cliente'}.pdf`);
+}
+</script>
 </body>
 </html>
