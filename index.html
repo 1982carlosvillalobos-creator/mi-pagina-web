@@ -116,6 +116,160 @@
   
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+
+    // Variables globales para la verificación
+    let confirmationResult = null;
+    let recaptchaVerifier = null;
+
+    // Funciones
+    function nextStep() {
+      const service = document.querySelector('input[name="service"]:checked');
+      if (!service) return alert('Please select a service');
+      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step2').classList.add('active');
+    }
+
+    function calculateEstimate() {
+      const service = document.querySelector('input[name="service"]:checked');
+      const size = document.getElementById('houseSize').value;
+      const year = document.getElementById('houseYear').value;
+      if (!service || !size || !year) return alert('Please select all fields');
+      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step3').classList.add('active');
+    }
+
+    async function sendVerificationCode() {
+      if (recaptchaVerifier) {
+        // Si ya existe, no lo crees de nuevo.
+        return;
+      }
+      let phone = document.getElementById('phoneNumber').value.trim();
+      if (!phone) {
+        alert('Enter your phone number');
+        return;
+      }
+      if (!phone.startsWith('+1')) {
+        phone = '+1' + phone.replace(/\D/g, '');
+      }
+
+      try {
+        recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          'size': 'invisible',
+          'callback': (response) => {
+            // reCAPTCHA resuelto
+          }
+        });
+        confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
+        document.getElementById('verificationCodeSection').style.display = 'block';
+        alert('Code sent!');
+      } catch (error) {
+        console.error("Error sending SMS:", error);
+        alert('Error sending code: ' + error.message);
+      }
+    }
+
+    async function verifyCode() {
+      const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
+      if (code.length !== 6) {
+        alert('Enter 6-digit code');
+        return;
+      }
+      try {
+        await confirmationResult.confirm(code);
+        alert('Verification successful!');
+        showEstimateAndForm();
+      } catch (error) {
+        console.error("Error verifying code:", error);
+        alert('Invalid code: ' + error.message);
+      }
+    }
+
+    async function loadPrices() {
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
+        return await res.json();
+      } catch (err) {
+        return {
+          "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
+          "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
+          "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
+          "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } }
+        };
+      }
+    }
+
+    async function showEstimateAndForm() {
+      const prices = await loadPrices();
+      const service = document.querySelector('input[name="service"]:checked').value;
+      const size = document.getElementById('houseSize').value;
+      const year = document.getElementById('houseYear').value;
+      const base = prices[service].base[size];
+      const factor = prices[service].factor[year];
+      const total = base + factor;
+      document.getElementById('resultPrice').textContent = `$${total.toLocaleString()}`;
+      document.getElementById('resultPrice').style.display = 'block';
+      document.getElementById('calcLeadForm').style.display = 'block';
+      document.getElementById('calcService').value = service;
+      document.getElementById('calcSize').value = size;
+      document.getElementById('calcYear').value = year;
+      document.getElementById('calcTotal').value = total;
+    }
+
+    // Funciones de la calculadora
+    window.nextStep = nextStep;
+    window.calculateEstimate = calculateEstimate;
+    window.sendVerificationCode = sendVerificationCode;
+    window.verifyCode = verifyCode;
+    window.showEstimateAndForm = showEstimateAndForm;
+    window.loadPrices = loadPrices;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const calculatorSection = document.getElementById('calculator');
+      const recaptchaContainer = document.createElement('div');
+      recaptchaContainer.id = 'recaptcha-container';
+      calculatorSection.appendChild(recaptchaContainer);
+      recaptchaVerifier = null; // Inicializar en null
+    });
+
+    document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
+      input.addEventListener('input', () => {
+        if (input.value && index < arr.length - 1) arr[index + 1].focus();
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) arr[index - 1].focus();
+      });
+    });
+
+    const testimonials = [
+      { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
+      { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
+      { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
+      { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
+      { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
+    ];
+
+    function getWeekNumber(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+      const yearStart = new Date(d.getFullYear(), 0, 1);
+      return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    }
+
+    function loadWeeklyTestimonialCarousel() {
+      const week = getWeekNumber(new Date());
+      const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
+      const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
+      let index = 0;
+      const display = document.getElementById('testimonial-display');
+      function show() {
+        const t = group[index % group.length];
+        display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
+      }
+      show();
+      setInterval(() => { index++; show(); }, 10000);
+    }
+    window.addEventListener('DOMContentLoaded', loadWeeklyTestimonialCarousel);
   </script>
 
 </head>
