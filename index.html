@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
@@ -99,6 +99,36 @@
     .contact-info a{color:#fff;text-decoration:underline;}
     .contact-info a:hover{color:var(--gold);}
   </style>
+  
+  <!-- Firebase SDKs -->
+  <script type="module">
+   // Import the functions you need from the SDKs you need
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+   import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+   // Your web app's Firebase configuration
+   const firebaseConfig = {
+     apiKey: "AIzaSyBtkT6CPzjuiAICDMSgeTEBSKs7CCgcgn0",
+     authDomain: "graphite-plane-472815-h0.firebaseapp.com",
+     projectId: "graphite-plane-472815-h0",
+     storageBucket: "graphite-plane-472815-h0.firebasestorage.app",
+     messagingSenderId: "243598026128",
+     appId: "1:243598026128:web:7d2eb465f206c94c227f15",
+     measurementId: "G-QC9KH4N24S"
+   };
+
+   // Initialize Firebase
+   const app = initializeApp(firebaseConfig);
+   const analytics = getAnalytics(app);
+   const auth = getAuth(app);
+   window.firebase = {
+     app,
+     analytics,
+     auth
+   };
+  </script>
 </head>
 <body>
 
@@ -185,7 +215,7 @@
           <option value="mid">1970–1990</option>
           <option value="old">Before 1970</option>
         </select>
-        <button type="button" class="btn" onclick="calculateEstimate()">Send SMS Code</button>
+        <button type="button" class="btn" onclick="calculateEstimate()">Get Estimate</button>
       </div>
       <div class="calc-step" id="step3">
         <h3>Verify Your Phone</h3>
@@ -391,83 +421,89 @@
     document.getElementById('step2').classList.add('active');
   }
 
-  async function calculateEstimate() {
-    const prices = await loadPrices();
-    const service = document.querySelector('input[name="service"]:checked').value;
+  function calculateEstimate() {
+    const service = document.querySelector('input[name="service"]:checked');
     const size = document.getElementById('houseSize').value;
     const year = document.getElementById('houseYear').value;
-
-    if (!size || !year) return alert('Please select all fields');
+    if (!service || !size || !year) return alert('Please select all fields');
 
     document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
     document.getElementById('step3').classList.add('active');
   }
 
+  // Lógica de Firebase para la verificación por teléfono
+  let confirmationResult = null;
+
   async function sendVerificationCode() {
     let phone = document.getElementById('phoneNumber').value.trim();
-    if (!phone) return alert('Enter your phone number');
-    if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
+    if (!phone) {
+      alert('Enter your phone number');
+      return;
+    }
+    // Formatea el número de teléfono a formato E.164 (+1xxxxxxxxxx)
+    if (!phone.startsWith('+1')) {
+      phone = '+1' + phone.replace(/\D/g, '');
+    }
 
     try {
-      const res = await fetch('https://goldencharge-sms-backend.onrender.com/send-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone })
-      });
-      const data = await res.json();
-      if (data.success) {
-        document.getElementById('verificationCodeSection').style.display = 'block';
-        startCountdown();
-      } else {
-        alert(data.error || 'Error sending code');
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
+      const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+          // reCAPTCHA resuelto, ahora se puede enviar el código.
+        }
+      }, firebase.auth()); // Pasa la instancia de auth
+      confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
+      document.getElementById('verificationCodeSection').style.display = 'block';
+      alert('Code sent!');
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      alert('Error sending code: ' + error.message);
     }
-  }
-
-  function startCountdown() {
-    let time = 300;
-    const timer = document.getElementById('countdown');
-    if (!timer) return;
-    const interval = setInterval(() => {
-      const m = Math.floor(time / 60);
-      const s = time % 60;
-      timer.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
-      if (time-- <= 0) { clearInterval(interval); timer.textContent = "Expired"; }
-    }, 1000);
   }
 
   async function verifyCode() {
     const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
-    const phone = document.getElementById('phoneNumber').value;
-    if (code.length !== 6) return alert('Enter 6-digit code');
-
+    if (code.length !== 6) {
+      alert('Enter 6-digit code');
+      return;
+    }
+    
     try {
-      const res = await fetch('https://goldencharge-sms-backend.onrender.com/check-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, code })
-      });
-      const data = await res.json();
-      if (data.success) {
-        const prices = await loadPrices();
-        const service = document.querySelector('input[name="service"]:checked').value;
-        const size = document.getElementById('houseSize').value;
-        const year = document.getElementById('houseYear').value;
-        const base = prices[service].base[size];
-        const factor = prices[service].factor[year];
-        const total = base + factor;
-        document.getElementById('resultPrice').textContent = `$${total.toLocaleString()}`;
-        document.getElementById('resultPrice').style.display = 'block';
-        document.getElementById('calcLeadForm').style.display = 'block';
-      } else {
-        alert('Invalid code');
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
+      await confirmationResult.confirm(code);
+      alert('Verification successful!');
+      showEstimateAndForm();
+    } catch (error) {
+      console.error("Error verifying code:", error);
+      alert('Invalid code: ' + error.message);
     }
   }
+
+  async function showEstimateAndForm() {
+    const prices = await loadPrices();
+    const service = document.querySelector('input[name="service"]:checked').value;
+    const size = document.getElementById('houseSize').value;
+    const year = document.getElementById('houseYear').value;
+    const base = prices[service].base[size];
+    const factor = prices[service].factor[year];
+    const total = base + factor;
+
+    document.getElementById('resultPrice').textContent = `$${total.toLocaleString()}`;
+    document.getElementById('resultPrice').style.display = 'block';
+    document.getElementById('calcLeadForm').style.display = 'block';
+    // Opcional: llenar los campos ocultos del formulario
+    document.getElementById('calcService').value = service;
+    document.getElementById('calcSize').value = size;
+    document.getElementById('calcYear').value = year;
+    document.getElementById('calcTotal').value = total;
+  }
+
+  // Agrega un elemento de HTML invisible para reCAPTCHA.
+  document.addEventListener('DOMContentLoaded', () => {
+    const calculatorSection = document.getElementById('calculator');
+    const recaptchaContainer = document.createElement('div');
+    recaptchaContainer.id = 'recaptcha-container';
+    calculatorSection.appendChild(recaptchaContainer);
+  });
 
   document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
     input.addEventListener('input', () => {
