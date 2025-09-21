@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
@@ -101,34 +101,23 @@
   </style>
   
   <!-- Firebase SDKs -->
-  <script type="module">
-   // Import the functions you need from the SDKs you need
-   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
-   import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-
-
-   // Your web app's Firebase configuration
-   const firebaseConfig = {
-     apiKey: "AIzaSyBtkT6CPzjuiAICDMSgeTEBSKs7CCgcgn0",
-     authDomain: "graphite-plane-472815-h0.firebaseapp.com",
-     projectId: "graphite-plane-472815-h0",
-     storageBucket: "graphite-plane-472815-h0.firebasestorage.app",
-     messagingSenderId: "243598026128",
-     appId: "1:243598026128:web:7d2eb465f206c94c227f15",
-     measurementId: "G-QC9KH4N24S"
-   };
-
-   // Initialize Firebase
-   const app = initializeApp(firebaseConfig);
-   const analytics = getAnalytics(app);
-   const auth = getAuth(app);
-   window.firebase = {
-     app,
-     analytics,
-     auth
-   };
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtkT6CPzjuiAICDMSgeTEBSKs7CCgcgn0",
+      authDomain: "graphite-plane-472815-h0.firebaseapp.com",
+      projectId: "graphite-plane-472815-h0",
+      storageBucket: "graphite-plane-472815-h0.firebasestorage.app",
+      messagingSenderId: "243598026128",
+      appId: "1:243598026128:web:7d2eb465f206c94c227f15",
+      measurementId: "G-QC9KH4N24S"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
   </script>
+
 </head>
 <body>
 
@@ -220,7 +209,7 @@
       <div class="calc-step" id="step3">
         <h3>Verify Your Phone</h3>
         <p>We’ll send a 6-digit code to your phone</p>
-        <input type="tel" id="phoneNumber" class="form-control" placeholder="(xxx) xxx-xxxx" required>
+        <input type="tel" id="phoneNumber" class="form-control" required>
         <button type="button" class="btn" onclick="sendVerificationCode()">Send Code</button>
         <div id="verificationCodeSection" style="display:none;">
           <p>Enter the 6-digit code</p>
@@ -451,7 +440,7 @@
         'callback': (response) => {
           // reCAPTCHA resuelto, ahora se puede enviar el código.
         }
-      }, firebase.auth()); // Pasa la instancia de auth
+      });
       confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
       document.getElementById('verificationCodeSection').style.display = 'block';
       alert('Code sent!');
