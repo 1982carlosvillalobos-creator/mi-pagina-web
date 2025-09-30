@@ -93,34 +93,132 @@
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
         .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-        .whatsapp-btn { position: fixed; bottom: 120px; right: 30px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
         .contact-info { font-size: .95rem; line-height: 1.8; }
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
+
+        /* Estilos para el Chatbot Gemini */
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 90px; /* Movido para no superponerse con WhatsApp */
+            width: 60px;
+            height: 60px;
+            background: var(--dark-blue);
+            color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .chat-bubble:hover {
+            transform: scale(1.1);
+        }
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        .chat-window.open {
+            transform: scale(1);
+        }
+        .chat-header {
+            background: var(--dark-blue);
+            color: #fff;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        .user-message {
+            background: #e0e0e0;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background: var(--light-gray);
+            align-self: flex-start;
+        }
+        .chat-footer {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .chat-footer input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px 15px;
+            outline: none;
+        }
+        .chat-footer button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 10px;
+            color: var(--dark-blue);
+        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
     <script>
+        // =========================================================================
+        // === ACCIÓN IMPORTANTE: ESTA ES TU NUEVA CONFIGURACIÓN DE FIREBASE ===
+        // =========================================================================
         const firebaseConfig = {
-            apiKey: "AIzaSyBtkT6CPzjuiAICDMSgeTEBSKs7CCgcgn0",
-            authDomain: "graphite-plane-472815-h0.firebaseapp.com",
-            projectId: "graphite-plane-472815-h0",
-            storageBucket: "graphite-plane-472815-h0.firebasestorage.app",
-            messagingSenderId: "243598026128",
-            appId: "1:243598026128:web:7d2eb465f206c94c227f15",
-            measurementId: "G-QC9KH4N24S"
+            apiKey: "AIzaSyAPJlBW10-FAHX5egZCxMHZFywIX0uUZ0k",
+            authDomain: "goldencharge-personal-bot.firebaseapp.com",
+            projectId: "goldencharge-personal-bot",
+            storageBucket: "goldencharge-personal-bot.firebasestorage.app",
+            messagingSenderId: "245527916353",
+            appId: "1:245527916353:web:907c28bbf17d1fa9233bc0",
+            measurementId: "G-8HW3NRQTB2"
         };
+        // =========================================================================
         
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Global variables for verification
+        // --- Código antiguo de la calculadora (se mantiene igual) ---
         let confirmationResult = null;
         let recaptchaVerifier = null;
 
-        // Functions
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
             if (!service) return alert('Please select a service');
@@ -138,26 +236,14 @@
         }
 
         async function sendVerificationCode() {
-            if (recaptchaVerifier) {
-                // If it already exists, don't create it again.
-                return;
-            }
+            if (recaptchaVerifier) return;
             let phone = document.getElementById('phoneNumber').value.trim();
-            if (!phone) {
-                alert('Enter your phone number');
-                return;
-            }
+            if (!phone) return alert('Enter your phone number');
             if (!phone.startsWith('+1')) {
                 phone = '+1' + phone.replace(/\D/g, '');
             }
-
             try {
-                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'invisible',
-                    'callback': (response) => {
-                        // reCAPTCHA solved
-                    }
-                });
+                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
                 confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
                 document.getElementById('verificationCodeSection').style.display = 'block';
                 alert('Code sent!');
@@ -169,10 +255,7 @@
 
         async function verifyCode() {
             const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
-            if (code.length !== 6) {
-                alert('Enter 6-digit code');
-                return;
-            }
+            if (code.length !== 6) return alert('Enter 6-digit code');
             try {
                 await confirmationResult.confirm(code);
                 alert('Verification successful!');
@@ -495,8 +578,78 @@
     <a href="https://wa.me/15102211258" target="_blank" class="whatsapp-btn" title="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
-
-    <script src="//code.tidio.co/kzy9467kdsuc7tqccqbon8jrrkple7br.js" async></script>
+    
+    <div class="chat-bubble" id="chat-bubble">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">Golden Charge Assistant</div>
+        <div class="chat-body" id="chat-body">
+            <div class="bot-message">Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" placeholder="Escribe un mensaje...">
+            <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <script>
+        // Inicializar Firebase Functions
+        const functions = firebase.functions();
+        const askGemini = functions.httpsCallable('askGemini');
+    
+        // Elementos del DOM
+        const chatBubble = document.getElementById('chat-bubble');
+        const chatWindow = document.getElementById('chat-window');
+        const chatBody = document.getElementById('chat-body');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+    
+        // Abrir/Cerrar ventana de chat
+        chatBubble.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+        });
+    
+        // Función para enviar mensajes
+        const sendMessage = async () => {
+            const prompt = chatInput.value.trim();
+            if (prompt === '') return;
+    
+            // Añadir mensaje del usuario a la ventana
+            addMessage(prompt, 'user-message');
+            chatInput.value = '';
+    
+            try {
+                // Llamar a la Cloud Function
+                const result = await askGemini({ prompt: prompt });
+                const botResponse = result.data.response;
+                
+                // Añadir respuesta del bot
+                addMessage(botResponse, 'bot-message');
+            } catch (error) {
+                console.error("Error al llamar a la función:", error);
+                addMessage("Lo siento, tuve un problema para conectarme. Inténtalo de nuevo.", 'bot-message');
+            }
+        };
+    
+        // Función para añadir mensajes al cuerpo del chat
+        const addMessage = (text, className) => {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', className);
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            // Hacer scroll hasta el final
+            chatBody.scrollTop = chatBody.scrollHeight;
+        };
+        
+        // Event listeners para enviar
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 
 </body>
 </html>
