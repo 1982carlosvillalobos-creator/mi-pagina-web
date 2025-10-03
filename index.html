@@ -201,22 +201,20 @@
         /* === FIN: ESTILOS PARA EL CHATBOT FLOTANTE === */
     </style>
     
+    <!-- SDKs de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-functions.js"></script>
     
     <script>
-        // === INICIO: CONFIGURACIÓN DE FIREBASE ===
-        // ¡¡¡IMPORTANTE!!!
-        // REEMPLAZA ESTE BLOQUE COMPLETO CON LA CONFIGURACIÓN DE TU NUEVO PROYECTO
-        // "goldench-final-chatbot"
+        // === INICIO: CONFIGURACIÓN DE FIREBASE (ACTUALIZADA) ===
         const firebaseConfig = {
-            apiKey: "AIzaSy...",
-            authDomain: "TU-NUEVO-PROYECTO.firebaseapp.com",
-            projectId: "TU-NUEVO-PROYECTO",
-            storageBucket: "TU-NUEVO-PROYECTO.appspot.com",
-            messagingSenderId: "...",
-            appId: "..."
+          apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
+          authDomain: "goldench-final-chatbot.firebaseapp.com",
+          projectId: "goldench-final-chatbot",
+          storageBucket: "goldench-final-chatbot.appspot.com",
+          messagingSenderId: "418294744257",
+          appId: "1:418294744257:web:f06d527214360aae358040"
         };
         
         firebase.initializeApp(firebaseConfig);
@@ -630,6 +628,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
     
+    <!-- === INICIO: HTML DEL CHATBOT === -->
     <div id="chatbot-container">
         <div id="chat-window">
             <div id="chat-header">Golden Charge Assistant</div>
@@ -643,5 +642,7 @@
             <i class="fas fa-robot"></i>
         </button>
     </div>
-    </body>
+    <!-- === FIN: HTML DEL CHATBOT === -->
+
+</body>
 </html>
