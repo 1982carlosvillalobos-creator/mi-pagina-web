@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -98,26 +98,114 @@
         .contact-info { font-size: .95rem; line-height: 1.8; }
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
-        #chatbot-toggle-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: var(--dark-blue); color: var(--gold); border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; cursor: pointer; transition: transform .3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        #chatbot-toggle-btn:hover { transform: translateY(-3px) scale(1.05); }
-        #chat-window { position: fixed; bottom: 90px; right: 20px; width: 350px; max-width: 90vw; height: 500px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s ease; z-index: 1004; }
-        #chat-window.open { transform: scale(1); }
-        #chat-header { background: var(--dark-blue); color: var(--gold); padding: 15px; font-weight: bold; text-align: center; }
-        #chat-body { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-message { padding: 10px 15px; border-radius: 20px; max-width: 80%; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word; }
-        .chat-message.user { background: var(--gold); color: var(--dark-blue); align-self: flex-end; }
-        .chat-message.bot { background: #f1f1f1; color: #333; align-self: flex-start; }
-        #chat-footer { display: flex; padding: 10px; border-top: 1px solid #ddd; }
-        #chat-input { flex-grow: 1; border: none; padding: 10px; border-radius: 20px; background: #f1f1f1; }
-        #chat-input:focus { outline: none; }
-        #chat-send-btn { background: none; border: none; color: var(--dark-blue); font-size: 1.5rem; cursor: pointer; padding: 0 10px; }
+
+        /* === INICIO: ESTILOS PARA EL CHATBOT FLOTANTE === */
+        #chatbot-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 90px;
+            width: 60px;
+            height: 60px;
+            background: var(--dark-blue);
+            color: var(--gold);
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 1005;
+            cursor: pointer;
+            transition: transform .3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        #chatbot-toggle-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+        #chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-width: 90vw;
+            height: 500px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+            z-index: 1004;
+        }
+        #chat-window.open {
+            transform: scale(1);
+        }
+        #chat-header {
+            background: var(--dark-blue);
+            color: var(--gold);
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-message {
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        .chat-message.user {
+            background: var(--gold);
+            color: var(--dark-blue);
+            align-self: flex-end;
+        }
+        .chat-message.bot {
+            background: #f1f1f1;
+            color: #333;
+            align-self: flex-start;
+        }
+        #chat-footer {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        #chat-input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            background: #f1f1f1;
+        }
+        #chat-input:focus {
+            outline: none;
+        }
+        #chat-send-btn {
+            background: none;
+            border: none;
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        /* === FIN: ESTILOS PARA EL CHATBOT FLOTANTE === */
     </style>
     
     <!-- SDKs de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-functions.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> <!-- ✅ NUEVO: SDK de la Base de Datos -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> <!-- ✅ SDK DE FIRESTORE AÑADIDO -->
     
     <script>
         // === INICIO: CONFIGURACIÓN DE FIREBASE (ACTUALIZADA) ===
@@ -130,10 +218,10 @@
           appId: "1:418294744257:web:f06d527214360aae358040"
         };
         
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(); // ✅ NUEVO: Inicializar Firestore
-        // === FIN: CONFIGURACIÓN DE FIREBASE ===
+        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(); // ✅ SERVICIO DE BASE DE DATOS INICIALIZADO
+        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
 
         let confirmationResult = null;
         let recaptchaVerifier = null;
@@ -248,6 +336,56 @@
             setInterval(() => { index++; show(); }, 10000);
         }
 
+        // ✅ NUEVA FUNCIÓN PARA GUARDAR LEADS EN FIRESTORE Y ENVIAR EMAIL
+        async function handleFormSubmit(event, form, submitButton) {
+            event.preventDefault(); // Detiene el envío normal
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            let leadData = {};
+            if (form.id === 'contactForm') {
+                leadData = {
+                    name: form.name.value,
+                    email: form.email.value,
+                    phone: form.phone.value,
+                    service: form.service.value,
+                    message: form.message.value,
+                    source: "Contact Form",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+            } else if (form.id === 'calcLeadForm') {
+                leadData = {
+                    email: form.email.value,
+                    phone: form.phone.value,
+                    service: form.service.value,
+                    size: form.size.value,
+                    year: form.year.value,
+                    estimatedTotal: form.total.value,
+                    source: "Calculator Form",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+            }
+
+            try {
+                // 1. Guardar en Firestore
+                await db.collection("leads").add(leadData);
+                console.log("Lead saved to Firestore!");
+
+                // 2. Enviar a submit-form.com para la notificación por email
+                form.submit();
+                
+            } catch (error) {
+                console.error("Error saving lead to Firestore: ", error);
+                alert('There was an error submitting your request. Please try again.');
+                submitButton.disabled = false;
+                 if (form.id === 'contactForm') {
+                    submitButton.textContent = 'Send Message';
+                 } else {
+                    submitButton.textContent = 'Send Detailed Quote';
+                 }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
             
@@ -266,19 +404,16 @@
                 });
             });
 
-            // === INICIO: LÓGICA DEL CHATBOT ===
+            // === LÓGICA DEL CHATBOT (SIN CAMBIOS) ===
             const chatbotToggleButton = document.getElementById('chatbot-toggle-btn');
             const chatWindow = document.getElementById('chat-window');
             const chatBody = document.getElementById('chat-body');
             const chatInput = document.getElementById('chat-input');
             const chatSendButton = document.getElementById('chat-send-btn');
-            
             const callAskGemini = firebase.functions().httpsCallable('askGemini');
-
             chatbotToggleButton.addEventListener('click', () => chatWindow.classList.toggle('open'));
             chatSendButton.addEventListener('click', sendMessage);
             chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
-
             function addMessageToChat(text, sender) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `chat-message ${sender}`;
@@ -286,16 +421,13 @@
                 chatBody.appendChild(messageDiv);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
-
             async function sendMessage() {
                 const userMessage = chatInput.value.trim();
                 if (!userMessage) return;
-
                 addMessageToChat(userMessage, 'user');
                 chatInput.value = '';
                 chatInput.disabled = true;
                 addMessageToChat("...", 'bot');
-
                 try {
                     const result = await callAskGemini({ prompt: userMessage });
                     chatBody.removeChild(chatBody.lastChild);
@@ -309,66 +441,17 @@
                     chatInput.focus();
                 }
             }
-            // === FIN: LÓGICA DEL CHATBOT ===
-
-            // === ✅ NUEVO: LÓGICA PARA GUARDAR LEADS EN FIRESTORE ===
+            
+            // ✅ === NUEVA LÓGICA PARA CAPTURAR FORMULARIOS ===
             const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
+            }
+
             const calcLeadForm = document.getElementById('calcLeadForm');
-
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const submitButton = contactForm.querySelector('.form-submit');
-                submitButton.disabled = true;
-                submitButton.textContent = 'Sending...';
-
-                try {
-                    const formData = {
-                        name: contactForm.name.value,
-                        email: contactForm.email.value,
-                        phone: contactForm.phone.value,
-                        service: contactForm.service.value,
-                        message: contactForm.message.value,
-                        channels: Array.from(contactForm.querySelectorAll('input[name="channel"]:checked')).map(cb => cb.value),
-                        source: 'Contact Form',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    await db.collection('leads').add(formData);
-                    window.location.href = 'https://goldencharge.net/thanks.html'; // O la URL de tu página de gracias
-                } catch (error) {
-                    console.error("Error saving contact form lead:", error);
-                    alert('Could not submit the form. Please try again.');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Send Message';
-                }
-            });
-
-            calcLeadForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const submitButton = calcLeadForm.querySelector('.btn');
-                submitButton.disabled = true;
-                submitButton.textContent = 'Sending...';
-
-                try {
-                    const formData = {
-                        email: calcLeadForm.email.value,
-                        phone: calcLeadForm.phone.value,
-                        service: calcLeadForm.service.value,
-                        size: calcLeadForm.size.value,
-                        year: calcLeadForm.year.value,
-                        estimatedTotal: Number(calcLeadForm.total.value),
-                        source: 'Calculator Form',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    await db.collection('leads').add(formData);
-                    window.location.href = 'https://goldencharge.net/thanks.html'; // O la URL de tu página de gracias
-                } catch (error) {
-                    console.error("Error saving calculator lead:", error);
-                    alert('Could not submit the quote request. Please try again.');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Send Detailed Quote';
-                }
-            });
-            // === FIN: LÓGICA PARA GUARDAR LEADS ===
+            if (calcLeadForm) {
+                calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
+            }
         });
     </script>
 </head>
@@ -477,8 +560,9 @@
                         <p>Didn't receive the code? <span class="resend-link" onclick="sendVerificationCode()">Resend</span></p>
                     </div>
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
-                    <!-- ✅ MODIFICADO: Se quitó el 'action' para manejarlo con JS -->
-                    <form id="calcLeadForm" style="display:none;">
+                    <!-- ✅ EL FORMULARIO AHORA ES MANEJADO POR JAVASCRIPT PERO MANTIENE LA ACCIÓN ORIGINAL COMO RESPALDO -->
+                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+                        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                         <input type="email" name="email" placeholder="Your email for exact quote" required class="form-control">
                         <input type="tel" name="phone" placeholder="Phone" required class="form-control">
                         <input type="hidden" name="service" id="calcService">
@@ -525,8 +609,9 @@
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
-                <!-- ✅ MODIFICADO: Se quitó el 'action' para manejarlo con JS -->
-                <form id="contactForm">
+                <!-- ✅ EL FORMULARIO AHORA ES MANEJADO POR JAVASCRIPT PERO MANTIENE LA ACCIÓN ORIGINAL COMO RESPALDO -->
+                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
@@ -602,12 +687,13 @@
         <i class="fab fa-whatsapp"></i>
     </a>
     
+    <!-- === INICIO: HTML DEL CHATBOT === -->
     <div id="chatbot-container">
         <div id="chat-window">
             <div id="chat-header">Golden Charge Assistant</div>
             <div id="chat-body"></div>
             <div id="chat-footer">
-                <input type="text" id="chat-input" placeholder="Ask me anything...">
+                <input type="text" id="chat-input" placeholder="Pregúntame algo...">
                 <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
@@ -615,6 +701,8 @@
             <i class="fas fa-robot"></i>
         </button>
     </div>
+    <!-- === FIN: HTML DEL CHATBOT === -->
 
 </body>
 </html>
+
