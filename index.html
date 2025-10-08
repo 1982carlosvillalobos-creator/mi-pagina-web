@@ -551,12 +551,29 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
     <df-messenger
-      intent="WELCOME"
-      chat-title="GoldenChargeAssistant"
-      agent-id="68032bf7-b738-4824-b7a5-9ed4ac616c85"
+      project-id="goldench-final-chatbot"
+      agent-id="f0e02ed1-4e98-4948-955e-024e55c54edd"
       language-code="en"
-    ></df-messenger>
+      max-query-length="-1">
+      <df-messenger-chat-bubble
+        chat-title="GoldenChargeAssistantCX">
+      </df-messenger-chat-bubble>
+    </df-messenger>
+    <style>
+      df-messenger {
+        z-index: 999;
+        position: fixed;
+        --df-messenger-font-color: #000;
+        --df-messenger-font-family: Google Sans;
+        --df-messenger-chat-background: #f3f6fc;
+        --df-messenger-message-user-background: #d3e3fd;
+        --df-messenger-message-bot-background: #fff;
+        bottom: 16px;
+        right: 16px;
+      }
+    </style>
     </body>
 </html>
