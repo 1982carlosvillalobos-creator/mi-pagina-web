@@ -99,17 +99,8 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
         
-        /* === AJUSTE PARA COMPATIBILIDAD DE CHATBOT Y WHATSAPP === */
-        df-messenger {
-           --df-messenger-button-title-color: #ffffff;
-           --df-messenger-button-title-background-color: var(--dark-blue);
-           --df-messenger-chat-background-color: #ffffff;
-           --df-messenger-font-color: #333333;
-           --df-messenger-send-icon: var(--dark-blue);
-           --df-messenger-user-message: var(--gold);
-        }
         .whatsapp-btn {
-            right: 90px; /* Mueve el botón de WhatsApp 90px desde la derecha */
+            right: 90px;
         }
     </style>
     
@@ -566,13 +557,16 @@
       df-messenger {
         z-index: 999;
         position: fixed;
-        --df-messenger-font-color: #000;
-        --df-messenger-font-family: Google Sans;
-        --df-messenger-chat-background: #f3f6fc;
-        --df-messenger-message-user-background: #d3e3fd;
-        --df-messenger-message-bot-background: #fff;
         bottom: 16px;
         right: 16px;
+        --df-messenger-bot-avatar: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png');
+        --df-messenger-header-background: #0A2463;
+        --df-messenger-header-font-color: #ffffff;
+        --df-messenger-chat-background: #F8F9FA;
+        --df-messenger-send-icon: #FFD700;
+        --df-messenger-user-message: #0A2463;
+        --df-messenger-button-title-background-color: #FFD700;
+        --df-messenger-button-title-font-color: #0A2463;
       }
     </style>
     </body>
