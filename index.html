@@ -93,15 +93,11 @@
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
         .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
         .contact-info { font-size: .95rem; line-height: 1.8; }
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
-        
-        .whatsapp-btn {
-            right: 90px;
-        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -542,32 +538,16 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-    <df-messenger
-      project-id="goldench-final-chatbot"
-      agent-id="f0e02ed1-4e98-4948-955e-024e55c54edd"
-      language-code="en"
-      max-query-length="-1">
-      <df-messenger-chat-bubble
-        chat-title="GoldenChargeAssistantCX">
-      </df-messenger-chat-bubble>
-    </df-messenger>
+    <!-- === NUEVO CHATBOT DE BOTPRESS === -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
+    
+    <!-- === OCULTAR PIE DE PÁGINA "by Botpress" === -->
     <style>
-      df-messenger {
-        z-index: 999;
-        position: fixed;
-        bottom: 16px;
-        right: 16px;
-        --df-messenger-bot-avatar: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png');
-        --df-messenger-header-background: #0A2463;
-        --df-messenger-header-font-color: #ffffff;
-        --df-messenger-chat-background: #F8F9FA;
-        --df-messenger-send-icon: #FFD700;
-        --df-messenger-user-message: #0A2463;
-        --df-messenger-button-title-background-color: #FFD700;
-        --df-messenger-button-title-font-color: #0A2463;
-      }
+        .bp3-webchat-footer {
+            display: none !important;
+        }
     </style>
-    </body>
+
+</body>
 </html>
