@@ -62,6 +62,8 @@
         .calc-card:has(input:checked) { border-color: var(--gold); background: rgba(255,215,0,.1); }
         .price-display { font-size: 2.2rem; font-weight: bold; color: var(--dark-blue); text-align: center; margin: 20px 0; display: none; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .verification-code-input { text-align: center; font-size: 1.8rem; letter-spacing: 0.8rem; font-family: monospace; padding-left: 1.2rem; }
+        .form-group.inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .gallery { padding: 100px 0; background: #f0f4f8; }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; }
         .gallery-item { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.1); height: 250px; }
@@ -141,56 +143,98 @@
         }
 
         async function sendVerificationCode() {
-            if (recaptchaVerifier) return;
+            const sendButton = document.querySelector('#step3 .btn');
+            sendButton.disabled = true;
+            sendButton.textContent = 'Enviando...';
+            
+            const email = document.getElementById('leadEmail').value.trim();
+            const city = document.getElementById('leadCity').value.trim();
             let phone = document.getElementById('phoneNumber').value.trim();
-            if (!phone) return alert('Enter your phone number');
+
+            if (!email || !city || !phone) {
+                alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
+                sendButton.disabled = false;
+                sendButton.textContent = 'Send Code';
+                return;
+            }
+
+            try {
+                const autoLeadForm = document.getElementById('autoLeadCaptureForm');
+                autoLeadForm.querySelector('input[name="email"]').value = email;
+                autoLeadForm.querySelector('input[name="city"]').value = city;
+                autoLeadForm.querySelector('input[name="phone"]').value = phone;
+                
+                const formData = new FormData(autoLeadForm);
+                await fetch(autoLeadForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                console.log('Lead preliminar capturado y enviado.');
+            } catch (error) {
+                console.error('Error al enviar el lead automático:', error);
+            }
+
+            if (recaptchaVerifier) {
+                recaptchaVerifier.clear();
+                recaptchaVerifier = null;
+            }
             if (!phone.startsWith('+1')) {
                 phone = '+1' + phone.replace(/\D/g, '');
             }
+
             try {
                 recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
                 confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
                 document.getElementById('verificationCodeSection').style.display = 'block';
-                alert('Code sent!');
+                document.getElementById('leadEmail').disabled = true;
+                document.getElementById('leadCity').disabled = true;
+                document.getElementById('phoneNumber').disabled = true;
+                sendButton.style.display = 'none';
+                alert('¡Código enviado! Por favor, ingréselo a continuación.');
             } catch (error) {
-                console.error("Error sending SMS:", error);
-                alert('Error sending code: ' + error.message);
+                console.error("Error al enviar SMS:", error);
+                alert('Error al enviar el código: ' + error.message);
+                sendButton.disabled = false;
+                sendButton.textContent = 'Send Code';
             }
         }
 
         async function verifyCode() {
-            const code = Array.from(document.querySelectorAll('.code-digit')).map(i => i.value).join('');
-            if (code.length !== 6) return alert('Enter 6-digit code');
+            const code = document.getElementById('verificationCode').value.trim();
+            if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
+            
+            const verifyButton = document.querySelector('#verificationCodeSection .btn');
+            verifyButton.disabled = true;
+            verifyButton.textContent = 'Verificando...';
+
             try {
                 await confirmationResult.confirm(code);
-                alert('Verification successful!');
+                alert('¡Verificación exitosa!');
                 showEstimateAndForm();
             } catch (error) {
-                console.error("Error verifying code:", error);
-                alert('Invalid code: ' + error.message);
+                console.error("Error al verificar el código:", error);
+                alert('Código inválido. Por favor, intente de nuevo. ' + error.message);
+                verifyButton.disabled = false;
+                verifyButton.textContent = 'Verify & Show Estimate';
             }
         }
 
-        // ▼▼▼ AJUSTE REALIZADO AQUÍ ▼▼▼
         async function loadPrices() {
             try {
-                // Intenta cargar un archivo de precios externo si existe
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
                 return await res.json();
             } catch (err) {
-                // Si falla, usa los precios de respaldo definidos aquí
                 return {
                     "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
                     "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
                     "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
                     "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
-                    // --- NUEVOS PRECIOS ---
                     "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
                     "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
                 };
             }
         }
-        // ▲▲▲ FIN DEL AJUSTE ▲▲▲
 
         async function showEstimateAndForm() {
             const prices = await loadPrices();
@@ -199,10 +243,19 @@
             const year = document.getElementById('houseYear').value;
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
-            const total = base + factor;
-            document.getElementById('resultPrice').textContent = `$${total.toLocaleString()}`;
+            
+            // ▼▼▼ CAMBIO AQUÍ: SE AGREGA EL 20% Y SE REDONDEA EL TOTAL ▼▼▼
+            const total = Math.round((base + factor) * 1.20);
+            // ▲▲▲ FIN DEL CAMBIO ▲▲▲
+            
+            document.getElementById('verificationCodeSection').style.display = 'none';
+
+            document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
             document.getElementById('resultPrice').style.display = 'block';
             document.getElementById('calcLeadForm').style.display = 'block';
+
+            document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
+            document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
             document.getElementById('calcService').value = service;
             document.getElementById('calcSize').value = size;
             document.getElementById('calcYear').value = year;
@@ -245,43 +298,18 @@
             event.preventDefault();
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
-
-            let leadData = {};
-            if (form.id === 'contactForm') {
-                leadData = {
-                    name: form.name.value,
-                    email: form.email.value,
-                    phone: form.phone.value,
-                    service: form.service.value,
-                    message: form.message.value,
-                    source: "Contact Form",
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-            } else if (form.id === 'calcLeadForm') {
-                leadData = {
-                    email: form.email.value,
-                    phone: form.phone.value,
-                    service: form.service.value,
-                    size: form.size.value,
-                    year: form.year.value,
-                    estimatedTotal: form.total.value,
-                    source: "Calculator Form",
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-            }
-
             try {
-                await db.collection("leads").add(leadData);
-                form.submit();
+                await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+                window.location.href = form.querySelector('input[name="_redirect"]').value;
             } catch (error) {
-                console.error("Error saving lead to Firestore: ", error);
-                alert('There was an error submitting your request. Please try again.');
+                console.error("Error al enviar el formulario: ", error);
+                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
                 submitButton.disabled = false;
-                 if (form.id === 'contactForm') {
-                    submitButton.textContent = 'Send Message';
-                 } else {
-                    submitButton.textContent = 'Send Detailed Quote';
-                 }
+                submitButton.textContent = 'Send Message';
             }
         }
 
@@ -292,16 +320,6 @@
             const recaptchaContainer = document.createElement('div');
             recaptchaContainer.id = 'recaptcha-container';
             calculatorSection.appendChild(recaptchaContainer);
-            recaptchaVerifier = null;
-
-            document.querySelectorAll('.code-digit').forEach((input, index, arr) => {
-                input.addEventListener('input', () => {
-                    if (input.value && index < arr.length - 1) arr[index + 1].focus();
-                });
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !input.value && index > 0) arr[index - 1].focus();
-                });
-            });
             
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
@@ -401,41 +419,56 @@
                         <option value="mid">1970–1990</option>
                         <option value="old">Before 1970</option>
                     </select>
-                    <button type="button" class="btn" onclick="calculateEstimate()">Get Estimate</button>
+                    <button type="button" class="btn" onclick="calculateEstimate()" style="margin-top: 20px;">Get Estimate</button>
                 </div>
+
                 <div class="calc-step" id="step3">
-                    <h3>Verify Your Phone</h3>
-                    <p>We’ll send a 6-digit code to your phone</p>
-                    <input type="tel" id="phoneNumber" class="form-control" required>
-                    <button type="button" class="btn" onclick="sendVerificationCode()">Send Code</button>
-                    <div id="verificationCodeSection" style="display:none;">
-                        <p>Enter the 6-digit code</p>
-                        <div class="verification-code">
-                            <input type="text" class="code-digit" maxlength="1" data-index="0">
-                            <input type="text" class="code-digit" maxlength="1" data-index="1">
-                            <input type="text" class="code-digit" maxlength="1" data-index="2">
-                            <input type="text" class="code-digit" maxlength="1" data-index="3">
-                            <input type="text" class="code-digit" maxlength="1" data-index="4">
-                            <input type="text" class="code-digit" maxlength="1" data-index="5">
-                        </div>
-                        <button type="button" class="btn" onclick="verifyCode()">Verify & Show Estimate</button>
-                        <p>Didn't receive the code? <span class="resend-link" onclick="sendVerificationCode()">Resend</span></p>
+                    <h3>Get Your Estimate</h3>
+                    <p>Complete your info and we'll send a 6-digit code to your phone to unlock your estimate.</p>
+                    <div class="form-group inline-fields" style="margin-top: 20px;">
+                        <input type="email" id="leadEmail" class="form-control" placeholder="Your Email" required>
+                        <input type="text" id="leadCity" class="form-control" placeholder="Your City" required>
                     </div>
+                    <div class="form-group">
+                        <input type="tel" id="phoneNumber" class="form-control" placeholder="Your Phone Number" required>
+                    </div>
+                    <button type="button" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
+                    
+                    <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
+                        <p style="font-weight: bold;">Enter the 6-digit code we sent you:</p>
+                        <div class="verification-code">
+                            <input type="tel" id="verificationCode" class="form-control verification-code-input" placeholder="_ _ _ _ _ _" maxlength="6" autocomplete="one-time-code" inputmode="numeric">
+                        </div>
+                        <button type="button" class="btn" onclick="verifyCode()" style="width: 100%; margin-top: 15px;">Verify & Show Estimate</button>
+                        <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Didn't receive the code? <span class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline;">Resend</span></p>
+                    </div>
+
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
-                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+                    
+                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
                         <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-                        <input type="email" name="email" placeholder="Your email for exact quote" required class="form-control">
-                        <input type="tel" name="phone" placeholder="Phone" required class="form-control">
+                        <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
+                        <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
+                        <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
                         <input type="hidden" name="service" id="calcService">
                         <input type="hidden" name="size" id="calcSize">
                         <input type="hidden" name="year" id="calcYear">
-                        <input type="hidden" name="total" id="calcTotal">
-                        <button type="submit" class="btn">Send Detailed Quote</button>
+                        <input type="hidden" name="estimatedTotal" id="calcTotal">
+                        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
+        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
+        <input type="email" name="email">
+        <input type="text" name="city">
+        <input type="tel" name="phone">
+    </form>
 
     <section class="gallery" id="gallery">
         <div class="container">
@@ -542,7 +575,7 @@
         </div>
         <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer>
-
+  
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
     
@@ -551,5 +584,6 @@
             display: none !important;
         }
     </style>
-    </body>
+
+</body>
 </html>
