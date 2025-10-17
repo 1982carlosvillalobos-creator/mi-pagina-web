@@ -108,6 +108,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script>
+        // === INICIO: CONFIGURACIÓN DE FIREBASE (ACTUALIZADA) ===
         const firebaseConfig = {
           apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
           authDomain: "goldench-final-chatbot.firebaseapp.com",
@@ -117,12 +118,13 @@
           appId: "1:418294744257:web:f06d527214360aae358040"
         };
         
+        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
 
         let confirmationResult = null;
         let isFirstSendAttempt = true;
-        let recaptchaVerifier = null;
 
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
@@ -140,23 +142,33 @@
             document.getElementById('step3').classList.add('active');
         }
 
+        // ▼▼▼ LA SOLUCIÓN DEFINITIVA ESTÁ AQUÍ ▼▼▼
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
+
+            if(sendButton) sendButton.disabled = true;
+            if(sendButton) sendButton.textContent = 'Enviando...';
+            resendLink.style.pointerEvents = 'none';
             
-            if (sendButton) sendButton.disabled = true;
-            if (resendLink) resendLink.style.pointerEvents = 'none';
-            if (sendButton) sendButton.textContent = 'Enviando...';
-            
+            // 1. Limpiar cualquier instancia anterior del reCAPTCHA
+            const recaptchaContainer = document.getElementById('recaptcha-container');
+            recaptchaContainer.innerHTML = '';
+
+            // 2. Crear una NUEVA instancia del verificador CADA VEZ que se llama a la función
+            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible'
+            });
+
             const email = document.getElementById('leadEmail').value.trim();
             const city = document.getElementById('leadCity').value.trim();
             let phone = document.getElementById('phoneNumber').value.trim();
 
             if (!email || !city || !phone) {
                 alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
-                if (sendButton) sendButton.disabled = false;
-                if (resendLink) resendLink.style.pointerEvents = 'auto';
-                if (sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                if(sendButton) sendButton.disabled = false;
+                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                resendLink.style.pointerEvents = 'auto';
                 return;
             }
 
@@ -166,9 +178,7 @@
                     autoLeadForm.querySelector('input[name="email"]').value = email;
                     autoLeadForm.querySelector('input[name="city"]').value = city;
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    const formData = new FormData(autoLeadForm);
-                    await fetch(autoLeadForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-                    console.log('Lead preliminar capturado.');
+                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm), headers: { 'Accept': 'application/json' } });
                     isFirstSendAttempt = false;
                 } catch (error) {
                     console.error('Error al capturar lead:', error);
@@ -176,14 +186,10 @@
             }
 
             if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
-            
-            // Reutilizar o crear el verificador
-            if (!recaptchaVerifier) {
-                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
-            }
 
             try {
-                confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier);
+                confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
+                
                 document.getElementById('verificationCodeSection').style.display = 'block';
                 document.getElementById('leadEmail').disabled = true;
                 document.getElementById('leadCity').disabled = true;
@@ -194,11 +200,10 @@
             } catch (error) {
                 console.error("Error al enviar SMS:", error);
                 alert('Error al enviar el código. Verifique el número e intente de nuevo.');
-                recaptchaVerifier = null; // Reset para reintentar
             } finally {
                 if (sendButton) sendButton.disabled = false;
-                if (resendLink) resendLink.style.pointerEvents = 'auto';
-                if (sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                resendLink.style.pointerEvents = 'auto';
             }
         }
         
@@ -222,13 +227,14 @@
             }
         }
 
+        // ▼▼▼ CORRECCIÓN CLAVE: LISTA DE PRECIOS DE RESPALDO ACTUALIZADA ▼▼▼
         async function loadPrices() {
             try {
+                // Se mantiene el intento de cargar desde GitHub por si lo actualizas en el futuro
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
-                if (!res.ok) throw new Error('Network response was not ok');
                 return await res.json();
             } catch (err) {
-                console.warn('Using fallback prices:', err);
+                // Si falla, AHORA SÍ tenemos la lista completa con los 6 servicios
                 return {
                     "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
                     "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -241,32 +247,21 @@
         }
 
         async function showEstimateAndForm() {
-            // ✅ Validación crítica: asegurar que los elementos existan y tengan valor
-            const serviceEl = document.querySelector('input[name="service"]:checked');
+            const prices = await loadPrices();
+            const service = document.querySelector('input[name="service"]:checked').value;
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
-
-            if (!serviceEl || !size || !year) {
-                alert('Missing selection data. Please restart the estimator.');
-                return;
-            }
-
-            const service = serviceEl.value;
-            const prices = await loadPrices();
-
+            
+            // Verificación para evitar el error si el servicio no se encuentra
             if (!prices[service]) {
-                alert('Service not recognized. Please try again.');
+                alert("Hubo un error al calcular el precio. Por favor, intente de nuevo.");
                 return;
             }
 
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
             
-            if (base === undefined || factor === undefined) {
-                alert('Invalid house size or year. Please check your selections.');
-                return;
-            }
-
+            // Cálculo con el 20% de colchón
             const total = Math.round((base + factor) * 1.20);
             
             document.getElementById('verificationCodeSection').style.display = 'none';
@@ -274,6 +269,7 @@
             document.getElementById('resultPrice').style.display = 'block';
             document.getElementById('calcLeadForm').style.display = 'block';
 
+            // Llenar el formulario final
             document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
             document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
             document.getElementById('calcService').value = service;
@@ -325,7 +321,7 @@
                 console.error("Error al enviar el formulario: ", error);
                 alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
                 submitButton.disabled = false;
-                submitButton.textContent = form.id === 'contactForm' ? 'Send Message' : 'Send Detailed Quote to My Email';
+                submitButton.textContent = 'Send Message';
             }
         }
 
@@ -443,6 +439,7 @@
                     <div class="form-group">
                         <input type="tel" id="phoneNumber" class="form-control" placeholder="Your Phone Number" required>
                     </div>
+                    <div id="recaptcha-container"></div>
                     <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
                     
                     <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
@@ -588,8 +585,6 @@
         </div>
         <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer>
-  
-    <div id="recaptcha-container"></div>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
