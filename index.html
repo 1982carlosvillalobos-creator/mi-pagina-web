@@ -142,25 +142,29 @@
             document.getElementById('step3').classList.add('active');
         }
 
-        // ▼▼▼ CAMBIO 1: FUNCIÓN PARA INICIALIZAR RECAPTCHA UNA SOLA VEZ ▼▼▼
+        // ▼▼▼ LA SOLUCIÓN DEFINITIVA ESTÁ EN ESTAS FUNCIONES ▼▼▼
+
+        // 1. INICIALIZACIÓN CORRECTA DEL RECAPTCHA AL CARGAR LA PÁGINA
         function initializeRecaptcha() {
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'invisible',
-                    'callback': (response) => {
-                        console.log("reCAPTCHA resuelto, listo para enviar SMS.");
-                    }
-                });
-                console.log("reCAPTCHA inicializado.");
-            }
+            // Se usa window para asegurar que sea una variable global accesible en todo momento
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible',
+                'callback': (response) => {
+                    // Este callback se activa cuando el reCAPTCHA se resuelve exitosamente
+                    console.log("reCAPTCHA solved, ready to send SMS.");
+                }
+            });
+            // Es crucial renderizarlo una vez y guardar el ID para futuros resets.
+            window.recaptchaVerifier.render().then((widgetId) => {
+                window.recaptchaWidgetId = widgetId;
+            });
         }
-        
-        // ▼▼▼ CAMBIO 2: LÓGICA DE ENVÍO DE CÓDIGO SIMPLIFICADA ▼▼▼
+
+        // 2. FUNCIÓN DE ENVÍO QUE USA EL VERIFICADOR YA CREADO Y LO RESETEA EN CASO DE ERROR
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
             
-            // Cambiar estado de botones para evitar clics múltiples
             if (sendButton) sendButton.disabled = true;
             if (resendLink) resendLink.style.pointerEvents = 'none';
             if (sendButton) sendButton.textContent = 'Enviando...';
@@ -183,21 +187,17 @@
                     autoLeadForm.querySelector('input[name="email"]').value = email;
                     autoLeadForm.querySelector('input[name="city"]').value = city;
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    
                     const formData = new FormData(autoLeadForm);
                     await fetch(autoLeadForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-                    console.log('Lead preliminar capturado y enviado.');
+                    console.log('Lead preliminar capturado.');
                     isFirstSendAttempt = false;
                 } catch (error) {
-                    console.error('Error al enviar el lead automático:', error);
+                    console.error('Error al capturar lead:', error);
                 }
             }
 
-            if (!phone.startsWith('+1')) {
-                phone = '+1' + phone.replace(/\D/g, '');
-            }
-
-            // Usa el verificador ya existente
+            if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
+            
             const appVerifier = window.recaptchaVerifier;
 
             try {
@@ -208,24 +208,23 @@
                 document.getElementById('leadCity').disabled = true;
                 document.getElementById('phoneNumber').disabled = true;
                 if (sendButton) sendButton.style.display = 'none';
-                document.getElementById('resendLink').style.display = 'inline';
+                resendLink.style.display = 'inline';
                 alert('¡Código enviado! Por favor, ingréselo a continuación.');
-
             } catch (error) {
                 console.error("Error al enviar SMS:", error);
-                alert('Error al enviar el código. Verifique el número e intente de nuevo. Error: ' + error.message);
-                
-                // Resetea el recaptcha para el siguiente intento
-                appVerifier.render().then(function(widgetId) {
-                    grecaptcha.reset(widgetId);
-                });
-
+                alert('Error al enviar el código. Verifique el número e intente de nuevo.');
+                // LA PARTE MÁS IMPORTANTE: Resetear el reCAPTCHA en caso de error.
+                if (window.recaptchaWidgetId !== undefined) {
+                    grecaptcha.reset(window.recaptchaWidgetId);
+                }
             } finally {
-                // Reactivar botones
                 if (sendButton) sendButton.disabled = false;
                 if (resendLink) resendLink.style.pointerEvents = 'auto';
+                if (sendButton) sendButton.textContent = 'Send Code & Capture Info';
             }
         }
+        
+        // ▲▲▲ FIN DE LA SOLUCIÓN ▲▲▲
 
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
@@ -241,7 +240,7 @@
                 showEstimateAndForm();
             } catch (error) {
                 console.error("Error al verificar el código:", error);
-                alert('Código inválido. Por favor, intente de nuevo. ' + error.message);
+                alert('Código inválido. Por favor, intente de nuevo.');
                 verifyButton.disabled = false;
                 verifyButton.textContent = 'Verify & Show Estimate';
             }
@@ -333,10 +332,9 @@
             }
         }
 
-        // ▼▼▼ CAMBIO 3: LLAMADA A LA INICIALIZACIÓN DE RECAPTCHA ▼▼▼
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
-            initializeRecaptcha(); // Se inicializa el reCAPTCHA al cargar la página
+            initializeRecaptcha(); // SE LLAMA A LA NUEVA FUNCIÓN DE INICIALIZACIÓN
             
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
@@ -596,6 +594,7 @@
     </footer>
   
     <div id="recaptcha-container"></div>
+
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
     
