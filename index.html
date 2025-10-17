@@ -171,19 +171,26 @@
             }
         }
 
+        // ▼▼▼ AJUSTE REALIZADO AQUÍ ▼▼▼
         async function loadPrices() {
             try {
+                // Intenta cargar un archivo de precios externo si existe
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
                 return await res.json();
             } catch (err) {
+                // Si falla, usa los precios de respaldo definidos aquí
                 return {
                     "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
                     "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
                     "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
-                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } }
+                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
+                    // --- NUEVOS PRECIOS ---
+                    "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
+                    "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
                 };
             }
         }
+        // ▲▲▲ FIN DEL AJUSTE ▲▲▲
 
         async function showEstimateAndForm() {
             const prices = await loadPrices();
@@ -375,6 +382,8 @@
                         <label class="calc-card"><input type="radio" name="service" value="panel-200" onclick="nextStep()"><span>200A Panel Upgrade</span></label>
                         <label class="calc-card"><input type="radio" name="service" value="ev-charger" onclick="nextStep()"><span>EV Charger Install</span></label>
                         <label class="calc-card"><input type="radio" name="service" value="smart-home" onclick="nextStep()"><span>Basic Smart-Home</span></label>
+                        <label class="calc-card"><input type="radio" name="service" value="panel-400" onclick="nextStep()"><span>400A Panel Upgrade</span></label>
+                        <label class="calc-card"><input type="radio" name="service" value="full-smart-home" onclick="nextStep()"><span>Full Smart-Home</span></label>
                     </div>
                 </div>
                 <div class="calc-step" id="step2">
@@ -534,18 +543,13 @@
         <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer>
 
-  
-
-    <!-- === NUEVO CHATBOT DE BOTPRESS === -->
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
     
-    <!-- === OCULTAR PIE DE PÁGINA "by Botpress" === -->
     <style>
         .bp3-webchat-footer {
             display: none !important;
         }
     </style>
-
-</body>
+    </body>
 </html>
