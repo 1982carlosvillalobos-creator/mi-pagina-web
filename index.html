@@ -124,8 +124,7 @@
         // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
 
         let confirmationResult = null;
-        let recaptchaVerifier = null;
-        let isFirstSendAttempt = true; // Variable para controlar el primer envío
+        let isFirstSendAttempt = true;
 
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
@@ -143,11 +142,28 @@
             document.getElementById('step3').classList.add('active');
         }
 
-        // ▼▼▼ CAMBIO AQUÍ: FUNCIÓN MODIFICADA PARA MANEJAR EL RECAPTCHA CORRECTAMENTE ▼▼▼
+        // ▼▼▼ CAMBIO 1: FUNCIÓN PARA INICIALIZAR RECAPTCHA UNA SOLA VEZ ▼▼▼
+        function initializeRecaptcha() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible',
+                    'callback': (response) => {
+                        console.log("reCAPTCHA resuelto, listo para enviar SMS.");
+                    }
+                });
+                console.log("reCAPTCHA inicializado.");
+            }
+        }
+        
+        // ▼▼▼ CAMBIO 2: LÓGICA DE ENVÍO DE CÓDIGO SIMPLIFICADA ▼▼▼
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
-            sendButton.disabled = true;
-            sendButton.textContent = 'Enviando...';
+            const resendLink = document.getElementById('resendLink');
+            
+            // Cambiar estado de botones para evitar clics múltiples
+            if (sendButton) sendButton.disabled = true;
+            if (resendLink) resendLink.style.pointerEvents = 'none';
+            if (sendButton) sendButton.textContent = 'Enviando...';
             
             const email = document.getElementById('leadEmail').value.trim();
             const city = document.getElementById('leadCity').value.trim();
@@ -155,12 +171,12 @@
 
             if (!email || !city || !phone) {
                 alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
-                sendButton.disabled = false;
-                sendButton.textContent = 'Send Code & Capture Info';
+                if (sendButton) sendButton.disabled = false;
+                if (resendLink) resendLink.style.pointerEvents = 'auto';
+                if (sendButton) sendButton.textContent = 'Send Code & Capture Info';
                 return;
             }
 
-            // Solo capturar el lead en el primer intento
             if (isFirstSendAttempt) {
                 try {
                     const autoLeadForm = document.getElementById('autoLeadCaptureForm');
@@ -169,55 +185,45 @@
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
                     
                     const formData = new FormData(autoLeadForm);
-                    await fetch(autoLeadForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    });
+                    await fetch(autoLeadForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
                     console.log('Lead preliminar capturado y enviado.');
-                    isFirstSendAttempt = false; // Marcar que ya se capturó
+                    isFirstSendAttempt = false;
                 } catch (error) {
                     console.error('Error al enviar el lead automático:', error);
                 }
             }
 
-            // CORRECCIÓN DEL ERROR DE RECAPTCHA
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'invisible',
-                    'callback': (response) => { /* reCAPTCHA solved */ },
-                    'expired-callback': () => {
-                        // Si expira, lo reiniciamos
-                        window.recaptchaVerifier.render().then(widgetId => {
-                            window.recaptchaWidgetId = widgetId;
-                        });
-                    }
-                });
-            }
-            
             if (!phone.startsWith('+1')) {
                 phone = '+1' + phone.replace(/\D/g, '');
             }
 
+            // Usa el verificador ya existente
+            const appVerifier = window.recaptchaVerifier;
+
             try {
-                const appVerifier = window.recaptchaVerifier;
                 confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
                 
                 document.getElementById('verificationCodeSection').style.display = 'block';
                 document.getElementById('leadEmail').disabled = true;
                 document.getElementById('leadCity').disabled = true;
                 document.getElementById('phoneNumber').disabled = true;
-                sendButton.style.display = 'none'; // Ocultar el botón principal
-                document.getElementById('resendBtn').style.display = 'inline'; // Mostrar botón de reenvío
+                if (sendButton) sendButton.style.display = 'none';
+                document.getElementById('resendLink').style.display = 'inline';
                 alert('¡Código enviado! Por favor, ingréselo a continuación.');
 
             } catch (error) {
                 console.error("Error al enviar SMS:", error);
                 alert('Error al enviar el código. Verifique el número e intente de nuevo. Error: ' + error.message);
-                sendButton.disabled = false;
-                sendButton.textContent = 'Send Code & Capture Info';
-                // En caso de error, resetea el recaptcha para el siguiente intento
-                grecaptcha.reset(window.recaptchaWidgetId);
+                
+                // Resetea el recaptcha para el siguiente intento
+                appVerifier.render().then(function(widgetId) {
+                    grecaptcha.reset(widgetId);
+                });
+
+            } finally {
+                // Reactivar botones
+                if (sendButton) sendButton.disabled = false;
+                if (resendLink) resendLink.style.pointerEvents = 'auto';
             }
         }
 
@@ -268,7 +274,6 @@
             const total = Math.round((base + factor) * 1.20);
             
             document.getElementById('verificationCodeSection').style.display = 'none';
-
             document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
             document.getElementById('resultPrice').style.display = 'block';
             document.getElementById('calcLeadForm').style.display = 'block';
@@ -318,11 +323,7 @@
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
             try {
-                await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
+                await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
                 window.location.href = form.querySelector('input[name="_redirect"]').value;
             } catch (error) {
                 console.error("Error al enviar el formulario: ", error);
@@ -332,8 +333,10 @@
             }
         }
 
+        // ▼▼▼ CAMBIO 3: LLAMADA A LA INICIALIZACIÓN DE RECAPTCHA ▼▼▼
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
+            initializeRecaptcha(); // Se inicializa el reCAPTCHA al cargar la página
             
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
@@ -439,7 +442,7 @@
                 <div class="calc-step" id="step3">
                     <h3>Get Your Estimate</h3>
                     <p>Complete your info and we'll send a 6-digit code to your phone to unlock your estimate.</p>
-                    <div id="recaptcha-container" style="margin-top:10px;"></div> <div class="form-group inline-fields" style="margin-top: 20px;">
+                    <div class="form-group inline-fields" style="margin-top: 20px;">
                         <input type="email" id="leadEmail" class="form-control" placeholder="Your Email" required>
                         <input type="text" id="leadCity" class="form-control" placeholder="Your City" required>
                     </div>
@@ -455,7 +458,7 @@
                         </div>
                         <button type="button" class="btn" onclick="verifyCode()" style="width: 100%; margin-top: 15px;">Verify & Show Estimate</button>
                         <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Didn't receive the code? 
-                            <span id="resendBtn" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline;">Resend</span>
+                            <span id="resendLink" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline; display: none;">Resend</span>
                         </p>
                     </div>
 
@@ -473,7 +476,7 @@
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
@@ -592,6 +595,7 @@
         <div class="copyright" style="text-align:center;padding:20px;color:#ccc">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer>
   
+    <div id="recaptcha-container"></div>
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
     
