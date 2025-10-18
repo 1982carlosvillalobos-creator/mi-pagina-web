@@ -230,11 +230,9 @@
         // ▼▼▼ CORRECCIÓN CLAVE: LISTA DE PRECIOS DE RESPALDO ACTUALIZADA ▼▼▼
         async function loadPrices() {
             try {
-                // Se mantiene el intento de cargar desde GitHub por si lo actualizas en el futuro
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/prices.json');
                 return await res.json();
             } catch (err) {
-                // Si falla, AHORA SÍ tenemos la lista completa con los 6 servicios
                 return {
                     "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
                     "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -252,7 +250,6 @@
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
             
-            // Verificación para evitar el error si el servicio no se encuentra
             if (!prices[service]) {
                 alert("Hubo un error al calcular el precio. Por favor, intente de nuevo.");
                 return;
