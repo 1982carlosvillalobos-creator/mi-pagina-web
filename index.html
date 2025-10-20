@@ -122,86 +122,6 @@
         const db = firebase.firestore();
         // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
 
-
-        // --- INICIO: NUEVA CONFIGURACIÓN DE ENVÍO DE FORMULARIO ---
-        // Esta es la URL de tu Google Apps Script
-        const SCRIPT_URL = "https://script.google.com/a/macros/goldencharge.net/s/AKfycbwOAfdQ0v-H-kEpj2a40Czi3n5TQhB2qLO4polUisdMtzJSilyrabypFS-8M1ZZnhNuSA/exec";
-        const THANKS_URL = "https://goldencharge.net/thanks.html";
-
-        /**
-         * Nueva función universal para enviar datos como JSON a Google Apps Script.
-         * @param {object} data - Un objeto simple de JS, ej: {name: "John", email: "john@doe.com"}
-         * @returns {Promise<object>} - La respuesta del script.
-         */
-        async function sendDataToGoogleScript(data) {
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors', // Necesario para peticiones cross-origin a Apps Script
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-                
-                // Apps Script envuelve su respuesta, así que la parseamos como texto
-                const textResponse = await response.text();
-                // Y luego parseamos el JSON dentro de esa respuesta
-                return JSON.parse(textResponse);
-            
-            } catch (error) {
-                console.error("Error al enviar a Google Script:", error);
-                throw new Error("Error al contactar el servidor.");
-            }
-        }
-        
-        /**
-         * Función modificada para manejar el envío de formularios.
-         * Ahora recolecta los datos, los convierte a un objeto simple,
-         * y los envía usando sendDataToGoogleScript.
-         */
-        async function handleFormSubmit(event, form, submitButton) {
-            event.preventDefault();
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-            
-            // Convertir FormData a un objeto simple
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                // Manejar checkboxes (como 'channel')
-                if (data[key]) {
-                    if (Array.isArray(data[key])) {
-                        data[key].push(value);
-                    } else {
-                        data[key] = [data[key], value];
-                    }
-                } else {
-                    data[key] = value;
-                }
-            });
-
-            // Si hay canales, unirlos en un string
-            if (data.channel && Array.isArray(data.channel)) {
-                data.message = `Preferred channels: ${data.channel.join(', ')}. \n\nMessage: ${data.message || ''}`;
-            }
-
-            try {
-                // Usamos la nueva función de envío
-                await sendDataToGoogleScript(data);
-                // Redirigimos a la página de agradecimiento
-                window.location.href = THANKS_URL;
-            } catch (error) {
-                console.error("Error al enviar el formulario: ", error);
-                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message'; // O el texto original del botón
-            }
-        }
-
-        // --- FIN: NUEVA CONFIGURACIÓN DE ENVÍO DE FORMULARIO ---
-
-
         let confirmationResult = null;
         let isFirstSendAttempt = true;
 
@@ -248,16 +168,12 @@
 
             if (isFirstSendAttempt) {
                 try {
-                    // --- MODIFICACIÓN: Captura automática usa Google Script ---
-                    const autoLeadData = {
-                        email: email,
-                        city: city, // Tu script lo lee como 'message'
-                        phone: phone,
-                        service: "Automatic Lead (Calculator Step 3)"
-                    };
-                    await sendDataToGoogleScript(autoLeadData); // Usamos la nueva función
+                    const autoLeadForm = document.getElementById('autoLeadCaptureForm');
+                    autoLeadForm.querySelector('input[name="email"]').value = email;
+                    autoLeadForm.querySelector('input[name="city"]').value = city;
+                    autoLeadForm.querySelector('input[name="phone"]').value = phone;
+                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm), headers: { 'Accept': 'application/json' } });
                     isFirstSendAttempt = false;
-                    // --- FIN DE MODIFICACIÓN ---
                 } catch (error) {
                     console.error('Error al capturar lead:', error);
                 }
@@ -354,8 +270,6 @@
             document.getElementById('calcSize').value = size;
             document.getElementById('calcYear').value = year;
             document.getElementById('calcTotal').value = total;
-            // Preparamos el mensaje para el script
-            document.getElementById('calcMessage').value = `Lead from Calculator. \nService: ${service} \nSize: ${size} \nYear: ${year} \nEstimated Total: $${total}`;
         }
 
         const testimonials = [
@@ -390,11 +304,24 @@
             setInterval(() => { index++; show(); }, 10000);
         }
 
-        
+        async function handleFormSubmit(event, form, submitButton) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            try {
+                await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                window.location.href = form.querySelector('input[name="_redirect"]').value;
+            } catch (error) {
+                console.error("Error al enviar el formulario: ", error);
+                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
             
-            // --- MODIFICACIÓN: Asignar el nuevo manejador de envío ---
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
@@ -404,7 +331,6 @@
             if (calcLeadForm) {
                 calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
             }
-            // --- FIN DE MODIFICACIÓN ---
         });
     </script>
 </head>
@@ -523,21 +449,30 @@
 
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
                     
-                    <form id="calcLeadForm" method="POST" style="display:none; margin-top: 15px;">
+                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
+                        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                         <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
                         <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
                         <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
                         <input type="hidden" name="service" id="calcService">
-                        <input type="hidden" name="message" id="calcMessage"> <input type="hidden" id="calcSize">
-                        <input type="hidden" id="calcYear">
-                        <input type="hidden" id="calcTotal">
-                        
+                        <input type="hidden" name="size" id="calcSize">
+                        <input type="hidden" name="year" id="calcYear">
+                        <input type="hidden" name="estimatedTotal" id="calcTotal">
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
+        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
+        <input type="email" name="email">
+        <input type="text" name="city">
+        <input type="tel" name="phone">
+    </form>
 
     <section class="gallery" id="gallery">
         <div class="container">
@@ -572,19 +507,20 @@
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
-                <form id="contactForm" method="POST">
+                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
                     <div class="form-group"><label for="service">Service Required</label>
                         <select id="service" name="service" class="form-control" required>
                             <option value="">Select a service</option>
-                            <option value="Residential">Residential</option>
-                            <option value="Commercial">Commercial</option>
-                            <option value="Emergency">Emergency</option>
-                            <option value="Low Voltage">Low Voltage</option>
-                            <option value="Smart Home">Smart Home</option>
-                            <option value="Panel Upgrade">Panel Upgrade</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="low-voltage">Low Voltage</option>
+                            <option value="smart-home">Smart Home</option>
+                            <option value="panel-upgrade">Panel Upgrade</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -652,7 +588,7 @@
         
     </div>
 
-    <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
+        <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer></div>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
