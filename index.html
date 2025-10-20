@@ -172,7 +172,6 @@
                     autoLeadForm.querySelector('input[name="email"]').value = email;
                     autoLeadForm.querySelector('input[name="city"]').value = city;
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    // >>> MODIFICADO: ahora usa el endpoint de AppSheet
                     await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm), headers: { 'Accept': 'application/json' } });
                     isFirstSendAttempt = false;
                 } catch (error) {
@@ -450,8 +449,7 @@
 
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
                     
-                    <!-- >>> MODIFICADO: action ahora apunta a tu script -->
-                    <form id="calcLeadForm" action="https://script.google.com/a/macros/goldencharge.net/s/AKfycbyelixdoRuhheX1QdLr4RGzbSfDH7hMtBs_tT5l6jLbcIf1z7w30WB9QrHDDbeUOddWCA/exec" method="POST" style="display:none; margin-top: 15px;">
+                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
                         <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                         <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
                         <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
@@ -467,9 +465,10 @@
         </div>
     </section>
 
-    <!-- >>> MODIFICADO: action ahora apunta a tu script -->
-    <form id="autoLeadCaptureForm" action="https://script.google.com/a/macros/goldencharge.net/s/AKfycbyelixdoRuhheX1QdLr4RGzbSfDH7hMtBs_tT5l6jLbcIf1z7w30WB9QrHDDbeUOddWCA/exec" method="POST" style="display:none;">
-        <input type="hidden" name="address" value="Bay Area, CA">
+    <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
+        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
         <input type="email" name="email">
         <input type="text" name="city">
         <input type="tel" name="phone">
@@ -508,21 +507,20 @@
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
-                <!-- >>> MODIFICADO: action ahora apunta a tu script -->
-                <form id="contactForm" action="https://script.google.com/a/macros/goldencharge.net/s/AKfycbyelixdoRuhheX1QdLr4RGzbSfDH7hMtBs_tT5l6jLbcIf1z7w30WB9QrHDDbeUOddWCA/exec" method="POST">
-                    <input type="hidden" name="address" value="Bay Area, CA">
+                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
                     <div class="form-group"><label for="service">Service Required</label>
                         <select id="service" name="service" class="form-control" required>
                             <option value="">Select a service</option>
-                            <option value="Residential">Residential</option>
-                            <option value="Commercial">Commercial</option>
-                            <option value="Emergency">Emergency</option>
-                            <option value="Low Voltage">Low Voltage</option>
-                            <option value="Smart Home">Smart Home</option>
-                            <option value="Panel Upgrade">Panel Upgrade</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="low-voltage">Low Voltage</option>
+                            <option value="smart-home">Smart Home</option>
+                            <option value="panel-upgrade">Panel Upgrade</option>
                         </select>
                     </div>
                     <div class="form-group">
