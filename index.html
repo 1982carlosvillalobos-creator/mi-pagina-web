@@ -31,6 +31,25 @@
         .nav-menu::-webkit-scrollbar { display: none; }
         .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
         .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
+
+        /* ▼▼▼ CSS AÑADIDO PARA EL BOTÓN DE LLAMADA ▼▼▼ */
+        .nav-menu a.header-call-btn {
+            background: var(--gold);
+            color: var(--dark-blue);
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 5px 15px;
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+        .nav-menu a.header-call-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.05);
+            background: #fff; /* Anula el hover normal */
+        }
+        /* ▲▲▲ FIN DEL CSS AÑADIDO ▲▲▲ */
+
         .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
@@ -93,7 +112,7 @@
         .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
         .footer-column a:hover { color: var(--gold); }
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
-        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
+        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify: content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
         .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
@@ -351,7 +370,9 @@
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
                 <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-            </nav>
+                
+                <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
+                </nav>
         </div>
     </header>
 
@@ -482,7 +503,7 @@
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
+                <div class="gallery-item"><img src="https" alt="Emergency repair"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
             </div>
         </div>
