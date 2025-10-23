@@ -41,12 +41,30 @@
             padding: 5px 15px;
             margin-left: 10px;
             transition: var(--transition);
+            position: relative; /* Para el tooltip */
         }
         .nav-menu a.header-call-btn:hover {
             background: #fff;
             color: #000;
             transform: scale(1.05);
-            background: #fff; /* Anula el hover normal */
+        }
+
+        /* --- TOOLTIP PERSONALIZADO PARA EL BOTÓN DE LLAMADA --- */
+        .header-call-btn:hover::after {
+            content: "Haz clic aquí para llamarnos";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            pointer-events: none; /* Para que no interfiera con el clic */
         }
         /* ▲▲▲ FIN DEL CSS AÑADIDO ▲▲▲ */
 
@@ -112,7 +130,7 @@
         .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
         .footer-column a:hover { color: var(--gold); }
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
-        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify: content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
+        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
         .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
@@ -362,6 +380,8 @@
                 <span>Golden Charge LLC</span>
             </a>
             <nav class="nav-menu">
+                <!-- BOTÓN DE LLAMADA MOVIDO AL INICIO -->
+                <a href="tel:+14244653362" class="header-call-btn" title="Haz clic aquí para llamarnos">📞 (424) GOLDENC</a>
                 <a href="#home">Home</a>
                 <a href="#services">Services</a>
                 <a href="#testimonials">Testimonials</a>
@@ -370,9 +390,7 @@
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
                 <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-                
-                <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
-                </nav>
+            </nav>
         </div>
     </header>
 
@@ -470,7 +488,8 @@
 
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
                     
-                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
+                    <!-- URL CORREGIDA -->
+                    <form id="calcLeadForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
                         <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                         <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
                         <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
@@ -486,7 +505,8 @@
         </div>
     </section>
 
-    <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+    <!-- URL CORREGIDA -->
+    <form id="autoLeadCaptureForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST" style="display:none;">
         <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
         <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
         <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
@@ -528,8 +548,10 @@
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
-                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+                <!-- URL CORREGIDA -->
+                <form id="contactForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST">
                     <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+                    <input type="hidden" name="_subject" value="Nuevo mensaje desde Golden Charge LLC">
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
