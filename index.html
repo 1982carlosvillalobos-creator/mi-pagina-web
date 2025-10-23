@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Golden Charge Electrician Company | Bay Area</title>
     <meta name="description" content="Professional electrical services in the Bay Area. EV Chargers, Panel Upgrades, 24/7 Emergencies, and Smart Homes. Free estimates & bilingual support.">
-    
     <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
     <link rel="shortcut icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <style>
         :root {
             --gold: #FFD700;
@@ -31,7 +29,6 @@
         .nav-menu::-webkit-scrollbar { display: none; }
         .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
         .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
-
         /* ▼▼▼ CSS AÑADIDO PARA EL BOTÓN DE LLAMADA ▼▼▼ */
         .nav-menu a.header-call-btn {
             background: var(--gold);
@@ -49,7 +46,6 @@
             background: #fff; /* Anula el hover normal */
         }
         /* ▲▲▲ FIN DEL CSS AÑADIDO ▲▲▲ */
-
         .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
@@ -120,11 +116,9 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
     </style>
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
     <script>
         // === INICIO: CONFIGURACIÓN DE FIREBASE ===
         const firebaseConfig = {
@@ -135,19 +129,14 @@
           messagingSenderId: "418294744257",
           appId: "1:418294744257:web:f06d527214360aae358040"
         };
-        
         // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
-
-
         // --- ▼▼▼ INICIO: LÓGICA DE FORMULARIO CORREGIDA ▼▼▼ ---
-
-        // Esta es tu URL de Google Apps Script (la que tiene el arreglo de CORS)
-        const SCRIPT_URL = "https://script.google.com/a/macros/goldencharge.net/s/AKfycbwOAfdQ0v-H-kEpj2a40Czi3n5TQhB2qLO4polUisdMtzJSilyrabypFS-8M1ZZnhNuSA/exec";
+        // 🔥 REEMPLAZA LA SIGUIENTE LÍNEA CON TU NUEVA URL DE GOOGLE APPS SCRIPT 🔥
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyU2TNJvDIPFedjabGQl6y7Yny_j4-FzzuOBt7cF44Qtc3of67adkyYA18JQQyXg2YLnw/exec";
         const THANKS_URL = "https://goldencharge.net/thanks.html";
-
         /**
          * Nueva función universal para enviar datos como JSON a Google Apps Script.
          */
@@ -155,33 +144,26 @@
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'cors', // Necesario para peticiones cross-origin a Apps Script
+                    mode: 'cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(data),
                 });
-                
                 const textResponse = await response.text();
                 return JSON.parse(textResponse);
-            
             } catch (error) {
                 console.error("Error al enviar a Google Script:", error);
                 throw new Error("Error al contactar el servidor.");
             }
         }
-        
         /**
          * Función modificada para manejar el envío de formularios.
-         * Ahora recolecta los datos, los convierte a un objeto simple,
-         * y los envía usando sendDataToGoogleScript.
          */
         async function handleFormSubmit(event, form, submitButton) {
             event.preventDefault();
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
-            
-            // Convertir FormData a un objeto simple
             const formData = new FormData(form);
             const data = {};
             formData.forEach((value, key) => {
@@ -195,22 +177,17 @@
                     data[key] = value;
                 }
             });
-
-            // Si hay canales, unirlos en un string
             if (data.channel && Array.isArray(data.channel)) {
-                data.message = `Preferred channels: ${data.channel.join(', ')}. \n\nMessage: ${data.message || ''}`;
+                data.message = `Preferred channels: ${data.channel.join(', ')}. 
+Message: ${data.message || ''}`;
             }
-
             try {
-                // Usamos la nueva función de envío
                 await sendDataToGoogleScript(data);
-                // Redirigimos a la página de agradecimiento
                 window.location.href = THANKS_URL;
             } catch (error) {
                 console.error("Error al enviar el formulario: ", error);
                 alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
                 submitButton.disabled = false;
-                // Restaurar texto original del botón
                 if (form.id === 'contactForm') {
                     submitButton.textContent = 'Send Message';
                 } else if (form.id === 'calcLeadForm') {
@@ -218,20 +195,15 @@
                 }
             }
         }
-
         // --- ▲▲▲ FIN: LÓGICA DE FORMULARIO CORREGIDA ▲▲▲ ---
-
-
         let confirmationResult = null;
         let isFirstSendAttempt = true;
-
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
             if (!service) return alert('Please select a service');
             document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
             document.getElementById('step2').classList.add('active');
         }
-
         function calculateEstimate() {
             const service = document.querySelector('input[name="service"]:checked');
             const size = document.getElementById('houseSize').value;
@@ -240,24 +212,18 @@
             document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
             document.getElementById('step3').classList.add('active');
         }
-
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
-
             if(sendButton) sendButton.disabled = true;
             if(sendButton) sendButton.textContent = 'Enviando...';
             resendLink.style.pointerEvents = 'none';
-            
             const recaptchaContainer = document.getElementById('recaptcha-container');
             recaptchaContainer.innerHTML = '';
-
             const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
-
             const email = document.getElementById('leadEmail').value.trim();
             const city = document.getElementById('leadCity').value.trim();
             let phone = document.getElementById('phoneNumber').value.trim();
-
             if (!email || !city || !phone) {
                 alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
                 if(sendButton) sendButton.disabled = false;
@@ -265,30 +231,23 @@
                 resendLink.style.pointerEvents = 'auto';
                 return;
             }
-
             if (isFirstSendAttempt) {
                 try {
-                    // --- ▼▼▼ MODIFICACIÓN: Captura automática usa Google Script ▼▼▼ ---
                     const autoLeadData = {
                         email: email,
-                        city: city, // Tu script lo lee como 'message'
+                        city: city,
                         phone: phone,
                         service: "Automatic Lead (Calculator Step 3)"
                     };
-                    await sendDataToGoogleScript(autoLeadData); // Usamos la nueva función
+                    await sendDataToGoogleScript(autoLeadData);
                     isFirstSendAttempt = false;
-                    // --- ▲▲▲ FIN DE MODIFICACIÓN ▲▲▲ ---
                 } catch (error) {
                     console.error('Error al capturar lead:', error);
-                    // No detenemos el flujo si esto falla, la verificación es más importante
                 }
             }
-
             if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
-
             try {
                 confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
-                
                 document.getElementById('verificationCodeSection').style.display = 'block';
                 document.getElementById('leadEmail').disabled = true;
                 document.getElementById('leadCity').disabled = true;
@@ -305,15 +264,12 @@
                 resendLink.style.pointerEvents = 'auto';
             }
         }
-        
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
             if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
-            
             const verifyButton = document.querySelector('#verificationCodeSection .btn');
             verifyButton.disabled = true;
             verifyButton.textContent = 'Verificando...';
-
             try {
                 await confirmationResult.confirm(code);
                 alert('¡Verificación exitosa!');
@@ -325,7 +281,6 @@
                 verifyButton.textContent = 'Verify & Show Estimate';
             }
         }
-
         async function loadPrices() {
             try {
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
@@ -343,36 +298,32 @@
                 };
             }
         }
-
         async function showEstimateAndForm() {
             const prices = await loadPrices();
             const service = document.querySelector('input[name="service"]:checked').value;
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
-            
             if (!prices[service]) {
                 alert("Error: Servicio no encontrado. Por favor, reinicie el estimador.");
                 window.location.reload(); 
                 return;
             }
-
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
-            
             const total = Math.round((base + factor) * 1.20);
-            
             document.getElementById('verificationCodeSection').style.display = 'none';
             document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
             document.getElementById('resultPrice').style.display = 'block';
             document.getElementById('calcLeadForm').style.display = 'block';
-
             document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
             document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
             document.getElementById('calcService').value = service;
-            // Preparamos el mensaje para el script
-            document.getElementById('calcMessage').value = `Lead from Calculator. \nService: ${service} \nSize: ${size} \nYear: ${year} \nEstimated Total: $${total}`;
+            document.getElementById('calcMessage').value = `Lead from Calculator. 
+Service: ${service} 
+Size: ${size} 
+Year: ${year} 
+Estimated Total: $${total}`;
         }
-
         const testimonials = [
             { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
             { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
@@ -380,7 +331,6 @@
             { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
             { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
         ];
-
         function getWeekNumber(date) {
             const d = new Date(date);
             d.setHours(0, 0, 0, 0);
@@ -388,7 +338,6 @@
             const yearStart = new Date(d.getFullYear(), 0, 1);
             return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
         }
-
         function loadWeeklyTestimonialCarousel() {
             const week = getWeekNumber(new Date());
             const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
@@ -404,27 +353,20 @@
             show();
             setInterval(() => { index++; show(); }, 10000);
         }
-
-        
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
-            
-            // --- ▼▼▼ MODIFICACIÓN: Asignar el nuevo manejador de envío ▼▼▼ ---
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
             }
-
             const calcLeadForm = document.getElementById('calcLeadForm');
             if (calcLeadForm) {
                 calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
             }
-            // --- ▲▲▲ FIN DE MODIFICACIÓN ▲▲▲ ---
         });
     </script>
 </head>
 <body>
-
     <header>
         <div class="container header-content">
             <a href="#home" class="logo">
@@ -441,12 +383,9 @@
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
                 <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-                
-                
                 </nav>
         </div>
     </header>
-
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>Golden Charge LLC</h1>
@@ -454,7 +393,6 @@
             <a href="#contact" class="btn">Get Free Quote</a>
         </div>
     </section>
-
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Our Services</h2>
@@ -468,7 +406,6 @@
             </div>
         </div>
     </section>
-
     <section class="testimonials" id="testimonials">
         <div class="container">
             <h2 class="section-title">Happy Customers</h2>
@@ -480,7 +417,6 @@
             </div>
         </div>
     </section>
-
     <section class="calculator-section" id="calculator">
         <div class="container">
             <h2 class="section-title">Instant Cost Estimator</h2>
@@ -514,7 +450,6 @@
                     </select>
                     <button type="button" class="btn" onclick="calculateEstimate()" style="margin-top: 20px;">Get Estimate</button>
                 </div>
-
                 <div class="calc-step" id="step3">
                     <h3>Get Your Estimate</h3>
                     <p>Complete your info and we'll send a 6-digit code to your phone to unlock your estimate.</p>
@@ -527,7 +462,6 @@
                     </div>
                     <div id="recaptcha-container"></div>
                     <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
-                    
                     <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
                         <p style="font-weight: bold;">Enter the 6-digit code we sent you:</p>
                         <div class="verification-code">
@@ -538,28 +472,22 @@
                             <span id="resendLink" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline; display: none;">Resend</span>
                         </p>
                     </div>
-
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
-                    
                     <form id="calcLeadForm" style="display:none; margin-top: 15px;">
                         <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
                         <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
                         <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
                         <input type="hidden" name="service" id="calcService">
-                        
                         <input type="hidden" name="message" id="calcMessage">
-                        
                         <input type="hidden" id="calcSize">
                         <input type="hidden" id="calcYear">
                         <input type="hidden" id="calcTotal">
-
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
                     </div>
             </div>
         </div>
     </section>
-
     <section class="gallery" id="gallery">
         <div class="container">
             <h2 class="section-title">Recent Work Gallery</h2>
@@ -573,7 +501,6 @@
             </div>
         </div>
     </section>
-
     <section class="about" id="about">
         <div class="container about-content">
             <div class="about-text">
@@ -588,7 +515,6 @@
             </div>
         </div>
     </section>
-
     <section class="contact" id="contact">
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
@@ -622,7 +548,6 @@
                 </div>
         </div>
     </section>
-
     <footer>
         <div class="container footer-content">
             <div class="footer-column">
@@ -653,37 +578,26 @@
             <div class="footer-column">
     <h3>Contact Info</h3>
     <div class="contact-info">
-        
         <p>Fremont, CA<br>
         Golden Charge Electrician Company</p>
-
         <div class="contact-item" style="margin-top: 10px;"> <span>📞 General Inquiries:</span><br> <strong><a href="tel:+14244653362" style="color: #fff; text-decoration: none;">+1 (424) 465-3362</a></strong> (also dial: <strong>GOLDENC</strong>)
         </div>
-
         <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a>
         </div>
-
         <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
         </div>
-
         <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
         </div>
-
         <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
-        
     </div>
-
     <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer></div>
-
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
-    
     <style>
         .bp3-webchat-footer {
             display: none !important;
         }
     </style>
-
 </body>
 </html>
