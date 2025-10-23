@@ -112,7 +112,7 @@
         .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
         .footer-column a:hover { color: var(--gold); }
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
-        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify: content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
+        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
         .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
@@ -140,6 +140,87 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
+
+
+        // --- ▼▼▼ INICIO: LÓGICA DE FORMULARIO CORREGIDA ▼▼▼ ---
+
+        // Esta es tu URL de Google Apps Script (la que tiene el arreglo de CORS)
+        const SCRIPT_URL = "https://script.google.com/a/macros/goldencharge.net/s/AKfycbwOAfdQ0v-H-kEpj2a40Czi3n5TQhB2qLO4polUisdMtzJSilyrabypFS-8M1ZZnhNuSA/exec";
+        const THANKS_URL = "https://goldencharge.net/thanks.html";
+
+        /**
+         * Nueva función universal para enviar datos como JSON a Google Apps Script.
+         */
+        async function sendDataToGoogleScript(data) {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors', // Necesario para peticiones cross-origin a Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+                
+                const textResponse = await response.text();
+                return JSON.parse(textResponse);
+            
+            } catch (error) {
+                console.error("Error al enviar a Google Script:", error);
+                throw new Error("Error al contactar el servidor.");
+            }
+        }
+        
+        /**
+         * Función modificada para manejar el envío de formularios.
+         * Ahora recolecta los datos, los convierte a un objeto simple,
+         * y los envía usando sendDataToGoogleScript.
+         */
+        async function handleFormSubmit(event, form, submitButton) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            // Convertir FormData a un objeto simple
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            });
+
+            // Si hay canales, unirlos en un string
+            if (data.channel && Array.isArray(data.channel)) {
+                data.message = `Preferred channels: ${data.channel.join(', ')}. \n\nMessage: ${data.message || ''}`;
+            }
+
+            try {
+                // Usamos la nueva función de envío
+                await sendDataToGoogleScript(data);
+                // Redirigimos a la página de agradecimiento
+                window.location.href = THANKS_URL;
+            } catch (error) {
+                console.error("Error al enviar el formulario: ", error);
+                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
+                submitButton.disabled = false;
+                // Restaurar texto original del botón
+                if (form.id === 'contactForm') {
+                    submitButton.textContent = 'Send Message';
+                } else if (form.id === 'calcLeadForm') {
+                    submitButton.textContent = 'Send Detailed Quote to My Email';
+                }
+            }
+        }
+
+        // --- ▲▲▲ FIN: LÓGICA DE FORMULARIO CORREGIDA ▲▲▲ ---
+
 
         let confirmationResult = null;
         let isFirstSendAttempt = true;
@@ -187,14 +268,19 @@
 
             if (isFirstSendAttempt) {
                 try {
-                    const autoLeadForm = document.getElementById('autoLeadCaptureForm');
-                    autoLeadForm.querySelector('input[name="email"]').value = email;
-                    autoLeadForm.querySelector('input[name="city"]').value = city;
-                    autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm), headers: { 'Accept': 'application/json' } });
+                    // --- ▼▼▼ MODIFICACIÓN: Captura automática usa Google Script ▼▼▼ ---
+                    const autoLeadData = {
+                        email: email,
+                        city: city, // Tu script lo lee como 'message'
+                        phone: phone,
+                        service: "Automatic Lead (Calculator Step 3)"
+                    };
+                    await sendDataToGoogleScript(autoLeadData); // Usamos la nueva función
                     isFirstSendAttempt = false;
+                    // --- ▲▲▲ FIN DE MODIFICACIÓN ▲▲▲ ---
                 } catch (error) {
                     console.error('Error al capturar lead:', error);
+                    // No detenemos el flujo si esto falla, la verificación es más importante
                 }
             }
 
@@ -240,16 +326,13 @@
             }
         }
 
-        // ▼▼▼ LA CORRECCIÓN CLAVE DE PRECIOS ESTÁ AQUÍ ▼▼▼
         async function loadPrices() {
             try {
-                // CORRECCIÓN: La URL ahora apunta a la carpeta correcta en GitHub
                 const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
                 if (!res.ok) throw new Error('Failed to fetch from GitHub');
                 return await res.json();
             } catch (err) {
                 console.warn("Could not fetch prices from GitHub. Using fallback.");
-                // Si falla, AHORA SÍ tenemos la lista completa con los 6 servicios como respaldo seguro
                 return {
                     "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
                     "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -286,9 +369,8 @@
             document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
             document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
             document.getElementById('calcService').value = service;
-            document.getElementById('calcSize').value = size;
-            document.getElementById('calcYear').value = year;
-            document.getElementById('calcTotal').value = total;
+            // Preparamos el mensaje para el script
+            document.getElementById('calcMessage').value = `Lead from Calculator. \nService: ${service} \nSize: ${size} \nYear: ${year} \nEstimated Total: $${total}`;
         }
 
         const testimonials = [
@@ -323,24 +405,11 @@
             setInterval(() => { index++; show(); }, 10000);
         }
 
-        async function handleFormSubmit(event, form, submitButton) {
-            event.preventDefault();
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-            try {
-                await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-                window.location.href = form.querySelector('input[name="_redirect"]').value;
-            } catch (error) {
-                console.error("Error al enviar el formulario: ", error);
-                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message';
-            }
-        }
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
             
+            // --- ▼▼▼ MODIFICACIÓN: Asignar el nuevo manejador de envío ▼▼▼ ---
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
@@ -350,6 +419,7 @@
             if (calcLeadForm) {
                 calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
             }
+            // --- ▲▲▲ FIN DE MODIFICACIÓN ▲▲▲ ---
         });
     </script>
 </head>
@@ -471,30 +541,24 @@
 
                     <div id="resultPrice" class="price-display" style="display:none;"></div>
                     
-                    <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
-                        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+                    <form id="calcLeadForm" style="display:none; margin-top: 15px;">
                         <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
                         <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
                         <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
                         <input type="hidden" name="service" id="calcService">
-                        <input type="hidden" name="size" id="calcSize">
-                        <input type="hidden" name="year" id="calcYear">
-                        <input type="hidden" name="estimatedTotal" id="calcTotal">
+                        
+                        <input type="hidden" name="message" id="calcMessage">
+                        
+                        <input type="hidden" id="calcSize">
+                        <input type="hidden" id="calcYear">
+                        <input type="hidden" id="calcTotal">
+
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
-                </div>
+                    </div>
             </div>
         </div>
     </section>
-
-    <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
-        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
-        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
-        <input type="email" name="email">
-        <input type="text" name="city">
-        <input type="tel" name="phone">
-    </form>
 
     <section class="gallery" id="gallery">
         <div class="container">
@@ -504,7 +568,7 @@
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-                <div class="gallery-item"><img src="https" alt="Emergency repair"></div>
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
                 <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
             </div>
         </div>
@@ -529,20 +593,19 @@
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
-                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
-                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+                <form id="contactForm">
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
                     <div class="form-group"><label for="service">Service Required</label>
                         <select id="service" name="service" class="form-control" required>
                             <option value="">Select a service</option>
-                            <option value="residential">Residential</option>
-                            <option value="commercial">Commercial</option>
-                            <option value="emergency">Emergency</option>
-                            <option value="low-voltage">Low Voltage</option>
-                            <option value="smart-home">Smart Home</option>
-                            <option value="panel-upgrade">Panel Upgrade</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Low Voltage">Low Voltage</option>
+                            <option value="Smart Home">Smart Home</option>
+                            <option value="Panel Upgrade">Panel Upgrade</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -556,7 +619,7 @@
                     <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
                     <button type="submit" class="form-submit">Send Message</button>
                 </form>
-            </div>
+                </div>
         </div>
     </section>
 
@@ -610,7 +673,7 @@
         
     </div>
 
-        <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
+    <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer></div>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
