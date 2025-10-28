@@ -358,7 +358,16 @@
         // INICIO DE LA CORRECCIÓN 3 (MANEJO DE REDIRECCIÓN Y ERRORES)
         // =================================================================
         async function handleFormSubmit(event, form, submitButton) {
-            event.preventDefault();
+            // No prevenimos el default para el formulario de contacto, SÍ para los otros
+            if (form.id !== 'contactForm') {
+                 event.preventDefault();
+            } else {
+                 // Para el contactForm, dejamos que el HTML haga el envío
+                 // Podríamos deshabilitar el botón aquí si quisiéramos, pero
+                 // la redirección natural del form lo hará parecer deshabilitado.
+                 return; // Salimos de la función para el contactForm
+            }
+            
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
             try {
@@ -373,28 +382,25 @@
                 if (redirectInput && redirectInput.value) {
                     window.location.href = redirectInput.value;
                 } else {
-                    // Si no hay _redirect, muestra un mensaje de éxito simple
+                    // Si no hay _redirect (esto no debería pasar con los forms de la calculadora), 
+                    // muestra un mensaje de éxito simple y reactiva el botón
                     alert('Form submitted successfully!'); 
-                    // Y reactiva el botón
                     submitButton.disabled = false;
-                     if (form.id === 'contactForm') {
-                         submitButton.textContent = 'Send Message';
-                     } else if (form.id === 'calcLeadForm') {
+                     if (form.id === 'calcLeadForm') { // Solo aplica al form de la calculadora
                          submitButton.textContent = 'Send Detailed Quote to My Email';
                      }
                 }
             
             } catch (error) {
-                console.error("Error al enviar el formulario: ", error);
+                console.error("Error al enviar el formulario (calculadora): ", error);
                 alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
                 submitButton.disabled = false;
                 
-                // Restaura el texto original del botón
-                if (form.id === 'contactForm') {
-                    submitButton.textContent = 'Send Message';
-                } else if (form.id === 'calcLeadForm') {
+                // Restaura el texto original del botón de la calculadora
+                if (form.id === 'calcLeadForm') {
                     submitButton.textContent = 'Send Detailed Quote to My Email';
                 }
+                // No necesitamos restaurar el de contacto porque no se maneja aquí
             }
         }
         // =================================================================
@@ -406,11 +412,13 @@
             
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
-                contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
+                 // *** LÍNEA COMENTADA/ELIMINADA: Ya no interceptamos el contactForm ***
+                // contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
             }
 
             const calcLeadForm = document.getElementById('calcLeadForm');
             if (calcLeadForm) {
+                // Mantenemos el listener para el formulario de la calculadora
                 calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
             }
         });
