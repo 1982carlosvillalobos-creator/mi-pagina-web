@@ -355,7 +355,7 @@
         }
 
         // =================================================================
-        // INICIO DE LA CORRECCIÓN 2 (FORMULARIO DE CONTACTO Y CALCULADORA FINAL)
+        // INICIO DE LA CORRECCIÓN 3 (MANEJO DE REDIRECCIÓN Y ERRORES)
         // =================================================================
         async function handleFormSubmit(event, form, submitButton) {
             event.preventDefault();
@@ -368,8 +368,21 @@
                     body: new FormData(form) 
                 });
                 
-                // Redirige a la página de "gracias" como antes.
-                window.location.href = form.querySelector('input[name="_redirect"]').value;
+                // *** CORRECCIÓN: Solo redirige si el campo _redirect existe ***
+                const redirectInput = form.querySelector('input[name="_redirect"]');
+                if (redirectInput && redirectInput.value) {
+                    window.location.href = redirectInput.value;
+                } else {
+                    // Si no hay _redirect, muestra un mensaje de éxito simple
+                    alert('Form submitted successfully!'); 
+                    // Y reactiva el botón
+                    submitButton.disabled = false;
+                     if (form.id === 'contactForm') {
+                         submitButton.textContent = 'Send Message';
+                     } else if (form.id === 'calcLeadForm') {
+                         submitButton.textContent = 'Send Detailed Quote to My Email';
+                     }
+                }
             
             } catch (error) {
                 console.error("Error al enviar el formulario: ", error);
@@ -385,7 +398,7 @@
             }
         }
         // =================================================================
-        // FIN DE LA CORRECCIÓN 2
+        // FIN DE LA CORRECCIÓN 3
         // =================================================================
 
         document.addEventListener('DOMContentLoaded', () => {
