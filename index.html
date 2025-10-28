@@ -355,56 +355,53 @@
         }
 
         // =================================================================
-        // INICIO DE LA CORRECCIÓN 3 (MANEJO DE REDIRECCIÓN Y ERRORES)
+        // INICIO DE LA CORRECCIÓN 4 (SOLO MANEJA CALCULADORA CON JS)
         // =================================================================
         async function handleFormSubmit(event, form, submitButton) {
-            // No prevenimos el default para el formulario de contacto, SÍ para los otros
+            // Prevenimos el default solo si NO es el contactForm
             if (form.id !== 'contactForm') {
                  event.preventDefault();
             } else {
                  // Para el contactForm, dejamos que el HTML haga el envío
-                 // Podríamos deshabilitar el botón aquí si quisiéramos, pero
-                 // la redirección natural del form lo hará parecer deshabilitado.
                  return; // Salimos de la función para el contactForm
             }
             
+            // Este código solo se ejecutará para calcLeadForm
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
             try {
-                // *** LÍNEA CORREGIDA: Se eliminó 'headers' y cualquier llamada a AppsScript ***
+                // Envío corregido sin 'headers'
                 await fetch(form.action, { 
                     method: 'POST', 
                     body: new FormData(form) 
                 });
                 
-                // *** CORRECCIÓN: Solo redirige si el campo _redirect existe ***
+                // Redirección para calcLeadForm
                 const redirectInput = form.querySelector('input[name="_redirect"]');
                 if (redirectInput && redirectInput.value) {
                     window.location.href = redirectInput.value;
                 } else {
-                    // Si no hay _redirect (esto no debería pasar con los forms de la calculadora), 
-                    // muestra un mensaje de éxito simple y reactiva el botón
+                    // Fallback si no hay redirect (poco probable aquí)
                     alert('Form submitted successfully!'); 
                     submitButton.disabled = false;
-                     if (form.id === 'calcLeadForm') { // Solo aplica al form de la calculadora
+                     if (form.id === 'calcLeadForm') { 
                          submitButton.textContent = 'Send Detailed Quote to My Email';
                      }
                 }
             
             } catch (error) {
                 console.error("Error al enviar el formulario (calculadora): ", error);
-                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
+                alert('Hubo un error al enviar tu solicitud (calculadora). Por favor, intenta de nuevo.');
                 submitButton.disabled = false;
                 
                 // Restaura el texto original del botón de la calculadora
                 if (form.id === 'calcLeadForm') {
                     submitButton.textContent = 'Send Detailed Quote to My Email';
                 }
-                // No necesitamos restaurar el de contacto porque no se maneja aquí
             }
         }
         // =================================================================
-        // FIN DE LA CORRECCIÓN 3
+        // FIN DE LA CORRECCIÓN 4
         // =================================================================
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -412,14 +409,14 @@
             
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
-                 // *** LÍNEA COMENTADA/ELIMINADA: Ya no interceptamos el contactForm ***
+                 // *** LÍNEA COMENTADA: Ya no interceptamos el contactForm ***
                 // contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
             }
 
             const calcLeadForm = document.getElementById('calcLeadForm');
             if (calcLeadForm) {
-                // Mantenemos el listener para el formulario de la calculadora
-                calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
+                 // *** LÍNEA COMENTADA: TAMPOCO INTERCEPTAMOS EL calcLeadForm ***
+                // calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
             }
         });
     </script>
@@ -601,7 +598,7 @@
             <div class="contact-form">
                 <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
                     <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-                    <input type="hidden" name="_subject" value="Nuevo mensaje desde Golden Charge LLC">
+                    <input type="hidden" name="_subject" value="Nuevo mensaje desde Golden Charge LLC"> 
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
                     <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
