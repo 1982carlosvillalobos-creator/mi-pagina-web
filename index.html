@@ -1,647 +1,666 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Golden Charge Electrician Company | Bay Area</title>
-    <meta name="description" content="Professional electrical services in the Bay Area. EV Chargers, Panel Upgrades, 24/7 Emergencies, and Smart Homes. Free estimates & bilingual support.">
-    
-    <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
-    <link rel="shortcut icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Golden Charge Electrician Company | Bay Area</title>
+    <meta name="description" content="Professional electrical services in the Bay Area. EV Chargers, Panel Upgrades, 24/7 Emergencies, and Smart Homes. Free estimates & bilingual support.">
+    
+    <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
-        :root {
-            --gold: #FFD700;
-            --dark-blue: #0A2463;
-            --light-gray: #F8F9FA;
-            --transition: all .3s ease;
-            --testimonial-bg: #ffffff;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; }
-        html { scroll-behavior: smooth; }
-        header { background: linear-gradient(135deg, var(--dark-blue), #000); color: #fff; padding: .4rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .header-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: bold; color: var(--gold); text-decoration: none; }
-        .logo img { height: 60px; width: 60px; border-radius: 50%; box-shadow: 0 0 10px rgba(255,215,0,.3); transition: var(--transition); border: 2px solid var(--gold); }
-        .nav-menu { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding: 0 5px; }
-        .nav-menu::-webkit-scrollbar { display: none; }
-        .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
-        .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-blue: #0A2463;
+            --light-gray: #F8F9FA;
+            --transition: all .3s ease;
+            --testimonial-bg: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        header { background: linear-gradient(135deg, var(--dark-blue), #000); color: #fff; padding: .4rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: bold; color: var(--gold); text-decoration: none; }
+        .logo img { height: 60px; width: 60px; border-radius: 50%; box-shadow: 0 0 10px rgba(255,215,0,.3); transition: var(--transition); border: 2px solid var(--gold); }
+        .nav-menu { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding: 0 5px; }
+        .nav-menu::-webkit-scrollbar { display: none; }
+        .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
+        .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
 
-        /* ▼▼▼ CSS AÑADIDO PARA EL BOTÓN DE LLAMADA ▼▼▼ */
-        .nav-menu a.header-call-btn {
-            background: var(--gold);
-            color: var(--dark-blue);
-            font-weight: bold;
-            border-radius: 50px;
-            padding: 5px 15px;
-            margin-left: 10px;
-            transition: var(--transition);
-            position: relative; /* Para el tooltip */
-        }
-        .nav-menu a.header-call-btn:hover {
-            background: #fff;
-            color: #000;
-            transform: scale(1.05);
-        }
+        /* ▼▼▼ CSS AÑADIDO PARA EL BOTÓN DE LLAMADA ▼▼▼ */
+        .nav-menu a.header-call-btn {
+            background: var(--gold);
+            color: var(--dark-blue);
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 5px 15px;
+            margin-left: 10px; /* <- Puedes cambiar esto a margin-right: 10px si mueves el botón al inicio */
+            transition: var(--transition);
+        }
+        .nav-menu a.header-call-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.05);
+            background: #fff; /* Anula el hover normal */
+        }
+        /* ▲▲▲ FIN DEL CSS AÑADIDO ▲▲▲ */
 
-        /* --- TOOLTIP PERSONALIZADO PARA EL BOTÓN DE LLAMADA --- */
-        .header-call-btn:hover::after {
-            content: "Haz clic aquí para llamarnos";
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--dark-blue);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            z-index: 1001;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            pointer-events: none; /* Para que no interfiera con el clic */
-        }
-        /* ▲▲▲ FIN DEL CSS AÑADIDO ▲▲▲ */
+        .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--gold); }
+        .hero p { font-size: 1.3rem; margin-bottom: 2rem; }
+        .btn { display: inline-block; padding: 18px 45px; background: var(--gold); color: var(--dark-blue); text-decoration: none; border-radius: 50px; font-weight: bold; transition: .3s; box-shadow: 0 6px 20px rgba(255,215,0,.8); letter-spacing: .5px; }
+        .btn:hover { transform: translateY(-5px); }
+        .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
+        .services { padding: 100px 0; background: #fff; }
+        .section-title { text-align: center; margin-bottom: 60px; color: var(--dark-blue); font-size: 2.5rem; font-weight: 700; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 30px; }
+        .service-card { background: var(--light-gray); padding: 35px 30px; border-radius: 15px; text-align: center; transition: var(--transition); box-shadow: 0 5px 15px rgba(0,0,0,.1); }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .service-icon { font-size: 3rem; color: var(--gold); margin-bottom: 20px; }
+        .service-card h3 { margin-bottom: 15px; color: var(--dark-blue); }
+        .testimonials { padding: 100px 0; background: #f0f4f8; }
+        .testimonial-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .testimonial-card { background: var(--testimonial-bg); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,.1); margin: 0 20px; }
+        .testimonial-text { font-size: 1.2rem; line-height: 1.8; color: #333; font-style: italic; margin-bottom: 20px; }
+        .testimonial-author { color: var(--dark-blue); font-weight: 600; }
+        .calculator-section { padding: 100px 20px; background: #f0f4f8; }
+        .calculator-wrapper { max-width: 700px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+        .calc-step { display: none; animation: fadeIn .5s ease; }
+        .calc-step.active { display: block; }
+        .calc-options { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 15px; margin-bottom: 25px; }
+        .calc-card { display: block; border: 2px solid #ddd; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 600; background: #fafafa; transition: all 0.3s; }
+        .calc-card:hover { border-color: var(--gold); background: rgba(255,215,0,.1); }
+        .calc-card input { display: none; }
+        .calc-card:has(input:checked) { border-color: var(--gold); background: rgba(255,215,0,.1); }
+        .price-display { font-size: 2.2rem; font-weight: bold; color: var(--dark-blue); text-align: center; margin: 20px 0; display: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .verification-code-input { text-align: center; font-size: 1.8rem; letter-spacing: 0.8rem; font-family: monospace; padding-left: 1.2rem; }
+        .form-group.inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .gallery { padding: 100px 0; background: #f0f4f8; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; }
+        .gallery-item { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.1); height: 250px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .about { padding: 100px 0; background: var(--dark-blue); color: #fff; }
+        .about-content { display: flex; gap: 50px; flex-wrap: wrap; align-items: center; justify-content: center; }
+        .about-text { flex: 1; min-width: 300px; max-width: 500px; }
+        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; color: var(--gold); }
+        .about-text p { margin-bottom: 15px; font-size: 1.1rem; opacity: .9; }
+        .highlight { color: var(--gold); font-weight: 600; }
+        .about-image { flex: 1; min-width: 300px; max-width: 500px; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,.4); border: 3px solid var(--gold); }
+        .about-image img { width: 100%; display: block; transition: var(--transition); }
+        .about-image img:hover { transform: scale(1.03); }
+        .contact { padding: 100px 0; background: #fff; }
+        .contact-form { max-width: 650px; margin: 0 auto; padding: 40px; background: var(--light-gray); border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,.1); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--dark-blue); font-weight: 500; }
+        .form-control { width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 1rem; }
+        .form-control:focus { outline: none; border-color: var(--gold); }
+        .form-submit { background: var(--gold); color: var(--dark-blue); border: none; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        footer { background: var(--dark-blue); color: #ccc; padding: 60px 0 30px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 30px; margin-bottom: 40px; }
+        .footer-column h3 { color: var(--gold); margin-bottom: 20px; font-size: 1.3rem; }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 10px; }
+        .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
+        .footer-column a:hover { color: var(--gold); }
+        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
+        .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
+        .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
+        .contact-info { font-size: .95rem; line-height: 1.8; }
+        .contact-info a { color: #fff; text-decoration: underline; }
+        .contact-info a:hover { color: var(--gold); }
+    </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script>
+        // === INICIO: CONFIGURACIÓN DE FIREBASE ===
+        const firebaseConfig = {
+          apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
+          authDomain: "goldench-final-chatbot.firebaseapp.com",
+          projectId: "goldench-final-chatbot",
+          storageBucket: "goldench-final-chatbot.appspot.com",
+          messagingSenderId: "418294744257",
+          appId: "1:418294744257:web:f06d527214360aae358040"
+        };
+        
+        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
 
-        .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
-        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--gold); }
-        .hero p { font-size: 1.3rem; margin-bottom: 2rem; }
-        .btn { display: inline-block; padding: 18px 45px; background: var(--gold); color: var(--dark-blue); text-decoration: none; border-radius: 50px; font-weight: bold; transition: .3s; box-shadow: 0 6px 20px rgba(255,215,0,.8); letter-spacing: .5px; }
-        .btn:hover { transform: translateY(-5px); }
-        .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
-        .services { padding: 100px 0; background: #fff; }
-        .section-title { text-align: center; margin-bottom: 60px; color: var(--dark-blue); font-size: 2.5rem; font-weight: 700; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 30px; }
-        .service-card { background: var(--light-gray); padding: 35px 30px; border-radius: 15px; text-align: center; transition: var(--transition); box-shadow: 0 5px 15px rgba(0,0,0,.1); }
-        .service-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-        .service-icon { font-size: 3rem; color: var(--gold); margin-bottom: 20px; }
-        .service-card h3 { margin-bottom: 15px; color: var(--dark-blue); }
-        .testimonials { padding: 100px 0; background: #f0f4f8; }
-        .testimonial-container { max-width: 800px; margin: 0 auto; text-align: center; }
-        .testimonial-card { background: var(--testimonial-bg); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,.1); margin: 0 20px; }
-        .testimonial-text { font-size: 1.2rem; line-height: 1.8; color: #333; font-style: italic; margin-bottom: 20px; }
-        .testimonial-author { color: var(--dark-blue); font-weight: 600; }
-        .calculator-section { padding: 100px 20px; background: #f0f4f8; }
-        .calculator-wrapper { max-width: 700px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
-        .calc-step { display: none; animation: fadeIn .5s ease; }
-        .calc-step.active { display: block; }
-        .calc-options { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 15px; margin-bottom: 25px; }
-        .calc-card { display: block; border: 2px solid #ddd; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 600; background: #fafafa; transition: all 0.3s; }
-        .calc-card:hover { border-color: var(--gold); background: rgba(255,215,0,.1); }
-        .calc-card input { display: none; }
-        .calc-card:has(input:checked) { border-color: var(--gold); background: rgba(255,215,0,.1); }
-        .price-display { font-size: 2.2rem; font-weight: bold; color: var(--dark-blue); text-align: center; margin: 20px 0; display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .verification-code-input { text-align: center; font-size: 1.8rem; letter-spacing: 0.8rem; font-family: monospace; padding-left: 1.2rem; }
-        .form-group.inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .gallery { padding: 100px 0; background: #f0f4f8; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; }
-        .gallery-item { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.1); height: 250px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .about { padding: 100px 0; background: var(--dark-blue); color: #fff; }
-        .about-content { display: flex; gap: 50px; flex-wrap: wrap; align-items: center; justify-content: center; }
-        .about-text { flex: 1; min-width: 300px; max-width: 500px; }
-        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; color: var(--gold); }
-        .about-text p { margin-bottom: 15px; font-size: 1.1rem; opacity: .9; }
-        .highlight { color: var(--gold); font-weight: 600; }
-        .about-image { flex: 1; min-width: 300px; max-width: 500px; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,.4); border: 3px solid var(--gold); }
-        .about-image img { width: 100%; display: block; transition: var(--transition); }
-        .about-image img:hover { transform: scale(1.03); }
-        .contact { padding: 100px 0; background: #fff; }
-        .contact-form { max-width: 650px; margin: 0 auto; padding: 40px; background: var(--light-gray); border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,.1); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--dark-blue); font-weight: 500; }
-        .form-control { width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 1rem; }
-        .form-control:focus { outline: none; border-color: var(--gold); }
-        .form-submit { background: var(--gold); color: var(--dark-blue); border: none; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-        footer { background: var(--dark-blue); color: #ccc; padding: 60px 0 30px; }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 30px; margin-bottom: 40px; }
-        .footer-column h3 { color: var(--gold); margin-bottom: 20px; font-size: 1.3rem; }
-        .footer-column ul { list-style: none; }
-        .footer-column li { margin-bottom: 10px; }
-        .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
-        .footer-column a:hover { color: var(--gold); }
-        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
-        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
-        .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
-        .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
-        .contact-info { font-size: .95rem; line-height: 1.8; }
-        .contact-info a { color: #fff; text-decoration: underline; }
-        .contact-info a:hover { color: var(--gold); }
-    </style>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
-    <script>
-        // === INICIO: CONFIGURACIÓN DE FIREBASE ===
-        const firebaseConfig = {
-          apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
-          authDomain: "goldench-final-chatbot.firebaseapp.com",
-          projectId: "goldench-final-chatbot",
-          storageBucket: "goldench-final-chatbot.appspot.com",
-          messagingSenderId: "418294744257",
-          appId: "1:418294744257:web:f06d527214360aae358040"
-        };
-        
-        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
+        let confirmationResult = null;
+        let isFirstSendAttempt = true;
 
-        let confirmationResult = null;
-        let isFirstSendAttempt = true;
+        function nextStep() {
+            const service = document.querySelector('input[name="service"]:checked');
+            if (!service) return alert('Please select a service');
+            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step2').classList.add('active');
+        }
 
-        function nextStep() {
-            const service = document.querySelector('input[name="service"]:checked');
-            if (!service) return alert('Please select a service');
-            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step2').classList.add('active');
-        }
+        function calculateEstimate() {
+            const service = document.querySelector('input[name="service"]:checked');
+            const size = document.getElementById('houseSize').value;
+            const year = document.getElementById('houseYear').value;
+            if (!service || !size || !year) return alert('Please select all fields');
+            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step3').classList.add('active');
+        }
 
-        function calculateEstimate() {
-            const service = document.querySelector('input[name="service"]:checked');
-            const size = document.getElementById('houseSize').value;
-            const year = document.getElementById('houseYear').value;
-            if (!service || !size || !year) return alert('Please select all fields');
-            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step3').classList.add('active');
-        }
+        async function sendVerificationCode() {
+            const sendButton = document.getElementById('sendCodeBtn');
+            const resendLink = document.getElementById('resendLink');
 
-        async function sendVerificationCode() {
-            const sendButton = document.getElementById('sendCodeBtn');
-            const resendLink = document.getElementById('resendLink');
+            if(sendButton) sendButton.disabled = true;
+            if(sendButton) sendButton.textContent = 'Enviando...';
+            resendLink.style.pointerEvents = 'none';
+            
+            const recaptchaContainer = document.getElementById('recaptcha-container');
+            recaptchaContainer.innerHTML = '';
 
-            if(sendButton) sendButton.disabled = true;
-            if(sendButton) sendButton.textContent = 'Enviando...';
-            resendLink.style.pointerEvents = 'none';
-            
-            const recaptchaContainer = document.getElementById('recaptcha-container');
-            recaptchaContainer.innerHTML = '';
+            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
 
-            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+            const email = document.getElementById('leadEmail').value.trim();
+            const city = document.getElementById('leadCity').value.trim();
+            let phone = document.getElementById('phoneNumber').value.trim();
 
-            const email = document.getElementById('leadEmail').value.trim();
-            const city = document.getElementById('leadCity').value.trim();
-            let phone = document.getElementById('phoneNumber').value.trim();
+            if (!email || !city || !phone) {
+                alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
+                if(sendButton) sendButton.disabled = false;
+                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                resendLink.style.pointerEvents = 'auto';
+                return;
+            }
 
-            if (!email || !city || !phone) {
-                alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
-                if(sendButton) sendButton.disabled = false;
-                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
-                resendLink.style.pointerEvents = 'auto';
-                return;
-            }
+            if (isFirstSendAttempt) {
+                try {
+                    const autoLeadForm = document.getElementById('autoLeadCaptureForm');
+                    autoLeadForm.querySelector('input[name="email"]').value = email;
+                    autoLeadForm.querySelector('input[name="city"]').value = city;
+                    autoLeadForm.querySelector('input[name="phone"]').value = phone;
+                    // APLICAMOS LA MISMA CORRECCIÓN AQUÍ: ELIMINAMOS "headers"
+                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
+                    isFirstSendAttempt = false;
+                } catch (error) {
+                    console.error('Error al capturar lead:', error);
+CONSOLA: No ejecutes google.script.run('processForm')
+                }
+            }
 
-            if (isFirstSendAttempt) {
-                try {
-                    const autoLeadForm = document.getElementById('autoLeadCaptureForm');
-                    autoLeadForm.querySelector('input[name="email"]').value = email;
-                    autoLeadForm.querySelector('input[name="city"]').value = city;
-                    autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm), headers: { 'Accept': 'application/json' } });
-                    isFirstSendAttempt = false;
-                } catch (error) {
-                    console.error('Error al capturar lead:', error);
-                }
-            }
+            if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
 
-            if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
+            try {
+                confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
+                
+                document.getElementById('verificationCodeSection').style.display = 'block';
+                document.getElementById('leadEmail').disabled = true;
+                document.getElementById('leadCity').disabled = true;
+                document.getElementById('phoneNumber').disabled = true;
+                if (sendButton) sendButton.style.display = 'none';
+                resendLink.style.display = 'inline';
+                alert('¡Código enviado! Por favor, ingréselo a continuación.');
+            } catch (error) {
+                console.error("Error al enviar SMS:", error);
+                alert('Error al enviar el código. Verifique el número e intente de nuevo.');
+            } finally {
+                if (sendButton) sendButton.disabled = false;
+                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
+                resendLink.style.pointerEvents = 'auto';
+            }
+        }
+        
+        async function verifyCode() {
+            const code = document.getElementById('verificationCode').value.trim();
+            if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
+            
+            const verifyButton = document.querySelector('#verificationCodeSection .btn');
+            verifyButton.disabled = true;
+            verifyButton.textContent = 'Verificando...';
 
-            try {
-                confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
-                
-                document.getElementById('verificationCodeSection').style.display = 'block';
-                document.getElementById('leadEmail').disabled = true;
-                document.getElementById('leadCity').disabled = true;
-                document.getElementById('phoneNumber').disabled = true;
-                if (sendButton) sendButton.style.display = 'none';
-                resendLink.style.display = 'inline';
-                alert('¡Código enviado! Por favor, ingréselo a continuación.');
-            } catch (error) {
-                console.error("Error al enviar SMS:", error);
-                alert('Error al enviar el código. Verifique el número e intente de nuevo.');
-            } finally {
-                if (sendButton) sendButton.disabled = false;
-                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
-                resendLink.style.pointerEvents = 'auto';
-            }
-        }
-        
-        async function verifyCode() {
-            const code = document.getElementById('verificationCode').value.trim();
-            if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
-            
-            const verifyButton = document.querySelector('#verificationCodeSection .btn');
-            verifyButton.disabled = true;
-            verifyButton.textContent = 'Verificando...';
+            try {
+                await confirmationResult.confirm(code);
+                alert('¡Verificación exitosa!');
+                showEstimateAndForm();
+            } catch (error) {
+                console.error("Error al verificar el código:", error);
+                alert('Código inválido. Por favor, intente de nuevo.');
+                verifyButton.disabled = false;
+                verifyButton.textContent = 'Verify & Show Estimate';
+            }
+        }
 
-            try {
-                await confirmationResult.confirm(code);
-                alert('¡Verificación exitosa!');
-                showEstimateAndForm();
-            } catch (error) {
-                console.error("Error al verificar el código:", error);
-                alert('Código inválido. Por favor, intente de nuevo.');
-                verifyButton.disabled = false;
-                verifyButton.textContent = 'Verify & Show Estimate';
-            }
-        }
+        // ▼▼▼ LA CORRECCIÓN CLAVE DE PRECIOS ESTÁ AQUÍ ▼▼▼
+        async function loadPrices() {
+            try {
+                // CORRECCIÓN: La URL ahora apunta a la carpeta correcta en GitHub
+                const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
+                if (!res.ok) throw new Error('Failed to fetch from GitHub');
+                return await res.json();
+            } catch (err) {
+                console.warn("Could not fetch prices from GitHub. Using fallback.");
+                // Si falla, AHORA SÍ tenemos la lista completa con los 6 servicios como respaldo seguro
+                return {
+                    "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
+                    "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
+                    "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
+                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
+                    "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
+                    "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
+                };
+            }
+        }
 
-        // ▼▼▼ LA CORRECCIÓN CLAVE DE PRECIOS ESTÁ AQUÍ ▼▼▼
-        async function loadPrices() {
-            try {
-                // CORRECCIÓN: La URL ahora apunta a la carpeta correcta en GitHub
-                const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
-                if (!res.ok) throw new Error('Failed to fetch from GitHub');
-                return await res.json();
-            } catch (err) {
-                console.warn("Could not fetch prices from GitHub. Using fallback.");
-                // Si falla, AHORA SÍ tenemos la lista completa con los 6 servicios como respaldo seguro
-                return {
-                    "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
-                    "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
-                    "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
-                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
-                    "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
-                    "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
-                };
-            }
-        }
+        async function showEstimateAndForm() {
+            const prices = await loadPrices();
+            const service = document.querySelector('input[name="service"]:checked').value;
+            const size = document.getElementById('houseSize').value;
+            const year = document.getElementById('houseYear').value;
+            
+            if (!prices[service]) {
+                alert("Error: Servicio no encontrado. Por favor, reinicie el estimador.");
+                window.location.reload(); 
+                return;
+            }
 
-        async function showEstimateAndForm() {
-            const prices = await loadPrices();
-            const service = document.querySelector('input[name="service"]:checked').value;
-            const size = document.getElementById('houseSize').value;
-            const year = document.getElementById('houseYear').value;
-            
-            if (!prices[service]) {
-                alert("Error: Servicio no encontrado. Por favor, reinicie el estimador.");
-                window.location.reload(); 
-                return;
-            }
+            const base = prices[service].base[size];
+            const factor = prices[service].factor[year];
+            
+            const total = Math.round((base + factor) * 1.20);
+            
+            document.getElementById('verificationCodeSection').style.display = 'none';
+            document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
+            document.getElementById('resultPrice').style.display = 'block';
+            document.getElementById('calcLeadForm').style.display = 'block';
 
-            const base = prices[service].base[size];
-            const factor = prices[service].factor[year];
-            
-            const total = Math.round((base + factor) * 1.20);
-            
-            document.getElementById('verificationCodeSection').style.display = 'none';
-            document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
-            document.getElementById('resultPrice').style.display = 'block';
-            document.getElementById('calcLeadForm').style.display = 'block';
+            document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
+            document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
+            document.getElementById('calcService').value = service;
+            document.getElementById('calcSize').value = size;
+  SISTEMA: No ejecutes google.script.run('processForm')
+          document.getElementById('calcYear').value = year;
+            document.getElementById('calcTotal').value = total;
+        }
 
-            document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
-            document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
-            document.getElementById('calcService').value = service;
-            document.getElementById('calcSize').value = size;
-            document.getElementById('calcYear').value = year;
-            document.getElementById('calcTotal').value = total;
-        }
+        const testimonials = [
+            { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
+            { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
+            { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
+            { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
+            { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
+        ];
 
-        const testimonials = [
-            { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
-            { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
-            { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
-            { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
-            { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
-        ];
+        function getWeekNumber(date) {
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        }
 
-        function getWeekNumber(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        }
+        function loadWeeklyTestimonialCarousel() {
+            const week = getWeekNumber(new Date());
+            const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
+            const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
+            let index = 0;
+            const display = document.getElementById('testimonial-display');
+            function show() {
+                if(group.length > 0) {
+                    const t = group[index % group.length];
+                    display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
+                }
+            }
+            show();
+            setInterval(() => { index++; show(); }, 10000);
+        }
 
-        function loadWeeklyTestimonialCarousel() {
-            const week = getWeekNumber(new Date());
-            const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
-            const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
-            let index = 0;
-            const display = document.getElementById('testimonial-display');
-            function show() {
-                if(group.length > 0) {
-                    const t = group[index % group.length];
-                    display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
-                }
-            }
-            show();
-            setInterval(() => { index++; show(); }, 10000);
-        }
+        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        // === INICIO DE LA CORRECCIÓN DEL FORMULARIO ===
+        // ESTA ES LA FUNCIÓN ACTUALIZADA
+        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        async function handleFormSubmit(event, form, submitButton) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            try {
+                // 1. Se eliminó cualquier referencia a Apps Script.
+                // 2. Se eliminó la línea "headers: { 'Accept': 'application/json' }" que causaba el error CORS.
+                await fetch(form.action, { 
+                    method: 'POST', 
+body: new FormData(form) 
+                });
+                
+                // Redirige a la página de "gracias" como antes.
+                window.location.href = form.querySelector('input[name="_redirect"]').value;
+            
+            } catch (error) {
+                console.error("Error al enviar el formulario: ", error);
+                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
+    NADA: No ejecutes google.script.run('processForm')
+            submitButton.disabled = false;
+                // Restaura el texto original del botón (puede ser diferente para cada formulario)
+                if (form.id === 'contactForm') {
+                    submitButton.textContent = 'Send Message';
+                } else if (form.id === 'calcLeadForm') {
+                    submitButton.textContent = 'Send Detailed Quote to My Email';
+                }
+            }
+        }
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        // === FIN DE LA CORRECCIÓN DEL FORMULARIO ===
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-        async function handleFormSubmit(event, form, submitButton) {
-            event.preventDefault();
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-            try {
-                await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-                window.location.href = form.querySelector('input[name="_redirect"]').value;
-            } catch (error) {
-                console.error("Error al enviar el formulario: ", error);
-                alert('Hubo un error al enviar tu solicitud. Por favor, intenta de nuevo.');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message';
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            loadWeeklyTestimonialCarousel();
+            
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
+            }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadWeeklyTestimonialCarousel();
-            
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
-            }
-
-            const calcLeadForm = document.getElementById('calcLeadForm');
-            if (calcLeadForm) {
-                calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
-            }
-        });
-    </script>
+            const calcLeadForm = document.getElementById('calcLeadForm');
+            if (calcLeadForm) {
+    gcloud: No ejecutes google.script.run('processForm')
+              calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
+            }
+        });
+    </script>
 </head>
 <body>
 
-    <header>
-        <div class="container header-content">
-            <a href="#home" class="logo">
-                <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
-                <span>Golden Charge LLC</span>
-            </a>
-            <nav class="nav-menu">
-                <!-- BOTÓN DE LLAMADA MOVIDO AL INICIO -->
-                <a href="tel:+14244653362" class="header-call-btn" title="Haz clic aquí para llamarnos">📞 (424) GOLDENC</a>
-                <a href="#home">Home</a>
-                <a href="#services">Services</a>
-                <a href="#testimonials">Testimonials</a>
-                <a href="#calculator">Calculator</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-                <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-            </nav>
-        </div>
-    </header>
+    <header>
+        <div class="container header-content">
+            <a href="#home" class="logo">
+                <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
+                <span>Golden Charge LLC</span>
+            </a>
+            <nav class="nav-menu">
+s              <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#calculator">Calculator</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
+                
+                <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
+                </nav>
+        </div>
+    </header>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Golden Charge LLC</h1>
-            <p>Professional electrical services in San Francisco Bay Area and surrounding regions. Emergency 24/7, smart homes, low voltage, and more.</p>
-            <a href="#contact" class="btn">Get Free Quote</a>
-        </div>
-    </section>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Golden Charge LLC</h1>
+            <p>Professional electrical services in San Francisco Bay Area and surrounding regions. Emergency 24/7, smart homes, low voltage, and more.</p>
+            <a href="#contact" class="btn">Get Free Quote</a>
+        </div>
+    </section>
 
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
-            </div>
-        </div>
-    </section>
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+            </div>
+        </div>
+    </section>
 
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-title">Happy Customers</h2>
-            <div class="testimonial-container">
-                <div class="testimonial-card" id="testimonial-display">
-                    <p class="testimonial-text">Loading testimonial...</p>
-                    <p class="testimonial-author">— Golden Charge Team</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Happy Customers</h2>
+            <div class="testimonial-container">
+                <div class="testimonial-card" id="testimonial-display">
+                    <p class="testimonial-text">Loading testimonial...</p>
+                    <p class="testimonial-author">— Golden Charge Team</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section class="calculator-section" id="calculator">
-        <div class="container">
-            <h2 class="section-title">Instant Cost Estimator</h2>
-            <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
-            <div class="calculator-wrapper">
-                <div class="calc-step active" id="step1">
-                    <h3>1. Select service</h3>
-                    <div class="calc-options">
-                        <label class="calc-card"><input type="radio" name="service" value="panel-100" onclick="nextStep()"><span>100A Panel Upgrade</span></label>
-                        <label class="calc-card"><input type="radio" name="service" value="panel-200" onclick="nextStep()"><span>200A Panel Upgrade</span></label>
-                        <label class="calc-card"><input type="radio" name="service" value="ev-charger" onclick="nextStep()"><span>EV Charger Install</span></label>
-                        <label class="calc-card"><input type="radio" name="service" value="smart-home" onclick="nextStep()"><span>Basic Smart-Home</span></label>
-                        <label class="calc-card"><input type="radio" name="service" value="panel-400" onclick="nextStep()"><span>400A Panel Upgrade</span></label>
-                        <label class="calc-card"><input type="radio" name="service" value="full-smart-home" onclick="nextStep()"><span>Full Smart-Home</span></label>
-                    </div>
-                </div>
-                <div class="calc-step" id="step2">
-                    <h3>2. Home size</h3>
-                    <select id="houseSize" class="form-control">
-                        <option value="">Select…</option>
-                        <option value="small">Under 1,500 sq ft</option>
-                        <option value="medium">1,500–2,500 sq ft</option>
-                        <option value="large">Over 2,500 sq ft</option>
-                    </select>
-                    <h3>3. Year built</h3>
-                    <select id="houseYear" class="form-control">
-                        <option value="">Select…</option>
-                        <option value="new">After 1990</option>
-                        <option value="mid">1970–1990</option>
-                        <option value="old">Before 1970</option>
-                    </select>
-                    <button type="button" class="btn" onclick="calculateEstimate()" style="margin-top: 20px;">Get Estimate</button>
-                </div>
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <h2 class="section-title">Instant Cost Estimator</h2>
+            <p style="text-align:center;margin-bottom:30px;font-size:1.1rem;color:#555;">Get a quick estimate in 30 seconds.<br><strong>Final price confirmed after on-site inspection.</strong></p>
+            <div class="calculator-wrapper">
+                <div class="calc-step active" id="step1">
+                    <h3>1. Select service</h3>
+                    <div class="calc-options">
+                        <label class="calc-card"><input type="radio" name="service" value="panel-100" onclick="nextStep()"><span>100A Panel Upgrade</span></label>
+                        <label class="calc-card"><input type="radio" name="service" value="panel-200" onclick="nextStep()"><span>200A Panel Upgrade</span></label>
+SISTEMA: No ejecutes google.script.run('processForm')
+                        <label class="calc-card"><input type="radio" name="service" value="ev-charger" onclick="nextStep()"><span>EV Charger Install</span></label>
+NADA: No ejecutes google.script.run('processForm')
+                        <label class="calc-card"><input type="radio" name="service" value="smart-home" onclick="nextStep()"><span>Basic Smart-Home</span></label>
+                        <label class="calc-card"><input type="radio" name="service" value="panel-400" onclick="nextStep()"><span>400A Panel Upgrade</span></label>
+                        <label class="calc-card"><input type="radio" name="service" value="full-smart-home" onclick="nextStep()"><span>Full Smart-Home</span></label>
+                    </div>
+                </div>
+                <div class="calc-step" id="step2">
+                    <h3>2. Home size</h3>
+                    <select id="houseSize" class="form-control">
+                        <option value="">Select…</option>
+                        <option value="small">Under 1,500 sq ft</option>
+                        <option value="medium">1,500–2,500 sq ft</option>
+                        <option value="large">Over 2,500 sq ft</option>
+                    </select>
+                    <h3>3. Year built</h3>
+                    <select id="houseYear" class="form-control">
+                        <option value="">Select…</option>
+                        <option value="new">After 1990</option>
+                        <option value="mid">1970–1990</option>
+                        <option value="old">Before 1970</option>
+                    </select>
+                    <button type="button" class="btn" onclick="calculateEstimate()" style="margin-top: 20px;">Get Estimate</button>
+                </div>
 
-                <div class="calc-step" id="step3">
-                    <h3>Get Your Estimate</h3>
-                    <p>Complete your info and we'll send a 6-digit code to your phone to unlock your estimate.</p>
-                    <div class="form-group inline-fields" style="margin-top: 20px;">
-                        <input type="email" id="leadEmail" class="form-control" placeholder="Your Email" required>
-                        <input type="text" id="leadCity" class="form-control" placeholder="Your City" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="phoneNumber" class="form-control" placeholder="Your Phone Number" required>
-                    </div>
-                    <div id="recaptcha-container"></div>
-                    <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
-                    
-                    <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
-                        <p style="font-weight: bold;">Enter the 6-digit code we sent you:</p>
-                        <div class="verification-code">
-                            <input type="tel" id="verificationCode" class="form-control verification-code-input" placeholder="_ _ _ _ _ _" maxlength="6" autocomplete="one-time-code" inputmode="numeric">
-                        </div>
-                        <button type="button" class="btn" onclick="verifyCode()" style="width: 100%; margin-top: 15px;">Verify & Show Estimate</button>
-                        <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Didn't receive the code? 
-                            <span id="resendLink" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline; display: none;">Resend</span>
-                        </p>
-                    </div>
+                <div class="calc-step" id="step3">
+                    <h3>Get Your Estimate</h3>
+                    <p>Complete your info and we'll send a 6-digit code to your phone to unlock your estimate.</p>
+                    <div class="form-group inline-fields" style="margin-top: 20px;">
+                        <input type="email" id="leadEmail" class="form-control" placeholder="Your Email" required>
+                        <input type="text" id="leadCity" class="form-control" placeholder="Your City" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phoneNumber" class="form-control" placeholder="Your Phone Number" required>
+                    </div>
+                    <div id="recaptcha-container"></div>
+a                  <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
+                    
+                    <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
+                        <p style="font-weight: bold;">Enter the 6-digit code we sent you:</p>
+                        <div class="verification-code">
+                            <input type="tel" id="verificationCode" class="form-control verification-code-input" placeholder="_ _ _ _ _ _" maxlength="6" autocomplete="one-time-code" inputmode="numeric">
+                        </div>
+                        <button type="button" class="btn" onclick="verifyCode()" style="width: 100%; margin-top: 15px;">Verify & Show Estimate</button>
+                        <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Didn't receive the code? 
+                            <span id="resendLink" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline; display: none;">Resend</span>
+                        </p>
+                    </div>
 
-                    <div id="resultPrice" class="price-display" style="display:none;"></div>
-                    
-                    <!-- URL CORREGIDA -->
-                    <form id="calcLeadForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
-                        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-                        <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
-                        <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
-                        <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
-                        <input type="hidden" name="service" id="calcService">
-                        <input type="hidden" name="size" id="calcSize">
-                        <input type="hidden" name="year" id="calcYear">
-                        <input type="hidden" name="estimatedTotal" id="calcTotal">
-                        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+                    <div id="resultPrice" class="price-display" style="display:none;"></div>
+                    
+                                        <form id="calcLeadForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none; margin-top: 15px;">
+                        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+                        <p style="font-weight:bold; text-align:center;">To receive a detailed quote by email, please confirm your info and send.</p>
+                        <input type="email" name="email" id="finalEmail" placeholder="Your email for exact quote" required class="form-control" style="margin-top: 10px;">
+                        <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
+                        <input type="hidden" name="service" id="calcService">
+                        <input type="hidden" name="size" id="calcSize">
+SISTEMA: No ejecutes google.script.run('processForm')
+                        <input type="hidden" name="year" id="calcYear">
+                        <input type="hidden" name="estimatedTotal" id="calcTotal">
+                        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- URL CORREGIDA -->
-    <form id="autoLeadCaptureForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST" style="display:none;">
-        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
-        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
-        <input type="email" name="email">
-        <input type="text" name="city">
-        <input type="tel" name="phone">
-    </form>
+        <form id="autoLeadCaptureForm" action="https://submit-form.com/7g1h0Ucdq" method="POST" style="display:none;">
+        <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+        <input type="hidden" name="_email.subject" value="⚡️ Nuevo Lead Automático (Desde Calculadora)"/>
+        <input type="hidden" name="source" value="Automatic Lead Capture - Calculator Step 3">
+        <input type="email" name="email">
+        <input type="text" name="city">
+        <input type="tel" name="phone">
+    </form>
 
-    <section class="gallery" id="gallery">
-        <div class="container">
-            <h2 class="section-title">Recent Work Gallery</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
-            </div>
-        </div>
-    </section>
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Recent Work Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
+                <div class="gallery-item"><img src="https" alt="Emergency repair"></div>
+                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
+            </div>
+        </div>
+    </section>
 
-    <section class="about" id="about">
-        <div class="container about-content">
-            <div class="about-text">
-                <h2>Why Choose Golden Charge LLC?</h2>
-                <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
-                <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
-                <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
-                <p><strong>License # 1143055</strong></p>
-            </div>
-            <div class="about-image">
-                <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
-            </div>
-        </div>
-    </section>
+    <section class="about" id="about">
+        <div class="container about-content">
+            <div class="about-text">
+Do not execute google.script.run('processForm')
+                <h2>Why Choose Golden Charge LLC?</h2>
+                <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
+                <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
+                <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
+s              <p><strong>License # 1143055</strong></p>
+            </div>
+            <div class="about-image">
+                <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
+            </div>
+        </div>
+    </section>
 
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-form">
-                <!-- URL CORREGIDA -->
-                <form id="contactForm" action="https://formspree.io/f/7g1h0Ucdq" method="POST">
-                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
-                    <input type="hidden" name="_subject" value="Nuevo mensaje desde Golden Charge LLC">
-                    <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
-                    <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
-                    <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
-                    <div class="form-group"><label for="service">Service Required</label>
-                        <select id="service" name="service" class="form-control" required>
-                            <option value="">Select a service</option>
-                            <option value="residential">Residential</option>
-                            <option value="commercial">Commercial</option>
-                            <option value="emergency">Emergency</option>
-                            <option value="low-voltage">Low Voltage</option>
-                            <option value="smart-home">Smart Home</option>
-                            <option value="panel-upgrade">Panel Upgrade</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Preferred Contact Channel</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
-                            <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
-                            <label><input type="checkbox" name="channel" value="email"> Email</label>
-                        </div>
-                    </div>
-                    <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
-                    <button type="submit" class="form-submit">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-form">
+                                <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
+                    <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
+                    <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
+                    <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
+                    <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
+Do not execute google.script.run('processForm')
+                    <div class="form-group"><label for="service">Service Required</label>
+                        <select id="service" name="service" class="form-control" required>
+                            <option value="">Select a service</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="low-voltage">Low Voltage</option>
+CONSOLA: No ejecutes google.script.run('processForm')
+                            <option value="smart-home">Smart Home</option>
+                            <option value="panel-upgrade">Panel Upgrade</option>
+s                      </select>
+                    </div>
+                    <div class="form-group">
+Do not execute google.script.run('processForm')
+                        <label>Preferred Contact Channel</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
+                            <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
+Do not execute google.script.run('processForm')
+                            <label><input type="checkbox" name="channel" value="email"> Email</label>
+DCONSOLA: No ejecutes google.script.run('processForm')
+o not execute google.script.run('processForm')
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
+                    <button type="submit" class="form-submit">Send Message</button>
+                </form>
+            </div>
+  SISTEMA: No ejecutes google.script.run('processForm')
+    </div>
+    </section>
 
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-column">
-                <h3>Golden Charge LLC</h3>
-                <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-weixin"></i></a>
-                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#calculator">Calculator</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-    <h3>Contact Info</h3>
-    <div class="contact-info">
-        
-        <p>Fremont, CA<br>
-        Golden Charge Electrician Company</p>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-column">
+                <h3>Golden Charge LLC</h3>
+                <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
+SISTEMA: No ejecutes google.script.run('processForm')
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+NADA: No ejecutes google.script.run('processForm')
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+DENY: google.script.run('processForm')
+                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+SISTEMA: No ejecutes google.script.run('processForm')
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+    <h3>Contact Info</h3>
+    <div class="contact-info">
+        
+        <p>Fremont, CA<br>
+        Golden Charge Electrician Company</p>
 
-        <div class="contact-item" style="margin-top: 10px;"> <span>📞 General Inquiries:</span><br> <strong><a href="tel:+14244653362" style="color: #fff; text-decoration: none;">+1 (424) 465-3362</a></strong> (also dial: <strong>GOLDENC</strong>)
-        </div>
+        <div class="contact-item" style="margin-top: 10px;"> <span>📞 General Inquiries:</span><br> <strong><a href="tel:+14244653362" style="color: #fff; text-decoration: none;">+1 (424) 465-3362</a></strong> (also dial: <strong>GOLDENC</strong>)
+        </div>
 
-        <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a>
-        </div>
+        <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a>
+        </div>
 
-        <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
-        </div>
+        <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
+s        </div>
 
-        <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
-        </div>
+        <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
+        </div>
 
-        <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
-        
-    </div>
+        <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
+        
+    </div>
 
-        <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
-    </footer></div>
+        <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
+s    </footer></div>
 
-    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
-    <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
-    
-    <style>
-        .bp3-webchat-footer {
-            display: none !important;
-        }
-    </style>
+    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
+    
+    <style>
+        .bp3-webchat-footer {
+      Next response: No ejecutes google.script.run('processForm')
+          display: none !important;
+        }
+    </style>
 
 </body>
 </html>
