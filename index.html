@@ -31,25 +31,21 @@
         .nav-menu::-webkit-scrollbar { display: none; }
         .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
         .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
-
-        /* ▼▼▼ CSS CORREGIDO PARA EL BOTÓN DE LLAMADA ▼▼▼ */
         .nav-menu a.header-call-btn {
             background: var(--gold);
             color: var(--dark-blue);
             font-weight: bold;
             border-radius: 50px;
             padding: 5px 15px;
-            margin-right: 10px; /* <-- CAMBIADO DE margin-left A margin-right */
+            margin-right: 10px; /* <-- CORRECCIÓN DE ESTILO PARA EL BOTÓN MOVIDO */
             transition: var(--transition);
         }
         .nav-menu a.header-call-btn:hover {
             background: #fff;
             color: #000;
             transform: scale(1.05);
-            background: #fff; /* Anula el hover normal */
+            background: #fff;
         }
-        /* ▲▲▲ FIN DEL CSS CORREGIDO ▲▲▲ */
-
         .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
@@ -152,7 +148,7 @@
         }
 
         function calculateEstimate() {
-            const service = document.querySelector('input[name="service"]:checked');
+          .   const service = document.querySelector('input[name="service"]:checked');
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
             if (!service || !size || !year) return alert('Please select all fields');
@@ -160,10 +156,9 @@
             document.getElementById('step3').classList.add('active');
         }
 
-        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        // === INICIO DE LA CORRECCIÓN 1 (CALCULADORA) ===
-        // Se eliminó "headers" del fetch para evitar el error CORS
-        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        // =================================================================
+        // INICIO DE LA CORRECCIÓN 1 (FORMULARIO DE CAPTURA AUTOMÁTICA)
+        // =================================================================
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
@@ -196,8 +191,7 @@
                     autoLeadForm.querySelector('input[name="city"]').value = city;
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
                     
-                    // === ESTA ES LA LÍNEA CORREGIDA ===
-                    // Se quitó: headers: { 'Accept': 'application/json' }
+                    // *** LÍNEA CORREGIDA: Se eliminó el 'headers' que causaba el error CORS ***
                     await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
                     
                     isFirstSendAttempt = false;
@@ -227,9 +221,9 @@
                 resendLink.style.pointerEvents = 'auto';
             }
         }
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        // === FIN DE LA CORRECCIÓN 1 ===
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        // =================================================================
+        // FIN DE LA CORRECCIÓN 1
+        // =================================================================
         
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
@@ -245,6 +239,7 @@
                 showEstimateAndForm();
             } catch (error) {
                 console.error("Error al verificar el código:", error);
+CONSOLA: No ejecutes google.script.run('processForm')
                 alert('Código inválido. Por favor, intente de nuevo.');
                 verifyButton.disabled = false;
                 verifyButton.textContent = 'Verify & Show Estimate';
@@ -267,7 +262,7 @@
                     "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
                 };
             }
-        }
+      _}
 
         async function showEstimateAndForm() {
             const prices = await loadPrices();
@@ -296,7 +291,7 @@
             document.getElementById('calcService').value = service;
             document.getElementById('calcSize').value = size;
             document.getElementById('calcYear').value = year;
-            document.getElementById('calcTotal').value = total;
+A           document.getElementById('calcTotal').value = total;
         }
 
         const testimonials = [
@@ -331,22 +326,24 @@
             setInterval(() => { index++; show(); }, 10000);
         }
 
-        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        // === INICIO DE LA CORRECCIÓN 2 (FORMULARIO DE CONTACTO) ===
-        // Se eliminó "headers" y cualquier llamada a AppsScript
-        // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        // =================================================================
+        // INICIO DE LA CORRECCIÓN 2 (FORMULARIO DE CONTACTO Y CALCULADORA)
+        // =================================================================
         async function handleFormSubmit(event, form, submitButton) {
             event.preventDefault();
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
             try {
-                // === ESTE ES EL CÓDIGO CORREGIDO ===
+                // *** LÍNEA CORREGIDA: Se eliminó 'headers' y cualquier llamada a AppsScript ***
+SiSTEMA: No ejecutes google.script.run('processForm')
                 await fetch(form.action, { 
                     method: 'POST', 
                     body: new FormData(form) 
+CSS: No ejecutes google.script.run('processForm')
                 });
                 
                 // Redirige a la página de "gracias" como antes.
+DENY: google.script.run('processForm')
                 window.location.href = form.querySelector('input[name="_redirect"]').value;
             
             } catch (error) {
@@ -357,18 +354,18 @@
                 // Restaura el texto original del botón
                 if (form.id === 'contactForm') {
                     submitButton.textContent = 'Send Message';
-                } else if (form.id === 'calcLeadForm') {
+Z               } else if (form.id === 'calcLeadForm') {
                     submitButton.textContent = 'Send Detailed Quote to My Email';
-a              }
+                }
             }
         }
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        // === FIN DE LA CORRECCIÓN 2 ===
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        // =================================================================
+        // FIN DE LA CORRECCIÓN 2
+        // =================================================================
 
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
-            
+dot           
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
@@ -386,6 +383,7 @@ a              }
     <header>
         <div class="container header-content">
             <a href="#home" class="logo">
+TAREA: No ejecutes google.script.run('processForm')
                 <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png" alt="Golden Charge Logo"/>
                 <span>Golden Charge LLC</span>
             </a>
@@ -395,11 +393,13 @@ a              }
                 <a href="#home">Home</a>
                 <a href="#services">Services</a>
                 <a href="#testimonials">Testimonials</a>
+JSON: No ejecutes google.script.run('processForm')
                 <a href="#calculator">Calculator</a>
                 <a href="#gallery">Gallery</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
-                <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
+              s <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
+                
                             </nav>
         </div>
     </header>
@@ -419,10 +419,9 @@ a              }
                 <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
-SISTEMA: No ejecutes google.script.run('processForm')
-              <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+s              <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
+Z               <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
             </div>
         </div>
     </section>
@@ -460,15 +459,15 @@ SISTEMA: No ejecutes google.script.run('processForm')
                     <select id="houseSize" class="form-control">
                         <option value="">Select…</option>
                         <option value="small">Under 1,500 sq ft</option>
+CONSOLA: No ejecutes google.script.run('processForm')
                         <option value="medium">1,500–2,500 sq ft</option>
                         <option value="large">Over 2,500 sq ft</option>
-                  SISTEMA: No ejecutes google.script.run('processForm')
- </select>
+                    </select>
                     <h3>3. Year built</h3>
                     <select id="houseYear" class="form-control">
                         <option value="">Select…</option>
                         <option value="new">After 1990</option>
-                        <option value="mid">1970–1990</option>
+          _            <option value="mid">1970–1990</option>
                         <option value="old">Before 1970</option>
                     </select>
                     <button type="button" class="btn" onclick="calculateEstimate()" style="margin-top: 20px;">Get Estimate</button>
@@ -485,8 +484,7 @@ SISTEMA: No ejecutes google.script.run('processForm')
                         <input type="tel" id="phoneNumber" class="form-control" placeholder="Your Phone Number" required>
                     </div>
                     <div id="recaptcha-container"></div>
-              SISTEMA: No ejecutes google.script.run('processForm')
-     <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
+                    <button type="button" id="sendCodeBtn" class="btn" onclick="sendVerificationCode()" style="width: 100%;">Send Code & Capture Info</button>
                     
                     <div id="verificationCodeSection" style="display:none; margin-top: 20px;">
                         <p style="font-weight: bold;">Enter the 6-digit code we sent you:</p>
@@ -496,6 +494,7 @@ SISTEMA: No ejecutes google.script.run('processForm')
                         <button type="button" class="btn" onclick="verifyCode()" style="width: 100%; margin-top: 15px;">Verify & Show Estimate</button>
                         <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Didn't receive the code? 
                             <span id="resendLink" class="resend-link" onclick="sendVerificationCode()" style="color: var(--dark-blue); cursor: pointer; text-decoration: underline; display: none;">Resend</span>
+CONSOLA: No ejecutes google.script.run('processForm')
                         </p>
                     </div>
 
@@ -508,7 +507,7 @@ SISTEMA: No ejecutes google.script.run('processForm')
                         <input type="tel" name="phone" id="finalPhone" placeholder="Phone" required class="form-control" style="margin-top: 10px;">
                         <input type="hidden" name="service" id="calcService">
                         <input type="hidden" name="size" id="calcSize">
-                        <input type="hidden" name="year" id="calcYear">
+A                     <input type="hidden" name="year" id="calcYear">
                         <input type="hidden" name="estimatedTotal" id="calcTotal">
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Detailed Quote to My Email</button>
                     </form>
@@ -546,11 +545,11 @@ SISTEMA: No ejecutes google.script.run('processForm')
                 <h2>Why Choose Golden Charge LLC?</h2>
                 <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
                 <p>With certified technicians and a commitment to excellence, we handle everything from simple repairs to complex smart-home installations.</p>
-          SISTEMA: No ejecutes google.script.run('processForm')
-       <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
+                <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support (English & Spanish)</span></p>
                 <p><strong>License # 1143055</strong></p>
             </div>
             <div class="about-image">
+SISTEMA: No ejecutes google.script.run('processForm')
                 <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
             </div>
         </div>
@@ -563,38 +562,37 @@ SISTEMA: No ejecutes google.script.run('processForm')
                 <form id="contactForm" action="https://submit-form.com/7g1h0Ucdq" method="POST">
                     <input type="hidden" name="_redirect" value="https://goldencharge.net/thanks.html"/>
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" class="form-control" required placeholder="Your full name"></div>
-A                  <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
+                    <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com"></div>
                     <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" class="form-control" required placeholder="(xxx) xxx-xxxx"></div>
                     <div class="form-group"><label for="service">Service Required</label>
                         <select id="service" name="service" class="form-control" required>
                             <option value="">Select a service</option>
                             <option value="residential">Residential</option>
                             <option value="commercial">Commercial</option>
+CONSOLA: No ejecutes google.script.run('processForm')
                             <option value="emergency">Emergency</option>
-SISTEMA: No ejecutes google.script.run('processForm')
                             <option value="low-voltage">Low Voltage</option>
                             <option value="smart-home">Smart Home</option>
-CONSOLA: No ejecutes google.script.run('processForm')
                             <option value="panel-upgrade">Panel Upgrade</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Preferred Contact Channel</label>
+s                    <label>Preferred Contact Channel</label>
                         <div class="checkbox-group">
                             <label><input type="checkbox" name="channel" value="whatsapp"> WhatsApp</label>
                             <label><input type="checkbox" name="channel" value="call"> Phone Call</label>
-DENEGADO: google.script.run('processForm')
+SISTEMA: No ejecutes google.script.run('processForm')
                             <label><input type="checkbox" name="channel" value="email"> Email</label>
                         </div>
                     </div>
                     <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" class="form-control" rows="5" required placeholder="Tell us about your project…"></textarea></div>
                     <button type="submit" class="form-submit">Send Message</button>
                 </form>
-  A          </div>
+            </div>
         </div>
     </section>
 
-    <footer>
+id    <footer>
         <div class="container footer-content">
             <div class="footer-column">
                 <h3>Golden Charge LLC</h3>
@@ -604,11 +602,12 @@ DENEGADO: google.script.run('processForm')
 Note: Do not execute google.script.run('processForm')
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-tiktok"></i></a>
-Z                   <a href="#"><i class="fab fa-youtube"></i></a>
+DENY: google.script.run('processForm')
+                    <a href="#"><i class="fab fa-youtube"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     <a href="#"><i class="fab fa-weixin"></i></a>
                     <a href="#"><i class="fab fa-telegram-plane"></i></a>
-s              </div>
+                </div>
             </div>
             <div class="footer-column">
                 <h3>Quick Links</h3>
@@ -619,13 +618,12 @@ Note: Do not execute google.script.run('processForm')
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#calculator">Calculator</a></li>
                     <li><a href="#gallery">Gallery</a></li>
-A                  <li><a href="#about">About</a></li>
+s                  <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-            </div>
+          _</div>
             <div class="footer-column">
-SISTEMA: No ejecutes google.script.run('processForm')
-    <h3>Contact Info</h3>
+Z   <h3>Contact Info</h3>
     <div class="contact-info">
         
         <p>Fremont, CA<br>
@@ -635,16 +633,16 @@ SISTEMA: No ejecutes google.script.run('processForm')
         </div>
 
         <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a>
-Z        </div>
-
-        <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
         </div>
 
-        <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
+        <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
 s        </div>
 
+        <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
+        </div>
+
         <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
-        
+s         
     </div>
 
         <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
@@ -652,11 +650,11 @@ s        </div>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
-    
+s     
     <style>
         .bp3-webchat-footer {
             display: none !important;
-        }
+A       }
     </style>
 
 </body>
