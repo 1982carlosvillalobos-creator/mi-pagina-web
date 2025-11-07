@@ -29,23 +29,73 @@
         .logo img { height: 60px; width: 60px; border-radius: 50%; box-shadow: 0 0 10px rgba(255,215,0,.3); transition: var(--transition); border: 2px solid var(--gold); }
         .nav-menu { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding: 0 5px; align-items: center; /* Centra verticalmente los ítems */ }
         .nav-menu::-webkit-scrollbar { display: none; }
-        .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
-        .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
-        .nav-menu a.header-call-btn {
+
+        /* === INICIO: Links de Navegación MEJORADOS === */
+        .nav-menu a {
+            white-space: nowrap;
+            color: #E0E0E0; /* Un blanco un poco más suave, menos brillante */
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px; /* Alineamos padding vertical con el nuevo botón */
+            border-radius: 5px;
+            font-size: .9rem; /* Un poco más legible */
+            position: relative; /* Para el efecto hover */
+            transition: color 0.3s ease;
+            background: none; /* Nos aseguramos que no tenga fondo */
+        }
+        .nav-menu a:hover {
+            color: var(--gold); /* El color cambia a dorado */
+            background: none; /* Sin fondo */
+        }
+        /* Efecto "subrayado" sutil que crece al pasar el mouse */
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Justo debajo del link */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; /* Empieza invisible */
+            height: 2px;
             background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-menu a:hover::after {
+            width: 70%; /* El subrayado "crece" al 70% del ancho */
+        }
+        /* === FIN: Links de Navegación MEJORADOS === */
+
+        /* === INICIO: Botón de Llamada MEJORADO === */
+        .nav-menu a.header-call-btn {
+            background: linear-gradient(145deg, #FFD700, #FFB800); /* Gradiente dorado sutil */
             color: var(--dark-blue);
             font-weight: bold;
             border-radius: 50px;
-            padding: 5px 15px;
-            margin-right: 10px; /* Margen a la derecha para separar del siguiente link */
+            padding: 8px 18px; /* Un poco más de padding vertical para que "respire" */
+            margin-right: 10px;
             transition: var(--transition);
-            position: relative; /* Para el tooltip */
+            position: relative; /* Preservado para el tooltip */
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); /* Sombra dorada para que "flote" */
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1); /* Sombra de texto ligera */
         }
         .nav-menu a.header-call-btn:hover {
             background: #fff;
             color: #000;
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-2px); /* Que "salte" un poco */
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.7); /* Sombra blanca brillante */
         }
+        /* ESTO EVITA CONFLICTOS CON EL SUBRAYADO */
+        .nav-menu a.header-call-btn::after {
+            display: none; /* El botón de llamada no debe tener este efecto */
+        }
+        .nav-menu a.header-call-btn:hover {
+             /* Re-especificamos el hover del botón para anular cualquier conflicto */
+            color: #000;
+            background: #fff;
+            transform: scale(1.05) translateY(-2px);
+        }
+        /* === FIN: Botón de Llamada MEJORADO === */
+        
+        /* === ESTILOS DEL TOOLTIP ORIGINAL (PRESERVADO) === */
         .header-call-btn:hover::after {
             content: "Haz clic aquí para llamarnos";
             position: absolute;
@@ -67,6 +117,8 @@
         .header-call-btn:hover::after {
              opacity: 1; /* Se hace visible al pasar el mouse */
         }
+        /* === FIN ESTILOS DEL TOOLTIP === */
+        
         .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
@@ -129,7 +181,7 @@
         .footer-column a { color: #fff; text-decoration: none; transition: var(--transition); }
         .footer-column a:hover { color: var(--gold); }
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
-        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
+        .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify: content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
         .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
@@ -137,289 +189,6 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
     </style>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
-    <script>
-        // === INICIO: CONFIGURACIÓN DE FIREBASE ===
-        const firebaseConfig = {
-          apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
-          authDomain: "goldench-final-chatbot.firebaseapp.com",
-          projectId: "goldench-final-chatbot",
-          storageBucket: "goldench-final-chatbot.appspot.com",
-          messagingSenderId: "418294744257",
-          appId: "1:418294744257:web:f06d527214360aae358040"
-        };
-        
-        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
-
-        let confirmationResult = null;
-        let isFirstSendAttempt = true;
-
-        function nextStep() {
-            const service = document.querySelector('input[name="service"]:checked');
-            if (!service) return alert('Please select a service');
-            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step2').classList.add('active');
-        }
-
-        function calculateEstimate() {
-            const service = document.querySelector('input[name="service"]:checked');
-            const size = document.getElementById('houseSize').value;
-            const year = document.getElementById('houseYear').value;
-            if (!service || !size || !year) return alert('Please select all fields');
-            document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step3').classList.add('active');
-        }
-
-        // =================================================================
-        // INICIO DE LA CORRECCIÓN 1 (FORMULARIO DE CAPTURA AUTOMÁTICA)
-        // =================================================================
-        async function sendVerificationCode() {
-            const sendButton = document.getElementById('sendCodeBtn');
-            const resendLink = document.getElementById('resendLink');
-
-            if(sendButton) sendButton.disabled = true;
-            if(sendButton) sendButton.textContent = 'Enviando...';
-            resendLink.style.pointerEvents = 'none';
-            
-            const recaptchaContainer = document.getElementById('recaptcha-container');
-            recaptchaContainer.innerHTML = '';
-
-            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
-
-            const email = document.getElementById('leadEmail').value.trim();
-            const city = document.getElementById('leadCity').value.trim();
-            let phone = document.getElementById('phoneNumber').value.trim();
-
-            if (!email || !city || !phone) {
-                alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
-                if(sendButton) sendButton.disabled = false;
-                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
-                resendLink.style.pointerEvents = 'auto';
-                return;
-            }
-
-            if (isFirstSendAttempt) {
-                try {
-                    const autoLeadForm = document.getElementById('autoLeadCaptureForm');
-                    autoLeadForm.querySelector('input[name="email"]').value = email;
-                    autoLeadForm.querySelector('input[name="city"]').value = city;
-                    autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    
-                    // *** LÍNEA CORREGIDA: Se eliminó el 'headers' que causaba el error CORS ***
-                    await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
-                    
-                    isFirstSendAttempt = false;
-                } catch (error) {
-                    console.error('Error al capturar lead:', error);
-                    // No detenemos el flujo si falla el envío automático, el usuario puede seguir
-                }
-            }
-
-            if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
-
-            try {
-                confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, appVerifier);
-                
-                document.getElementById('verificationCodeSection').style.display = 'block';
-                document.getElementById('leadEmail').disabled = true;
-                document.getElementById('leadCity').disabled = true;
-                document.getElementById('phoneNumber').disabled = true;
-                if (sendButton) sendButton.style.display = 'none';
-                resendLink.style.display = 'inline';
-                alert('¡Código enviado! Por favor, ingréselo a continuación.');
-            } catch (error) {
-                console.error("Error al enviar SMS:", error);
-                alert('Error al enviar el código. Verifique el número e intente de nuevo.');
-                // Habilitar campos si falla el envío de SMS
-                document.getElementById('leadEmail').disabled = false;
-                document.getElementById('leadCity').disabled = false;
-                document.getElementById('phoneNumber').disabled = false;
-            } finally {
-                // Siempre habilitar el botón al final, incluso si hay error
-                if (sendButton) sendButton.disabled = false;
-                if(sendButton && sendButton.style.display !== 'none') { // Solo cambiar texto si el botón está visible
-                     sendButton.textContent = 'Send Code & Capture Info';
-                }
-                resendLink.style.pointerEvents = 'auto';
-            }
-        }
-        // =================================================================
-        // FIN DE LA CORRECCIÓN 1
-        // =================================================================
-        
-        async function verifyCode() {
-            const code = document.getElementById('verificationCode').value.trim();
-            if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
-            
-            const verifyButton = document.querySelector('#verificationCodeSection .btn');
-            verifyButton.disabled = true;
-            verifyButton.textContent = 'Verificando...';
-
-            try {
-                await confirmationResult.confirm(code);
-                alert('¡Verificación exitosa!');
-                showEstimateAndForm();
-            } catch (error) {
-                console.error("Error al verificar el código:", error);
-                alert('Código inválido. Por favor, intente de nuevo.');
-                verifyButton.disabled = false;
-                verifyButton.textContent = 'Verify & Show Estimate';
-            }
-        }
-
-        async function loadPrices() {
-            try {
-                const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
-                if (!res.ok) throw new Error('Failed to fetch from GitHub');
-                return await res.json();
-            } catch (err) {
-                console.warn("Could not fetch prices from GitHub. Using fallback.");
-                return {
-                    "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
-                    "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
-                    "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
-                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
-                    "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
-                    "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
-                };
-            }
-        }
-
-        async function showEstimateAndForm() {
-            const prices = await loadPrices();
-            const service = document.querySelector('input[name="service"]:checked').value;
-            const size = document.getElementById('houseSize').value;
-            const year = document.getElementById('houseYear').value;
-            
-            if (!prices[service]) {
-                alert("Error: Servicio no encontrado. Por favor, reinicie el estimador.");
-                window.location.reload(); 
-                return;
-            }
-
-            const base = prices[service].base[size];
-            const factor = prices[service].factor[year];
-            
-            const total = Math.round((base + factor) * 1.20);
-            
-            document.getElementById('verificationCodeSection').style.display = 'none';
-            document.getElementById('resultPrice').textContent = `Estimado: $${total.toLocaleString()}`;
-            document.getElementById('resultPrice').style.display = 'block';
-            document.getElementById('calcLeadForm').style.display = 'block';
-
-            document.getElementById('finalEmail').value = document.getElementById('leadEmail').value;
-            document.getElementById('finalPhone').value = document.getElementById('phoneNumber').value;
-            document.getElementById('calcService').value = service;
-            document.getElementById('calcSize').value = size;
-            document.getElementById('calcYear').value = year;
-            document.getElementById('calcTotal').value = total;
-        }
-
-        const testimonials = [
-            { "text": "Installed my Tesla charger in just 3 hours. Professional and clean work!", "author": "— Maria G., San Francisco" },
-            { "text": "Upgraded my panel from 100A to 200A. Everything went smoothly with a 1-year warranty.", "author": "— James L., Oakland" },
-            { "text": "My lights were flickering constantly. Found the issue in minutes. Real experts!", "author": "— Sofia R., San Jose" },
-            { "text": "Installed smart lighting and security cameras. My home is safer now.", "author": "— David K., Berkeley" },
-            { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
-        ];
-
-        function getWeekNumber(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        }
-
-        function loadWeeklyTestimonialCarousel() {
-            const week = getWeekNumber(new Date());
-            const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
-            const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
-            let index = 0;
-            const display = document.getElementById('testimonial-display');
-            function show() {
-                if(group.length > 0) {
-                    const t = group[index % group.length];
-                    display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
-                }
-            }
-            show();
-            setInterval(() => { index++; show(); }, 10000);
-        }
-
-        // =================================================================
-        // INICIO DE LA CORRECCIÓN 4 (SOLO MANEJA CALCULADORA CON JS)
-        // =================================================================
-        async function handleFormSubmit(event, form, submitButton) {
-            // Prevenimos el default solo si NO es el contactForm
-            if (form.id !== 'contactForm') {
-                 event.preventDefault();
-            } else {
-                 // Para el contactForm, dejamos que el HTML haga el envío
-                 return; // Salimos de la función para el contactForm
-            }
-            
-            // Este código solo se ejecutará para calcLeadForm
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-            try {
-                // Envío corregido sin 'headers'
-                await fetch(form.action, { 
-                    method: 'POST', 
-                    body: new FormData(form) 
-                });
-                
-                // Redirección para calcLeadForm
-                const redirectInput = form.querySelector('input[name="_redirect"]');
-                if (redirectInput && redirectInput.value) {
-                    window.location.href = redirectInput.value;
-                } else {
-                    // Fallback si no hay redirect (poco probable aquí)
-                    alert('Form submitted successfully!'); 
-                    submitButton.disabled = false;
-                     if (form.id === 'calcLeadForm') { 
-                         submitButton.textContent = 'Send Detailed Quote to My Email';
-                     }
-                }
-            
-            } catch (error) {
-                console.error("Error al enviar el formulario (calculadora): ", error);
-                alert('Hubo un error al enviar tu solicitud (calculadora). Por favor, intenta de nuevo.');
-                submitButton.disabled = false;
-                
-                // Restaura el texto original del botón de la calculadora
-                if (form.id === 'calcLeadForm') {
-                    submitButton.textContent = 'Send Detailed Quote to My Email';
-                }
-            }
-        }
-        // =================================================================
-        // FIN DE LA CORRECCIÓN 4
-        // =================================================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadWeeklyTestimonialCarousel();
-            
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                 // *** LÍNEA COMENTADA: Ya no interceptamos el contactForm ***
-                // contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
-            }
-
-            const calcLeadForm = document.getElementById('calcLeadForm');
-            if (calcLeadForm) {
-                 // *** LÍNEA COMENTADA: TAMPOCO INTERCEPTAMOS EL calcLeadForm ***
-                // calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
-            }
-        });
-    </script>
 </head>
 <body>
 
