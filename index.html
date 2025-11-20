@@ -165,18 +165,13 @@
         .contact-info a:hover { color: var(--gold); }
         
         /* ==========================================================
-           ESTILOS REPARADOS PARA LA BARRA MÓVIL (El "Fix" Final)
+           ESTILOS DE LA BARRA MÓVIL Y EL FIX DEL CHAT
            ========================================================== */
         .sticky-mobile-bar {
             position: fixed; 
             bottom: 0; 
             left: 0; 
-            
-            /* AQUÍ ESTÁ EL TRUCO: 
-               Restamos 80 pixeles al ancho para dejar espacio 
-               al chat a la derecha */
-            width: calc(100% - 80px); 
-            
+            width: 100%; /* Vuelve a ser ancho completo para verse bien */
             background: #fff; 
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
             display: none; 
@@ -185,15 +180,21 @@
             justify-content: space-around; 
             gap: 10px; 
             border-top: 1px solid #eee;
-            
-            /* Hacemos que la esquina derecha sea redondita */
-            border-top-right-radius: 15px; 
         }
         .sticky-btn { flex: 1; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
 
-        @media (max-width: 768px) { .sticky-mobile-bar { display: flex; } }
+        /* === REGLA MÁGICA: SUBIR EL CHAT EN EL CELULAR === */
+        /* Esto detecta si la pantalla es de celular (menos de 768px) */
+        @media (max-width: 768px) { 
+            .sticky-mobile-bar { display: flex; }
+            
+            /* Obligamos al contenedor del chat a subir 90 pixeles */
+            #bp-web-widget-container, .bp-widget-widget {
+                bottom: 90px !important;
+            }
+        }
         
         .bp3-webchat-footer { display: none !important; }
     </style>
