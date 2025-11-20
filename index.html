@@ -46,7 +46,7 @@
         .btn:hover { transform: translateY(-5px); }
         .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* === NUEVA SECCIÓN DE LOGOS (Brands) === */
+        /* === SECCIÓN DE LOGOS (Brands) === */
         .partners-section {
             background-color: #ffffff;
             padding: 30px 20px;
@@ -172,25 +172,15 @@
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
 
-        /* =====================================================
-           SOLUCIÓN DEFINITIVA: CHAT FLOTANTE EN MÓVIL 
-           ===================================================== */
+        /* CSS DE RESPALDO PARA CHAT (Por si el JS tarda) */
         @media (max-width: 768px) { 
             .sticky-mobile-bar { display: flex; }
-            
-            /* Esto obliga al chat a flotar ENCIMA de la barra amarilla */
-            .bp-widget-widget {
-                bottom: 95px !important; /* 95px desde el suelo */
-                right: 20px !important;
-                z-index: 2147483647 !important; /* Asegura que esté siempre arriba */
-            }
-            /* Respaldo por si Botpress usa un ID diferente */
-            #bp-web-widget-container, #bp-web-widget {
-                bottom: 95px !important;
+            /* Intento de mover el chat vía CSS */
+            #bp-web-widget, #bp-web-widget-container, .bp-widget-widget {
+                bottom: 100px !important;
                 z-index: 2147483647 !important;
             }
         }
-        /* Ocultar el branding de Botpress si es posible por CSS */
         .bp3-webchat-footer { display: none !important; }
     </style>
 
@@ -373,6 +363,28 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
+            
+            // === FIX DE FUERZA BRUTA PARA EL CHAT ===
+            // Este script buscará el chat cada segundo y lo moverá hacia arriba
+            // si detecta que estás en un celular.
+            const forceChatUp = () => {
+                if (window.innerWidth <= 768) { // Solo en celular
+                    const chatSelectors = ['#bp-web-widget', '#bp-web-widget-container', '.bp-widget-widget'];
+                    chatSelectors.forEach(selector => {
+                        const chatEl = document.querySelector(selector);
+                        if (chatEl) {
+                            // Fuerza el estilo directamente en el elemento
+                            chatEl.style.setProperty('bottom', '100px', 'important');
+                            chatEl.style.setProperty('z-index', '2147483647', 'important');
+                        }
+                    });
+                }
+            };
+
+            // Ejecutar al inicio, al cambiar tamaño y repetidamente por si tarda en cargar
+            forceChatUp();
+            window.addEventListener('resize', forceChatUp);
+            setInterval(forceChatUp, 1000); // Revisa cada segundo
         });
     </script>
 </head>
