@@ -27,7 +27,7 @@
         .header-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: bold; color: var(--gold); text-decoration: none; }
         .logo img { height: 60px; width: 60px; border-radius: 50%; box-shadow: 0 0 10px rgba(255,215,0,.3); transition: var(--transition); border: 2px solid var(--gold); }
-        .nav-menu { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding: 0 5px; align-items: center; /* Centra verticalmente los ítems */ }
+        .nav-menu { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding: 0 5px; align-items: center; }
         .nav-menu::-webkit-scrollbar { display: none; }
         .nav-menu a { white-space: nowrap; color: #fff; text-decoration: none; font-weight: 500; padding: 5px 12px; border-radius: 5px; font-size: .85rem; }
         .nav-menu a:hover { color: var(--gold); background: rgba(255,215,0,.1); }
@@ -37,35 +37,14 @@
             font-weight: bold;
             border-radius: 50px;
             padding: 5px 15px;
-            margin-right: 10px; /* Margen a la derecha para separar del siguiente link */
+            margin-right: 10px;
             transition: var(--transition);
-            position: relative; /* Para el tooltip */
+            position: relative;
         }
         .nav-menu a.header-call-btn:hover {
             background: #fff;
             color: #000;
             transform: scale(1.05);
-        }
-        .header-call-btn:hover::after {
-            content: "Haz clic aquí para llamarnos";
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-5px); /* Ajuste para separar del botón */
-            background: rgba(0,0,0,0.8); /* Fondo semi-transparente */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            z-index: 1001;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            pointer-events: none;
-            opacity: 0; /* Empieza invisible */
-            transition: opacity 0.2s ease; /* Transición suave */
-        }
-        .header-call-btn:hover::after {
-             opacity: 1; /* Se hace visible al pasar el mouse */
         }
         .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
@@ -137,29 +116,37 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
     </style>
-    
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script>
-        // === INICIO: CONFIGURACIÓN DE FIREBASE ===
+        // === CONFIGURACIÓN DE FIREBASE ===
         const firebaseConfig = {
-          apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
-          authDomain: "goldench-final-chatbot.firebaseapp.com",
-          projectId: "goldench-final-chatbot",
-          storageBucket: "goldench-final-chatbot.appspot.com",
-          messagingSenderId: "418294744257",
-          appId: "1:418294744257:web:f06d527214360aae358040"
+            apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
+            authDomain: "goldench-final-chatbot.firebaseapp.com",
+            projectId: "goldench-final-chatbot",
+            storageBucket: "goldench-final-chatbot.appspot.com",
+            messagingSenderId: "418294744257",
+            appId: "1:418294744257:web:f06d527214360aae358040"
         };
         
-        // === INICIALIZACIÓN DE SERVICIOS DE FIREBASE ===
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        // === FIN: CONFIGURACIÓN E INICIALIZACIÓN ===
-
+        
         let confirmationResult = null;
         let isFirstSendAttempt = true;
+
+        // === PRECIOS BASE (Incrustados para mayor velocidad y estabilidad) ===
+        const FALLBACK_PRICES = {
+            "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
+            "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
+            "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
+            "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
+            "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
+            "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
+        };
 
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
@@ -177,16 +164,12 @@
             document.getElementById('step3').classList.add('active');
         }
 
-        // =================================================================
-        // INICIO DE LA CORRECCIÓN 1 (FORMULARIO DE CAPTURA AUTOMÁTICA)
-        // =================================================================
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
 
-            if(sendButton) sendButton.disabled = true;
-            if(sendButton) sendButton.textContent = 'Enviando...';
-            resendLink.style.pointerEvents = 'none';
+            if(sendButton) { sendButton.disabled = true; sendButton.textContent = 'Sending...'; }
+            if(resendLink) resendLink.style.pointerEvents = 'none';
             
             const recaptchaContainer = document.getElementById('recaptcha-container');
             recaptchaContainer.innerHTML = '';
@@ -199,9 +182,8 @@
 
             if (!email || !city || !phone) {
                 alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
-                if(sendButton) sendButton.disabled = false;
-                if(sendButton) sendButton.textContent = 'Send Code & Capture Info';
-                resendLink.style.pointerEvents = 'auto';
+                if(sendButton) { sendButton.disabled = false; sendButton.textContent = 'Send Code & Capture Info'; }
+                if(resendLink) resendLink.style.pointerEvents = 'auto';
                 return;
             }
 
@@ -211,14 +193,10 @@
                     autoLeadForm.querySelector('input[name="email"]').value = email;
                     autoLeadForm.querySelector('input[name="city"]').value = city;
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
-                    
-                    // *** LÍNEA CORREGIDA: Se eliminó el 'headers' que causaba el error CORS ***
                     await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
-                    
                     isFirstSendAttempt = false;
                 } catch (error) {
                     console.error('Error al capturar lead:', error);
-                    // No detenemos el flujo si falla el envío automático, el usuario puede seguir
                 }
             }
 
@@ -232,35 +210,30 @@
                 document.getElementById('leadCity').disabled = true;
                 document.getElementById('phoneNumber').disabled = true;
                 if (sendButton) sendButton.style.display = 'none';
-                resendLink.style.display = 'inline';
+                if(resendLink) resendLink.style.display = 'inline';
                 alert('¡Código enviado! Por favor, ingréselo a continuación.');
             } catch (error) {
                 console.error("Error al enviar SMS:", error);
                 alert('Error al enviar el código. Verifique el número e intente de nuevo.');
-                // Habilitar campos si falla el envío de SMS
                 document.getElementById('leadEmail').disabled = false;
                 document.getElementById('leadCity').disabled = false;
                 document.getElementById('phoneNumber').disabled = false;
             } finally {
-                // Siempre habilitar el botón al final, incluso si hay error
                 if (sendButton) sendButton.disabled = false;
-                if(sendButton && sendButton.style.display !== 'none') { // Solo cambiar texto si el botón está visible
-                     sendButton.textContent = 'Send Code & Capture Info';
+                if(sendButton && sendButton.style.display !== 'none') {
+                    sendButton.textContent = 'Send Code & Capture Info';
                 }
-                resendLink.style.pointerEvents = 'auto';
+                if(resendLink) resendLink.style.pointerEvents = 'auto';
             }
         }
-        // =================================================================
-        // FIN DE LA CORRECCIÓN 1
-        // =================================================================
-        
+
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
             if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
             
             const verifyButton = document.querySelector('#verificationCodeSection .btn');
             verifyButton.disabled = true;
-            verifyButton.textContent = 'Verificando...';
+            verifyButton.textContent = 'Verifying...';
 
             try {
                 await confirmationResult.confirm(code);
@@ -274,43 +247,24 @@
             }
         }
 
-        async function loadPrices() {
-            try {
-                const res = await fetch('https://raw.githubusercontent.com/1982carlosvillalobos-creator/mi-pagina-web/main/_estimator/prices.json');
-                if (!res.ok) throw new Error('Failed to fetch from GitHub');
-                return await res.json();
-            } catch (err) {
-                console.warn("Could not fetch prices from GitHub. Using fallback.");
-                return {
-                    "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
-                    "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
-                    "ev-charger": { base: { small: 700, medium: 900, large: 1100 }, factor: { new: 50, mid: 100, old: 150 } },
-                    "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
-                    "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
-                    "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } }
-                };
-            }
-        }
-
+        // Función modificada para usar precios internos (sin fetch)
         async function showEstimateAndForm() {
-            const prices = await loadPrices();
+            const prices = FALLBACK_PRICES; // Usamos la constante definida arriba
             const service = document.querySelector('input[name="service"]:checked').value;
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
             
             if (!prices[service]) {
-                alert("Error: Servicio no encontrado. Por favor, reinicie el estimador.");
-                window.location.reload(); 
+                alert("Error: Servicio no encontrado.");
                 return;
             }
 
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
-            
-            const total = Math.round((base + factor) * 1.20);
+            const total = Math.round((base + factor) * 1.20); // Margen de seguridad del 20%
             
             document.getElementById('verificationCodeSection').style.display = 'none';
-            document.getElementById('resultPrice').textContent = `Estimate: $${total.toLocaleString()}`;
+            document.getElementById('resultPrice').textContent = `Estimated Range: $${total.toLocaleString()}`;
             document.getElementById('resultPrice').style.display = 'block';
             document.getElementById('calcLeadForm').style.display = 'block';
 
@@ -330,94 +284,20 @@
             { "text": "Needed emergency service at 11 PM. They arrived in 30 minutes and fixed everything!", "author": "— Lisa M., Fremont" }
         ];
 
-        function getWeekNumber(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        }
-
         function loadWeeklyTestimonialCarousel() {
-            const week = getWeekNumber(new Date());
-            const groupIndex = (week - 1) % Math.ceil(testimonials.length / 6);
-            const group = testimonials.slice(groupIndex * 6, groupIndex * 6 + 6);
+            // Muestra un testimonial aleatorio cada 10 segundos
             let index = 0;
             const display = document.getElementById('testimonial-display');
             function show() {
-                if(group.length > 0) {
-                    const t = group[index % group.length];
-                    display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
-                }
+                const t = testimonials[index % testimonials.length];
+                display.innerHTML = `<p class="testimonial-text">"${t.text}"</p><p class="testimonial-author">${t.author}</p>`;
             }
             show();
-            setInterval(() => { index++; show(); }, 10000);
+            setInterval(() => { index++; show(); }, 8000);
         }
-
-        // =================================================================
-        // INICIO DE LA CORRECCIÓN 4 (SOLO MANEJA CALCULADORA CON JS)
-        // =================================================================
-        async function handleFormSubmit(event, form, submitButton) {
-            // Prevenimos el default solo si NO es el contactForm
-            if (form.id !== 'contactForm') {
-                 event.preventDefault();
-            } else {
-                 // Para el contactForm, dejamos que el HTML haga el envío
-                 return; // Salimos de la función para el contactForm
-            }
-            
-            // Este código solo se ejecutará para calcLeadForm
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-            try {
-                // Envío corregido sin 'headers'
-                await fetch(form.action, { 
-                    method: 'POST', 
-                    body: new FormData(form) 
-                });
-                
-                // Redirección para calcLeadForm
-                const redirectInput = form.querySelector('input[name="_redirect"]');
-                if (redirectInput && redirectInput.value) {
-                    window.location.href = redirectInput.value;
-                } else {
-                    // Fallback si no hay redirect (poco probable aquí)
-                    alert('Form submitted successfully!'); 
-                    submitButton.disabled = false;
-                     if (form.id === 'calcLeadForm') { 
-                         submitButton.textContent = 'Send Detailed Quote to My Email';
-                     }
-                }
-            
-            } catch (error) {
-                console.error("Error al enviar el formulario (calculadora): ", error);
-                alert('Hubo un error al enviar tu solicitud (calculadora). Por favor, intenta de nuevo.');
-                submitButton.disabled = false;
-                
-                // Restaura el texto original del botón de la calculadora
-                if (form.id === 'calcLeadForm') {
-                    submitButton.textContent = 'Send Detailed Quote to My Email';
-                }
-            }
-        }
-        // =================================================================
-        // FIN DE LA CORRECCIÓN 4
-        // =================================================================
 
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
-            
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                 // *** LÍNEA COMENTADA: Ya no interceptamos el contactForm ***
-                // contactForm.addEventListener('submit', (e) => handleFormSubmit(e, contactForm, contactForm.querySelector('.form-submit')));
-            }
-
-            const calcLeadForm = document.getElementById('calcLeadForm');
-            if (calcLeadForm) {
-                 // *** LÍNEA COMENTADA: TAMPOCO INTERCEPTAMOS EL calcLeadForm ***
-                // calcLeadForm.addEventListener('submit', (e) => handleFormSubmit(e, calcLeadForm, calcLeadForm.querySelector('.btn')));
-            }
         });
     </script>
 </head>
@@ -430,7 +310,7 @@
                 <span>Golden Charge LLC</span>
             </a>
             <nav class="nav-menu">
-             <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
+                <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
                 
                 <a href="#home">Home</a>
                 <a href="#services">Services</a>
@@ -439,8 +319,7 @@
                 <a href="#gallery">Gallery</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
-                <a href="/_estimator/index.html" style="color:var(--gold); font-size:1.1rem;">🔧 Admin</a>
-            </nav>
+                </nav>
         </div>
     </header>
 
@@ -459,7 +338,7 @@
                 <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, intercoms, and network installations.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
             </div>
@@ -494,6 +373,7 @@
                         <label class="calc-card"><input type="radio" name="service" value="full-smart-home" onclick="nextStep()"><span>Full Smart-Home</span></label>
                     </div>
                 </div>
+
                 <div class="calc-step" id="step2">
                     <h3>2. Home size</h3>
                     <select id="houseSize" class="form-control">
@@ -639,8 +519,6 @@
                     <a href="#"><i class="fab fa-tiktok"></i></a>
                     <a href="#"><i class="fab fa-youtube"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-weixin"></i></a>
-                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -656,40 +534,22 @@
                 </ul>
             </div>
             <div class="footer-column">
-    <h3>Contact Info</h3>
-    <div class="contact-info">
-        
-        <p>Fremont, CA<br>
-        Golden Charge Electrician Company</p>
-
-        <div class="contact-item" style="margin-top: 10px;"> <span>📞 General Inquiries:</span><br> <strong><a href="tel:+14244653362" style="color: #fff; text-decoration: none;">+1 (424) 465-3362</a></strong> (also dial: <strong>GOLDENC</strong>)
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p>Fremont, CA<br>Golden Charge Electrician Company</p>
+                    <div class="contact-item" style="margin-top: 10px;"> <span>📞 General Inquiries:</span><br> <strong><a href="tel:+14244653362" style="color: #fff; text-decoration: none;">+1 (424) 465-3362</a></strong> (also dial: <strong>GOLDENC</strong>) </div>
+                    <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a> </div>
+                    <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong> </div>
+                    <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a> </div>
+                    <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
+                </div>
+            </div>
         </div>
-
-        <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a>
-        </div>
-
-        <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong>
-        </div>
-
-        <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a>
-        </div>
-
-        <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
-        
-    </div>
-
         <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
-    </footer></div>
+    </footer>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
-    
-    <style>
-        .bp3-webchat-footer {
-            display: none !important;
-        }
-    </style>
-
+    <style>.bp3-webchat-footer { display: none !important; }</style>
 </body>
 </html>
-
