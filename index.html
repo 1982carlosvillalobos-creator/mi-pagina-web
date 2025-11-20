@@ -173,19 +173,25 @@
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
 
         /* =====================================================
-           FIX FINAL PARA EL CHAT DE BOTPRESS EN MOVIL 
+           SOLUCIÓN DEFINITIVA: CHAT FLOTANTE EN MÓVIL 
            ===================================================== */
         @media (max-width: 768px) { 
             .sticky-mobile-bar { display: flex; }
             
-            /* Esto detecta el contenedor del chat y lo sube 100px */
-            #bp-web-widget-container, 
-            #bp-web-widget, 
+            /* Esto obliga al chat a flotar ENCIMA de la barra amarilla */
             .bp-widget-widget {
-                bottom: 100px !important; /* ¡Sube! */
-                z-index: 2147483647 !important; /* ¡Ponte encima! */
+                bottom: 95px !important; /* 95px desde el suelo */
+                right: 20px !important;
+                z-index: 2147483647 !important; /* Asegura que esté siempre arriba */
+            }
+            /* Respaldo por si Botpress usa un ID diferente */
+            #bp-web-widget-container, #bp-web-widget {
+                bottom: 95px !important;
+                z-index: 2147483647 !important;
             }
         }
+        /* Ocultar el branding de Botpress si es posible por CSS */
+        .bp3-webchat-footer { display: none !important; }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -650,6 +656,5 @@
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
-    <style>.bp3-webchat-footer { display: none !important; }</style>
 </body>
 </html>
