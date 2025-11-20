@@ -164,23 +164,37 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
         
-        /* ESTILOS PARA BARRA PEGAJOSA (MÓVIL) */
+        /* ==========================================================
+           ESTILOS REPARADOS PARA LA BARRA MÓVIL (El "Fix" Final)
+           ========================================================== */
         .sticky-mobile-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: none; z-index: 9999; padding: 10px; justify-content: space-around; gap: 10px; border-top: 1px solid #eee;
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            
+            /* AQUÍ ESTÁ EL TRUCO: 
+               Restamos 80 pixeles al ancho para dejar espacio 
+               al chat a la derecha */
+            width: calc(100% - 80px); 
+            
+            background: #fff; 
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
+            display: none; 
+            z-index: 9990; /* Menor que el chat */
+            padding: 10px; 
+            justify-content: space-around; 
+            gap: 10px; 
+            border-top: 1px solid #eee;
+            
+            /* Hacemos que la esquina derecha sea redondita */
+            border-top-right-radius: 15px; 
         }
         .sticky-btn { flex: 1; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
 
-        /* CSS DE RESPALDO PARA CHAT (Por si el JS tarda) */
-        @media (max-width: 768px) { 
-            .sticky-mobile-bar { display: flex; }
-            /* Intento de mover el chat vía CSS */
-            #bp-web-widget, #bp-web-widget-container, .bp-widget-widget {
-                bottom: 100px !important;
-                z-index: 2147483647 !important;
-            }
-        }
+        @media (max-width: 768px) { .sticky-mobile-bar { display: flex; } }
+        
         .bp3-webchat-footer { display: none !important; }
     </style>
 
@@ -363,28 +377,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadWeeklyTestimonialCarousel();
-            
-            // === FIX DE FUERZA BRUTA PARA EL CHAT ===
-            // Este script buscará el chat cada segundo y lo moverá hacia arriba
-            // si detecta que estás en un celular.
-            const forceChatUp = () => {
-                if (window.innerWidth <= 768) { // Solo en celular
-                    const chatSelectors = ['#bp-web-widget', '#bp-web-widget-container', '.bp-widget-widget'];
-                    chatSelectors.forEach(selector => {
-                        const chatEl = document.querySelector(selector);
-                        if (chatEl) {
-                            // Fuerza el estilo directamente en el elemento
-                            chatEl.style.setProperty('bottom', '100px', 'important');
-                            chatEl.style.setProperty('z-index', '2147483647', 'important');
-                        }
-                    });
-                }
-            };
-
-            // Ejecutar al inicio, al cambiar tamaño y repetidamente por si tarda en cargar
-            forceChatUp();
-            window.addEventListener('resize', forceChatUp);
-            setInterval(forceChatUp, 1000); // Revisa cada segundo
         });
     </script>
 </head>
