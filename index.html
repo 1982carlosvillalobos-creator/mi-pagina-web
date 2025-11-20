@@ -46,7 +46,7 @@
         .btn:hover { transform: translateY(-5px); }
         .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* === SECCIÓN DE LOGOS (Brands) === */
+        /* === NUEVA SECCIÓN DE LOGOS (Brands) === */
         .partners-section {
             background-color: #ffffff;
             padding: 30px 20px;
@@ -70,13 +70,13 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 40px;
+            gap: 40px; 
         }
         .partner-logo {
             padding: 10px; 
         }
         .partner-logo img {
-            height: 45px;       /* Altura fija */
+            height: 45px;       
             width: auto;        
             object-fit: contain;
             filter: grayscale(100%); 
@@ -88,7 +88,6 @@
             opacity: 1;
             transform: scale(1.1);   
         }
-        /* Ajuste Movil para logos */
         @media (max-width: 768px) {
             .partners-grid { gap: 20px; }
             .partner-logo img { height: 35px; } 
@@ -172,16 +171,19 @@
         .sticky-btn { flex: 1; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
-        
-        /* ===========================================
-           ARREGLO PARA QUE EL CHATBOT SUBA EN CELULAR
-           =========================================== */
+
+        /* =====================================================
+           FIX FINAL PARA EL CHAT DE BOTPRESS EN MOVIL 
+           ===================================================== */
         @media (max-width: 768px) { 
             .sticky-mobile-bar { display: flex; }
             
-            /* Esto levanta el botón de Botpress 95px solo en móviles */
-            #bp-web-widget-container, .bp-widget-widget {
-                bottom: 95px !important;
+            /* Esto detecta el contenedor del chat y lo sube 100px */
+            #bp-web-widget-container, 
+            #bp-web-widget, 
+            .bp-widget-widget {
+                bottom: 100px !important; /* ¡Sube! */
+                z-index: 2147483647 !important; /* ¡Ponte encima! */
             }
         }
     </style>
