@@ -20,7 +20,7 @@
             --testimonial-bg: #ffffff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; }
+        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; padding-bottom: 60px; /* Espacio para barra móvil */ }
         html { scroll-behavior: smooth; }
         header { background: linear-gradient(135deg, var(--dark-blue), #000); color: #fff; padding: .4rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -110,11 +110,46 @@
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
         .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 90px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
+        .whatsapp-btn { position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
         .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
         .contact-info { font-size: .95rem; line-height: 1.8; }
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
+        
+        /* ESTILOS PARA BARRA PEGAJOSA (MÓVIL) */
+        .sticky-mobile-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: none; /* Oculto en PC */
+            z-index: 9999;
+            padding: 10px;
+            justify-content: space-around;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+        .sticky-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sticky-call { background: var(--dark-blue); color: #fff; }
+        .sticky-quote { background: var(--gold); color: var(--dark-blue); }
+        
+        @media (max-width: 768px) {
+            .sticky-mobile-bar { display: flex; }
+        }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -138,7 +173,7 @@
         let confirmationResult = null;
         let isFirstSendAttempt = true;
 
-        // === PRECIOS BASE (Incrustados para mayor velocidad y estabilidad) ===
+        // === PRECIOS BASE ===
         const FALLBACK_PRICES = {
             "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
             "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -247,9 +282,8 @@
             }
         }
 
-        // Función modificada para usar precios internos (sin fetch)
         async function showEstimateAndForm() {
-            const prices = FALLBACK_PRICES; // Usamos la constante definida arriba
+            const prices = FALLBACK_PRICES;
             const service = document.querySelector('input[name="service"]:checked').value;
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
@@ -261,7 +295,7 @@
 
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
-            const total = Math.round((base + factor) * 1.20); // Margen de seguridad del 20%
+            const total = Math.round((base + factor) * 1.20); // Margen 20%
             
             document.getElementById('verificationCodeSection').style.display = 'none';
             document.getElementById('resultPrice').textContent = `Estimated Range: $${total.toLocaleString()}`;
@@ -285,7 +319,6 @@
         ];
 
         function loadWeeklyTestimonialCarousel() {
-            // Muestra un testimonial aleatorio cada 10 segundos
             let index = 0;
             const display = document.getElementById('testimonial-display');
             function show() {
@@ -311,7 +344,6 @@
             </a>
             <nav class="nav-menu">
                 <a href="tel:+14244653362" class="header-call-btn">📞 (424) GOLDENC</a>
-                
                 <a href="#home">Home</a>
                 <a href="#services">Services</a>
                 <a href="#testimonials">Testimonials</a>
@@ -319,7 +351,7 @@
                 <a href="#gallery">Gallery</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
-                </nav>
+            </nav>
         </div>
     </header>
 
@@ -338,7 +370,7 @@
                 <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3>Residential</h3><p>Complete electrical installations, repairs, and upgrades for homes.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-building"></i></div><h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, intercoms, and network installations.</p></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, security systems, intercoms, and network installations.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control integration.</p></div>
                 <div class="service-card"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
             </div>
@@ -531,6 +563,7 @@
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="privacy.html" style="color:#aaa; font-size:0.9rem;">🔒 Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -547,6 +580,11 @@
         </div>
         <div class="copyright" style="text-align:center;padding:20px;color:#efb810">&copy; 2025 Golden Charge LLC. All rights reserved.</div>
     </footer>
+
+    <div class="sticky-mobile-bar">
+        <a href="tel:+14244653362" class="sticky-btn sticky-call"><i class="fas fa-phone"></i> Call Now</a>
+        <a href="#calculator" class="sticky-btn sticky-quote"><i class="fas fa-bolt"></i> Get Quote</a>
+    </div>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
