@@ -108,6 +108,28 @@
         .testimonial-card { background: var(--testimonial-bg); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,.1); margin: 0 20px; }
         .testimonial-text { font-size: 1.2rem; line-height: 1.8; color: #333; font-style: italic; margin-bottom: 20px; }
         .testimonial-author { color: var(--dark-blue); font-weight: 600; }
+        
+        /* NEW: GOOGLE REVIEW BUTTON STYLE */
+        .google-review-btn {
+            background: #fff;
+            color: #4285F4;
+            border: 2px solid #4285F4;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.2);
+        }
+        .google-review-btn:hover {
+            background: #4285F4;
+            color: #fff;
+            transform: translateY(-3px);
+        }
 
         /* CALCULATOR */
         .calculator-section { padding: 100px 20px; background: #f0f4f8; }
@@ -130,6 +152,16 @@
         .gallery-item { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.1); height: 250px; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
         .gallery-item:hover img { transform: scale(1.1); }
+        
+        /* NEW: FAQ SECTION STYLES */
+        .faq-section { padding: 80px 0; background: #fff; border-top: 1px solid #eee; }
+        .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .faq-card { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 5px solid var(--gold); transition: transform 0.3s ease; }
+        .faq-card:hover { transform: translateY(-5px); }
+        .faq-card h3 { color: var(--dark-blue); font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .faq-card h3 i { color: var(--gold); font-size: 1rem; }
+        .faq-card p { font-size: 0.95rem; color: #555; line-height: 1.7; }
+
         .about { padding: 100px 0; background: var(--dark-blue); color: #fff; }
         .about-content { display: flex; gap: 50px; flex-wrap: wrap; align-items: center; justify-content: center; }
         .about-text { flex: 1; min-width: 300px; max-width: 500px; }
@@ -457,6 +489,12 @@
                     <p class="testimonial-text">Loading testimonial...</p>
                     <p class="testimonial-author">— Golden Charge Team</p>
                 </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="https://g.page/r/CWm9Fz7PwMzQEAE/review" target="_blank" class="google-review-btn">
+                        <i class="fab fa-google"></i> Rate us on Google
+                    </a>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">We appreciate your 5-star reviews!</p>
+                </div>
             </div>
         </div>
     </section>
@@ -562,6 +600,30 @@
         </div>
     </section>
 
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title">Expert Advice & FAQ</h2>
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Updating Old Panels</h3>
+                    <p>If your panel is over 20 years old, buzzes, or smells burnt, it needs a check. Upgrading to 200A is essential for modern appliances and EV chargers.</p>
+                </div>
+                <div class="faq-card">
+                    <h3><i class="fas fa-bolt"></i> Breakers Tripping?</h3>
+                    <p>This is a safety measure indicating overload or short circuit. Don't just reset it—call us to find the root cause and prevent fire hazards.</p>
+                </div>
+                <div class="faq-card">
+                    <h3><i class="fas fa-car"></i> EV Charger Install</h3>
+                    <p>We handle the load calculation and city permits. Depending on your current panel, we might recommend a sub-panel for your Tesla or EV station.</p>
+                </div>
+                <div class="faq-card">
+                    <h3><i class="fas fa-shield-alt"></i> Warranty & Safety</h3>
+                    <p>We provide a 1-year warranty on labor. All work is performed by licensed professionals (Lic #1143055) following strict NEC codes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="about" id="about">
         <div class="container about-content">
             <div class="about-text">
@@ -642,6 +704,13 @@
                     <div class="contact-item" style="margin-top: 5px;"> <span>📧 Customer Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a> </div>
                     <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct Line (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong> </div>
                     <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Contact (Carlos Villalobos):</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a> </div>
+                    
+                    <div class="contact-item" style="margin-top: 15px;">
+                        <a href="https://g.page/r/CWm9Fz7PwMzQEAE/review" target="_blank" style="color: #FFD700; font-weight: bold;">
+                            <i class="fab fa-google"></i> Leave us a Review on Google
+                        </a>
+                    </div>
+
                     <div class="contact-item" style="margin-top: 10px;"> <span><i class="fas fa-id-card"></i> License #:</span> 1143055<br> <span><i class="fas fa-lock"></i> EIN:</span> 39-4119592 </div>
                 </div>
             </div>
