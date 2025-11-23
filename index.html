@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Golden Charge Electrician Company | Bay Area</title>
-    <meta name="description" content="Professional electrical services in the Bay Area. Solar Panels, EV Chargers, Panel Upgrades, 24/7 Emergencies, and Smart Homes. Free estimates & bilingual support.">
+    <meta name="description" content="Top-rated Electrician in Fremont, San Jose & Bay Area. Specializing in Panel Upgrades, EV Chargers (Tesla), Smart Homes & 24/7 Emergency Repairs. Lic# 1143055.">
     
     <link rel="icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
     <link rel="shortcut icon" href="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/android-chrome-192x192.png" type="image/x-icon">
@@ -46,7 +46,7 @@
         .btn:hover { transform: translateY(-5px); }
         .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* === SECCIÓN DE LOGOS (Brands) === */
+        /* === BRANDS SECTION === */
         .partners-section {
             background-color: #ffffff;
             padding: 30px 20px;
@@ -109,7 +109,7 @@
         .testimonial-text { font-size: 1.2rem; line-height: 1.8; color: #333; font-style: italic; margin-bottom: 20px; }
         .testimonial-author { color: var(--dark-blue); font-weight: 600; }
         
-        /* NEW: GOOGLE REVIEW BUTTON STYLE */
+        /* GOOGLE REVIEW BUTTON STYLE */
         .google-review-btn {
             background: #fff;
             color: #4285F4;
@@ -153,7 +153,7 @@
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
         .gallery-item:hover img { transform: scale(1.1); }
         
-        /* NEW: FAQ SECTION STYLES */
+        /* FAQ SECTION STYLES */
         .faq-section { padding: 80px 0; background: #fff; border-top: 1px solid #eee; }
         .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
         .faq-card { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 5px solid var(--gold); transition: transform 0.3s ease; }
@@ -190,15 +190,11 @@
         .social-icons { display: flex; gap: 15px; margin-top: 15px; }
         .social-icons a { color: #fff; font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.1); }
         .social-icons a:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-        .whatsapp-btn { position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 1005; transition: transform .3s; }
-        .whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); }
         .contact-info { font-size: .95rem; line-height: 1.8; }
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
         
-        /* ==========================================================
-           ESTILOS DE LA BARRA MÓVIL Y EL FIX DEL CHAT
-           ========================================================== */
+        /* MOBILE BAR STYLES */
         .sticky-mobile-bar {
             position: fixed; 
             bottom: 0; 
@@ -217,7 +213,7 @@
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
 
-        /* REGLA MÁGICA: SUBIR EL CHAT EN EL CELULAR */
+        /* CHATBOT POSITION FIX */
         @media (max-width: 768px) { 
             .sticky-mobile-bar { display: flex; }
             #bp-web-widget-container, .bp-widget-widget {
@@ -225,6 +221,41 @@
             }
         }
         .bp3-webchat-footer { display: none !important; }
+
+        /* === WHATSAPP BUTTON STYLES === */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            z-index: 1005;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform .3s;
+            text-decoration: none;
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            background: #128C7E;
+        }
+        /* MOBILE: MOVE WHATSAPP TO LEFT */
+        @media (max-width: 768px) {
+            .whatsapp-btn {
+                right: auto;
+                left: 20px;
+                bottom: 100px;
+                width: 55px;
+                height: 55px;
+                font-size: 2rem;
+            }
+        }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -232,7 +263,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // === CONFIGURACIÓN DE FIREBASE ===
+        // === FIREBASE CONFIG ===
         const firebaseConfig = {
             apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
             authDomain: "goldench-final-chatbot.firebaseapp.com",
@@ -248,7 +279,7 @@
         let confirmationResult = null;
         let isFirstSendAttempt = true;
 
-        // === PRECIOS BASE (INCLUYE SOLAR) ===
+        // === BASE PRICES ===
         const FALLBACK_PRICES = {
             "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
             "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -256,7 +287,6 @@
             "smart-home": { base: { small: 300, medium: 500, large: 700 }, factor: { new: 20, mid: 50, old: 100 } },
             "panel-400": { base: { small: 3800, medium: 4500, large: 5500 }, factor: { new: 400, mid: 800, old: 1500 } },
             "full-smart-home": { base: { small: 4000, medium: 6500, large: 9000 }, factor: { new: 300, mid: 750, old: 1300 } },
-            // Precios estimados para Solar (para que la calculadora no falle)
             "solar-panel": { base: { small: 12000, medium: 18000, large: 25000 }, factor: { new: 0, mid: 1000, old: 2000 } }
         };
 
@@ -293,7 +323,7 @@
             let phone = document.getElementById('phoneNumber').value.trim();
 
             if (!email || !city || !phone) {
-                alert('Por favor, complete todos los campos: Correo, Ciudad y Teléfono.');
+                alert('Please complete all fields: Email, City, and Phone.');
                 if(sendButton) { sendButton.disabled = false; sendButton.textContent = 'Send Code & Capture Info'; }
                 if(resendLink) resendLink.style.pointerEvents = 'auto';
                 return;
@@ -308,7 +338,7 @@
                     await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
                     isFirstSendAttempt = false;
                 } catch (error) {
-                    console.error('Error al capturar lead:', error);
+                    console.error('Error capturing lead:', error);
                 }
             }
 
@@ -323,10 +353,10 @@
                 document.getElementById('phoneNumber').disabled = true;
                 if (sendButton) sendButton.style.display = 'none';
                 if(resendLink) resendLink.style.display = 'inline';
-                alert('¡Código enviado! Por favor, ingréselo a continuación.');
+                alert('Code sent! Please enter it below.');
             } catch (error) {
-                console.error("Error al enviar SMS:", error);
-                alert('Error al enviar el código. Verifique el número e intente de nuevo.');
+                console.error("Error sending SMS:", error);
+                alert('Error sending code. Verify the number and try again.');
                 document.getElementById('leadEmail').disabled = false;
                 document.getElementById('leadCity').disabled = false;
                 document.getElementById('phoneNumber').disabled = false;
@@ -341,7 +371,7 @@
 
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
-            if (code.length !== 6) return alert('Por favor, ingrese el código de 6 dígitos.');
+            if (code.length !== 6) return alert('Please enter the 6-digit code.');
             
             const verifyButton = document.querySelector('#verificationCodeSection .btn');
             verifyButton.disabled = true;
@@ -349,11 +379,11 @@
 
             try {
                 await confirmationResult.confirm(code);
-                alert('¡Verificación exitosa!');
+                alert('Verification successful!');
                 showEstimateAndForm();
             } catch (error) {
-                console.error("Error al verificar el código:", error);
-                alert('Código inválido. Por favor, intente de nuevo.');
+                console.error("Error verifying code:", error);
+                alert('Invalid code. Please try again.');
                 verifyButton.disabled = false;
                 verifyButton.textContent = 'Verify & Show Estimate';
             }
@@ -366,13 +396,13 @@
             const year = document.getElementById('houseYear').value;
             
             if (!prices[service]) {
-                alert("Error: Servicio no encontrado.");
+                alert("Error: Service not found.");
                 return;
             }
 
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
-            const total = Math.round((base + factor) * 1.20); // Margen 20%
+            const total = Math.round((base + factor) * 1.20); // 20% Margin
             
             document.getElementById('verificationCodeSection').style.display = 'none';
             document.getElementById('resultPrice').textContent = `Estimated Range: $${total.toLocaleString()}`;
@@ -722,6 +752,10 @@
         <a href="tel:+14244653362" class="sticky-btn sticky-call"><i class="fas fa-phone"></i> Call Now</a>
         <a href="#calculator" class="sticky-btn sticky-quote"><i class="fas fa-bolt"></i> Get Quote</a>
     </div>
+
+    <a href="https://wa.me/14244653362?text=Hi%20Golden%20Charge,%20I%20need%20a%20free%20estimate." class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/10/15/01/20251015014743-G5VKCJKE.js" defer></script>
