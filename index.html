@@ -18,13 +18,10 @@
 
     <style>
         :root {
-            /* COLORES PREMIUM */
             --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #FFD700 100%);
             --gold-flat: #FFD700;
-            --dark-blue: #051b4d; /* Azul más profundo */
-            --dark-overlay: rgba(5, 27, 77, 0.9);
+            --dark-blue: #051b4d;
             --light-gray: #F8F9FA;
-            --white: #ffffff;
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
@@ -36,33 +33,23 @@
             line-height: 1.6; 
             overflow-x: hidden; 
             padding-bottom: 60px; 
-            font-family: 'Inter', sans-serif; /* Texto normal */
+            font-family: 'Inter', sans-serif; 
             top: 0px !important; 
         }
 
-        /* TIPOGRAFÍA PREMIUM */
-        h1, h2, h3, h4, .btn, .nav-menu a {
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: -0.5px;
-        }
-
+        h1, h2, h3, h4, .btn, .nav-menu a { font-family: 'Montserrat', sans-serif; letter-spacing: -0.5px; }
         html { scroll-behavior: smooth; }
         
-        /* === BARRA DE IDIOMAS === */
+        /* BARRA IDIOMAS */
         #language-bar { background: #f0f0f0; border-bottom: 1px solid #ddd; padding: 5px 20px; text-align: right; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 0.85rem; }
         .goog-te-banner-frame.skiptranslate { display: none !important; } 
         #google_translate_element .goog-te-gadget-simple { background-color: #fff; border: 1px solid #ccc; padding: 3px 8px; border-radius: 4px; font-family: 'Inter', sans-serif; }
 
-        /* === HEADER GLASSMORPHISM (CRISTAL) === */
+        /* HEADER */
         header { 
-            background: rgba(5, 27, 77, 0.85); /* Azul translúcido */
-            backdrop-filter: blur(12px); /* Efecto borroso Apple */
-            -webkit-backdrop-filter: blur(12px);
-            padding: 0.8rem 0; 
-            position: sticky; 
-            width: 100%; 
-            top: 0; 
-            z-index: 1000; 
+            background: rgba(5, 27, 77, 0.85);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 0.8rem 0; position: sticky; width: 100%; top: 0; z-index: 1000; 
             border-bottom: 1px solid rgba(255, 215, 0, 0.1);
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -76,83 +63,60 @@
         .nav-menu a { white-space: nowrap; color: #eee; text-decoration: none; font-weight: 600; padding: 8px 15px; border-radius: 6px; font-size: .85rem; transition: var(--transition); }
         .nav-menu a:hover { color: var(--gold-flat); background: rgba(255,255,255,0.05); }
 
-        /* BOTÓN DE LLAMADA CON LATIDO Y DEGRADADO */
         .nav-menu a.header-call-btn { 
-            background: var(--gold-gradient); 
-            color: var(--dark-blue); 
-            font-weight: 800; 
-            border-radius: 50px; 
-            padding: 8px 20px; 
-            margin-right: 10px; 
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-            animation: pulse-gold 2s infinite; /* LATIDO */
+            background: var(--gold-gradient); color: var(--dark-blue); font-weight: 800; border-radius: 50px; 
+            padding: 8px 20px; margin-right: 10px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            animation: pulse-gold 2s infinite; 
         }
-        .nav-menu a.header-call-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
-
         @keyframes pulse-gold {
             0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
 
-        /* === HERO SECTION === */
+        /* HERO */
         .hero { 
-            background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover fixed; /* Parallax effect */
-            height: calc(100vh - 80px); 
-            display: flex; align-items: center; justify-content: center; position: relative; color: #fff; text-align: center; padding: 0 20px; 
+            background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover fixed;
+            height: calc(100vh - 80px); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; text-align: center; padding: 0 20px; 
         }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(5,27,77,0.9)); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--gold-flat); text-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 1.1; }
         .hero p { font-size: 1.4rem; margin-bottom: 2.5rem; opacity: 0.9; font-weight: 300; }
         
-        /* BOTÓN PREMIUM CON BRILLO (SHINE) */
         .btn { 
-            display: inline-block; padding: 18px 50px; 
-            background: var(--gold-gradient); 
+            display: inline-block; padding: 18px 50px; background: var(--gold-gradient); 
             color: var(--dark-blue); text-decoration: none; border-radius: 50px; 
             font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); 
-            position: relative; overflow: hidden; transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); position: relative; overflow: hidden; transition: var(--transition);
         }
         .btn:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 215, 0, 0.5); }
-        
-        /* Animación de destello en botón */
         .btn::after {
             content:''; position: absolute; top:0; left:-100%; width:50%; height:100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg); animation: shine 4s infinite;
         }
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; } /* Pasa rápido */
-            100% { left: 200%; }
-        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
         .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; animation: none; box-shadow: none; transform: none; }
 
-        /* === BRANDS === */
+        /* BRANDS */
         .partners-section { background-color: #ffffff; padding: 40px 20px; border-bottom: 1px solid #eee; }
         .partners-title { font-size: 0.9rem; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; font-weight: 700; }
         .partners-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 50px; }
         .partner-logo img { height: 40px; opacity: 0.4; filter: grayscale(100%); transition: var(--transition); }
         .partner-logo img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
 
-        /* === SERVICES === */
+        /* SERVICES */
         .services { padding: 100px 0; background: #fff; }
         .section-title { text-align: center; margin-bottom: 60px; color: var(--dark-blue); font-size: 2.8rem; font-weight: 800; position: relative; display: inline-block; width: 100%; }
-        /* Pequeña línea dorada debajo del título */
         .section-title::after { content: ''; display: block; width: 80px; height: 4px; background: var(--gold-gradient); margin: 15px auto 0; border-radius: 2px; }
-
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 30px; }
-        .service-card { 
-            background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; 
-            border: 1px solid #eee; box-shadow: 0 10px 40px rgba(0,0,0,0.05); transition: var(--transition); 
-        }
+        .service-card { background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 10px 40px rgba(0,0,0,0.05); transition: var(--transition); }
         .service-card:hover { transform: translateY(-15px); border-color: var(--gold-flat); box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
         .service-icon { font-size: 3.5rem; background: -webkit-linear-gradient(#FFD700, #FDB931); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 25px; }
         .service-card h3 { margin-bottom: 15px; color: var(--dark-blue); font-size: 1.4rem; }
 
-        /* === TESTIMONIALS === */
+        /* TESTIMONIALS */
         .testimonials { padding: 100px 0; background: linear-gradient(to bottom, #f0f4f8, #fff); }
         .testimonial-card { background: #fff; padding: 50px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); text-align: center; max-width: 800px; margin: 0 auto; border-top: 5px solid var(--gold-flat); }
         .testimonial-text { font-size: 1.4rem; line-height: 1.6; color: #333; font-style: italic; margin-bottom: 25px; font-family: 'Times New Roman', serif; }
@@ -160,7 +124,7 @@
         .google-review-btn { background: #fff; color: #4285F4; border: 2px solid #4285F4; padding: 12px 30px; font-weight: bold; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; margin-top: 30px; transition: var(--transition); }
         .google-review-btn:hover { background: #4285F4; color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3); }
 
-        /* === CALCULATOR === */
+        /* CALCULATOR */
         .calculator-section { padding: 100px 20px; background: #f8f9fa; }
         .calculator-wrapper { max-width: 750px; margin: 0 auto; background: #fff; border-radius: 25px; padding: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
         .calc-step.active { display: block; animation: slideUp 0.5s ease; }
@@ -170,67 +134,59 @@
         .calc-card:hover, .calc-card:has(input:checked) { border-color: var(--gold-flat); background: rgba(255,215,0,0.05); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .calc-card input { display: none; }
         .price-display { font-size: 2.5rem; font-weight: 800; color: var(--dark-blue); text-align: center; margin: 30px 0; background: var(--light-gray); padding: 20px; border-radius: 10px; }
-        
         .form-control { width: 100%; padding: 16px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; transition: 0.3s; background: #fcfcfc; }
         .form-control:focus { outline: none; border-color: var(--gold-flat); background: #fff; box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1); }
-        
         .verification-code-input { text-align: center; font-size: 2rem; letter-spacing: 1rem; font-family: monospace; }
         .form-group.inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-group { margin-bottom: 20px; }
 
-        /* === GALLERY PREMIUM === */
+        /* GALLERY */
         .gallery { padding: 100px 0; background: #fff; }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-        .project-card { 
-            background: #fff; border-radius: 20px; overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: var(--transition); 
-            border: 1px solid rgba(0,0,0,0.03);
-        }
+        .project-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: var(--transition); border: 1px solid rgba(0,0,0,0.03); }
         .project-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
         .img-wrapper { height: 260px; overflow: hidden; position: relative; }
         .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
         .project-card:hover .img-wrapper img { transform: scale(1.1); }
-        
-        /* Overlay gradiente sobre la imagen al hover */
         .img-wrapper::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); opacity: 0; transition: 0.3s; }
         .project-card:hover .img-wrapper::after { opacity: 1; }
-
         .project-info { padding: 30px; }
         .tag-pill { background: var(--gold-gradient); color: var(--dark-blue); font-size: 0.7rem; padding: 5px 12px; border-radius: 30px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 10px; }
         .project-title { margin: 10px 0; color: var(--dark-blue); font-size: 1.4rem; font-weight: 700; }
         .project-desc { font-size: 0.95rem; color: #666; line-height: 1.6; }
         .project-loc { margin-top: 15px; font-size: 0.85rem; color: #999; font-weight: 600; display: flex; align-items: center; gap: 5px; }
 
-        /* === FAQ === */
+        /* FAQ */
         .faq-section { padding: 100px 0; background: #f8f9fa; }
         .faq-card { background: #fff; padding: 35px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-left: 5px solid var(--gold-flat); transition: var(--transition); }
         .faq-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
         .faq-card h3 { color: var(--dark-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
-        /* === ABOUT === */
+        /* ABOUT - CORRECCIÓN AQUI */
         .about { padding: 100px 0; background: var(--dark-blue); color: #fff; position: relative; overflow: hidden; }
-        /* Decoración de fondo abstracta */
         .about::before { content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: var(--gold-flat); opacity: 0.1; border-radius: 50%; filter: blur(80px); }
-
         .about-content { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; justify-content: center; position: relative; z-index: 2; }
         .about-text h2 { font-size: 3rem; margin-bottom: 25px; color: var(--gold-flat); }
         .highlight { color: var(--gold-flat); font-weight: 700; }
-        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 4px solid var(--gold-flat); }
+        
+        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 4px solid var(--gold-flat); max-width: 100%; /* Asegura que no se salga en movil */ }
+        
+        /* ESTA ES LA LÍNEA QUE FALTABA: */
+        .about-image img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* === CONTACT & FORM === */
+        /* CONTACT & FORM */
         .contact { padding: 100px 0; background: #fff; }
         .contact-form { max-width: 700px; margin: 0 auto; padding: 50px; background: var(--light-gray); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.05); }
         .form-submit { background: var(--gold-gradient); color: var(--dark-blue); border: none; padding: 16px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3); transition: var(--transition); }
         .form-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.5); }
 
-        /* === FOOTER === */
+        /* FOOTER */
         footer { background: #020d26; color: #ccc; padding: 80px 0 40px; font-size: 0.95rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 40px; margin-bottom: 50px; }
         .footer-column h3 { color: var(--gold-flat); margin-bottom: 25px; font-size: 1.4rem; letter-spacing: 1px; }
         .footer-column a { color: #ccc; text-decoration: none; transition: 0.3s; }
         .footer-column a:hover { color: var(--gold-flat); padding-left: 5px; }
         
-        /* Sticky Bar Mobile */
         .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); display: none; z-index: 9990; padding: 12px 15px 12px 15px; padding-right: 85px; gap: 15px; border-top: 1px solid #eee; }
         .sticky-btn { flex: 1; text-align: center; padding: 14px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .sticky-call { background: var(--dark-blue); color: #fff; }
@@ -239,9 +195,9 @@
             .sticky-mobile-bar { display: flex; } 
             .hero h1 { font-size: 2.5rem; }
             .section-title { font-size: 2rem; }
+            .contact-form { padding: 30px 20px; } /* Ajuste extra para movil */
         }
-
-        /* WhatsApp */
+        
         .whatsapp-btn { position: fixed; bottom: 90px; right: 20px; width: 65px; height: 65px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; z-index: 1005; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); transition: var(--transition); text-decoration: none; }
         .whatsapp-btn:hover { transform: scale(1.1) rotate(10deg); }
         @media (max-width: 768px) { .whatsapp-btn { right: auto; left: 20px; bottom: 110px; width: 60px; height: 60px; } }
@@ -252,7 +208,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // === FIREBASE CONFIG ===
+        // FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
             authDomain: "goldench-final-chatbot.firebaseapp.com",
@@ -261,14 +217,11 @@
             messagingSenderId: "418294744257",
             appId: "1:418294744257:web:f06d527214360aae358040"
         };
-        
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        
         let confirmationResult = null;
         let isFirstSendAttempt = true;
 
-        // === PRICES ===
         const FALLBACK_PRICES = {
             "panel-100": { base: { small: 500, medium: 700, large: 900 }, factor: { new: 100, mid: 200, old: 300 } },
             "panel-200": { base: { small: 800, medium: 1000, large: 1200 }, factor: { new: 150, mid: 250, old: 350 } },
@@ -298,21 +251,17 @@
         async function sendVerificationCode() {
             const sendButton = document.getElementById('sendCodeBtn');
             const resendLink = document.getElementById('resendLink');
-
             if(sendButton) { sendButton.disabled = true; sendButton.textContent = 'Sending...'; }
             if(resendLink) resendLink.style.pointerEvents = 'none';
-            
             const recaptchaContainer = document.getElementById('recaptcha-container');
             recaptchaContainer.innerHTML = '';
-
             const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
 
             const email = document.getElementById('leadEmail').value.trim();
             const city = document.getElementById('leadCity').value.trim();
             let phone = document.getElementById('phoneNumber').value.trim();
-
             if (!email || !city || !phone) {
-                alert('Please complete all fields: Email, City, and Phone.');
+                alert('Please complete all fields');
                 if(sendButton) { sendButton.disabled = false; sendButton.textContent = 'Send Code & Capture Info'; }
                 if(resendLink) resendLink.style.pointerEvents = 'auto';
                 return;
@@ -326,11 +275,8 @@
                     autoLeadForm.querySelector('input[name="phone"]').value = phone;
                     await fetch(autoLeadForm.action, { method: 'POST', body: new FormData(autoLeadForm) });
                     isFirstSendAttempt = false;
-                } catch (error) {
-                    console.error('Error capturing lead:', error);
-                }
+                } catch (error) { console.error('Error capturing lead:', error); }
             }
-
             if (!phone.startsWith('+1')) phone = '+1' + phone.replace(/\D/g, '');
 
             try {
@@ -341,38 +287,33 @@
                 document.getElementById('phoneNumber').disabled = true;
                 if (sendButton) sendButton.style.display = 'none';
                 if(resendLink) resendLink.style.display = 'inline';
-                alert('Code sent! Please enter it below.');
+                alert('Code sent!');
             } catch (error) {
                 console.error("Error sending SMS:", error);
-                alert('Error sending code. Verify the number and try again.');
+                alert('Error sending code.');
                 document.getElementById('leadEmail').disabled = false;
                 document.getElementById('leadCity').disabled = false;
                 document.getElementById('phoneNumber').disabled = false;
             } finally {
                 if (sendButton) sendButton.disabled = false;
-                if(sendButton && sendButton.style.display !== 'none') {
-                    sendButton.textContent = 'Send Code & Capture Info';
-                }
+                if(sendButton && sendButton.style.display !== 'none') sendButton.textContent = 'Send Code & Capture Info';
                 if(resendLink) resendLink.style.pointerEvents = 'auto';
             }
         }
 
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
-            if (code.length !== 6) return alert('Please enter the 6-digit code.');
+            if (code.length !== 6) return alert('Enter 6-digit code');
             const verifyButton = document.querySelector('#verificationCodeSection .btn');
-            verifyButton.disabled = true;
-            verifyButton.textContent = 'Verifying...';
-
+            verifyButton.disabled = true; verifyButton.textContent = 'Verifying...';
             try {
                 await confirmationResult.confirm(code);
-                alert('Verification successful!');
+                alert('Verified!');
                 showEstimateAndForm();
             } catch (error) {
-                console.error("Error verifying code:", error);
-                alert('Invalid code. Please try again.');
-                verifyButton.disabled = false;
-                verifyButton.textContent = 'Verify & Show Estimate';
+                console.error("Error verifying:", error);
+                alert('Invalid code');
+                verifyButton.disabled = false; verifyButton.textContent = 'Verify & Show Estimate';
             }
         }
 
@@ -381,7 +322,6 @@
             const service = document.querySelector('input[name="service"]:checked').value;
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
-            if (!prices[service]) { alert("Error: Service not found."); return; }
             const base = prices[service].base[size];
             const factor = prices[service].factor[year];
             const total = Math.round((base + factor) * 1.20); 
@@ -415,10 +355,7 @@
             show();
             setInterval(() => { index++; show(); }, 8000);
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadWeeklyTestimonialCarousel();
-        });
+        document.addEventListener('DOMContentLoaded', () => { loadWeeklyTestimonialCarousel(); });
     </script>
 </head>
 <body>
@@ -429,11 +366,7 @@
     </div>
     <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en', 
-        includedLanguages: 'es,zh-CN,vi,hi,tl,en', 
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'es,zh-CN,vi,hi,tl,en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
     }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -601,57 +534,27 @@
             <div class="gallery-grid">
                 <div class="project-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel Upgrade"></div>
-                    <div class="project-info">
-                        <span class="tag-pill">Panel Upgrade</span>
-                        <div class="project-title">Service Panel Replacement</div>
-                        <p class="project-desc">Upgraded old unsafe panel to a modern 200A system. Safe & code compliant.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Fremont, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill">Panel Upgrade</span><div class="project-title">Service Panel Replacement</div><p class="project-desc">Upgraded old unsafe panel to a modern 200A system. Safe & code compliant.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> Fremont, CA</p></div>
                 </div>
                 <div class="project-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart Home"></div>
-                    <div class="project-info">
-                        <span class="tag-pill" style="background:var(--dark-blue); color:#fff;">Smart Home</span>
-                        <div class="project-title">Home Automation</div>
-                        <p class="project-desc">Full smart home integration with lighting control and security features.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> San Jose, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill" style="background:var(--dark-blue); color:#fff;">Smart Home</span><div class="project-title">Home Automation</div><p class="project-desc">Full smart home integration with lighting control and security features.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> San Jose, CA</p></div>
                 </div>
                 <div class="project-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial"></div>
-                    <div class="project-info">
-                        <span class="tag-pill">Commercial</span>
-                        <div class="project-title">Commercial Wiring</div>
-                        <p class="project-desc">Complex wiring and conduit installation for commercial property.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Union City, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill">Commercial</span><div class="project-title">Commercial Wiring</div><p class="project-desc">Complex wiring and conduit installation for commercial property.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> Union City, CA</p></div>
                 </div>
                 <div class="project-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Underground"></div>
-                    <div class="project-info">
-                        <span class="tag-pill">Underground</span>
-                        <div class="project-title">Trenching & Supply</div>
-                        <p class="project-desc">Underground conduit installation for main power supply lines.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Hayward, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill">Underground</span><div class="project-title">Trenching & Supply</div><p class="project-desc">Underground conduit installation for main power supply lines.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> Hayward, CA</p></div>
                 </div>
                 <div class="project-card" data-aos="fade-up" data-aos-delay="500">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/evc11.jpg" alt="EV Charger"></div>
-                    <div class="project-info">
-                        <span class="tag-pill" style="background:#28a745; color:#fff;">EV Charger</span>
-                        <div class="project-title">EV Station Install</div>
-                        <p class="project-desc">High-speed EV charging station installation for home use.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Milpitas, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill" style="background:#28a745; color:#fff;">EV Charger</span><div class="project-title">EV Station Install</div><p class="project-desc">High-speed EV charging station installation for home use.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> Milpitas, CA</p></div>
                 </div>
                 <div class="project-card" data-aos="fade-up" data-aos-delay="600">
                     <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Rewire"></div>
-                    <div class="project-info">
-                        <span class="tag-pill">Rewiring</span>
-                        <div class="project-title">Crawlspace Work</div>
-                        <p class="project-desc">Complete rewiring through difficult access areas to ensure safety.</p>
-                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Newark, CA</p>
-                    </div>
+                    <div class="project-info"><span class="tag-pill">Rewiring</span><div class="project-title">Crawlspace Work</div><p class="project-desc">Complete rewiring through difficult access areas to ensure safety.</p><p class="project-loc"><i class="fas fa-map-marker-alt"></i> Newark, CA</p></div>
                 </div>
             </div>
         </div>
@@ -759,7 +662,6 @@
                     <div class="contact-item" style="margin-top: 5px;"> <span>📧 Support:</span><br> <a href="mailto:info@goldencharge.net">info@goldencharge.net</a> </div>
                     <div class="contact-item" style="margin-top: 10px;"> <span>📞 Direct (CEO):</span><br> <strong><a href="tel:+15102211258" style="color: #fff; text-decoration: none;">+1 (510) 221-1258</a></strong> </div>
                     <div class="contact-item" style="margin-top: 5px;"> <span>📧 CEO Email:</span><br> <a href="mailto:carlos.villalobos@goldencharge.net">carlos.villalobos@goldencharge.net</a> </div>
-                    
                     <div class="contact-item" style="margin-top: 15px;">
                         <a href="https://g.page/r/CWm9Fz7PwMzQEAE/review" target="_blank" style="color: #FFD700; font-weight: bold;">
                             <i class="fab fa-google"></i> Leave us a Review on Google
@@ -782,11 +684,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-      AOS.init({
-        duration: 800,
-        once: true,
-        offset: 100
-      });
+      AOS.init({ duration: 800, once: true, offset: 100 });
     </script>
     
     <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
