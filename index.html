@@ -20,11 +20,16 @@
             --testimonial-bg: #ffffff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; padding-bottom: 60px; }
+        body { background: var(--light-gray); color: #1E1E1E; line-height: 1.6; overflow-x: hidden; padding-bottom: 60px; top: 0px !important; }
         html { scroll-behavior: smooth; }
         
+        /* LANGUAGE BAR */
+        #language-bar { background: #f0f0f0; border-bottom: 1px solid #ddd; padding: 5px 20px; text-align: right; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 0.85rem; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        #google_translate_element .goog-te-gadget-simple { background-color: #fff; border: 1px solid #ccc; padding: 3px 8px; border-radius: 4px; font-family: 'Inter', sans-serif; }
+
         /* HEADER */
-        header { background: linear-gradient(135deg, var(--dark-blue), #000); color: #fff; padding: .4rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+        header { background: linear-gradient(135deg, var(--dark-blue), #000); color: #fff; padding: .4rem 0; position: sticky; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .header-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: bold; color: var(--gold); text-decoration: none; }
@@ -37,7 +42,7 @@
         .nav-menu a.header-call-btn:hover { background: #fff; color: #000; transform: scale(1.05); }
 
         /* HERO */
-        .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 50px); display: flex; align-items: center; justify-content: center; position: relative; margin-top: 50px; color: #fff; text-align: center; padding: 0 20px; }
+        .hero { background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover; height: calc(100vh - 90px); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; text-align: center; padding: 0 20px; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; background: rgba(0,0,0,.2); border-radius: 20px; backdrop-filter: blur(8px); }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--gold); }
@@ -47,51 +52,14 @@
         .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
         /* === BRANDS SECTION === */
-        .partners-section {
-            background-color: #ffffff;
-            padding: 30px 20px;
-            border-bottom: 1px solid #eeeeee;
-        }
-        .partners-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .partners-title {
-            font-size: 0.85rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .partners-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 40px; 
-        }
-        .partner-logo {
-            padding: 10px; 
-        }
-        .partner-logo img {
-            height: 45px;       
-            width: auto;        
-            object-fit: contain;
-            filter: grayscale(100%); 
-            opacity: 0.5;            
-            transition: all 0.4s ease;
-        }
-        .partner-logo img:hover {
-            filter: grayscale(0%);   
-            opacity: 1;
-            transform: scale(1.1);   
-        }
-        @media (max-width: 768px) {
-            .partners-grid { gap: 20px; }
-            .partner-logo img { height: 35px; } 
-        }
+        .partners-section { background-color: #ffffff; padding: 30px 20px; border-bottom: 1px solid #eeeeee; }
+        .partners-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .partners-title { font-size: 0.85rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; font-weight: 600; }
+        .partners-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px; }
+        .partner-logo { padding: 10px; }
+        .partner-logo img { height: 45px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.5; transition: all 0.4s ease; }
+        .partner-logo img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
+        @media (max-width: 768px) { .partners-grid { gap: 20px; } .partner-logo img { height: 35px; } }
 
         /* SERVICES */
         .services { padding: 100px 0; background: #fff; }
@@ -108,28 +76,8 @@
         .testimonial-card { background: var(--testimonial-bg); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,.1); margin: 0 20px; }
         .testimonial-text { font-size: 1.2rem; line-height: 1.8; color: #333; font-style: italic; margin-bottom: 20px; }
         .testimonial-author { color: var(--dark-blue); font-weight: 600; }
-        
-        /* GOOGLE REVIEW BUTTON STYLE */
-        .google-review-btn {
-            background: #fff;
-            color: #4285F4;
-            border: 2px solid #4285F4;
-            padding: 12px 30px;
-            font-weight: bold;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.2);
-        }
-        .google-review-btn:hover {
-            background: #4285F4;
-            color: #fff;
-            transform: translateY(-3px);
-        }
+        .google-review-btn { background: #fff; color: #4285F4; border: 2px solid #4285F4; padding: 12px 30px; font-weight: bold; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; margin-top: 25px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(66, 133, 244, 0.2); }
+        .google-review-btn:hover { background: #4285F4; color: #fff; transform: translateY(-3px); }
 
         /* CALCULATOR */
         .calculator-section { padding: 100px 20px; background: #f0f4f8; }
@@ -146,12 +94,19 @@
         .verification-code-input { text-align: center; font-size: 1.8rem; letter-spacing: 0.8rem; font-family: monospace; padding-left: 1.2rem; }
         .form-group.inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        /* GALLERY & ABOUT */
-        .gallery { padding: 100px 0; background: #f0f4f8; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; }
-        .gallery-item { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.1); height: 250px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-        .gallery-item:hover img { transform: scale(1.1); }
+        /* GALLERY NEW STYLE */
+        .gallery { padding: 100px 0; background: #f9f9f9; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .project-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .img-wrapper { height: 220px; overflow: hidden; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .project-card:hover .img-wrapper img { transform: scale(1.1); }
+        .project-info { padding: 20px; }
+        .tag-pill { background: var(--gold); color: #000; font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+        .project-title { margin: 10px 0; color: var(--dark-blue); font-size: 1.2rem; font-weight: bold; }
+        .project-desc { font-size: 0.9rem; color: #555; line-height: 1.5; }
+        .project-loc { margin-top: 10px; font-size: 0.85rem; color: #888; }
         
         /* FAQ SECTION STYLES */
         .faq-section { padding: 80px 0; background: #fff; border-top: 1px solid #eee; }
@@ -194,90 +149,16 @@
         .contact-info a { color: #fff; text-decoration: underline; }
         .contact-info a:hover { color: var(--gold); }
         
-        /* ==========================================================
-           DISEÑO "CABINA DE MANDO" - BARRA MÓVIL OPTIMIZADA
-           ========================================================== */
-        .sticky-mobile-bar {
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            background: #fff; 
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
-            display: none; /* Se activa con @media */
-            z-index: 9990; 
-            padding: 10px; 
-
-            /* Espacio a la derecha para que el Chatbot tenga su "trono" */
-            padding-right: 85px; 
-            padding-left: 15px;
-            box-sizing: border-box; 
-            
-            justify-content: space-between; 
-            gap: 10px; 
-            border-top: 1px solid #eee;
-        }
-
-        .sticky-btn { 
-            flex: 1; 
-            text-align: center; 
-            padding: 12px 5px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            text-decoration: none; 
-            font-size: 0.95rem; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 5px; 
-            white-space: nowrap; 
-        }
+        /* MOBILE BAR & WHATSAPP */
+        .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: none; z-index: 9990; padding: 10px; padding-right: 85px; padding-left: 15px; box-sizing: border-box; justify-content: space-between; gap: 10px; border-top: 1px solid #eee; }
+        .sticky-btn { flex: 1; text-align: center; padding: 12px 5px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 5px; white-space: nowrap; }
         .sticky-call { background: var(--dark-blue); color: #fff; }
         .sticky-quote { background: var(--gold); color: var(--dark-blue); }
-
-        /* REGLA MÁGICA: CELULARES */
-        @media (max-width: 768px) { 
-            .sticky-mobile-bar { display: flex; }
-        }
+        @media (max-width: 768px) { .sticky-mobile-bar { display: flex; } }
         .bp3-webchat-footer { display: none !important; }
-
-        /* ==========================================================
-           BOTÓN WHATSAPP (IZQUIERDA EN MÓVIL, DERECHA EN PC)
-           ========================================================== */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 90px;
-            right: 20px; /* PC: Derecha */
-            width: 60px;
-            height: 60px;
-            background: #25D366;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            z-index: 1005;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform .3s;
-            text-decoration: none;
-        }
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
-            background: #128C7E;
-        }
-
-        /* MÓVIL: Mover WhatsApp a la IZQUIERDA */
-        @media (max-width: 768px) {
-            .whatsapp-btn {
-                right: auto;
-                left: 20px;    /* IZQUIERDA */
-                bottom: 100px;
-                width: 55px;
-                height: 55px;
-                font-size: 2rem;
-            }
-        }
+        .whatsapp-btn { position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; z-index: 1005; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform .3s; text-decoration: none; }
+        .whatsapp-btn:hover { transform: scale(1.1); background: #128C7E; }
+        @media (max-width: 768px) { .whatsapp-btn { right: auto; left: 20px; bottom: 100px; width: 55px; height: 55px; font-size: 2rem; } }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -465,6 +346,21 @@
 </head>
 <body>
 
+    <div id="language-bar">
+        <span style="font-weight: 600; color: var(--dark-blue);"><i class="fas fa-comment-alt"></i> We speak English & Spanish</span>
+        <div id="google_translate_element"></div>
+    </div>
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en', 
+        includedLanguages: 'es,zh-CN,vi,hi,tl,en', 
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <header>
         <div class="container header-content">
             <a href="#home" class="logo">
@@ -496,24 +392,12 @@
         <div class="container partners-container">
             <p class="partners-title">Expert Installation & Support for Top Brands</p>
             <div class="partners-grid">
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/tesla%20super1.jpg" alt="Tesla Charger Installer">
-                </div>
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hubspaces11.jpg" alt="Hubspace Smart Home">
-                </div>
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Ring-Emblem.png" alt="Ring Security">
-                </div>
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Google_Nest_Logo_(2025).png" alt="Google Nest">
-                </div>
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/evc11.jpg" alt="ChargePoint EV">
-                </div>
-                <div class="partner-logo">
-                    <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Lutron-Electronics-Logo.png" alt="Lutron Lighting">
-                </div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/tesla%20super1.jpg" alt="Tesla Charger Installer"></div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hubspaces11.jpg" alt="Hubspace Smart Home"></div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Ring-Emblem.png" alt="Ring Security"></div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Google_Nest_Logo_(2025).png" alt="Google Nest"></div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/evc11.jpg" alt="ChargePoint EV"></div>
+                <div class="partner-logo"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Lutron-Electronics-Logo.png" alt="Lutron Lighting"></div>
             </div>
         </div>
     </section>
@@ -640,14 +524,63 @@
 
     <section class="gallery" id="gallery">
         <div class="container">
-            <h2 class="section-title">Recent Work Gallery</h2>
+            <h2 class="section-title">Recent Projects</h2>
+            <p style="text-align:center; margin-bottom: 40px; color:#555;">Real work done for our neighbors in the Bay Area.</p>
             <div class="gallery-grid">
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel & breakers"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart home install"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial wiring"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Residential work"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20y%20trencha.jpg" alt="Emergency repair"></div>
-                <div class="gallery-item"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Lighting install"></div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/perfect%20panel.png" alt="Panel Upgrade"></div>
+                    <div class="project-info">
+                        <span class="tag-pill">Panel Upgrade</span>
+                        <div class="project-title">Service Panel Replacement</div>
+                        <p class="project-desc">Upgraded old unsafe panel to a modern 200A system. Safe & code compliant.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Fremont, CA</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/d9285ce7261578cd2e3d32a8d339e4f7.jpg" alt="Smart Home"></div>
+                    <div class="project-info">
+                        <span class="tag-pill" style="background:var(--dark-blue); color:#fff;">Smart Home</span>
+                        <div class="project-title">Home Automation</div>
+                        <p class="project-desc">Full smart home integration with lighting control and security features.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> San Jose, CA</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/instalacion%20panel.jpg" alt="Commercial"></div>
+                    <div class="project-info">
+                        <span class="tag-pill">Commercial</span>
+                        <div class="project-title">Commercial Wiring</div>
+                        <p class="project-desc">Complex wiring and conduit installation for commercial property.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Union City, CA</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/panel%20d%20trencha.jpg" alt="Underground"></div>
+                    <div class="project-info">
+                        <span class="tag-pill">Underground</span>
+                        <div class="project-title">Trenching & Supply</div>
+                        <p class="project-desc">Underground conduit installation for main power supply lines.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Hayward, CA</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/evc11.jpg" alt="EV Charger"></div>
+                    <div class="project-info">
+                        <span class="tag-pill" style="background:#28a745; color:#fff;">EV Charger</span>
+                        <div class="project-title">EV Station Install</div>
+                        <p class="project-desc">High-speed EV charging station installation for home use.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Milpitas, CA</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="img-wrapper"><img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/crowspace2.jpg" alt="Rewire"></div>
+                    <div class="project-info">
+                        <span class="tag-pill">Rewiring</span>
+                        <div class="project-title">Crawlspace Work</div>
+                        <p class="project-desc">Complete rewiring through difficult access areas to ensure safety.</p>
+                        <p class="project-loc"><i class="fas fa-map-marker-alt"></i> Newark, CA</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -733,21 +666,22 @@
             <div class="footer-column">
                 <h3>Golden Charge LLC</h3>
                 <p>Professional electrical services in Fremont, CA. Fast, reliable, and safe solutions for homes and businesses.</p>
-               
             </div>
+            
             <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#calculator">Calculator</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="privacy.html" style="color:#aaa; font-size:0.9rem;">🔒 Privacy Policy</a></li>
+                <h3>Service Areas</h3>
+                <ul class="service-areas-list" style="list-style: none; padding: 0; font-size: 0.9rem; columns: 2;">
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Fremont</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Newark</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Union City</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Milpitas</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Hayward</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> San Jose</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Santa Clara</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Palo Alto</li>
                 </ul>
             </div>
+
             <div class="footer-column">
                 <h3>Contact Info</h3>
                 <div class="contact-info">
