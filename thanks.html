@@ -4,72 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thank You | Golden Charge</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
+      /* Mismos colores Premium del Index */
+      --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #FFD700 100%);
+      --dark-blue: #051b4d;
       --gold: #FFD700;
-      --dark-blue: #0A2463;
-      --light-gray: #F8F9FA;
-      --text-dark: #1E1E1E;
     }
 
     body {
-      background: linear-gradient(135deg, var(--dark-blue), #000);
+      background: radial-gradient(circle at center, #0a2463 0%, #000 100%);
       color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif; /* Texto normal */
       text-align: center;
       height: 100vh;
       margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
 
     .thank-you-content {
-      padding: 50px;
-      background: rgba(0, 0, 0, 0.4);
+      padding: 60px 40px;
+      background: rgba(5, 27, 77, 0.6); /* Azul translúcido */
       border-radius: 20px;
-      max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--gold);
+      max-width: 550px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      backdrop-filter: blur(15px); /* Efecto Cristal */
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      animation: popIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     h1 {
       color: var(--gold);
-      font-size: 2.5rem;
+      font-family: 'Montserrat', sans-serif; /* Título Premium */
+      font-size: 3rem;
       margin-bottom: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
     }
 
     p {
       font-size: 1.2rem;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       line-height: 1.6;
-      opacity: 0.9;
+      color: #e0e0e0;
     }
 
     .btn-home {
       display: inline-block;
-      padding: 14px 35px;
-      background: var(--gold);
+      padding: 16px 45px;
+      background: var(--gold-gradient); /* Botón Dorado Real */
       color: var(--dark-blue);
       text-decoration: none;
-      font-weight: bold;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
       border-radius: 50px;
       transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(255,215,0,0.5);
+      box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .btn-home:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255,215,0,0.6);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(255,215,0,0.5);
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
   <div class="thank-you-content">
     <h1>Thank You!</h1>
-    <p>We’ve received your message and will be in touch shortly. One of our electricians will contact you via your preferred method to discuss your project.</p>
-    <a href="https://goldencharge.net" class="btn-home">Back to Home</a>
+    <p>We’ve received your message. One of our electricians will contact you shortly to discuss your project.</p>
+    <a href="https://goldencharge.net" class="btn-home">Back to Website</a>
   </div>
 </body>
 </html>
