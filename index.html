@@ -74,7 +74,7 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
 
-        /* HERO - UPDATED WITH VIDEO BACKGROUND */
+        /* HERO - UPDATED WITH RESPONSIVE VIDEO BACKGROUND */
         .hero { 
             position: relative; 
             height: calc(100vh - 80px); 
@@ -96,6 +96,13 @@
             height: 100%;
             object-fit: cover;
             z-index: 0;
+        }
+
+        /* Ajuste específico para móviles: asegura que el video vertical esté centrado */
+        @media (max-width: 768px) {
+            .hero-video {
+                object-position: center center;
+            }
         }
 
         .hero::before { 
@@ -416,7 +423,10 @@
     <section class="hero" id="home">
         
         <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hyperrealistic.mp4" type="video/mp4" media="(max-width: 768px)">
+            
             <source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Create_a_hyperrealistic_202512011704.mp4" type="video/mp4">
+            
             Tu navegador no soporta videos HTML5.
         </video>
 
