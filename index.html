@@ -116,7 +116,7 @@
         .hero h1 { font-size: 3.5rem; margin-bottom: 0.5rem; color: var(--gold-flat); text-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 1.1; }
         .hero p { font-size: 1.4rem; margin-bottom: 2.5rem; opacity: 0.9; font-weight: 300; }
         
-        /* --- ESTILOS TYPEWRITER (CORREGIDO PARA MÓVIL) --- */
+        /* --- ESTILOS TYPEWRITER --- */
         .typewriter-container {
             font-size: 2.2rem;
             font-weight: 700;
@@ -124,17 +124,17 @@
             margin-bottom: 1.5rem;
             min-height: 3.5rem;
             font-family: 'Montserrat', sans-serif;
-            display: flex;             /* Usamos Flexbox para controlar la alineación */
-            justify-content: center;   /* Centrado horizontal */
-            align-items: center;       /* Centrado vertical */
-            gap: 10px;                 /* Espacio entre "We power your" y la palabra cambiante */
-            flex-wrap: wrap;           /* Permite que baje de línea si no cabe */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .typewriter-word {
             color: var(--gold-flat);
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-            white-space: nowrap; /* Evita que la palabra misma se parta */
+            white-space: nowrap;
         }
         
         .cursor {
@@ -146,12 +146,11 @@
         
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
 
-        /* AJUSTE CLAVE PARA MÓVIL: Apilar el texto para evitar saltos */
         @media (max-width: 768px) { 
             .typewriter-container { 
                 font-size: 1.8rem; 
-                flex-direction: column; /* Pone "We power your" arriba y la palabra abajo */
-                gap: 5px;               /* Menos espacio entre líneas */
+                flex-direction: column;
+                gap: 5px;
                 margin-top: 10px;
             } 
         }
@@ -203,8 +202,24 @@
             display: block;
         }
 
+        /* --- NUEVO: EFECTO ELECTRIC GLOW --- */
+        @keyframes electricPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
         .service-card { background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 10px 40px rgba(0,0,0,0.05); transition: var(--transition); }
-        .service-card:hover { transform: translateY(-15px); border-color: var(--gold-flat); box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        
+        .service-card:hover { 
+            transform: translateY(-15px); 
+            border-color: var(--gold-flat); 
+            /* Brillo estático + interno */
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.1); 
+            /* Animación del pulso */
+            animation: electricPulse 1.5s infinite; 
+        }
+
         .service-icon { font-size: 3.5rem; background: -webkit-linear-gradient(#FFD700, #FDB931); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 25px; }
         .service-card h3 { margin-bottom: 15px; color: var(--dark-blue); font-size: 1.4rem; }
 
