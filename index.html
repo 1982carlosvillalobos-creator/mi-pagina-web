@@ -74,12 +74,38 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
 
-        /* HERO */
+        /* HERO - UPDATED WITH VIDEO BACKGROUND */
         .hero { 
-            background: url('https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hero-background.jpg') center/cover fixed;
-            height: calc(100vh - 80px); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; text-align: center; padding: 0 20px; 
+            position: relative; 
+            height: calc(100vh - 80px); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #fff; 
+            text-align: center; 
+            padding: 0 20px;
+            overflow: hidden; 
+            background: #051b4d; 
         }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(5,27,77,0.9)); z-index: 1; }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; bottom: 0; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(5,27,77,0.95)); 
+            z-index: 1; 
+        }
+
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 40px; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--gold-flat); text-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 1.1; }
         .hero p { font-size: 1.4rem; margin-bottom: 2.5rem; opacity: 0.9; font-weight: 300; }
@@ -162,16 +188,13 @@
         .faq-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
         .faq-card h3 { color: var(--dark-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
-        /* ABOUT - CORRECCIÓN AQUI */
+        /* ABOUT */
         .about { padding: 100px 0; background: var(--dark-blue); color: #fff; position: relative; overflow: hidden; }
         .about::before { content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: var(--gold-flat); opacity: 0.1; border-radius: 50%; filter: blur(80px); }
         .about-content { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; justify-content: center; position: relative; z-index: 2; }
         .about-text h2 { font-size: 3rem; margin-bottom: 25px; color: var(--gold-flat); }
         .highlight { color: var(--gold-flat); font-weight: 700; }
-        
-        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 4px solid var(--gold-flat); max-width: 100%; /* Asegura que no se salga en movil */ }
-        
-        /* ESTA ES LA LÍNEA QUE FALTABA: */
+        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 4px solid var(--gold-flat); max-width: 100%; }
         .about-image img { width: 100%; height: auto; display: block; object-fit: cover; }
 
         /* CONTACT & FORM */
@@ -391,6 +414,12 @@
     </header>
 
     <section class="hero" id="home">
+        
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Create_a_hyperrealistic_202512011704.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+
         <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
             <h1>Expert Electricians in Bay Area</h1>
             <p>Safety, Reliability & Innovation. From Tesla chargers to full panel upgrades, we power your life 24/7.</p>
