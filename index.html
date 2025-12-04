@@ -202,6 +202,27 @@
             display: block;
         }
 
+        /* CLASE PARA CENTRAR ICONOS EN LA CAJA NEGRA (Simula el video) */
+        .service-video-wrapper.static-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+        }
+
+        .service-video-wrapper.static-placeholder i {
+            font-size: 3.5rem; 
+            background: -webkit-linear-gradient(#FFD700, #FDB931); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-video-wrapper.static-placeholder i {
+            transform: scale(1.15);
+        }
+
         /* --- NUEVO: EFECTO ELECTRIC GLOW --- */
         @keyframes electricPulse {
             0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
@@ -271,18 +292,143 @@
 
         /* ABOUT */
         .about { padding: 100px 0; background: var(--dark-blue); color: #fff; position: relative; overflow: hidden; }
-        .about::before { content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: var(--gold-flat); opacity: 0.1; border-radius: 50%; filter: blur(80px); }
         .about-content { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; justify-content: center; position: relative; z-index: 2; }
         .about-text h2 { font-size: 3rem; margin-bottom: 25px; color: var(--gold-flat); }
         .highlight { color: var(--gold-flat); font-weight: 700; }
-        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 4px solid var(--gold-flat); max-width: 100%; }
-        .about-image img { width: 100%; height: auto; display: block; object-fit: cover; }
+        
+        /* MEJORA VISUAL ABOUT US */
+        .about-image { 
+            position: relative; 
+            border-radius: 20px; 
+            overflow: visible; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+            border: none;
+            z-index: 1;
+        }
 
-        /* CONTACT & FORM */
-        .contact { padding: 100px 0; background: #fff; }
-        .contact-form { max-width: 700px; margin: 0 auto; padding: 50px; background: var(--light-gray); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.05); }
-        .form-submit { background: var(--gold-gradient); color: var(--dark-blue); border: none; padding: 16px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3); transition: var(--transition); }
-        .form-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.5); }
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: -20px;
+            bottom: -20px;
+            border: 3px solid var(--gold-flat);
+            border-radius: 20px;
+            z-index: -1;
+            transition: transform 0.4s ease;
+        }
+
+        .about-image:hover::before {
+            transform: translate(10px, 10px);
+        }
+
+        .about-image img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            border-radius: 20px; 
+        }
+
+        .trust-badge {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            background: var(--gold-gradient);
+            color: var(--dark-blue);
+            padding: 20px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-weight: 800;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            z-index: 2;
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+
+        .trust-badge span { font-size: 1.5rem; display: block; margin-bottom: 2px; }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .about-image::before { right: 10px; bottom: 10px; top: 10px; left: 10px; }
+            .trust-badge { width: 90px; height: 90px; bottom: -20px; left: -10px; font-size: 0.7rem; }
+            .trust-badge span { font-size: 1.2rem; }
+        }
+
+        /* CONTACTO DE LUJO (GLASSMORPHISM) */
+        .contact { 
+            padding: 120px 0; 
+            background: #020b1f; /* Fondo azul muy oscuro */
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        /* Efectos de luz ambiental detrás del cristal */
+        .contact::before {
+            content: ''; position: absolute; top: -10%; right: -5%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(0,0,0,0) 70%); /* Luz Dorada */
+            border-radius: 50%; pointer-events: none;
+        }
+        .contact::after {
+            content: ''; position: absolute; bottom: -10%; left: -5%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(5, 27, 77, 0.4) 0%, rgba(0,0,0,0) 70%); /* Luz Azul */
+            border-radius: 50%; pointer-events: none;
+        }
+
+        .contact .section-title { color: #fff; } 
+        .contact .section-title::after { background: var(--gold-gradient); }
+
+        /* El formulario de CRISTAL */
+        .contact-form { 
+            max-width: 700px; margin: 0 auto; padding: 60px; 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4); 
+            position: relative; z-index: 2;
+        }
+
+        .contact label { color: #bbb; font-weight: 500; margin-bottom: 8px; display: block; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Inputs oscuros integrados */
+        .contact .form-control { 
+            background: rgba(0, 0, 0, 0.3); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #fff; 
+            border-radius: 12px;
+        }
+
+        .contact .form-control:focus { 
+            background: rgba(0, 0, 0, 0.5); 
+            border-color: var(--gold-flat); 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); 
+            outline: none;
+        }
+
+        /* Ajuste del botón para que resalte en lo oscuro */
+        .form-submit { 
+            background: var(--gold-gradient); 
+            color: var(--dark-blue); 
+            border: none; padding: 18px 40px; border-radius: 50px; 
+            font-size: 1.1rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; 
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2); transition: var(--transition); 
+        }
+        .form-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4); }
+
+        @media (max-width: 768px) { .contact-form { padding: 30px 20px; } }
 
         /* FOOTER */
         footer { background: #020d26; color: #ccc; padding: 80px 0 40px; font-size: 0.95rem; }
@@ -575,6 +721,7 @@
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Our Services</h2>
             <div class="services-grid">
+                
                 <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-video-wrapper">
                         <video autoplay muted loop playsinline><source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/smart%20residencial.mp4" type="video/mp4"></video>
@@ -589,11 +736,46 @@
                     <h3>Commercial</h3><p>Electrical systems for offices, stores, and industrial buildings.</p>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300"><div class="service-icon"><i class="fas fa-solar-panel"></i></div><h3>Solar Panels</h3><p>Installation of photovoltaic systems and battery storage.</p></div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400"><div class="service-icon"><i class="fas fa-bolt"></i></div><h3>Emergency 24/7</h3><p>Fast response for power outages, faulty circuits, and safety issues.</p></div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="500"><div class="service-icon"><i class="fas fa-wifi"></i></div><h3>Low Voltage</h3><p>CCTV, intercoms, and network installations.</p></div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="600"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Smart Homes</h3><p>Automated lighting, thermostats, locks, and voice-control.</p></div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="700"><div class="service-icon"><i class="fas fa-plug"></i></div><h3>Panel Upgrades</h3><p>Modernization of electrical panels for safety and efficiency.</p></div>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-video-wrapper static-placeholder">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <h3>Solar Panels</h3>
+                    <p>Installation of photovoltaic systems and battery storage.</p>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-video-wrapper static-placeholder">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Emergency 24/7</h3>
+                    <p>Fast response for power outages, faulty circuits, and safety issues.</p>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-video-wrapper static-placeholder">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Low Voltage</h3>
+                    <p>CCTV, intercoms, and network installations.</p>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-video-wrapper static-placeholder">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Smart Homes</h3>
+                    <p>Automated lighting, thermostats, locks, and voice-control.</p>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="service-video-wrapper static-placeholder">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Panel Upgrades</h3>
+                    <p>Modernization of electrical panels for safety and efficiency.</p>
+                </div>
+
             </div>
         </div>
     </section>
@@ -731,40 +913,22 @@
         </div>
     </section>
 
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Expert Advice & FAQ</h2>
-            <div class="faq-grid">
-                <div class="faq-card" data-aos="fade-up">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Updating Old Panels</h3>
-                    <p>If your panel is over 20 years old, buzzes, or smells burnt, it needs a check. Upgrading to 200A is essential for modern appliances.</p>
-                </div>
-                <div class="faq-card" data-aos="fade-up" data-aos-delay="100">
-                    <h3><i class="fas fa-bolt"></i> Breakers Tripping?</h3>
-                    <p>This is a safety measure indicating overload or short circuit. Don't just reset it—call us to find the root cause.</p>
-                </div>
-                <div class="faq-card" data-aos="fade-up" data-aos-delay="200">
-                    <h3><i class="fas fa-car"></i> EV Charger Install</h3>
-                    <p>We handle the load calculation and city permits. We might recommend a sub-panel for your Tesla station.</p>
-                </div>
-                <div class="faq-card" data-aos="fade-up" data-aos-delay="300">
-                    <h3><i class="fas fa-shield-alt"></i> Warranty & Safety</h3>
-                    <p>We provide a 1-year warranty on labor. All work is performed by licensed professionals (Lic #1143055).</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="about" id="about">
         <div class="container about-content">
             <div class="about-text" data-aos="fade-right">
                 <h2>Why Choose Golden Charge LLC?</h2>
                 <p>We are a professional electrician company based in Fremont, CA, dedicated to providing safe, reliable, and innovative electrical solutions.</p>
                 <p><span class="highlight">24/7 emergency service • Free estimates • 1-year warranty • Bilingual support</span></p>
-                <p><strong>License # 1143055</strong></p>
+                <p style="margin-top:20px;"><a href="#contact" class="btn">Meet the Team</a></p>
             </div>
+            
             <div class="about-image" data-aos="fade-left">
                 <img src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/1755580579.png" alt="Licensed electrician"/>
+                
+                <div class="trust-badge">
+                    <span><i class="fas fa-certificate"></i></span>
+                    Lic#<br>1143055
+                </div>
             </div>
         </div>
     </section>
