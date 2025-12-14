@@ -72,10 +72,18 @@
         h1, h2, h3, h4, .btn, .nav-menu a { font-family: 'Montserrat', sans-serif; letter-spacing: -0.5px; }
         html { scroll-behavior: smooth; }
         
-        /* BARRA IDIOMAS */
-        #language-bar { background: #f0f0f0; border-bottom: 1px solid #ddd; padding: 5px 20px; text-align: right; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 0.85rem; }
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        #google_translate_element .goog-te-gadget-simple { background-color: #fff; border: 1px solid #ccc; padding: 3px 8px; border-radius: 4px; font-family: 'Inter', sans-serif; }
+        /* BARRA IDIOMAS MODIFICADA (LIMPIA) */
+        #language-bar { 
+            background: #f0f0f0; 
+            border-bottom: 1px solid #ddd; 
+            padding: 8px 20px; 
+            text-align: center; 
+            display: flex; 
+            justify-content: center; /* Centrado */
+            align-items: center; 
+            gap: 15px; 
+            font-size: 0.9rem; 
+        }
 
         /* HEADER */
         header { 
@@ -709,16 +717,12 @@
 </head>
 <body>
 
-    <div id="language-bar">
-        <span style="font-weight: 600; color: var(--dark-blue);"><i class="fas fa-comment-alt"></i> We speak English & Spanish</span>
-        <div id="google_translate_element"></div>
+    <div id="language-bar" style="justify-content: center;">
+        <span style="font-weight: 600; color: var(--dark-blue); font-size: 0.95rem;">
+            <i class="fas fa-comments" style="color: #FFD700; margin-right:5px;"></i> 
+            We speak English & Spanish • Call us: (424) 465-3362
+        </span>
     </div>
-    <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'es,zh-CN,vi,hi,tl,en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
-    }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <header>
         <div class="container header-content">
