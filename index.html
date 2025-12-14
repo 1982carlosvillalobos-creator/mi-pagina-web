@@ -16,6 +16,110 @@
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Golden Charge Electrician Company",
+      "image": "https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png",
+      "url": "https://goldencharge.net",
+      "telephone": "+14244653362",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "39175 Cedar Blvd",
+        "addressLocality": "Newark",
+        "addressRegion": "CA",
+        "postalCode": "94560" 
+      },
+      "openingHoursSpecification": [
+        {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], "opens": "00:00", "closes": "23:59"}
+      ],
+      "areaServed": {
+        "@type": "State",
+        "name": "California"
+      },
+      "slogan": "Safety, Reliability & Innovation. From Tesla chargers to full panel upgrades, we power your life 24/7.",
+      "knowsAbout": ["Panel Upgrades", "EV Chargers", "Smart Homes", "24/7 Electrical Repair"],
+      "license": "CA Lic #1143055"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Electrical Panel Upgrade",
+        "name": "200A Residential Panel Upgrades in Fremont and San Jose",
+        "description": "Modernization of electrical panels for safety, efficiency, and capacity. We handle all permits and inspections for 100A, 200A, and 400A service changes.",
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Golden Charge Electrician Company"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "EV Charger Installation",
+        "name": "Certified Tesla and EV Charger Installation Bay Area",
+        "description": "Certified installation of high-speed Level 2 EV chargers, including Tesla Wall Connectors, in the Bay Area. Licensed and Insured Electricians.",
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Golden Charge Electrician Company"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Están asegurados y tienen licencia en California?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Golden Charge LLC está completamente asegurado y tiene licencia en California: CA Lic #1143055. La seguridad, la fiabilidad y el cumplimiento de las normativas son nuestra prioridad absoluta en cada trabajo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tiempo toma una mejora de panel eléctrico (Panel Upgrade)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La mayoría de las mejoras de panel eléctrico residencial se completan en un día, con el permiso de la ciudad gestionado de antemano. El corte de energía principal se planifica para minimizar la interrupción."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué marcas de cargadores para vehículos eléctricos instalan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Somos expertos en la instalación de todas las marcas principales, incluyendo Tesla Wall Connector, Rivian, ChargePoint, Enel X y más. Nos aseguramos de que su instalación cumpla con todos los códigos locales."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué áreas de la Bahía de San Francisco cubren?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Servimos a todo el Área de la Bahía de San Francisco, incluyendo San Jose, Fremont, Oakland, Palo Alto y sus alrededores. Si tiene dudas, contáctenos con su código postal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo funciona el servicio de emergencia 24/7?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Si tiene una emergencia eléctrica (como un cortocircuito peligroso, un incendio o una pérdida total de energía), llame a nuestra línea de emergencia. Despachamos a un técnico certificado inmediatamente para evaluar y resolver el problema de forma segura."
+          }
+        }
+      ]
+    }
+    </script>
     <style>
         :root {
             --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #FFD700 100%);
@@ -293,10 +397,48 @@
 
         /* FAQ */
         .faq-section { padding: 100px 0; background: #f8f9fa; }
-        .faq-card { background: #fff; padding: 35px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-left: 5px solid var(--gold-flat); transition: var(--transition); }
+        .faq-card { 
+            background: #fff; 
+            padding: 35px; 
+            border-radius: 15px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+            border-left: 5px solid var(--gold-flat); 
+            transition: var(--transition); 
+            margin-bottom: 20px;
+            cursor: pointer; /* Added cursor pointer */
+        }
         .faq-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-        .faq-card h3 { color: var(--dark-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-
+        .faq-card h3 { 
+            color: var(--dark-blue); 
+            margin-bottom: 0; /* Adjusted margin */
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+            position: relative;
+            padding-right: 30px;
+        }
+        .faq-card h3 .fas { /* Icono de flecha o signo de más/menos */
+            position: absolute;
+            right: 0;
+            transition: transform 0.3s ease;
+        }
+        .faq-card.open h3 .fas {
+            transform: rotate(45deg); /* Gira el signo de más */
+        }
+        .faq-card p {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0;
+            margin-top: 0;
+            color: #555;
+            line-height: 1.6;
+        }
+        .faq-card.open p {
+            max-height: 250px; /* Suficiente altura */
+            padding-top: 15px;
+        }
+        
         /* ABOUT */
         .about { padding: 100px 0; background: var(--dark-blue); color: #fff; position: relative; overflow: hidden; }
         .about-content { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; justify-content: center; position: relative; z-index: 2; }
@@ -465,7 +607,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // FIREBASE CONFIG
+        // FIREBASE CONFIG (SE MANTIENE EL CÓDIGO ORIGINAL SIN CAMBIOS)
         const firebaseConfig = {
             apiKey: "AIzaSyCI6R6RzFQJb28cPApSdFXdqtOT49C6Eso",
             authDomain: "goldench-final-chatbot.firebaseapp.com",
@@ -491,7 +633,7 @@
 
         function nextStep() {
             const service = document.querySelector('input[name="service"]:checked');
-            if (!service) return alert('Please select a service');
+            if (!service) return alert('Please select a service'); // SE MANTIENE EL ALERT ORIGINAL
             document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
             document.getElementById('step2').classList.add('active');
         }
@@ -500,7 +642,7 @@
             const service = document.querySelector('input[name="service"]:checked');
             const size = document.getElementById('houseSize').value;
             const year = document.getElementById('houseYear').value;
-            if (!service || !size || !year) return alert('Please select all fields');
+            if (!service || !size || !year) return alert('Please select all fields'); // SE MANTIENE EL ALERT ORIGINAL
             document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
             document.getElementById('step3').classList.add('active');
         }
@@ -518,7 +660,7 @@
             const city = document.getElementById('leadCity').value.trim();
             let phone = document.getElementById('phoneNumber').value.trim();
             if (!email || !city || !phone) {
-                alert('Please complete all fields');
+                alert('Please complete all fields'); // SE MANTIENE EL ALERT ORIGINAL
                 if(sendButton) { sendButton.disabled = false; sendButton.textContent = 'Send Code & Capture Info'; }
                 if(resendLink) resendLink.style.pointerEvents = 'auto';
                 return;
@@ -544,10 +686,10 @@
                 document.getElementById('phoneNumber').disabled = true;
                 if (sendButton) sendButton.style.display = 'none';
                 if(resendLink) resendLink.style.display = 'inline';
-                alert('Code sent!');
+                alert('Code sent!'); // SE MANTIENE EL ALERT ORIGINAL
             } catch (error) {
                 console.error("Error sending SMS:", error);
-                alert('Error sending code.');
+                alert('Error sending code.'); // SE MANTIENE EL ALERT ORIGINAL
                 document.getElementById('leadEmail').disabled = false;
                 document.getElementById('leadCity').disabled = false;
                 document.getElementById('phoneNumber').disabled = false;
@@ -560,16 +702,16 @@
 
         async function verifyCode() {
             const code = document.getElementById('verificationCode').value.trim();
-            if (code.length !== 6) return alert('Enter 6-digit code');
+            if (code.length !== 6) return alert('Enter 6-digit code'); // SE MANTIENE EL ALERT ORIGINAL
             const verifyButton = document.querySelector('#verificationCodeSection .btn');
             verifyButton.disabled = true; verifyButton.textContent = 'Verifying...';
             try {
                 await confirmationResult.confirm(code);
-                alert('Verified!');
+                alert('Verified!'); // SE MANTIENE EL ALERT ORIGINAL
                 showEstimateAndForm();
             } catch (error) {
                 console.error("Error verifying:", error);
-                alert('Invalid code');
+                alert('Invalid code'); // SE MANTIENE EL ALERT ORIGINAL
                 verifyButton.disabled = false; verifyButton.textContent = 'Verify & Show Estimate';
             }
         }
@@ -613,7 +755,7 @@
             setInterval(() => { index++; show(); }, 8000);
         }
         
-        // TYPEWRITER EFFECT SCRIPT
+        // TYPEWRITER EFFECT SCRIPT (SE MANTIENE EL CÓDIGO ORIGINAL SIN CAMBIOS)
         const words = ["Home", "Business", "Tesla", "Life", "Family"];
         let i = 0;
         let timer;
@@ -646,6 +788,19 @@
                 timer = setTimeout(loopDeleting, 100); // Deleting speed
             };
             loopDeleting();
+        }
+
+        // NUEVA FUNCIÓN PARA FAQ (Solo afecta a la nueva sección)
+        function toggleFaq(element) {
+            element.classList.toggle('open');
+            const icon = element.querySelector('h3 .fas');
+            if (element.classList.contains('open')) {
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+            } else {
+                icon.classList.remove('fa-minus');
+                icon.classList.add('fa-plus');
+            }
         }
         
         document.addEventListener('DOMContentLoaded', () => { 
@@ -681,7 +836,7 @@
                 <a href="#testimonials">Testimonials</a>
                 <a href="#calculator">Calculator</a>
                 <a href="#gallery">Gallery</a>
-                <a href="#about">About</a>
+                <a href="#faq">FAQ</a> <a href="#about">About</a>
                 <a href="#contact">Contact</a>
             </nav>
         </div>
@@ -690,8 +845,8 @@
     <section class="hero" id="home">
         
         <video autoplay muted loop playsinline class="hero-video">
-            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/hyperrealistic.mp4" type="video/mp4" media="(max-width: 768px)">
-            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/Create_a_hyperrealistic_202512011704.mp4" type="video/mp4">
+            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d625544.r2.dev/hyperrealistic.mp4" type="video/mp4" media="(max-width: 768px)">
+            <source src="https://pub-a9f35b2b86db4656b16e6e97d0d625544.r2.dev/Create_a_hyperrealistic_202512011704.mp4" type="video/mp4">
             Tu navegador no soporta videos HTML5.
         </video>
 
@@ -937,6 +1092,35 @@
         </div>
     </section>
 
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Frequently Asked <span style="color:var(--gold-flat)">Questions</span></h2>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="faq-card" data-aos="fade-up" onclick="toggleFaq(this)">
+                    <h3>¿Están asegurados y tienen licencia en California?<i class="fas fa-plus"></i></h3>
+                    <p>Sí. Golden Charge LLC está completamente asegurado y tiene licencia en California: **CA Lic #1143055**. La seguridad, la fiabilidad y el cumplimiento de las normativas son nuestra prioridad absoluta en cada trabajo.</p>
+                </div>
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="100" onclick="toggleFaq(this)">
+                    <h3>¿Cuánto tiempo toma una mejora de panel eléctrico (Panel Upgrade)?<i class="fas fa-plus"></i></h3>
+                    <p>La mayoría de las mejoras de panel eléctrico residencial se completan en un día, con el permiso de la ciudad gestionado de antemano. El corte de energía principal se planifica cuidadosamente para minimizar la interrupción.</p>
+                </div>
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="200" onclick="toggleFaq(this)">
+                    <h3>¿Qué marcas de cargadores para vehículos eléctricos instalan?<i class="fas fa-plus"></i></h3>
+                    <p>Somos expertos en la instalación de todas las marcas principales, incluyendo Tesla Wall Connector, Rivian, ChargePoint, Enel X y más. Nos aseguramos de que su instalación cumpla con todos los códigos locales y la capacidad de su panel.</p>
+                </div>
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="300" onclick="toggleFaq(this)">
+                    <h3>¿Qué áreas de la Bahía de San Francisco cubren?<i class="fas fa-plus"></i></h3>
+                    <p>Servimos a todo el Área de la Bahía de San Francisco, incluyendo San Jose, Fremont, Oakland, Palo Alto y sus alrededores. Contáctenos para verificar la cobertura exacta en su código postal.</p>
+                </div>
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="400" onclick="toggleFaq(this)">
+                    <h3>¿Cómo funciona el servicio de emergencia 24/7?<i class="fas fa-plus"></i></h3>
+                    <p>Si tiene una emergencia eléctrica (como un cortocircuito peligroso, un incendio o una pérdida total de energía), llame a nuestra línea de emergencia. Despachamos a un técnico certificado inmediatamente para evaluar y resolver el problema de forma segura, 24 horas al día.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
     <section class="about" id="about">
         <div class="container about-content">
             <div class="about-text" data-aos="fade-right">
