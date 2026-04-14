@@ -1,1259 +1,1319 @@
 # ============================================================
 # GOLDEN CHARGE ERP PRO - Sistema de Gestión Empresarial
 # Desarrollado para Golden Charge, LLC - Fremont, CA
+# CRM Jerárquico, Mobile-First PWA, NEC 220.82 + Blocks Merged
 # ============================================================
 
 import streamlit as st
 import os
 import json
 import datetime
+import base64
+import subprocess
+import io
+import tempfile
 from pathlib import Path
 from fpdf import FPDF
-import anthropic
+
+# ── Gemini AI ────────────────────────────────────────────────
+import google.generativeai as genai
+
+GEMINI_API_KEY = "AIzaSyC_1svBIXVNCR06OOcrd-YuKq0DkRQeDrk"
+genai.configure(api_key=GEMINI_API_KEY)
+gemini_model = genai.GenerativeModel("gemini-1.5-pro")
+
+# ── Google Drive ─────────────────────────────────────────────
+try:
+    from googleapiclient.discovery import build
+    from googleapiclient.http import MediaIoBaseUpload
+    from google.oauth2 import service_account
+    DRIVE_AVAILABLE = True
+except ImportError:
+    DRIVE_AVAILABLE = False
+
+DRIVE_SECRET_PATH = "drive_secret.json"
+DRIVE_FOLDER_ID   = "10YQQAGkhPk3xQwwU9mHTYUrpEYQ0qQeF"
+LOGO_URL          = "https://pub-a9f35b2b86db4656b16e6e97d0d62544.r2.dev/logo.png"
 
 # ─────────────────────────────────────────────
-# CONFIGURACIÓN INICIAL DE LA APLICACIÓN
+# PAGE CONFIG
 # ─────────────────────────────────────────────
+st.set_page_config(page_title="Golden Charge ERP Pro", page_icon="⚡", layout="wide", initial_sidebar_state="expanded")
 
-st.set_page_config(
-    page_title="Golden Charge ERP Pro",
-    page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# ─────────────────────────────────────────────
+# LOGIN SCREEN
+# ─────────────────────────────────────────────
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
 
-# Estilos CSS personalizados para modo oscuro y apariencia profesional
+if not st.session_state.authenticated:
+    st.markdown("""
+    <style>
+        .stApp { background-color: #0e1117; }
+        .login-box {
+            max-width: 400px; margin: 8vh auto; padding: 2.5rem;
+            background: #1a1d27; border-radius: 16px;
+            border: 1px solid #f6c90e44; text-align: center;
+        }
+        h1, h2, h3 { color: #f6c90e !important; }
+        .stButton > button {
+            background-color: #f6c90e; color: #0e1117;
+            font-weight: bold; border-radius: 8px; border: none;
+            width: 100%; padding: 0.6rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    col_l, col_c, col_r = st.columns([1, 2, 1])
+    with col_c:
+        st.markdown('<div class="login-box">', unsafe_allow_html=True)
+        st.markdown("## ⚡ Golden Charge ERP Pro")
+        st.markdown("##### Please enter your password to continue")
+        st.markdown("---")
+        pwd = st.text_input("Password", type="password", label_visibility="collapsed", placeholder="Enter password…")
+        if st.button("🔐 Login", use_container_width=True):
+            if pwd == "Golden2026":
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("❌ Incorrect password.")
+        st.markdown("</div>", unsafe_allow_html=True)
+    st.stop()
+
+# ─────────────────────────────────────────────
+# GLOBAL CSS (PWA & Mobile-First)
+# ─────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Fondo principal oscuro */
-    .stApp {
-        background-color: #0e1117;
-        color: #ffffff;
-    }
-    /* Sidebar oscuro */
-    section[data-testid="stSidebar"] {
-        background-color: #1a1d27;
-        border-right: 1px solid #2d3748;
-    }
-    /* Tarjetas de métricas */
-    div[data-testid="metric-container"] {
-        background-color: #1e2130;
-        border: 1px solid #2d3748;
-        border-radius: 10px;
-        padding: 15px;
-    }
-    /* Botones principales */
+    .stApp { background-color: #0e1117; color: #ffffff; }
+    section[data-testid="stSidebar"] { background-color: #1a1d27; border-right: 1px solid #2d3748; }
+    div[data-testid="metric-container"] { background-color: #1e2130; border: 1px solid #2d3748; border-radius: 10px; padding: 15px; width: 100%; }
     .stButton > button {
-        background-color: #f6c90e;
-        color: #0e1117;
-        font-weight: bold;
-        border-radius: 8px;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        transition: all 0.3s ease;
+        background-color: #f6c90e; color: #0e1117; font-weight: bold; border-radius: 8px; 
+        border: none; padding: 0.75rem 1.5rem; transition: all 0.3s ease; width: 100%;
     }
-    .stButton > button:hover {
-        background-color: #e0b800;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(246, 201, 14, 0.3);
+    .stButton > button:hover { background-color: #e0b800; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(246,201,14,0.3); }
+    h1, h2, h3, h4, h5 { color: #f6c90e !important; }
+    .stTextInput > div > div > input, .stTextArea > div > div > textarea, .stSelectbox > div > div {
+        background-color: #1e2130; color: #ffffff; border: 1px solid #2d3748; border-radius: 6px;
     }
-    /* Encabezados con acento dorado */
-    h1, h2, h3 {
-        color: #f6c90e !important;
-    }
-    /* Formularios */
-    .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea,
-    .stSelectbox > div > div {
-        background-color: #1e2130;
-        color: #ffffff;
-        border: 1px solid #2d3748;
-        border-radius: 6px;
-    }
-    /* Separador dorado */
-    hr {
-        border-color: #f6c90e;
-        opacity: 0.3;
-    }
-    /* Chat messages */
-    .chat-message {
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.5rem 0;
-    }
-    .chat-user {
-        background-color: #1e3a5f;
-        border-left: 3px solid #4a9eff;
-    }
-    .chat-assistant {
-        background-color: #1e2d1e;
-        border-left: 3px solid #f6c90e;
-    }
-    /* Logo header */
-    .company-header {
-        text-align: center;
-        padding: 1rem;
-        background: linear-gradient(135deg, #1a1d27, #2d3748);
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        border: 1px solid #f6c90e33;
-    }
-    /* Galería de imágenes */
-    .gallery-card {
-        background-color: #1e2130;
-        border-radius: 10px;
-        padding: 10px;
-        border: 1px solid #2d3748;
-        margin: 5px;
-    }
-    /* Tabla de datos */
-    .dataframe {
-        background-color: #1e2130 !important;
-    }
-    /* Alertas de éxito */
-    .stSuccess {
-        background-color: #1e3a1e;
-        border: 1px solid #4caf50;
+    hr { border-color: #f6c90e; opacity: 0.3; }
+    .chat-message { padding: 1rem; border-radius: 10px; margin: 0.5rem 0; width: 100%; }
+    .chat-user    { background-color: #1e3a5f; border-left: 3px solid #4a9eff; }
+    .chat-assistant { background-color: #1e2d1e; border-left: 3px solid #f6c90e; }
+    .calc-box, .costing-box { background: #1e2130; border: 1px solid #f6c90e44; border-radius: 10px; padding: 1rem; margin-top: 0.5rem; width: 100%; }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .block-container { padding: 1rem !important; }
+        h1 { font-size: 1.8rem !important; }
+        .stColumns { display: flex; flex-direction: column; }
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# DATOS FIJOS DE LA EMPRESA
+# COMPANY DATA
 # ─────────────────────────────────────────────
-
 COMPANY_INFO = {
-    "name": "Golden Charge, LLC",
-    "dba": "DBA Golden Charge Electrician Company",
-    "address": "38725 Lexington ST, Fremont, CA. 94536",
-    "email1": "info@goldencharge.net",
-    "email2": "carlos.villalobos@goldencharge.net",
-    "phone1": "+1 (510) 221-1258",
-    "phone2": "+1 (424) 465-3362",
-    "license": "CA License C-10 # 1143055",
-    "ein": "EIN: 39-4119592",
-    "payment_terms": "50% upfront payment, 50% upon completion"
+    "name":         "Golden Charge, LLC",
+    "dba":          "DBA Golden Charge Electrician Company",
+    "address":      "38725 Lexington ST, Fremont, CA. 94536",
+    "email1":       "info@goldencharge.net",
+    "email2":       "carlos.villalobos@goldencharge.net",
+    "phone1":       "+1 (510) 221-1258",
+    "phone2":       "+1 (424) 465-3362",
+    "license":      "CA License C-10 # 1143055",
+    "ein":          "EIN: 39-4119592"
 }
 
 # ─────────────────────────────────────────────
-# RUTAS DE CARPETAS
+# FILE PATHS & INIT
 # ─────────────────────────────────────────────
-
-DATA_DIR = Path("data")
-UPLOADS_DIR = Path("uploads")
+DATA_DIR       = Path("data")
+UPLOADS_DIR    = Path("uploads")
 ESTIMATES_FILE = DATA_DIR / "estimates.json"
-PROJECTS_FILE = DATA_DIR / "projects.json"
+PROJECTS_FILE  = DATA_DIR / "projects.json"
+CALENDAR_FILE  = DATA_DIR / "calendar.json"
+COUNTERS_FILE  = DATA_DIR / "counters.json"
 
-# Crear carpetas si no existen
 DATA_DIR.mkdir(exist_ok=True)
 UPLOADS_DIR.mkdir(exist_ok=True)
 
-# ─────────────────────────────────────────────
-# FUNCIONES DE PERSISTENCIA DE DATOS
-# ─────────────────────────────────────────────
+CLIENT_SUBFOLDERS = ["01_Photos", "02_Estimates", "03_Contracts", "04_Invoices", "05_Blueprints"]
 
-def cargar_estimados():
-    """Carga los estimados guardados desde el archivo JSON."""
-    if ESTIMATES_FILE.exists():
-        with open(ESTIMATES_FILE, "r") as f:
+# ─────────────────────────────────────────────
+# DATA HELPERS
+# ─────────────────────────────────────────────
+def load_json(filepath, default_val):
+    if filepath.exists():
+        with open(filepath, "r") as f:
             return json.load(f)
-    return []
+    return default_val
 
-def guardar_estimado(estimado):
-    """Guarda un nuevo estimado en el archivo JSON."""
-    estimados = cargar_estimados()
-    estimados.append(estimado)
-    with open(ESTIMATES_FILE, "w") as f:
-        json.dump(estimados, f, indent=2, default=str)
+def save_json(filepath, data):
+    with open(filepath, "w") as f:
+        json.dump(data, f, indent=2, default=str)
 
-def cargar_proyectos():
-    """Carga los proyectos guardados desde el archivo JSON."""
-    if PROJECTS_FILE.exists():
-        with open(PROJECTS_FILE, "r") as f:
-            return json.load(f)
-    return []
+# ── COUNTERS (FOLIOS) ──
+def get_next_folio(doc_type):
+    counters = load_json(COUNTERS_FILE, {"E": 1000, "C": 1000, "I": 1000})
+    yr = datetime.datetime.now().year
+    prefix = doc_type[0].upper()
+    
+    if prefix not in counters:
+        counters[prefix] = 1000
+    
+    counters[prefix] += 1
+    save_json(COUNTERS_FILE, counters)
+    return f"{prefix}-{yr}-{counters[prefix]:03d}"
 
-def guardar_proyecto(proyecto):
-    """Guarda un nuevo proyecto en el archivo JSON."""
-    proyectos = cargar_proyectos()
-    # Evitar duplicados por nombre de proyecto
-    nombres = [p["project_name"] for p in proyectos]
-    if proyecto["project_name"] not in nombres:
-        proyectos.append(proyecto)
-        with open(PROJECTS_FILE, "w") as f:
-            json.dump(proyectos, f, indent=2, default=str)
+# ── DRIVE HIERARCHICAL FOLDERS ──
+def get_drive_service():
+    if not DRIVE_AVAILABLE or not os.path.exists(DRIVE_SECRET_PATH):
+        return None
+    try:
+        creds = service_account.Credentials.from_service_account_file(DRIVE_SECRET_PATH, scopes=["https://www.googleapis.com/auth/drive.file"])
+        return build("drive", "v3", credentials=creds)
+    except Exception:
+        return None
+
+def get_or_create_drive_folder(service, folder_name, parent_id):
+    query = f"name='{folder_name}' and '{parent_id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false"
+    results = service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+    items = results.get('files', [])
+    if items:
+        return items[0]['id']
+    else:
+        meta = {'name': folder_name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': [parent_id]}
+        folder = service.files().create(body=meta, fields='id').execute()
+        return folder.get('id')
+
+def ensure_client_folders(client_name):
+    # Local
+    safe_name = "".join(c for c in client_name if c.isalnum() or c in " -_").strip().replace(" ", "_")
+    client_dir = UPLOADS_DIR / safe_name
+    client_dir.mkdir(exist_ok=True)
+    for sub in CLIENT_SUBFOLDERS:
+        (client_dir / sub).mkdir(exist_ok=True)
+    
+    # Drive
+    drive_map = {}
+    service = get_drive_service()
+    if service:
+        try:
+            c_id = get_or_create_drive_folder(service, safe_name, DRIVE_FOLDER_ID)
+            drive_map["ROOT"] = c_id
+            for sub in CLIENT_SUBFOLDERS:
+                sub_id = get_or_create_drive_folder(service, sub, c_id)
+                drive_map[sub] = sub_id
+        except Exception as e:
+            st.warning(f"Drive sync warning: {e}")
+            
+    return safe_name, drive_map
+
+def upload_file_to_drive(service, file_bytes, filename, parent_folder_id):
+    if not service: return None
+    try:
+        meta = {"name": filename, "parents": [parent_folder_id]}
+        media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/pdf")
+        file_obj = service.files().create(body=meta, media_body=media, fields="id,webViewLink").execute()
+        return file_obj.get("webViewLink", "")
+    except Exception:
+        return None
+
+# ── LOGO HELPER ──
+@st.cache_data(show_spinner=False)
+def _get_logo_bytes() -> bytes | None:
+    try:
+        import requests
+        r = requests.get(LOGO_URL, timeout=5)
+        if r.status_code == 200:
+            return r.content
+    except Exception:
+        pass
+    return None
+
+def _logo_temp_path() -> str | None:
+    data = _get_logo_bytes()
+    if data is None: return None
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+    tmp.write(data)
+    tmp.close()
+    return tmp.name
 
 # ─────────────────────────────────────────────
-# GENERADOR DE PDF PROFESIONAL
+# PDF GENERATOR (MATCHING KAMRAN STANDARDS)
 # ─────────────────────────────────────────────
-
 class GoldenChargePDF(FPDF):
-    """Clase personalizada para generar PDFs con el estilo de Golden Charge."""
+    def __init__(self, logo_path=None):
+        super().__init__()
+        self._logo_path = logo_path
 
     def header(self):
-        """Encabezado del PDF con información de la empresa."""
-        # Fondo dorado en el encabezado
-        self.set_fill_color(246, 201, 14)  # Color dorado
-        self.rect(0, 0, 210, 40, 'F')
+        # Top right logo
+        if self._logo_path and os.path.exists(self._logo_path):
+            try:
+                self.image(self._logo_path, x=160, y=10, w=35)
+            except Exception:
+                pass
 
-        # Nombre de la empresa
-        self.set_font('Helvetica', 'B', 18)
-        self.set_text_color(14, 17, 23)  # Texto oscuro sobre fondo dorado
-        self.set_xy(10, 8)
-        self.cell(0, 8, COMPANY_INFO["name"], ln=True, align='C')
-
-        # DBA
-        self.set_font('Helvetica', 'I', 10)
-        self.set_xy(10, 17)
-        self.cell(0, 5, COMPANY_INFO["dba"], ln=True, align='C')
-
-        # Dirección
-        self.set_font('Helvetica', '', 9)
-        self.set_xy(10, 23)
-        self.cell(0, 4, COMPANY_INFO["address"], ln=True, align='C')
-
-        # Contacto
-        self.set_xy(10, 28)
-        contact = f"{COMPANY_INFO['phone1']} | {COMPANY_INFO['phone2']} | {COMPANY_INFO['email1']}"
-        self.cell(0, 4, contact, ln=True, align='C')
-
-        # Licencia y EIN
-        self.set_xy(10, 33)
-        license_info = f"{COMPANY_INFO['license']} | {COMPANY_INFO['ein']}"
-        self.cell(0, 4, license_info, ln=True, align='C')
-
-        # Línea separadora
-        self.set_draw_color(246, 201, 14)
-        self.set_line_width(0.5)
-        self.line(10, 42, 200, 42)
-        self.ln(15)
+        self.set_font('Helvetica', '', 10)
+        self.set_text_color(100, 100, 100)
+        self.set_xy(10, 15)
+        self.cell(0, 5, f"{COMPANY_INFO['name']}", ln=True)
+        self.cell(0, 5, f"{COMPANY_INFO['address']}", ln=True)
+        self.cell(0, 5, f"{COMPANY_INFO['dba']}", ln=True)
+        self.cell(0, 5, f"{COMPANY_INFO['email1']} | {COMPANY_INFO['email2']}", ln=True)
+        self.cell(0, 5, f"{COMPANY_INFO['phone1']} | {COMPANY_INFO['phone2']}", ln=True)
+        self.cell(0, 5, f"License: {COMPANY_INFO['license']} | {COMPANY_INFO['ein']}", ln=True)
+        self.ln(10)
 
     def footer(self):
-        """Pie de página con número de página y términos de pago."""
-        self.set_y(-20)
-        self.set_draw_color(246, 201, 14)
-        self.line(10, self.get_y(), 200, self.get_y())
-        self.ln(2)
+        self.set_y(-15)
         self.set_font('Helvetica', 'I', 8)
         self.set_text_color(128, 128, 128)
-        self.cell(0, 5, f"Page {self.page_no()} | {COMPANY_INFO['name']} | {COMPANY_INFO['email1']}", align='C')
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'R')
 
-    def seccion_titulo(self, titulo):
-        """Agrega un título de sección con estilo dorado."""
-        self.set_fill_color(246, 201, 14)
-        self.set_text_color(14, 17, 23)
-        self.set_font('Helvetica', 'B', 12)
-        self.cell(0, 8, f"  {titulo}", ln=True, fill=True)
-        self.ln(3)
-        self.set_text_color(0, 0, 0)
-
-    def campo_info(self, label, valor):
-        """Agrega un campo de información con label en negrita."""
+    def doc_title(self, title, folio, date_str, project_name, client_name):
+        self.set_font('Helvetica', 'B', 22)
+        self.set_text_color(22, 54, 131) # Dark blue/brand color
+        self.cell(0, 10, title, ln=True)
         self.set_font('Helvetica', 'B', 10)
-        self.set_text_color(60, 60, 60)
-        self.cell(50, 7, f"{label}:", ln=False)
-        self.set_font('Helvetica', '', 10)
+        self.set_text_color(200, 20, 100)
+        self.cell(0, 6, f"Submitted on {date_str}", ln=True)
+        self.ln(5)
+
+        self.set_font('Helvetica', 'B', 10)
         self.set_text_color(0, 0, 0)
-        self.cell(0, 7, str(valor), ln=True)
+        
+        # Grid format
+        x_start = self.get_x()
+        self.cell(60, 6, "Estimate for" if "Estimate" in title else "Client", ln=0)
+        self.cell(70, 6, "Project", ln=0)
+        self.cell(0, 6, "Folio #", ln=1)
+        
+        self.set_font('Helvetica', '', 10)
+        self.set_text_color(100, 100, 100)
+        y_vals = self.get_y()
+        self.multi_cell(60, 5, client_name)
+        self.set_xy(x_start + 60, y_vals)
+        self.multi_cell(70, 5, project_name)
+        self.set_xy(x_start + 130, y_vals)
+        self.cell(0, 5, folio, ln=1)
+        self.ln(10)
 
+    def print_totals_table(self, total_price):
+        self.set_font('Helvetica', 'B', 10)
+        self.set_fill_color(240, 240, 250)
+        self.cell(100, 8, "Description", 0, 0, 'L', fill=True)
+        self.cell(30, 8, "Qty", 0, 0, 'C', fill=True)
+        self.cell(30, 8, "Unit price", 0, 0, 'R', fill=True)
+        self.cell(30, 8, "Total price", 0, 1, 'R', fill=True)
 
-def generar_pdf_estimado(datos, tipo="Estimate"):
-    """
-    Genera un PDF profesional para un estimado o factura.
-    Retorna los bytes del PDF generado.
-    """
-    pdf = GoldenChargePDF()
+        self.set_font('Helvetica', '', 10)
+        self.cell(100, 8, "Materials and Labor", 'B', 0, 'L')
+        self.cell(30, 8, "1", 'B', 0, 'C')
+        self.cell(30, 8, f"${total_price:,.2f}", 'B', 0, 'R')
+        self.cell(30, 8, f"${total_price:,.2f}", 'B', 1, 'R')
+        
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(160, 8, "Subtotal", 0, 0, 'R')
+        self.cell(30, 8, f"${total_price:,.2f}", 0, 1, 'R')
+        self.ln(5)
+
+    def print_payment_schedule(self, payments):
+        if not payments: return
+        self.set_font('Helvetica', 'B', 11)
+        self.cell(0, 8, f"Payment Schedule ({len(payments)} Installments)", ln=True)
+        
+        self.set_fill_color(240, 240, 240)
+        self.set_font('Helvetica', 'B', 9)
+        self.cell(40, 8, "Payment", border=1, fill=True)
+        self.cell(35, 8, "Amount Due", border=1, fill=True)
+        self.cell(30, 8, "% of Total", border=1, fill=True)
+        self.cell(85, 8, "Condition / Milestone", border=1, ln=True, fill=True)
+
+        self.set_font('Helvetica', '', 9)
+        for p in payments:
+            self.cell(40, 8, p["name"], border=1)
+            self.cell(35, 8, f"${p['amount']:,.2f}", border=1)
+            self.cell(30, 8, f"{p['percent']:.2f}%", border=1)
+            self.cell(85, 8, p["condition"], border=1, ln=True)
+        self.ln(5)
+
+def generar_pdf_documento(datos, doc_type="Estimate"):
+    pdf = GoldenChargePDF(logo_path=_logo_temp_path())
     pdf.add_page()
-    pdf.set_auto_page_break(auto=True, margin=25)
+    pdf.set_auto_page_break(auto=True, margin=15)
 
-    # ── Número de documento y fecha ──
-    numero_doc = f"GC-{tipo[:3].upper()}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    folio = datos.get("folio", f"{doc_type[0]}-000")
+    pdf.doc_title(
+        title=doc_type,
+        folio=folio,
+        date_str=datos.get("date", str(datetime.date.today())),
+        project_name=datos.get("project_name", ""),
+        client_name=datos.get("customer_name", "")
+    )
 
-    # Título del documento
-    pdf.set_font('Helvetica', 'B', 20)
-    pdf.set_text_color(246, 201, 14)
-    pdf.cell(0, 12, tipo.upper(), ln=True, align='C')
-    pdf.set_font('Helvetica', '', 10)
-    pdf.set_text_color(100, 100, 100)
-    pdf.cell(0, 6, f"Document #: {numero_doc}", ln=True, align='C')
-    pdf.ln(5)
+    pdf.print_totals_table(datos.get("total_price", 0))
 
-    # ── Información del cliente ──
-    pdf.seccion_titulo("CLIENT INFORMATION")
-    pdf.campo_info("Customer Name", datos.get("customer_name", ""))
-    pdf.campo_info("Project Name", datos.get("project_name", ""))
-    pdf.campo_info("Address", datos.get("address", ""))
-    pdf.campo_info("Date", str(datos.get("date", datetime.date.today())))
-    pdf.ln(5)
-
-    # ── Alcance del trabajo ──
-    pdf.seccion_titulo("SCOPE OF WORK")
-    pdf.set_font('Helvetica', '', 10)
-    pdf.set_text_color(0, 0, 0)
-
-    # Texto multilínea para el alcance del trabajo
-    scope_text = datos.get("scope_of_work", "")
-    pdf.multi_cell(0, 6, scope_text)
-    pdf.ln(5)
-
-    # ── Precio total ──
-    pdf.seccion_titulo("PRICING")
     pdf.set_font('Helvetica', 'B', 14)
-    pdf.set_text_color(14, 17, 23)
-    pdf.set_fill_color(246, 201, 14)
-
-    # Caja de precio total
-    precio = datos.get("total_price", 0)
-    pdf.cell(0, 12, f"  TOTAL PRICE: ${float(precio):,.2f}", ln=True, fill=True)
+    pdf.set_text_color(200, 20, 100)
+    pdf.cell(0, 8, f"Total: ${datos.get('total_price', 0):,.2f}", ln=True, align='R')
+    pdf.ln(5)
+    
+    pdf.set_font('Helvetica', 'B', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.cell(0, 6, "Scope of Work (Inclusions)", ln=True)
+    pdf.set_font('Helvetica', '', 10)
+    pdf.multi_cell(0, 5, datos.get("scope_of_work", "N/A"))
+    self_y = pdf.get_y()
     pdf.ln(5)
 
-    # ── Términos de pago ──
-    pdf.seccion_titulo("PAYMENT TERMS")
-    pdf.set_font('Helvetica', '', 10)
-    pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 7, COMPANY_INFO["payment_terms"], ln=True)
-    pdf.ln(3)
+    excl = datos.get("exclusions", "").strip()
+    if excl:
+        pdf.set_font('Helvetica', 'B', 11)
+        pdf.cell(0, 6, "Exclusions and Conditions", ln=True)
+        pdf.set_font('Helvetica', '', 10)
+        pdf.multi_cell(0, 5, excl)
+        pdf.ln(5)
 
-    # Desglose de pagos
-    pdf.set_font('Helvetica', 'B', 10)
-    pdf.set_fill_color(230, 230, 230)
-    pdf.cell(95, 8, "  Upfront Payment (50%):", fill=True, ln=False)
-    pdf.cell(95, 8, f"  ${float(precio) * 0.5:,.2f}", fill=True, ln=True)
-    pdf.cell(95, 8, "  Upon Completion (50%):", fill=True, ln=False)
-    pdf.cell(95, 8, f"  ${float(precio) * 0.5:,.2f}", fill=True, ln=True)
-    pdf.ln(8)
+    pagos = datos.get("payments", [])
+    if pagos:
+        pdf.print_payment_schedule(pagos)
 
-    # ── Firma ──
-    pdf.seccion_titulo("AUTHORIZATION")
-    pdf.set_font('Helvetica', '', 10)
-    pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 6, "By signing below, the client agrees to the scope of work and payment terms described above.", ln=True)
-    pdf.ln(15)
+    if doc_type == "Contract":
+        pdf.ln(15)
+        pdf.set_font('Helvetica', '', 10)
+        pdf.cell(0, 6, "IN WITNESS WHEREOF, the parties execute this Contract:", ln=True)
+        pdf.ln(15)
+        pdf.line(10, pdf.get_y(), 90, pdf.get_y())
+        pdf.line(110, pdf.get_y(), 190, pdf.get_y())
+        pdf.ln(2)
+        pdf.set_font('Helvetica', 'B', 9)
+        pdf.cell(100, 5, "CONTRACTOR (Golden Charge, LLC)", ln=0)
+        pdf.cell(90, 5, f"CLIENT ({datos.get('customer_name', '')})", ln=1)
+        pdf.set_font('Helvetica', '', 9)
+        pdf.cell(100, 5, "Carlos Villalobos - Licensed Electrician", ln=0)
+        pdf.cell(90, 5, "Signature & Date", ln=1)
 
-    # Líneas de firma
-    pdf.set_draw_color(0, 0, 0)
-    pdf.line(15, pdf.get_y(), 95, pdf.get_y())
-    pdf.line(115, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(3)
-    pdf.set_font('Helvetica', '', 8)
-    pdf.set_text_color(100, 100, 100)
-    pdf.cell(95, 5, "Client Signature & Date", align='C', ln=False)
-    pdf.cell(95, 5, "Golden Charge Representative & Date", align='C', ln=True)
-
-    # Retornar bytes del PDF
     return bytes(pdf.output())
 
+def mostrar_pdf_viewer(pdf_bytes):
+    b64 = base64.b64encode(pdf_bytes).decode("utf-8")
+    st.markdown(f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="700px" style="border:1px solid #f6c90e44; border-radius:8px;"></iframe>', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# SIDEBAR - NAVEGACIÓN PRINCIPAL
+# SIDEBAR
 # ─────────────────────────────────────────────
-
 with st.sidebar:
-    # Logo y nombre de la empresa en el sidebar
-    st.markdown("""
-    <div class="company-header">
-        <h2 style="color: #f6c90e; margin: 0; font-size: 1.3rem;">⚡ Golden Charge</h2>
-        <p style="color: #aaa; margin: 0; font-size: 0.75rem;">ERP Pro System</p>
-    </div>
-    """, unsafe_allow_html=True)
-
+    logo_bytes = _get_logo_bytes()
+    if logo_bytes:
+        st.image(logo_bytes, use_container_width=True)
+    else:
+        st.markdown("<h2 style='color:#f6c90e;text-align:center;'>⚡ Golden Charge</h2>", unsafe_allow_html=True)
+    
     st.markdown("---")
-
-    # Menú de navegación
-    pagina = st.radio(
-        "Navigation",
-        options=[
-            "🏠 Dashboard",
-            "📄 Estimates & Invoices",
-            "✍️ Contracts",
-            "📅 Calendar",
-            "📂 Project Gallery",
-            "🤖 AI Assistant"
-        ],
-        label_visibility="collapsed"
-    )
-
+    pagina = st.radio("Navigation", [
+        "🏠 Dashboard", 
+        "📄 Estimates & Invoices", 
+        "✍️ Contracts", 
+        "📅 Calendar", 
+        "📂 CRM & Project Gallery", 
+        "🤖 AI Assistant", 
+        "🗺️ Blueprint Copilot",
+        "⚡ Electrical Calc & NEC",
+        "🏙️ Bay Area Estimator"
+    ], label_visibility="collapsed")
     st.markdown("---")
+    if st.button("🚪 Logout", use_container_width=True):
+        st.session_state.authenticated = False
+        st.rerun()
 
-    # Información de la empresa en el sidebar
-    st.markdown("""
-    <div style="font-size: 0.7rem; color: #666; padding: 0.5rem;">
-        <p>📍 38725 Lexington ST<br>Fremont, CA 94536</p>
-        <p>📞 (510) 221-1258</p>
-        <p>🔑 C-10 # 1143055</p>
-    </div>
-    """, unsafe_allow_html=True)
+# ═══════════════════════════════════════════════════════════
+# PAGES
+# ═══════════════════════════════════════════════════════════
 
-
-# ─────────────────────────────────────────────
-# PÁGINA: DASHBOARD
-# ─────────────────────────────────────────────
-
+# ── 🏠 DASHBOARD ──
 if pagina == "🏠 Dashboard":
     st.title("⚡ Golden Charge ERP Pro")
-    st.markdown("### Welcome back! Here's your business overview.")
-    st.markdown("---")
-
-    # Cargar datos para las métricas
-    estimados = cargar_estimados()
-    proyectos = cargar_proyectos()
-
-    # Calcular métricas
-    total_ventas = sum(float(e.get("total_price", 0)) for e in estimados)
-    proyectos_activos = len(proyectos)
-    total_estimados = len(estimados)
-
-    # Calcular ventas del mes actual
-    mes_actual = datetime.datetime.now().month
-    anio_actual = datetime.datetime.now().year
-    ventas_mes = sum(
-        float(e.get("total_price", 0))
-        for e in estimados
-        if datetime.datetime.strptime(str(e.get("date", "2000-01-01")), "%Y-%m-%d").month == mes_actual
-        and datetime.datetime.strptime(str(e.get("date", "2000-01-01")), "%Y-%m-%d").year == anio_actual
-    ) if estimados else 0
-
-    # ── Fila de métricas principales ──
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        st.metric(
-            label="💰 Total Sales",
-            value=f"${total_ventas:,.2f}",
-            delta="All time"
-        )
-
-    with col2:
-        st.metric(
-            label="📅 Sales This Month",
-            value=f"${ventas_mes:,.2f}",
-            delta=f"{mes_actual}/{anio_actual}"
-        )
-
-    with col3:
-        st.metric(
-            label="📂 Active Projects",
-            value=proyectos_activos,
-            delta="Total registered"
-        )
-
-    with col4:
-        st.metric(
-            label="📄 Total Estimates",
-            value=total_estimados,
-            delta="Documents created"
-        )
-
-    st.markdown("---")
-
-    # ── Sección de actividad reciente ──
-    col_left, col_right = st.columns([2, 1])
-
-    with col_left:
-        st.subheader("📋 Recent Estimates")
-        if estimados:
-            # Mostrar los últimos 5 estimados
-            ultimos = estimados[-5:][::-1]
-            for est in ultimos:
-                with st.container():
-                    col_a, col_b, col_c = st.columns([2, 2, 1])
-                    with col_a:
-                        st.write(f"**{est.get('customer_name', 'N/A')}**")
-                        st.caption(est.get('project_name', 'N/A'))
-                    with col_b:
-                        st.write(est.get('address', 'N/A'))
-                        st.caption(str(est.get('date', 'N/A')))
-                    with col_c:
-                        st.write(f"**${float(est.get('total_price', 0)):,.2f}**")
-                    st.markdown("---")
-        else:
-            st.info("No estimates created yet. Go to **Estimates & Invoices** to create your first one!")
-
-    with col_right:
-        st.subheader("📂 Recent Projects")
-        if proyectos:
-            for proj in proyectos[-5:][::-1]:
-                st.markdown(f"""
-                <div style="background:#1e2130; padding:10px; border-radius:8px; 
-                            margin:5px 0; border-left:3px solid #f6c90e;">
-                    <strong style="color:#f6c90e;">{proj.get('project_name', 'N/A')}</strong><br>
-                    <small style="color:#aaa;">{proj.get('customer_name', 'N/A')}</small>
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.info("No projects yet.")
-
-    # ── Gráfico de ventas si hay datos ──
-    if len(estimados) > 1:
-        st.markdown("---")
-        st.subheader("📈 Sales Overview")
-
-        import pandas as pd
-
-        # Preparar datos para el gráfico
-        df_ventas = pd.DataFrame(estimados)
-        df_ventas['date'] = pd.to_datetime(df_ventas['date'])
-        df_ventas['total_price'] = df_ventas['total_price'].astype(float)
-        df_ventas = df_ventas.sort_values('date')
-
-        # Gráfico de línea de ventas
-        st.line_chart(
-            df_ventas.set_index('date')['total_price'],
-            use_container_width=True
-        )
-
-
-# ─────────────────────────────────────────────
-# PÁGINA: ESTIMATES & INVOICES
-# ─────────────────────────────────────────────
-
-elif pagina == "📄 Estimates & Invoices":
-    st.title("📄 Estimates & Invoices")
-    st.markdown("Create professional estimates and invoices for your clients.")
-    st.markdown("---")
-
-    # Pestañas: Crear nuevo vs Ver existentes
-    tab_nuevo, tab_lista = st.tabs(["➕ New Document", "📋 All Documents"])
-
-    # ── TAB: Crear nuevo estimado ──
-    with tab_nuevo:
-        st.subheader("Create New Estimate / Invoice")
-
-        # Tipo de documento
-        tipo_doc = st.selectbox(
-            "Document Type",
-            ["Estimate", "Invoice"],
-            help="Select whether this is an estimate or a final invoice"
-        )
-
-        st.markdown("#### 👤 Client Information")
-        col1, col2 = st.columns(2)
-
-        with col1:
-            customer_name = st.text_input("Customer Name *", placeholder="John Smith")
-            project_name = st.text_input("Project Name *", placeholder="Panel Upgrade - Main House")
-            address = st.text_input("Project Address *", placeholder="123 Main St, Fremont, CA 94536")
-
-        with col2:
-            fecha = st.date_input("Date", value=datetime.date.today())
-            total_price = st.number_input(
-                "Total Price ($) *",
-                min_value=0.0,
-                step=100.0,
-                format="%.2f",
-                help="Enter the total project price"
-            )
-
-            # Mostrar desglose de pagos en tiempo real
-            if total_price > 0:
-                st.markdown(f"""
-                <div style="background:#1e2130; padding:10px; border-radius:8px; border:1px solid #f6c90e33;">
-                    <p style="color:#f6c90e; margin:0; font-size:0.85rem;"><strong>Payment Breakdown:</strong></p>
-                    <p style="margin:3px 0; font-size:0.85rem;">• Upfront (50%): <strong>${total_price * 0.5:,.2f}</strong></p>
-                    <p style="margin:3px 0; font-size:0.85rem;">• On Completion (50%): <strong>${total_price * 0.5:,.2f}</strong></p>
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.markdown("#### 🔧 Scope of Work")
-        scope_of_work = st.text_area(
-            "Describe the work to be performed *",
-            height=150,
-            placeholder="Example:\n- Install 200A main panel upgrade\n- Replace all outlets in kitchen and bathrooms\n- Install EV charger in garage\n- All work per NEC 2020 and CA Title 24"
-        )
-
-        # ── Subida de archivos del proyecto ──
-        st.markdown("#### 📎 Project Files")
-        st.caption("Upload photos or documents related to this project (optional)")
-
-        archivos_subidos = st.file_uploader(
-            "Upload project photos or PDFs",
-            type=["jpg", "jpeg", "png", "pdf", "heic", "webp"],
-            accept_multiple_files=True,
-            help="You can upload multiple files at once"
-        )
-
-        st.markdown("---")
-
-        # Botón para generar el PDF
-        col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 2])
-
-        with col_btn1:
-            generar = st.button("⚡ Generate PDF", use_container_width=True)
-
-        with col_btn2:
-            guardar_solo = st.button("💾 Save Only", use_container_width=True)
-
-        # ── Lógica de generación y guardado ──
-        if generar or guardar_solo:
-            # Validar campos requeridos
-            if not customer_name or not project_name or not address or not scope_of_work:
-                st.error("⚠️ Please fill in all required fields marked with *")
-            elif total_price <= 0:
-                st.error("⚠️ Please enter a valid total price greater than $0")
-            else:
-                # Preparar datos del estimado
-                datos_estimado = {
-                    "tipo": tipo_doc,
-                    "customer_name": customer_name,
-                    "project_name": project_name,
-                    "address": address,
-                    "date": str(fecha),
-                    "scope_of_work": scope_of_work,
-                    "total_price": total_price,
-                    "created_at": str(datetime.datetime.now())
-                }
-
-                # Guardar el estimado en JSON
-                guardar_estimado(datos_estimado)
-
-                # Guardar el proyecto para la galería
-                guardar_proyecto({
-                    "project_name": project_name,
-                    "customer_name": customer_name,
-                    "address": address,
-                    "date": str(fecha)
-                })
-
-                # Guardar archivos subidos en la carpeta del proyecto
-                if archivos_subidos:
-                    # Crear subcarpeta con el nombre del proyecto (sanitizado)
-                    nombre_carpeta = "".join(c for c in project_name if c.isalnum() or c in (' ', '-', '_')).strip()
-                    nombre_carpeta = nombre_carpeta.replace(' ', '_')
-                    carpeta_proyecto = UPLOADS_DIR / nombre_carpeta
-                    carpeta_proyecto.mkdir(exist_ok=True)
-
-                    archivos_guardados = []
-                    for archivo in archivos_subidos:
-                        ruta_archivo = carpeta_proyecto / archivo.name
-                        with open(ruta_archivo, "wb") as f:
-                            f.write(archivo.getbuffer())
-                        archivos_guardados.append(archivo.name)
-
-                    st.success(f"✅ {len(archivos_guardados)} file(s) saved to project folder: `{nombre_carpeta}`")
-
-                if generar:
-                    # Generar el PDF
-                    try:
-                        pdf_bytes = generar_pdf_estimado(datos_estimado, tipo=tipo_doc)
-
-                        st.success(f"✅ {tipo_doc} created successfully!")
-
-                        # Botón de descarga del PDF
-                        nombre_archivo = f"GoldenCharge_{tipo_doc}_{project_name.replace(' ', '_')}_{fecha}.pdf"
-                        st.download_button(
-                            label=f"📥 Download {tipo_doc} PDF",
-                            data=pdf_bytes,
-                            file_name=nombre_archivo,
-                            mime="application/pdf",
-                            use_container_width=True
-                        )
-                    except Exception as e:
-                        st.error(f"Error generating PDF: {str(e)}")
-                else:
-                    st.success("✅ Document saved successfully!")
-
-    # ── TAB: Lista de todos los documentos ──
-    with tab_lista:
-        st.subheader("All Estimates & Invoices")
-        estimados = cargar_estimados()
-
-        if estimados:
-            # Filtros
-            col_f1, col_f2 = st.columns(2)
-            with col_f1:
-                filtro_tipo = st.selectbox("Filter by Type", ["All", "Estimate", "Invoice"])
-            with col_f2:
-                filtro_buscar = st.text_input("Search by customer or project", placeholder="Type to search...")
-
-            # Aplicar filtros
-            estimados_filtrados = estimados
-            if filtro_tipo != "All":
-                estimados_filtrados = [e for e in estimados_filtrados if e.get("tipo") == filtro_tipo]
-            if filtro_buscar:
-                buscar = filtro_buscar.lower()
-                estimados_filtrados = [
-                    e for e in estimados_filtrados
-                    if buscar in e.get("customer_name", "").lower()
-                    or buscar in e.get("project_name", "").lower()
-                ]
-
-            # Mostrar tabla de estimados
-            import pandas as pd
-            if estimados_filtrados:
-                df = pd.DataFrame(estimados_filtrados)
-                df['total_price'] = df['total_price'].apply(lambda x: f"${float(x):,.2f}")
-                df_display = df[['tipo', 'customer_name', 'project_name', 'address', 'date', 'total_price']].copy()
-                df_display.columns = ['Type', 'Customer', 'Project', 'Address', 'Date', 'Total Price']
-                st.dataframe(df_display, use_container_width=True, hide_index=True)
-
-                # Estadísticas del filtro
-                total_filtrado = sum(float(e.get("total_price", 0)) for e in estimados_filtrados)
-                st.info(f"📊 Showing {len(estimados_filtrados)} documents | Total: ${total_filtrado:,.2f}")
-            else:
-                st.warning("No documents match your search criteria.")
-        else:
-            st.info("No estimates or invoices created yet. Use the **New Document** tab to create your first one!")
-
-
-# ─────────────────────────────────────────────
-# PÁGINA: CONTRACTS
-# ─────────────────────────────────────────────
-
-elif pagina == "✍️ Contracts":
-    st.title("✍️ Contracts")
-    st.markdown("Generate and manage professional electrical service contracts.")
-    st.markdown("---")
-
-    st.subheader("📝 New Contract")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        contrato_cliente = st.text_input("Client Name *", placeholder="John Smith")
-        contrato_proyecto = st.text_input("Project Name *", placeholder="Electrical Panel Upgrade")
-        contrato_direccion = st.text_input("Project Address *", placeholder="123 Main St, Fremont, CA")
-
-    with col2:
-        contrato_fecha_inicio = st.date_input("Start Date", value=datetime.date.today())
-        contrato_fecha_fin = st.date_input(
-            "Estimated Completion Date",
-            value=datetime.date.today() + datetime.timedelta(days=14)
-        )
-        contrato_valor = st.number_input("Contract Value ($)", min_value=0.0, step=100.0, format="%.2f")
-
-    contrato_alcance = st.text_area(
-        "Scope of Work *",
-        height=120,
-        placeholder="Describe all electrical work to be performed..."
-    )
-
-    contrato_condiciones = st.text_area(
-        "Special Conditions / Notes",
-        height=80,
-        placeholder="Any special conditions, exclusions, or notes..."
-    )
-
-    # Cláusulas estándar del contrato
-    st.markdown("#### 📋 Standard Contract Clauses")
-    col_c1, col_c2 = st.columns(2)
-    with col_c1:
-        incluir_garantia = st.checkbox("Include 1-Year Workmanship Warranty", value=True)
-        incluir_permisos = st.checkbox("Include Permits & Inspections Clause", value=True)
-    with col_c2:
-        incluir_cambios = st.checkbox("Include Change Order Clause", value=True)
-        incluir_limpieza = st.checkbox("Include Site Cleanup Clause", value=True)
-
-    if st.button("📄 Generate Contract PDF", use_container_width=False):
-        if not contrato_cliente or not contrato_proyecto or not contrato_alcance:
-            st.error("⚠️ Please fill in all required fields.")
-        else:
-            # Generar PDF del contrato
-            try:
-                pdf = GoldenChargePDF()
-                pdf.add_page()
-                pdf.set_auto_page_break(auto=True, margin=25)
-
-                # Título del contrato
-                pdf.set_font('Helvetica', 'B', 18)
-                pdf.set_text_color(246, 201, 14)
-                pdf.cell(0, 12, "ELECTRICAL SERVICE CONTRACT", ln=True, align='C')
-                pdf.set_font('Helvetica', '', 10)
-                pdf.set_text_color(100, 100, 100)
-                pdf.cell(0, 6, f"Contract Date: {datetime.date.today().strftime('%B %d, %Y')}", ln=True, align='C')
-                pdf.ln(5)
-
-                # Partes del contrato
-                pdf.seccion_titulo("PARTIES")
-                pdf.set_font('Helvetica', '', 10)
-                pdf.set_text_color(0, 0, 0)
-                pdf.multi_cell(0, 6,
-                    f"This Electrical Service Contract ('Agreement') is entered into between:\n\n"
-                    f"CONTRACTOR: {COMPANY_INFO['name']} ({COMPANY_INFO['dba']})\n"
-                    f"Address: {COMPANY_INFO['address']}\n"
-                    f"License: {COMPANY_INFO['license']} | {COMPANY_INFO['ein']}\n\n"
-                    f"CLIENT: {contrato_cliente}\n"
-                    f"Project Address: {contrato_direccion}"
-                )
-                pdf.ln(3)
-
-                # Alcance del trabajo
-                pdf.seccion_titulo("SCOPE OF WORK")
-                pdf.set_font('Helvetica', '', 10)
-                pdf.set_text_color(0, 0, 0)
-                pdf.multi_cell(0, 6, contrato_alcance)
-                pdf.ln(3)
-
-                # Fechas y valor
-                pdf.seccion_titulo("PROJECT TIMELINE & COMPENSATION")
-                pdf.campo_info("Start Date", contrato_fecha_inicio.strftime('%B %d, %Y'))
-                pdf.campo_info("Est. Completion", contrato_fecha_fin.strftime('%B %d, %Y'))
-                pdf.campo_info("Contract Value", f"${contrato_valor:,.2f}")
-                pdf.campo_info("Payment Terms", COMPANY_INFO["payment_terms"])
-                pdf.ln(3)
-
-                # Cláusulas seleccionadas
-                pdf.seccion_titulo("TERMS AND CONDITIONS")
-                pdf.set_font('Helvetica', '', 9)
-                pdf.set_text_color(0, 0, 0)
-
-                clausulas = []
-                if incluir_garantia:
-                    clausulas.append(
-                        "WARRANTY: Contractor warrants all workmanship for a period of one (1) year "
-                        "from the date of completion. This warranty covers defects in workmanship only "
-                        "and does not cover damage caused by misuse, accidents, or acts of nature."
-                    )
-                if incluir_permisos:
-                    clausulas.append(
-                        "PERMITS & INSPECTIONS: Contractor shall obtain all necessary permits required "
-                        "by local authorities. All work shall be performed in accordance with the National "
-                        "Electrical Code (NEC) and California Title 24 requirements."
-                    )
-                if incluir_cambios:
-                    clausulas.append(
-                        "CHANGE ORDERS: Any changes to the scope of work must be agreed upon in writing "
-                        "by both parties before work begins. Additional costs resulting from change orders "
-                        "will be billed separately."
-                    )
-                if incluir_limpieza:
-                    clausulas.append(
-                        "SITE CLEANUP: Contractor shall maintain a clean and safe work environment "
-                        "throughout the project and shall remove all debris and materials upon completion."
-                    )
-
-                # Agregar cláusula de condiciones especiales
-                if contrato_condiciones:
-                    clausulas.append(f"SPECIAL CONDITIONS: {contrato_condiciones}")
-
-                for i, clausula in enumerate(clausulas, 1):
-                    pdf.multi_cell(0, 5, f"{i}. {clausula}")
-                    pdf.ln(2)
-
-                # Firmas
-                pdf.ln(5)
-                pdf.seccion_titulo("SIGNATURES")
-                pdf.set_font('Helvetica', '', 10)
-                pdf.multi_cell(0, 6,
-                    "By signing below, both parties agree to the terms and conditions of this contract."
-                )
-                pdf.ln(10)
-
-                # Líneas de firma
-                pdf.line(15, pdf.get_y(), 90, pdf.get_y())
-                pdf.line(115, pdf.get_y(), 195, pdf.get_y())
-                pdf.ln(3)
-                pdf.set_font('Helvetica', '', 8)
-                pdf.set_text_color(80, 80, 80)
-                pdf.cell(95, 5, f"Client: {contrato_cliente}", align='C', ln=False)
-                pdf.cell(95, 5, "Golden Charge Representative", align='C', ln=True)
-                pdf.ln(2)
-                pdf.cell(95, 5, "Date: _______________", align='C', ln=False)
-                pdf.cell(95, 5, "Date: _______________", align='C', ln=True)
-
-                contrato_bytes = bytes(pdf.output())
-                nombre_contrato = f"GoldenCharge_Contract_{contrato_proyecto.replace(' ', '_')}_{datetime.date.today()}.pdf"
-
-                st.success("✅ Contract generated successfully!")
-                st.download_button(
-                    label="📥 Download Contract PDF",
-                    data=contrato_bytes,
-                    file_name=nombre_contrato,
-                    mime="application/pdf",
-                    use_container_width=True
-                )
-            except Exception as e:
-                st.error(f"Error generating contract: {str(e)}")
-
-
-# ─────────────────────────────────────────────
-# PÁGINA: CALENDAR
-# ─────────────────────────────────────────────
-
-elif pagina == "📅 Calendar":
-    st.title("📅 Project Calendar")
-    st.markdown("Schedule and track your electrical projects.")
-    st.markdown("---")
-
-    # Formulario para agregar evento
-    st.subheader("➕ Schedule New Job")
+    estimados = load_json(ESTIMATES_FILE, [])
+    
+    # Manejo seguro del total de ventas para datos viejos
+    total_sales = 0.0
+    for e in estimados:
+        try: total_sales += float(e.get("total_price", 0) or 0)
+        except ValueError: pass
 
     col1, col2, col3 = st.columns(3)
-    with col1:
-        cal_cliente = st.text_input("Client Name", placeholder="John Smith")
-        cal_proyecto = st.text_input("Job Description", placeholder="Panel upgrade")
-    with col2:
-        cal_fecha = st.date_input("Job Date", value=datetime.date.today())
-        cal_hora = st.time_input("Start Time", value=datetime.time(8, 0))
-    with col3:
-        cal_duracion = st.selectbox("Duration", ["2 hours", "4 hours", "Full day", "Multiple days"])
-        cal_tecnico = st.text_input("Assigned Technician", placeholder="Carlos")
-
-    cal_notas = st.text_area("Notes", height=80, placeholder="Special instructions, materials needed, etc.")
-
-    # Archivo de calendario
-    CALENDAR_FILE = DATA_DIR / "calendar.json"
-
-    def cargar_eventos():
-        """Carga los eventos del calendario."""
-        if CALENDAR_FILE.exists():
-            with open(CALENDAR_FILE, "r") as f:
-                return json.load(f)
-        return []
-
-    def guardar_evento(evento):
-        """Guarda un nuevo evento en el calendario."""
-        eventos = cargar_eventos()
-        eventos.append(evento)
-        with open(CALENDAR_FILE, "w") as f:
-            json.dump(eventos, f, indent=2, default=str)
-
-    if st.button("📅 Add to Schedule"):
-        if cal_cliente and cal_proyecto:
-            nuevo_evento = {
-                "cliente": cal_cliente,
-                "proyecto": cal_proyecto,
-                "fecha": str(cal_fecha),
-                "hora": str(cal_hora),
-                "duracion": cal_duracion,
-                "tecnico": cal_tecnico,
-                "notas": cal_notas,
-                "creado": str(datetime.datetime.now())
-            }
-            guardar_evento(nuevo_evento)
-            st.success(f"✅ Job scheduled for {cal_fecha.strftime('%B %d, %Y')} at {cal_hora.strftime('%I:%M %p')}")
-        else:
-            st.error("Please enter client name and job description.")
+    col1.metric("💰 Total Est. Sales", f"${total_sales:,.2f}")
+    col2.metric("📄 Total Documents", len(estimados))
+    col3.metric("📂 Active Clients", len(set(e.get("customer_name", "Unknown") for e in estimados)))
 
     st.markdown("---")
+    st.subheader("📋 Recent Activity")
 
-    # Mostrar calendario de eventos
-    st.subheader("📋 Upcoming Jobs")
-    eventos = cargar_eventos()
+    recent = estimados[-5:][::-1]
+    if not recent:
+        st.info("No documents yet. Create your first Estimate!")
+    else:
+        # Enumerate añade un índice (idx) para que ningún botón se duplique
+        for idx, est in enumerate(recent):
+            folio      = est.get("folio", f"Old-{idx}")
+            if folio == "N/A": folio = f"Old-{idx}"
+            
+            tipo       = est.get("tipo", "Estimate")
+            cliente    = est.get("customer_name", "Unknown")
+            proyecto   = est.get("project_name", "Unnamed")
+            fecha_doc  = est.get("date", "No date")
+            
+            try: precio = float(est.get("total_price", 0) or 0)
+            except ValueError: precio = 0.0
 
-    if eventos:
-        # Ordenar por fecha
-        eventos_ordenados = sorted(eventos, key=lambda x: x.get("fecha", ""))
-        hoy = str(datetime.date.today())
+            safe_client = "".join(c for c in cliente if c.isalnum() or c in " -_").strip().replace(" ", "_")
+            target_sub = "04_Invoices" if tipo == "Invoice" else "02_Estimates"
+            pdf_path   = None
+            search_dir = UPLOADS_DIR / safe_client / target_sub
+            
+            if search_dir.exists():
+                matches = sorted(search_dir.glob(f"{folio}_*.pdf"))
+                if matches:
+                    pdf_path = matches[0]
 
-        # Separar en próximos y pasados
-        proximos = [e for e in eventos_ordenados if e.get("fecha", "") >= hoy]
-        pasados = [e for e in eventos_ordenados if e.get("fecha", "") < hoy]
-
-        if proximos:
-            for evento in proximos:
-                fecha_evento = datetime.datetime.strptime(evento["fecha"], "%Y-%m-%d")
-                dias_restantes = (fecha_evento.date() - datetime.date.today()).days
-
-                if dias_restantes == 0:
-                    badge = "🔴 TODAY"
-                    color = "#ff4444"
-                elif dias_restantes <= 3:
-                    badge = f"🟡 In {dias_restantes} days"
-                    color = "#f6c90e"
-                else:
-                    badge = f"🟢 In {dias_restantes} days"
-                    color = "#4caf50"
-
+            col_info, col_btn = st.columns([5, 1])
+            with col_info:
                 st.markdown(f"""
-                <div style="background:#1e2130; padding:15px; border-radius:10px; 
-                            margin:8px 0; border-left:4px solid {color};">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="background:#1e2130;padding:14px 16px;border-radius:8px;
+                            border-left:4px solid #f6c90e;line-height:1.6;margin-bottom:8px;">
+                    <span style="background:#f6c90e;color:#0e1117;font-weight:bold;
+                                 padding:2px 8px;border-radius:4px;font-size:0.8rem;">
+                        {folio}
+                    </span>
+                    &nbsp;
+                    <strong style="font-size:1rem;">{cliente}</strong>
+                    <span style="color:#aaa;"> — {proyecto}</span><br>
+                    <span style="color:#4caf50;font-weight:bold;">${precio:,.2f}</span>
+                    &nbsp;&nbsp;
+                    <small style="color:#666;">{tipo} · {fecha_doc}</small>
+                </div>
+                """, unsafe_allow_html=True)
+            with col_btn:
+                st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+                if pdf_path and pdf_path.exists():
+                    with open(pdf_path, "rb") as f:
+                        st.download_button(
+                            label="📥 Open", data=f.read(), file_name=pdf_path.name,
+                            mime="application/pdf", key=f"dash_dl_{folio}_{idx}",
+                            use_container_width=True,
+                        )
+                else:
+                    if st.button("⚡ Gen PDF", key=f"dash_gen_{folio}_{idx}", use_container_width=True):
+                        try:
+                            pb = generar_pdf_documento(est, doc_type=tipo)
+                            st.download_button(
+                                label="📥 Download", data=pb, file_name=f"{folio}.pdf",
+                                mime="application/pdf", key=f"dash_dl2_{folio}_{idx}",
+                            )
+                        except Exception as ex:
+                            st.error(f"Error: {ex}")
+
+# ── 📄 ESTIMATES & INVOICES (PHASE 2 CRM/COSTING) ──
+elif pagina == "📄 Estimates & Invoices":
+    st.title("📄 Estimates & Invoices")
+    tab_nuevo, tab_lista = st.tabs(["➕ New Document", "📋 All Documents"])
+
+    with tab_nuevo:
+        tipo_doc = st.selectbox("Document Type", ["Estimate", "Invoice"])
+        
+        st.markdown("#### 👤 Client & Project")
+        col1, col2 = st.columns(2)
+        with col1:
+            customer_name = st.text_input("Client Name *", placeholder="Nucon Builders")
+            project_name  = st.text_input("Project Name *", placeholder="New Two-Story House ADU")
+        with col2:
+            address = st.text_input("Project Address", placeholder="101 W. Duane Ave, Los Gatos")
+            fecha   = st.date_input("Date", value=datetime.date.today())
+
+        # INTERNAL COSTING ENGINE
+        with st.expander("💼 Internal Costing Engine (Private)"):
+            st.markdown("<div class='costing-box'>", unsafe_allow_html=True)
+            cc1, cc2, cc3 = st.columns(3)
+            workers = cc1.number_input("Number of Workers", 1, value=1)
+            rate_day = cc2.number_input("Daily Pay Rate per Worker ($)", 0.0, value=250.0)
+            days = cc3.number_input("Estimated Days", 1.0, value=3.0)
+            labor_cost = workers * rate_day * days
+            
+            mc1, mc2 = st.columns(2)
+            mat_base = mc1.number_input("Materials Base Cost ($)", 0.0, value=1000.0)
+            mat_markup = mc2.slider("Materials Markup (%)", 0, 100, 20)
+            mat_total = mat_base * (1 + mat_markup/100)
+            
+            suggested_price = labor_cost + mat_total
+            st.markdown(f"**Labor Cost:** ${labor_cost:,.2f} | **Materials (w/ markup):** ${mat_total:,.2f}")
+            st.success(f"💡 Suggested Total Price: **${suggested_price:,.2f}**")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown("#### 💰 Final Pricing & Scope")
+        total_price = st.number_input("Actual Total Price ($) *", min_value=0.0, value=float(suggested_price), step=100.0)
+        
+        if total_price > 0:
+            net_profit = total_price - labor_cost - mat_base
+            margin = (net_profit / total_price) * 100 if total_price > 0 else 0
+            st.info(f"📊 **Net Profit Estimate:** ${net_profit:,.2f} ({margin:.1f}% Margin)")
+
+        scope_of_work = st.text_area("Scope of Work (Inclusions) *", height=120)
+        exclusions = st.text_area("Exclusions / Conditions", height=80, value="Permit Fees: The total price excludes the cost of permits and inspection fees. Trenching/Excavation is excluded.")
+
+        st.markdown("#### ⚖️ Dynamic Payment Schedule")
+        num_payments = st.number_input("Number of Payments", 1, 10, 5)
+        payments_data = []
+        
+        for i in range(int(num_payments)):
+            pc1, pc2, pc3 = st.columns([2, 1, 3])
+            p_name = pc1.text_input(f"Payment {i+1} Name", key=f"p_name_{i}", placeholder="e.g. Deposit")
+            p_amt  = pc2.number_input(f"Amount ($)", 0.0, float(total_price), key=f"p_amt_{i}")
+            p_cond = pc3.text_input(f"Condition/Milestone", key=f"p_cond_{i}", placeholder="e.g. Due upon contract signing")
+            p_pct  = (p_amt / total_price * 100) if total_price > 0 else 0
+            if p_name and p_amt > 0:
+                payments_data.append({"name": p_name, "amount": p_amt, "percent": p_pct, "condition": p_cond})
+
+        if st.button("⚡ Generate & Save Document"):
+            if not customer_name or not project_name or not scope_of_work or total_price <= 0:
+                st.error("⚠️ Fill all required fields (*).")
+            else:
+                # 1. Setup Folders (Local + Drive)
+                safe_client, drive_map = ensure_client_folders(customer_name)
+                
+                # 2. Get Folio
+                folio = get_next_folio(tipo_doc)
+                
+                datos_est = {
+                    "folio": folio, "tipo": tipo_doc, "customer_name": customer_name,
+                    "project_name": project_name, "address": address, "date": str(fecha),
+                    "scope_of_work": scope_of_work, "exclusions": exclusions,
+                    "total_price": total_price, "payments": payments_data,
+                    "created_at": str(datetime.datetime.now())
+                }
+                
+                # 3. Save Data
+                estimados = load_json(ESTIMATES_FILE, [])
+                estimados.append(datos_est)
+                save_json(ESTIMATES_FILE, estimados)
+                
+                # 4. Generate PDF
+                pdf_bytes = generar_pdf_documento(datos_est, doc_type=tipo_doc)
+                pdf_filename = f"{folio}_{project_name.replace(' ','_')}.pdf"
+                
+                # Save locally to client folder
+                target_sub = "04_Invoices" if tipo_doc == "Invoice" else "02_Estimates"
+                (UPLOADS_DIR / safe_client / target_sub / pdf_filename).write_bytes(pdf_bytes)
+                
+                # Drive upload
+                if drive_map and target_sub in drive_map:
+                    srv = get_drive_service()
+                    link = upload_file_to_drive(srv, pdf_bytes, pdf_filename, drive_map[target_sub])
+                    if link: st.success(f"☁️ Uploaded to Drive: [Open PDF]({link})")
+                
+                st.success(f"✅ {tipo_doc} {folio} Generated!")
+                st.download_button("📥 Download PDF", pdf_bytes, pdf_filename, "application/pdf")
+                st.session_state["pdf_preview"] = pdf_bytes
+
+        if st.session_state.get("pdf_preview"):
+            mostrar_pdf_viewer(st.session_state["pdf_preview"])
+
+    with tab_lista:
+        estimados = load_json(ESTIMATES_FILE, [])
+        if estimados:
+            for e in estimados[::-1]:
+                with st.expander(f"{e.get('folio','')} - {e.get('customer_name','')} ({e.get('tipo','')})"):
+                    st.write(f"**Project:** {e.get('project_name','')}")
+                    st.write(f"**Total:** ${float(e.get('total_price',0)):,.2f}")
+                    st.write(f"**Date:** {e.get('date','')}")
+
+# ── ✍️ CONTRACTS ──
+elif pagina == "✍️ Contracts":
+    st.title("✍️ Contracts")
+    st.markdown("Convert an Estimate into a formal Contract, or create a new one from scratch.")
+    st.markdown("---")
+
+    estimados      = load_json(ESTIMATES_FILE, [])
+    estimates_only = [e for e in estimados if e.get("tipo") == "Estimate"]
+
+    # Se usa .get() para evitar KeyErrors con archivos viejos
+    opts    = ["-- Create Blank Contract --"] + [
+        f"{e.get('folio', 'N/A')} : {e.get('customer_name', 'Unknown')} – {e.get('project_name', 'Unnamed')}"
+        for e in estimates_only
+    ]
+    sel_est = st.selectbox("Base Contract on Estimate:", opts)
+
+    pre_data = {}
+    if sel_est != opts[0]:
+        sel_folio = sel_est.split(" : ")[0]
+        pre_data  = next((x for x in estimates_only if x.get("folio") == sel_folio), {})
+
+    # ── Contract Fields ──────────────────────────────────────
+    st.markdown("#### 👤 Client & Project")
+    cf1, cf2 = st.columns(2)
+    with cf1:
+        c_cliente = st.text_input("Client Name *",   value=pre_data.get("customer_name", ""))
+        c_proj    = st.text_input("Project Name *",  value=pre_data.get("project_name", ""))
+        c_addr    = st.text_input("Project Address", value=pre_data.get("address", ""))
+    with cf2:
+        # Extraemos el precio con cuidado por si el estimado viejo estaba vacío
+        try: val_total = float(pre_data.get("total_price", 0.0) or 0.0)
+        except ValueError: val_total = 0.0
+        
+        c_total      = st.number_input("Contract Total ($) *",
+                                       min_value=0.0, step=100.0,
+                                       value=val_total)
+        c_start_date = st.date_input("Start Date",      value=datetime.date.today())
+        c_end_date   = st.date_input("Estimated Completion",
+                                     value=datetime.date.today() + datetime.timedelta(days=30))
+
+    # ── Scope ───────────────────────────────────────────────
+    st.markdown("#### 🔧 Scope of Work")
+    c_scope = st.text_area(
+        "What's Included — Scope of Work *", height=140,
+        value=pre_data.get("scope_of_work", ""),
+        placeholder=(
+            "• Install new 200A main electrical panel (Square D QO)\n"
+            "• Replace meter base and weatherhead\n"
+            "• Install (2) 20A kitchen small appliance circuits\n"
+            "• Install (1) 20A dedicated laundry circuit\n"
+            "• Install GFCI outlets in all wet locations\n"
+            "• All work per NEC 2023 and CA Title 24\n"
+            "• All materials, labor, and cleanup included"
+        )
+    )
+
+    # ── Inclusions / Exclusions ──────────────────────────────
+    st.markdown("#### ✅ Inclusions & ❌ Exclusions")
+    inc_col, exc_col = st.columns(2)
+    with inc_col:
+        c_inclusions = st.text_area(
+            "✅ Inclusions",
+            height=130,
+            value=pre_data.get("inclusions", ""),
+            placeholder=(
+                "• All labor and materials\n"
+                "• Building permit application\n"
+                "• City inspection coordination\n"
+                "• 1-year workmanship warranty\n"
+                "• Site cleanup upon completion"
+            )
+        )
+    with exc_col:
+        c_exclusions = st.text_area(
+            "❌ Exclusions",
+            height=130,
+            value=pre_data.get("exclusions",
+                "Permit Fees: The total price excludes the cost of permits and "
+                "inspection fees.\nTrenching/Excavation is excluded.\n"
+                "Drywall patching/painting after installation is excluded."),
+            placeholder=(
+                "• Permit & inspection fees (billed separately)\n"
+                "• Trenching or excavation\n"
+                "• Drywall patching or painting\n"
+                "• Any work not listed in scope above"
+            )
+        )
+
+    # ── Standard Clauses ────────────────────────────────────
+    st.markdown("#### 📋 Standard Clauses")
+    cl1, cl2 = st.columns(2)
+    with cl1:
+        inc_warranty = st.checkbox("1-Year Workmanship Warranty",     value=True)
+        inc_permits  = st.checkbox("Permits & Inspections Clause",    value=True)
+    with cl2:
+        inc_changes  = st.checkbox("Change Order Clause",             value=True)
+        inc_cleanup  = st.checkbox("Site Cleanup Clause",             value=True)
+
+    extra_clauses = []
+    if inc_warranty:
+        extra_clauses.append(
+            "WARRANTY: Contractor warrants all workmanship for a period of one (1) year "
+            "from the date of final inspection. This warranty covers defects in workmanship "
+            "only and does not cover damage caused by misuse, accidents, or acts of nature."
+        )
+    if inc_permits:
+        extra_clauses.append(
+            "PERMITS & INSPECTIONS: Contractor shall apply for and coordinate all required "
+            "permits. All work shall be performed in compliance with NEC 2023, California "
+            "Title 24, and all applicable local codes. Permit fees are not included in the "
+            "contract price unless explicitly stated."
+        )
+    if inc_changes:
+        extra_clauses.append(
+            "CHANGE ORDERS: Any changes to the scope of work must be agreed upon in writing "
+            "by both parties via a signed Change Order before additional work begins. "
+            "Unauthorized verbal changes are not binding and will not be compensated."
+        )
+    if inc_cleanup:
+        extra_clauses.append(
+            "SITE CLEANUP: Contractor shall maintain a clean and safe work environment "
+            "throughout the project and shall remove all debris, packaging, and waste "
+            "materials upon completion of work."
+        )
+
+    # ── Dynamic 5-Payment Schedule ───────────────────────────
+    st.markdown("#### 💳 Payment Schedule")
+    st.caption("Default is the industry-standard 5-payment structure. Adjust amounts and milestones as needed.")
+
+    # Compute CSLB default splits for the 5 payments
+    def _default_5_payments(total):
+        """
+        Golden Charge standard 5-milestone schedule:
+          1. Deposit      — 10% (max $1,000)           — Due upon contract signing
+          2. Mobilization — 20%                         — Due on first day of work
+          3. Rough-in     — 30%                         — Due upon rough-in inspection approval
+          4. Materials    — 25%                         — Due upon final material delivery
+          5. Final        — remaining balance            — Due upon project completion & walk-through
+        """
+        deposit     = min(round(total * 0.10, 2), 1000.00)
+        after_dep   = total - deposit
+        mob         = round(after_dep * 0.20, 2)
+        rough       = round(after_dep * 0.30, 2)
+        materials   = round(after_dep * 0.25, 2)
+        final_pay   = round(total - deposit - mob - rough - materials, 2)
+        return [
+            {"name": "Deposit",          "amount": deposit,   "condition": "Due upon contract signing"},
+            {"name": "Mobilization",     "amount": mob,       "condition": "Due on first day of work on site"},
+            {"name": "Rough-in",         "amount": rough,     "condition": "Due upon rough-in inspection approval"},
+            {"name": "Material Delivery","amount": materials,  "condition": "Due upon final material delivery"},
+            {"name": "Final Payment",    "amount": final_pay,  "condition": "Due upon project completion & client walk-through"},
+        ]
+
+    num_payments = st.number_input("Number of Payments", min_value=1, max_value=10,
+                                   value=5, step=1, key="cont_num_pay")
+
+    # Seed defaults when total > 0
+    defaults = _default_5_payments(c_total) if c_total > 0 else []
+
+    payments_data  = []
+    running_total  = 0.0
+    pay_cols_heads = st.columns([2, 2, 1, 1])
+    pay_cols_heads[0].markdown("**Milestone / Payment Name**")
+    pay_cols_heads[1].markdown("**Condition**")
+    pay_cols_heads[2].markdown("**Amount ($)**")
+    pay_cols_heads[3].markdown("**% of Total**")
+
+    for i in range(int(num_payments)):
+        # Pull default values if available
+        if i < len(defaults):
+            def_name  = defaults[i]["name"]
+            def_amt   = defaults[i]["amount"]
+            def_cond  = defaults[i]["condition"]
+        else:
+            def_name  = f"Payment {i+1}"
+            def_amt   = 0.0
+            def_cond  = ""
+
+        pc1, pc2, pc3, pc4 = st.columns([2, 2, 1, 1])
+        p_name = pc1.text_input(f"Name #{i+1}",   value=def_name,
+                                key=f"cont_pname_{i}", label_visibility="collapsed")
+        p_cond = pc2.text_input(f"Cond #{i+1}",   value=def_cond,
+                                key=f"cont_pcond_{i}", label_visibility="collapsed")
+        p_amt  = pc3.number_input(f"Amt #{i+1}",  min_value=0.0,
+                                  value=def_amt, step=100.0, format="%.2f",
+                                  key=f"cont_pamt_{i}", label_visibility="collapsed")
+        p_pct  = (p_amt / c_total * 100) if c_total > 0 else 0.0
+        pc4.markdown(f"<div style='padding-top:8px;color:#f6c90e;font-weight:bold;'>"
+                     f"{p_pct:.1f}%</div>", unsafe_allow_html=True)
+
+        running_total += p_amt
+        if p_name and p_amt > 0:
+            payments_data.append({
+                "name":      p_name,
+                "amount":    p_amt,
+                "percent":   p_pct,
+                "condition": p_cond,
+            })
+
+    # Running balance indicator
+    balance   = c_total - running_total
+    bal_color = "#4caf50" if abs(balance) < 0.50 else "#ff4444"
+    bal_label = "✅ Balanced" if abs(balance) < 0.50 else f"⚠️ ${balance:+,.2f} remaining"
+    st.markdown(
+        f'<div style="background:#1e2130;padding:8px 12px;border-radius:6px;'
+        f'border-left:3px solid {bal_color};margin-top:4px;">'
+        f'<span style="color:{bal_color};font-weight:bold;">{bal_label}</span>'
+        f'&nbsp;&nbsp;<small style="color:#aaa;">Total scheduled: '
+        f'${running_total:,.2f} / ${c_total:,.2f}</small></div>',
+        unsafe_allow_html=True
+    )
+
+    # ── Generate Button ──────────────────────────────────────
+    st.markdown("---")
+    if st.button("📄 Generate Contract PDF", use_container_width=False):
+        if not c_cliente or not c_proj or not c_scope or c_total <= 0:
+            st.error("⚠️ Please fill in all required fields (Client, Project, Scope, Total).")
+        else:
+            safe_client, drive_map = ensure_client_folders(c_cliente)
+            folio = get_next_folio("Contract")
+
+            # Build full scope text that includes clauses for PDF body
+            full_scope = c_scope.strip()
+            if extra_clauses:
+                full_scope += "\n\n--- TERMS & CONDITIONS ---\n\n"
+                full_scope += "\n\n".join(extra_clauses)
+
+            datos_cont = {
+                "folio":        folio,
+                "tipo":         "Contract",
+                "customer_name":c_cliente,
+                "project_name": c_proj,
+                "address":      c_addr,
+                "date":         str(datetime.date.today()),
+                "start_date":   str(c_start_date),
+                "end_date":     str(c_end_date),
+                "total_price":  c_total,
+                "scope_of_work":full_scope,
+                "inclusions":   c_inclusions,
+                "exclusions":   c_exclusions,
+                "payments":     payments_data,
+            }
+
+            pdf_bytes = generar_pdf_documento(datos_cont, doc_type="Contract")
+            filename  = f"{folio}_{c_proj.replace(' ', '_')}.pdf"
+
+            # Save locally
+            local_path = UPLOADS_DIR / safe_client / "03_Contracts" / filename
+            local_path.write_bytes(pdf_bytes)
+
+            # Upload to Drive
+            if drive_map and "03_Contracts" in drive_map:
+                srv  = get_drive_service()
+                link = upload_file_to_drive(srv, pdf_bytes, filename,
+                                            drive_map["03_Contracts"])
+                if link:
+                    st.success(f"☁️ Uploaded to Google Drive — [Open PDF]({link})")
+
+            st.success(f"✅ Contract **{folio}** created for **{c_cliente}**!")
+
+            dc1, dc2 = st.columns(2)
+            with dc1:
+                st.download_button("📥 Download Contract PDF",
+                                   pdf_bytes, filename, "application/pdf",
+                                   use_container_width=True)
+            with dc2:
+                if st.button("👁️ Preview Contract", use_container_width=True,
+                             key="prev_contract"):
+                    st.session_state["contract_preview"] = pdf_bytes
+
+    if st.session_state.get("contract_preview"):
+        st.markdown("#### 🔍 PDF Preview")
+        mostrar_pdf_viewer(st.session_state["contract_preview"])
+
+# ── 📅 CALENDAR ──
+elif pagina == "📅 Calendar":
+    st.title("📅 Project Calendar")
+    st.markdown("Schedule jobs and link them to your clients.")
+    st.markdown("---")
+
+    # ── helpers scoped to this page ──────────────────────────
+    def _load_events():
+        return load_json(CALENDAR_FILE, [])
+
+    def _save_event(ev):
+        evts = _load_events()
+        evts.append(ev)
+        save_json(CALENDAR_FILE, evts)
+
+    def _delete_event(idx):
+        evts = _load_events()
+        if 0 <= idx < len(evts):
+            evts.pop(idx)
+            save_json(CALENDAR_FILE, evts)
+
+    # ── Add New Job ──────────────────────────────────────────
+    with st.expander("➕ Schedule New Job", expanded=True):
+        # Client dropdown (pulled from saved estimates)
+        estimados_cal = load_json(ESTIMATES_FILE, [])
+        client_names  = sorted(set(e.get("customer_name", "") for e in estimados_cal if e.get("customer_name")))
+        
+        ev_c1, ev_c2 = st.columns(2)
+        with ev_c1:
+            # Allow typing a new name OR selecting existing client
+            ev_client = st.selectbox(
+                "Client *",
+                options=["-- New client (type below) --"] + client_names,
+                key="cal_client_sel"
+            )
+            if ev_client == "-- New client (type below) --":
+                ev_client = st.text_input("New Client Name *", key="cal_client_new",
+                                          placeholder="e.g. John Smith")
+            
+            ev_project = st.text_input("Job / Project Description *",
+                                       placeholder="Panel Upgrade – 200A Service")
+            ev_tech    = st.text_input("Assigned Technician",
+                                       placeholder="Carlos Villalobos")
+
+        with ev_c2:
+            ev_date    = st.date_input("Job Date *", value=datetime.date.today(),
+                                       key="cal_date")
+            ev_time    = st.time_input("Start Time", value=datetime.time(8, 0),
+                                       key="cal_time")
+            ev_dur     = st.selectbox("Duration",
+                                      ["2 hours", "4 hours", "Full day", "Multiple days"])
+            ev_status  = st.selectbox("Status",
+                                      ["Scheduled", "Confirmed", "In Progress",
+                                       "Completed", "Cancelled"])
+
+        ev_notes = st.text_area("Notes / Special Instructions", height=70,
+                                placeholder="Key code: 1234 | Materials already on site | Permit #AP-2024-001")
+
+        if st.button("📅 Add to Schedule", use_container_width=False):
+            if not ev_client or not ev_project:
+                st.error("⚠️ Client name and job description are required.")
+            else:
+                new_event = {
+                    "cliente":   ev_client,
+                    "proyecto":  ev_project,
+                    "tecnico":   ev_tech,
+                    "fecha":     str(ev_date),
+                    "hora":      str(ev_time),
+                    "duracion":  ev_dur,
+                    "estado":    ev_status,
+                    "notas":     ev_notes,
+                    "creado":    str(datetime.datetime.now()),
+                }
+                _save_event(new_event)
+                st.success(f"✅ Job scheduled: **{ev_project}** for **{ev_client}** on {ev_date.strftime('%B %d, %Y')}")
+                st.rerun()
+
+    # ── View & Filter ────────────────────────────────────────
+    st.markdown("---")
+    all_events = _load_events()
+
+    if not all_events:
+        st.info("No jobs scheduled yet. Add your first job above!")
+    else:
+        # Filters
+        fc1, fc2, fc3 = st.columns(3)
+        with fc1:
+            all_clients_cal = sorted(set(e.get("cliente", "") for e in all_events))
+            filter_client   = st.selectbox("Filter by Client",
+                                           ["All Clients"] + all_clients_cal,
+                                           key="cal_filter_client")
+        with fc2:
+            filter_status = st.selectbox("Filter by Status",
+                                         ["All", "Scheduled", "Confirmed",
+                                          "In Progress", "Completed", "Cancelled"],
+                                         key="cal_filter_status")
+        with fc3:
+            view_mode = st.radio("View", ["Upcoming", "All", "Past"],
+                                 horizontal=True, key="cal_view_mode")
+
+        # Apply filters
+        today_str = str(datetime.date.today())
+        filtered  = all_events[:]
+
+        if filter_client != "All Clients":
+            filtered = [e for e in filtered if e.get("cliente") == filter_client]
+        if filter_status != "All":
+            filtered = [e for e in filtered if e.get("estado") == filter_status]
+        if view_mode == "Upcoming":
+            filtered = [e for e in filtered if e.get("fecha", "") >= today_str]
+        elif view_mode == "Past":
+            filtered = [e for e in filtered if e.get("fecha", "") < today_str]
+
+        filtered_sorted = sorted(filtered, key=lambda x: x.get("fecha", ""))
+
+        st.markdown(f"**{len(filtered_sorted)} job(s) found**")
+        st.markdown("")
+
+        # Status color map
+        STATUS_COLORS = {
+            "Scheduled":   "#4a9eff",
+            "Confirmed":   "#f6c90e",
+            "In Progress": "#ff9800",
+            "Completed":   "#4caf50",
+            "Cancelled":   "#ff4444",
+        }
+
+        for idx, event in enumerate(filtered_sorted):
+            # Find original index for deletion
+            orig_idx = all_events.index(event) if event in all_events else -1
+
+            ev_fecha_str = event.get("fecha", "")
+            try:
+                ev_fecha_obj = datetime.datetime.strptime(ev_fecha_str, "%Y-%m-%d").date()
+                days_away    = (ev_fecha_obj - datetime.date.today()).days
+                if days_away == 0:   countdown = "🔴 TODAY"
+                elif days_away < 0:  countdown = f"✅ {abs(days_away)}d ago"
+                elif days_away <= 3: countdown = f"🟡 In {days_away}d"
+                else:                countdown = f"🟢 In {days_away}d"
+                date_display = ev_fecha_obj.strftime("%A, %B %d, %Y")
+            except Exception:
+                countdown    = ""
+                date_display = ev_fecha_str
+
+            status = event.get("estado", "Scheduled")
+            sc     = STATUS_COLORS.get(status, "#888888")
+
+            card_col, del_col = st.columns([10, 1])
+            with card_col:
+                st.markdown(f"""
+                <div style="background:#1e2130;padding:14px 16px;border-radius:10px;
+                            margin:4px 0;border-left:5px solid {sc};">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div>
-                            <strong style="color:#f6c90e; font-size:1rem;">{evento['proyecto']}</strong>
-                            <span style="color:{color}; margin-left:10px; font-size:0.8rem;">{badge}</span><br>
-                            <span style="color:#ccc;">👤 {evento['cliente']}</span> &nbsp;|&nbsp;
-                            <span style="color:#ccc;">🔧 {evento.get('tecnico', 'Unassigned')}</span><br>
-                            <span style="color:#aaa; font-size:0.85rem;">
-                                📅 {fecha_evento.strftime('%A, %B %d, %Y')} at {evento.get('hora', 'TBD')} 
-                                ({evento.get('duracion', 'TBD')})
+                            <strong style="color:#f6c90e;font-size:1rem;">
+                                {event.get('proyecto', '')}
+                            </strong>
+                            &nbsp;&nbsp;
+                            <span style="background:{sc};color:#0e1117;padding:1px 7px;
+                                         border-radius:4px;font-size:0.75rem;font-weight:bold;">
+                                {status}
+                            </span>
+                            <span style="color:#aaa;margin-left:8px;font-size:0.8rem;">
+                                {countdown}
                             </span>
                         </div>
                     </div>
-                    {f'<p style="color:#888; font-size:0.8rem; margin-top:5px;">📝 {evento["notas"]}</p>' if evento.get("notas") else ''}
+                    <div style="margin-top:4px;line-height:1.7;">
+                        <span style="color:#ccc;">👤 {event.get('cliente', '')}</span>
+                        &nbsp;|&nbsp;
+                        <span style="color:#ccc;">🔧 {event.get('tecnico', 'Unassigned')}</span><br>
+                        <span style="color:#aaa;font-size:0.88rem;">
+                            📅 {date_display} &nbsp;·&nbsp;
+                            🕐 {event.get('hora', 'TBD')} &nbsp;·&nbsp;
+                            ⏱ {event.get('duracion', '')}
+                        </span>
+                        {"<br><span style='color:#888;font-size:0.82rem;'>📝 " + event.get('notas','') + "</span>" if event.get('notas') else ""}
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
-        else:
-            st.info("No upcoming jobs scheduled.")
-
-        # Mostrar trabajos pasados en un expander
-        if pasados:
-            with st.expander(f"📁 Past Jobs ({len(pasados)})"):
-                for evento in pasados[::-1]:
-                    st.markdown(f"**{evento['fecha']}** — {evento['proyecto']} ({evento['cliente']})")
-    else:
-        st.info("No jobs scheduled yet. Add your first job above!")
-
-
-# ─────────────────────────────────────────────
-# PÁGINA: PROJECT GALLERY
-# ─────────────────────────────────────────────
-
-elif pagina == "📂 Project Gallery":
-    st.title("📂 Project Gallery")
-    st.markdown("View photos and files from all your electrical projects.")
-    st.markdown("---")
-
-    # Verificar si hay carpetas de proyectos en uploads/
-    carpetas_proyectos = [f for f in UPLOADS_DIR.iterdir() if f.is_dir()]
-
-    if not carpetas_proyectos:
-        st.info("""
-        📸 No project photos yet!
-        
-        To add photos to the gallery:
-        1. Go to **Estimates & Invoices**
-        2. Create or edit an estimate
-        3. Upload photos using the file uploader
-        
-        Photos will be automatically organized by project name.
-        """)
-    else:
-        # Selector de proyecto
-        nombres_proyectos = [f.name.replace('_', ' ') for f in carpetas_proyectos]
-        proyecto_seleccionado = st.selectbox(
-            "Select Project",
-            ["All Projects"] + nombres_proyectos
-        )
-
-        # Filtrar carpetas según selección
-        if proyecto_seleccionado == "All Projects":
-            carpetas_mostrar = carpetas_proyectos
-        else:
-            nombre_carpeta = proyecto_seleccionado.replace(' ', '_')
-            carpetas_mostrar = [f for f in carpetas_proyectos if f.name == nombre_carpeta]
-
-        # Mostrar archivos de cada proyecto
-        for carpeta in carpetas_mostrar:
-            nombre_proyecto = carpeta.name.replace('_', ' ')
-            archivos = list(carpeta.iterdir())
-
-            if archivos:
-                st.subheader(f"📁 {nombre_proyecto}")
-
-                # Separar imágenes de otros archivos
-                extensiones_imagen = {'.jpg', '.jpeg', '.png', '.webp', '.heic'}
-                imagenes = [f for f in archivos if f.suffix.lower() in extensiones_imagen]
-                otros = [f for f in archivos if f.suffix.lower() not in extensiones_imagen]
-
-                # Mostrar imágenes en grid
-                if imagenes:
-                    st.markdown("**📸 Photos:**")
-                    # Grid de 3 columnas para las imágenes
-                    cols = st.columns(3)
-                    for idx, imagen in enumerate(imagenes):
-                        with cols[idx % 3]:
-                            try:
-                                st.image(
-                                    str(imagen),
-                                    caption=imagen.name,
-                                    use_container_width=True
-                                )
-                                # Botón de descarga para cada imagen
-                                with open(imagen, "rb") as img_file:
-                                    st.download_button(
-                                        label="⬇️ Download",
-                                        data=img_file.read(),
-                                        file_name=imagen.name,
-                                        mime=f"image/{imagen.suffix[1:].lower()}",
-                                        key=f"dl_{carpeta.name}_{imagen.name}"
-                                    )
-                            except Exception:
-                                st.warning(f"Could not display: {imagen.name}")
-
-                # Mostrar otros archivos (PDFs, etc.)
-                if otros:
-                    st.markdown("**📄 Documents:**")
-                    for archivo in otros:
-                        col_a, col_b = st.columns([3, 1])
-                        with col_a:
-                            st.markdown(f"📄 `{archivo.name}` ({archivo.stat().st_size / 1024:.1f} KB)")
-                        with col_b:
-                            with open(archivo, "rb") as doc_file:
-                                st.download_button(
-                                    label="⬇️ Download",
-                                    data=doc_file.read(),
-                                    file_name=archivo.name,
-                                    mime="application/pdf",
-                                    key=f"dl_{carpeta.name}_{archivo.name}"
-                                )
-
-                st.markdown("---")
-
-
-# ─────────────────────────────────────────────
-# PÁGINA: AI ASSISTANT
-# ─────────────────────────────────────────────
-
-elif pagina == "🤖 AI Assistant":
-    st.title("🤖 AI Assistant")
-    st.markdown("Your intelligent assistant for drafting contracts, emails, and professional documents.")
-    st.markdown("---")
-
-    # Inicializar el historial del chat en la sesión
-    if "mensajes_chat" not in st.session_state:
-        st.session_state.mensajes_chat = []
-
-    # Plantillas de prompts rápidos para el asistente
-    st.subheader("⚡ Quick Templates")
-    col_t1, col_t2, col_t3, col_t4 = st.columns(4)
-
-    prompt_rapido = None
-
-    with col_t1:
-        if st.button("📧 Follow-up Email", use_container_width=True):
-            prompt_rapido = (
-                "Write a professional follow-up email to a client who received an estimate "
-                "3 days ago and hasn't responded yet. The email should be friendly but professional, "
-                "from Golden Charge Electrician Company."
-            )
-
-    with col_t2:
-        if st.button("📝 Contract Draft", use_container_width=True):
-            prompt_rapido = (
-                "Draft a professional electrical service contract introduction paragraph "
-                "for Golden Charge, LLC. Include standard terms about licensing, insurance, "
-                "and compliance with California electrical codes."
-            )
-
-    with col_t3:
-        if st.button("⭐ Review Request", use_container_width=True):
-            prompt_rapido = (
-                "Write a short, friendly email asking a satisfied client to leave a Google review "
-                "for Golden Charge Electrician Company. Keep it brief and include a thank you."
-            )
-
-    with col_t4:
-        if st.button("⚠️ Delay Notice", use_container_width=True):
-            prompt_rapido = (
-                "Write a professional email to notify a client about a slight project delay "
-                "due to permit processing. Apologize professionally and provide a new estimated timeline."
-            )
-
-    st.markdown("---")
-
-    # Mostrar historial del chat
-    st.subheader("💬 Chat")
-
-    # Contenedor para los mensajes del chat
-    chat_container = st.container()
-
-    with chat_container:
-        for mensaje in st.session_state.mensajes_chat:
-            if mensaje["role"] == "user":
-                st.markdown(f"""
-                <div class="chat-message chat-user">
-                    <strong style="color:#4a9eff;">👤 You:</strong><br>
-                    {mensaje["content"]}
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                <div class="chat-message chat-assistant">
-                    <strong style="color:#f6c90e;">⚡ Golden Charge AI:</strong><br>
-                    {mensaje["content"].replace(chr(10), '<br>')}
-                </div>
-                """, unsafe_allow_html=True)
-
-    # Input del usuario
-    col_input, col_send = st.columns([5, 1])
-
-    with col_input:
-        user_input = st.text_area(
-            "Type your message...",
-            value=prompt_rapido if prompt_rapido else "",
-            height=100,
-            placeholder="Ask me to draft a contract, write an email, explain electrical codes, etc.",
-            label_visibility="collapsed",
-            key="chat_input"
-        )
-
-    with col_send:
-        st.markdown("<br>", unsafe_allow_html=True)
-        enviar = st.button("Send ➤", use_container_width=True)
-
-    # Botón para limpiar el chat
-    col_clear, _ = st.columns([1, 4])
-    with col_clear:
-        if st.button("🗑️ Clear Chat"):
-            st.session_state.mensajes_chat = []
-            st.rerun()
-
-    # Procesar el mensaje del usuario
-    if (enviar or prompt_rapido) and (user_input or prompt_rapido):
-        mensaje_a_enviar = user_input if user_input else prompt_rapido
-
-        if mensaje_a_enviar:
-            # Agregar mensaje del usuario al historial
-            st.session_state.mensajes_chat.append({
-                "role": "user",
-                "content": mensaje_a_enviar
-            })
-
-            # Llamar a la API de Anthropic
-            try:
-                api_key = os.getenv("ANTHROPIC_API_KEY")
-
-                if not api_key:
-                    st.error("""
-                    ⚠️ **API Key not found!**
-                    
-                    Please set your Anthropic API key:
-                    ```
-                    export ANTHROPIC_API_KEY='your-key-here'
-                    ```
-                    Or add it to your `.env` file or Streamlit secrets.
-                    """)
-                else:
-                    # Crear cliente de Anthropic
-                    cliente_ai = anthropic.Anthropic(api_key=api_key)
-
-                    # Contexto del sistema para el asistente
-                    system_prompt = f"""You are a professional business assistant for {COMPANY_INFO['name']} 
-                    ({COMPANY_INFO['dba']}), an electrical contracting company based in Fremont, California.
-                    
-                    Company Details:
-                    - Address: {COMPANY_INFO['address']}
-                    - Phone: {COMPANY_INFO['phone1']}, {COMPANY_INFO['phone2']}
-                    - Email: {COMPANY_INFO['email1']}, {COMPANY_INFO['email2']}
-                    - License: {COMPANY_INFO['license']}
-                    - {COMPANY_INFO['ein']}
-                    
-                    Your role is to help draft professional business documents, emails, contracts, 
-                    and communications in English. Always maintain a professional yet approachable tone.
-                    When drafting documents, include the company information where appropriate.
-                    You are knowledgeable about California electrical codes, NEC standards, and 
-                    electrical contracting business practices."""
-
-                    # Preparar mensajes para la API
-                    mensajes_api = [
-                        {"role": m["role"], "content": m["content"]}
-                        for m in st.session_state.mensajes_chat
-                    ]
-
-                    # Mostrar spinner mientras se procesa
-                    with st.spinner("⚡ Generating response..."):
-                        respuesta = cliente_ai.messages.create(
-                            model="claude-opus-4-5",
-                            max_tokens=2048,
-                            system=system_prompt,
-                            messages=mensajes_api
-                        )
-
-                    # Extraer el texto de la respuesta
-                    texto_respuesta = respuesta.content[0].text
-
-                    # Agregar respuesta al historial
-                    st.session_state.mensajes_chat.append({
-                        "role": "assistant",
-                        "content": texto_respuesta
-                    })
-
-                    # Recargar para mostrar la nueva respuesta
+            with del_col:
+                st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+                if st.button("🗑️", key=f"del_ev_{idx}_{orig_idx}",
+                             help="Delete this event"):
+                    _delete_event(orig_idx)
                     st.rerun()
 
-            except anthropic.APIConnectionError:
-                st.error("❌ Connection error. Please check your internet connection.")
-            except anthropic.AuthenticationError:
-                st.error("❌ Invalid API key. Please check your ANTHROPIC_API_KEY.")
-            except Exception as e:
-                st.error(f"❌ Error: {str(e)}")
+        # ── Summary stats ───────────────────────────────────
+        if filtered_sorted:
+            st.markdown("---")
+            sc1, sc2, sc3, sc4 = st.columns(4)
+            sc1.metric("Total jobs",    len(filtered_sorted))
+            sc2.metric("Scheduled",     sum(1 for e in filtered_sorted if e.get("estado") == "Scheduled"))
+            sc3.metric("Confirmed",     sum(1 for e in filtered_sorted if e.get("estado") == "Confirmed"))
+            sc4.metric("Completed",     sum(1 for e in filtered_sorted if e.get("estado") == "Completed"))
+
+# ── 📂 CRM & PROJECT GALLERY ──
+elif pagina == "📂 CRM & Project Gallery":
+    st.title("📂 CRM & Client Folders")
+    st.markdown("Navigate hierarchical client files and quick actions.")
+
+    carpetas = [f for f in UPLOADS_DIR.iterdir() if f.is_dir()]
+    if not carpetas:
+        st.info("No clients found yet. Create an estimate to auto-generate folders.")
+    else:
+        clientes = [f.name for f in carpetas]
+        sel_cliente = st.selectbox("Select Client Workspace", clientes)
+        c_dir = UPLOADS_DIR / sel_cliente
+
+        # 🚀 SMART LINKS (Accesos Directos Híbridos)
+        st.markdown(f"#### ⚡ Quick Actions for {sel_cliente}")
+        btn1, btn2, btn3 = st.columns(3)
+
+        with btn1:
+            # Abre Gmail ya buscando el nombre del cliente
+            gmail_url = f"https://mail.google.com/mail/u/0/#search/{sel_cliente.replace(' ', '+')}"
+            st.link_button("📧 Search in Gmail", gmail_url, use_container_width=True)
+
+        with btn2:
+            # Abre Google Calendar directo en la pantalla de "Nuevo Evento"
+            gcal_url = "https://calendar.google.com/calendar/u/0/r/eventedit"
+            st.link_button("📅 Open Google Calendar", gcal_url, use_container_width=True)
+
+        with btn3:
+            # Abre la carpeta local directamente en Kubuntu
+            if st.button("📂 Open Local Folder", use_container_width=True):
+                try: 
+                    subprocess.Popen(["dolphin", str(c_dir.resolve())])
+                except: 
+                    st.warning("Dolphin file manager not found.")
+
+        st.markdown("---")
+        st.markdown("#### 📁 Project Files")
+        
+        for sub in CLIENT_SUBFOLDERS:
+            sub_path = c_dir / sub
+            if sub_path.exists():
+                archivos = list(sub_path.iterdir())
+                with st.expander(f"📁 {sub} ({len(archivos)} files)"):
+                    for arch in archivos:
+                        st.write(f"- `{arch.name}`")
+
+# ── 🤖 AI ASSISTANT ──
+elif pagina == "🤖 AI Assistant":
+    st.title("🤖 AI Assistant (Gemini)")
+    st.markdown("AI responding in **Spanish**, formatting legal text in **English**.")
+    if "chat" not in st.session_state: st.session_state.chat = []
+    
+    for msg in st.session_state.chat:
+        role_class = "chat-user" if msg["role"] == "user" else "chat-assistant"
+        st.markdown(f"<div class='chat-message {role_class}'><b>{msg['role'].upper()}:</b><br>{msg['content']}</div>", unsafe_allow_html=True)
+
+    user_in = st.chat_input("Ask me anything...")
+    if user_in:
+        st.session_state.chat.append({"role": "user", "content": user_in})
+        sys_prompt = "Eres el asistente experto C-10 de Golden Charge. SIEMPRE RESPONDE EN ESPAÑOL PROFESIONAL, PERO SI DEBES REDACTAR UN DOCUMENTO O EMAIL, HAZLO EN INGLÉS."
+        try:
+            with st.spinner("Pensando..."):
+                resp = gemini_model.generate_content([sys_prompt, user_in])
+                st.session_state.chat.append({"role": "assistant", "content": resp.text})
+            st.rerun()
+        except Exception as e:
+            st.error(f"Error AI: {e}")
+
+# ── 🗺️ BLUEPRINT COPILOT ──
+elif pagina == "🗺️ Blueprint Copilot":
+    st.title("🗺️ Blueprint Copilot")
+    st.info("Upload blueprints to let Gemini Vision analyze them.")
+    f = st.file_uploader("Upload Image", type=["jpg", "png"])
+    if f and st.button("Analyze"):
+        with st.spinner("Analyzing..."):
+            resp = gemini_model.generate_content(["Describe this blueprint from an electrical C-10 perspective. Output in Spanish.", {"mime_type": f.type, "data": f.read()}])
+            st.markdown(f"<div class='calc-box'>{resp.text}</div>", unsafe_allow_html=True)
+
+# ── ⚡ ELECTRICAL CALC & NEC 220.82 ──
+elif pagina == "⚡ Electrical Calc & NEC":
+    st.title("⚡ Electrical Calculators")
+    t1, t2, t3 = st.tabs(["🔴 NEC 220.82 Load Calc", "🔵 Ohm's Law", "🟡 Watt's Law"])
+
+    with t1:
+        st.subheader("NEC 220.82 Residential Load Calculation (Optional Method)")
+        c1, c2 = st.columns(2)
+        sqft = c1.number_input("Total Dwelling Square Footage", 0, value=2500)
+        small_app = c2.number_input("Small Appliance Circuits (min 2)", 2, value=2)
+        laundry = c1.number_input("Laundry Circuits (min 1)", 1, value=1)
+        fixed_app = c2.number_input("Total Nameplate VA of Fixed Appliances", 0, value=6000)
+        
+        st.markdown("---")
+        c3, c4 = st.columns(2)
+        hvac = c3.number_input("Largest HVAC Load (VA) (e.g. A/C or Heat)", 0, value=8000)
+        ev_amps = c4.number_input("EV Charger Rating (Amps)", 0, value=40)
+
+        if st.button("🧮 Calculate Panel Size", use_container_width=True):
+            va_sqft = sqft * 3
+            va_small = small_app * 1500
+            va_laund = laundry * 1500
+            total_general = va_sqft + va_small + va_laund + fixed_app
+            
+            first_10 = min(10000, total_general)
+            rem = max(0, total_general - 10000)
+            discounted_gen = first_10 + (rem * 0.40)
+            
+            ev_va = ev_amps * 240 * 1.25 # Continuous load
+            total_va = discounted_gen + hvac + ev_va
+            total_amps = total_va / 240
+
+            panel = 100
+            if total_amps > 100: panel = 200
+            if total_amps > 200: panel = 400
+
+            st.markdown(f"""
+            <div class='calc-box'>
+                <h3 style='margin:0'>Total Calculated Load: {total_amps:,.1f} Amps</h3>
+                <p>General Load (Discounted): {discounted_gen:,.0f} VA</p>
+                <p>HVAC Load (100%): {hvac:,.0f} VA</p>
+                <p>EV Load (125%): {ev_va:,.0f} VA</p>
+                <hr>
+                <h4 style='color:#4caf50'>🟢 Recommended Main Service: {panel}A Panel</h4>
+            </div>
+            """, unsafe_allow_html=True)
+
+    with t2: st.info("Ohm's Law: V = I × R")
+    with t3: st.info("Watt's Law: P = V × I")
+
+# ── 🏙️ BAY AREA ESTIMATOR ──
+elif pagina == "🏙️ Bay Area Estimator":
+    st.title("🏙️ Quick Square Foot Estimator")
+    st.info("Pricing ranges from $10/sqft (Basic) to $25/sqft (Premium).")
+    
+    TIERS = {
+        "🔵 Basic — $10/SqFt": {
+            "rate": 10,
+            "desc": "Minor repairs, outlet replacement, basic fixture installs, small panel work.",
+            "color": "#4a9eff"
+        },
+        "🟡 Standard — $18/SqFt": {
+            "rate": 18,
+            "desc": "Panel upgrades, full rewires, EV chargers, bathroom/kitchen circuits.",
+            "color": "#f6c90e"
+        },
+        "🔴 Premium — $25/SqFt": {
+            "rate": 25,
+            "desc": "Full commercial buildouts, smart-home systems, solar tie-ins, service upgrades.",
+            "color": "#ff6b6b"
+        }
+    }
+
+    col_ba1, col_ba2 = st.columns([2, 1])
+
+    with col_ba1:
+        sqft = st.number_input("Project Area (Square Feet)", min_value=0.0, step=50.0, format="%.0f", key="ba_sqft")
+        selected_tier = st.selectbox("Pricing Tier", list(TIERS.keys()))
+
+        st.markdown(f"""
+        <div style="background:#1e2130;padding:0.8rem;border-radius:8px;
+                    border-left:3px solid {TIERS[selected_tier]['color']};margin-top:0.5rem;">
+            <small style="color:#aaa;">{TIERS[selected_tier]['desc']}</small>
+        </div>""", unsafe_allow_html=True)
+
+        include_permit = st.checkbox("Add permit allowance (~$800 flat)", value=True)
+        include_markup = st.slider("Additional markup (%)", 0, 30, 10)
+
+    with col_ba2:
+        if sqft > 0:
+            rate         = TIERS[selected_tier]["rate"]
+            base         = sqft * rate
+            permit_fee   = 800.0 if include_permit else 0.0
+            markup_amt   = base * (include_markup / 100)
+            total        = base + permit_fee + markup_amt
+            
+            # CSLB simple breakdown for visual reference
+            deposit = min(total * 0.10, 1000.0)
+            remainder = total - deposit
+            rough = remainder * 0.50
+            final = remainder - rough
+
+            st.markdown(f"""
+            <div class="calc-box">
+                <p style="color:#f6c90e;font-size:1rem;margin:0 0 8px;">
+                    <strong>📋 Quick Estimate</strong>
+                </p>
+                <hr style="border-color:#f6c90e33;margin:6px 0;">
+                <p style="margin:4px 0;">Area: <strong>{sqft:,.0f} sqft</strong></p>
+                <p style="margin:4px 0;">Rate: <strong>${rate}/sqft</strong></p>
+                <p style="margin:4px 0;">Base Price: <strong>${base:,.2f}</strong></p>
+                {"<p style='margin:4px 0;'>Permits: <strong>$800.00</strong></p>" if include_permit else ""}
+                {"<p style='margin:4px 0;'>Markup (" + str(include_markup) + "%): <strong>$" + f"{markup_amt:,.2f}" + "</strong></p>" if include_markup > 0 else ""}
+                <hr style="border-color:#f6c90e33;margin:6px 0;">
+                <p style="font-size:1.3rem;color:#f6c90e;margin:4px 0;">
+                    Total: <strong>${total:,.2f}</strong>
+                </p>
+            </div>""", unsafe_allow_html=True)
+
+            st.markdown("##### ⚖️ Recommended Schedule (CSLB)")
+            st.markdown(f"""
+            <div class="calc-box">
+                <p style="margin:4px 0;">1. Deposit: <strong>${deposit:,.2f}</strong></p>
+                <p style="margin:4px 0;">2. Rough Inspection: <strong>${rough:,.2f}</strong></p>
+                <p style="margin:4px 0;">3. Final: <strong>${final:,.2f}</strong></p>
+            </div>""", unsafe_allow_html=True)
+        else:
+            st.info("Enter the square footage to see a price estimate.")
+
+    st.markdown("---")
+    st.markdown("""
+    <div style="background:#1e2130;padding:1rem;border-radius:8px;border:1px solid #2d3748;">
+        <small style="color:#888;">
+            ⚠️ <strong>Disclaimer:</strong> These are rough ballpark figures for initial client conversations only.
+            Final pricing must be based on a full site assessment, material takeoff, and permit requirements.
+            Prices reflect Bay Area market rates as of 2024–2025.
+        </small>
+    </div>""", unsafe_allow_html=True)
