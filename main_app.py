@@ -398,7 +398,7 @@ def generar_pdf_documento(datos, doc_type="Estimate"):
         pdf.cell(100, 5, "Carlos Villalobos - Licensed Electrician", ln=0)
         pdf.cell(90, 5, "Signature & Date", ln=1)
 
-    return bytes(pdf.output())
+    return pdf.output(dest='S').encode('latin-1')
 
 def mostrar_pdf_viewer(pdf_bytes):
     b64 = base64.b64encode(pdf_bytes).decode("utf-8")
