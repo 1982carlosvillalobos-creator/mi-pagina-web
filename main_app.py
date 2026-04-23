@@ -329,17 +329,39 @@ class GoldenChargePDF(FPDF):
         
         self.set_fill_color(240, 240, 240)
         self.set_font('Helvetica', 'B', 9)
-        self.cell(40, 8, "Payment", border=1, fill=True)
-        self.cell(35, 8, "Amount Due", border=1, fill=True)
-        self.cell(30, 8, "% of Total", border=1, fill=True)
-        self.cell(85, 8, "Condition / Milestone", border=1, ln=True, fill=True)
+        
+        # 1. Ajustamos los anchos para dar más espacio a la descripción
+        w_pay, w_amt, w_pct, w_cond = 45, 25, 20, 100
+        
+        # Encabezados
+        self.cell(w_pay, 8, "Payment", border=1, fill=True)
+        self.cell(w_amt, 8, "Amount Due", border=1, fill=True)
+        self.cell(w_pct, 8, "% of Total", border=1, fill=True)
+        self.cell(w_cond, 8, "Condition / Milestone", border=1, ln=True, fill=True)
 
         self.set_font('Helvetica', '', 9)
         for p in payments:
-            self.cell(40, 8, p["name"], border=1)
-            self.cell(35, 8, f"${p['amount']:,.2f}", border=1)
-            self.cell(30, 8, f"{p['percent']:.2f}%", border=1)
-            self.cell(85, 8, p["condition"], border=1, ln=True)
+            # Guardamos las coordenadas iniciales de la fila
+            x_start = self.get_x()
+            y_start = self.get_y()
+            
+            # 2. Dibujamos PRIMERO la celda multilínea (Condición) para saber cuánto crece hacia abajo
+            self.set_xy(x_start + w_pay + w_amt + w_pct, y_start)
+            self.multi_cell(w_cond, 6, p["condition"], border=1)
+            
+            # Calculamos la altura total que tomó esa fila
+            y_end = self.get_y()
+            row_height = y_end - y_start
+            
+            # 3. Dibujamos las primeras tres columnas usando esa misma altura exacta
+            self.set_xy(x_start, y_start)
+            self.cell(w_pay, row_height, p["name"], border=1)
+            self.cell(w_amt, row_height, f"${p['amount']:,.2f}", border=1)
+            self.cell(w_pct, row_height, f"{p['percent']:.2f}%", border=1)
+            
+            # Regresamos el cursor al final de la fila para que la siguiente empiece bien
+            self.set_xy(x_start, y_end)
+            
         self.ln(5)
 
 def generar_pdf_documento(datos, doc_type="Estimate"):
